@@ -12,8 +12,7 @@ namespace Scripts.Networking
     {
         Welcome = 1,
         TroopSpawned = 2,
-        BattlesConducted = 3,
-        TroopMoved = 4,
+        TroopMoved = 3,
     }
 
     /// <summary>Sent from client to server.</summary>

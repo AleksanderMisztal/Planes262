@@ -35,23 +35,19 @@ namespace Scripts.Networking
             NetworkingHub.OnTroopsSpawned(templates);
         }
 
-        public static void BattlesConducted(Packet packet)
+        public static void TroopMoved(Packet packet)
         {
+            Vector2Int position = packet.ReadVector2Int();
+            int direction = packet.ReadInt();
+
             int length = packet.ReadInt();
             List<BattleResult> battleResults = new List<BattleResult>();
             for (int i = 0; i < length; i++)
             {
                 battleResults.Add(packet.ReadBattleResult());
             }
-            Debug.Log($"Received battle results: {battleResults}");
-        }
 
-        public static void TroopMoved(Packet packet)
-        {
-            Vector2Int position = packet.ReadVector2Int();
-            int direction = packet.ReadInt();
-
-            NetworkingHub.OnTroopMoved(position, direction);
+            NetworkingHub.OnTroopMoved(position, direction, battleResults);
         }
     }
 }

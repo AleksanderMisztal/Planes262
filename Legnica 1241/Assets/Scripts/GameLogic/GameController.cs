@@ -74,7 +74,7 @@ namespace Scripts.GameLogic
             activeTroop = null;
         }
 
-        public void OnTroopMoved(Vector2Int position, int direction)
+        public void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
             Troop troop = troopAtPosition[position];
             Vector2Int targetPosition = troop.GetAdjacentHex(direction);
@@ -86,22 +86,18 @@ namespace Scripts.GameLogic
                 return;
             }
 
-            List<BattleResult> battleResults = new List<BattleResult>();
-
             troop.MoveInDirection(direction);
 
-            BattleResult fightResult = Battles.GetFightResult(troop, encounter);
-            battleResults.Add(fightResult);
-            ApplyDamage(fightResult, troop, encounter);
+            int battleIndex = 0;
+
+            ApplyDamage(battleResults[battleIndex++], troop, encounter);
 
             targetPosition = troop.GetAdjacentHex(0);
             troop.JumpForward();
 
             while (troopAtPosition.TryGetValue(targetPosition, out encounter))
             {
-                BattleResult collisionResult = Battles.GetCollisionResult();
-                battleResults.Add(collisionResult);
-                ApplyDamage(collisionResult, troop, encounter);
+                ApplyDamage(battleResults[battleIndex++], troop, encounter);
 
                 targetPosition = troop.GetAdjacentHex(0);
                 troop.JumpForward();

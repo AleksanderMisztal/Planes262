@@ -19,10 +19,9 @@ namespace Scripts.GameLogic
             GameController.instance.StartNextRound(templates);
         }
 
-        public static void OnTroopMoved(Vector2Int position, int direction)
+        public static void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
-            Debug.Log("Calling on troop moved");
-            GameController.instance.OnTroopMoved(position, direction);
+            GameController.instance.OnTroopMoved(position, direction, battleResults);
         }
     }
 }

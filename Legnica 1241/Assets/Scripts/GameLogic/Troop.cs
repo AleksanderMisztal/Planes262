@@ -127,7 +127,6 @@ namespace Scripts.GameLogic
         public void Activate()
         {
             animator.SetBool("isActive", true);
-            Debug.Log($"Activated troop has orientation {Orientation}.");
         }
 
         public void Desactivate()
