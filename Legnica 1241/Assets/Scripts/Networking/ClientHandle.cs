@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scripts.Networking
 {
-    public class ClientHandle : MonoBehaviour
+    public class ClientHandle
     {
         public static void Welcome(Packet packet)
         {
@@ -44,6 +44,14 @@ namespace Scripts.Networking
                 battleResults.Add(packet.ReadBattleResult());
             }
             Debug.Log($"Received battle results: {battleResults}");
+        }
+
+        public static void TroopMoved(Packet packet)
+        {
+            Vector2Int position = packet.ReadVector2Int();
+            int direction = packet.ReadInt();
+
+            NetworkingHub.OnTroopMoved(position, direction);
         }
     }
 }

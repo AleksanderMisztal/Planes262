@@ -16,8 +16,13 @@ namespace Scripts.GameLogic
         // Server -> Game
         public static void OnTroopsSpawned(List<SpawnTemplate> templates)
         {
-            GameController.instance.AddWave(templates);
-            GameController.instance.StartNextRound();
+            GameController.instance.StartNextRound(templates);
+        }
+
+        public static void OnTroopMoved(Vector2Int position, int direction)
+        {
+            Debug.Log("Calling on troop moved");
+            GameController.instance.OnTroopMoved(position, direction);
         }
     }
 }

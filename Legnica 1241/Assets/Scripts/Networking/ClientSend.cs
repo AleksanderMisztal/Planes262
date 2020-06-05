@@ -2,7 +2,7 @@
 
 namespace Scripts.Networking
 {
-    public class ClientSend : MonoBehaviour
+    public class ClientSend
     {
         private static void SendTcpData(Packet packet)
         {

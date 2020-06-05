@@ -20,7 +20,6 @@ namespace Scripts.GameLogic
 
         private PlayerId activePlayer = PlayerId.Red;
         private int roundNumber = 0;
-        private int lastReceivedWave = 0;
         private int blueScore = 0;
         private int redScore = 0;
 
@@ -32,14 +31,12 @@ namespace Scripts.GameLogic
         private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
         private readonly Dictionary<Vector2Int, Troop> troopAtPosition = new Dictionary<Vector2Int, Troop>();
 
-        private readonly Dictionary<int, IEnumerable<SpawnTemplate>> waves = 
-            new Dictionary<int, IEnumerable<SpawnTemplate>>();
-
         private Troop activeTroop = null;
 
 
         private void Awake()
         {
+            Debug.Log("Game controller awake...");
             if (instance == null)
             {
                 instance = this;
@@ -77,15 +74,78 @@ namespace Scripts.GameLogic
             activeTroop = null;
         }
 
-        public void StartNextRound()
+        public void OnTroopMoved(Vector2Int position, int direction)
         {
-            ToggleActivePlayer();
+            Troop troop = troopAtPosition[position];
+            Vector2Int targetPosition = troop.GetAdjacentHex(direction);
+            if (!troopAtPosition.TryGetValue(targetPosition, out Troop encounter))
+            {
+                ChangeTroopPosition(position, targetPosition);
+                troop.MoveInDirection(direction);
+                DecrementMovePointsLeft();
+                return;
+            }
+
+            List<BattleResult> battleResults = new List<BattleResult>();
+
+            troop.MoveInDirection(direction);
+
+            BattleResult fightResult = Battles.GetFightResult(troop, encounter);
+            battleResults.Add(fightResult);
+            ApplyDamage(fightResult, troop, encounter);
+
+            targetPosition = troop.GetAdjacentHex(0);
+            troop.JumpForward();
+
+            while (troopAtPosition.TryGetValue(targetPosition, out encounter))
+            {
+                BattleResult collisionResult = Battles.GetCollisionResult();
+                battleResults.Add(collisionResult);
+                ApplyDamage(collisionResult, troop, encounter);
+
+                targetPosition = troop.GetAdjacentHex(0);
+                troop.JumpForward();
+            }
+
+            ChangeTroopPosition(position, targetPosition);
+
+            DecrementMovePointsLeft();
         }
 
-        public void AddWave(IEnumerable<SpawnTemplate> spawns)
+        public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
         {
-            lastReceivedWave++;
-            waves.Add(lastReceivedWave, spawns);
+            activeTroop?.Desactivate();
+            activeTroop = null;
+
+            roundNumber++;
+            SpawnNextWave(spawns);
+
+            if (activePlayer == PlayerId.Blue)
+            {
+                foreach (Troop troop in redTroops)
+                {
+                    troop.OnTurnBegin();
+                }
+                foreach (Troop troop in blueTroops)
+                {
+                    troop.OnTurnEnd();
+                }
+                activePlayer = PlayerId.Red;
+            }
+            else
+            {
+                foreach (Troop troop in blueTroops)
+                {
+                    troop.OnTurnBegin();
+                }
+                foreach (Troop troop in redTroops)
+                {
+                    troop.OnTurnEnd();
+                }
+                activePlayer = PlayerId.Blue;
+            }
+
+            SetInitialMovePointsLeft(activePlayer);
         }
 
 
@@ -118,42 +178,7 @@ namespace Scripts.GameLogic
 
             Vector2Int originalPosition = troop.Position;
 
-            //That's where magic happens
             NetworkingHub.SendTroopMove(originalPosition, direction);
-
-            if (!encounter)
-            {
-                Debug.Log("Inside move troop...");
-                ChangeTroopPosition(originalPosition, targetPosition);
-                troop.MoveInDirection(direction);
-                DecrementMovePointsLeft();
-                return;
-            }
-
-            List<BattleResult> battleResults = new List<BattleResult>();
-
-            troop.MoveInDirection(direction);
-
-            BattleResult fightResult = Battles.GetFightResult(troop, encounter);
-            battleResults.Add(fightResult);
-            ApplyDamage(fightResult, troop, encounter);
-
-            targetPosition = troop.GetAdjacentHex(0);
-            troop.JumpForward();
-
-            while (troopAtPosition.TryGetValue(targetPosition, out encounter))
-            {
-                BattleResult collisionResult = Battles.GetCollisionResult();
-                battleResults.Add(collisionResult);
-                ApplyDamage(collisionResult, troop, encounter);
-
-                targetPosition = troop.GetAdjacentHex(0);
-                troop.JumpForward();
-            }
-
-            ChangeTroopPosition(originalPosition, targetPosition);
-
-            DecrementMovePointsLeft();
         }
 
         private void ApplyDamage(BattleResult battleResult, Troop attacker, Troop defender)
@@ -207,10 +232,6 @@ namespace Scripts.GameLogic
             if (NewTroop.ControllingPlayer == activePlayer)
             {
                 movePointsLeft -= NewTroop.MovePoints;
-                if (movePointsLeft <= 0)
-                {
-                    ToggleActivePlayer();
-                }
             }
         }
 
@@ -218,10 +239,6 @@ namespace Scripts.GameLogic
         {
             movePointsLeft--;
             Debug.Log($"Decrementing move points, {movePointsLeft} left.");
-            if (movePointsLeft <= 0)
-            {
-                ToggleActivePlayer();
-            }
         }
 
         private void ChangeTroopPosition(Vector2Int oldPosition, Vector2Int newPosition)
@@ -230,54 +247,10 @@ namespace Scripts.GameLogic
             troopAtPosition.Remove(oldPosition);
         }
 
-        private void ToggleActivePlayer()
+        private void SpawnNextWave(IEnumerable<SpawnTemplate> spawns)
         {
-            activeTroop?.Desactivate();
-            activeTroop = null;
-
-            roundNumber++;
-            SpawnNextWave();
-
-            if (activePlayer == PlayerId.Blue)
-            {
-                foreach (Troop troop in redTroops)
-                {
-                    troop.OnTurnBegin();
-                }
-                foreach (Troop troop in blueTroops)
-                {
-                    troop.OnTurnEnd();
-                }
-                activePlayer = PlayerId.Red;
-            }
-            else
-            {
-                foreach (Troop troop in blueTroops)
-                {
-                    troop.OnTurnBegin();
-                }
-                foreach (Troop troop in redTroops)
-                {
-                    troop.OnTurnEnd();
-                }
-                activePlayer = PlayerId.Blue;
-            }
-
-            SetInitialMovePointsLeft(activePlayer);
-
-            if (movePointsLeft == 0)
-            {
-                ToggleActivePlayer();
-            }
-        }
-
-        private void SpawnNextWave()
-        {
-            IEnumerable<SpawnTemplate> spawns = waves[roundNumber];
-
             foreach (SpawnTemplate spawn in spawns)
             {
-                
                 Troop troopPrefab = spawn.controllingPlayer == PlayerId.Blue ?
                     blueTroopPrefab : redTroopPrefab;
 

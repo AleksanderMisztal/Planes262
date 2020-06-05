@@ -50,6 +50,8 @@ namespace Scripts.Networking
         {
             {(int)ServerPackets.Welcome, ClientHandle.Welcome },
             {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
+            {(int)ServerPackets.BattlesConducted, ClientHandle.BattlesConducted },
+            {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
         };
             Debug.Log("Initialized client packet handlers.");
         }
