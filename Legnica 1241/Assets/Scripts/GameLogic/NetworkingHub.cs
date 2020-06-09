@@ -14,6 +14,11 @@ namespace Scripts.GameLogic
 
 
         // Server -> Game
+        public static void OnConnect()
+        {
+            GameObject.FindObjectOfType<Activator>().GetComponent<SpriteRenderer>().color = Color.blue;
+        }
+
         public static void OnTroopsSpawned(List<SpawnTemplate> templates)
         {
             GameController.instance.StartNextRound(templates);

@@ -12,8 +12,10 @@ namespace Scripts.Networking
             int myId = packet.ReadInt();
 
             Debug.Log($"Received a message: {message}");
+            NetworkingHub.OnConnect();
             Client.instance.myId = myId;
             ClientSend.WelcomeReceived();
+            
         }
 
         public static void TroopSpawned(Packet packet)

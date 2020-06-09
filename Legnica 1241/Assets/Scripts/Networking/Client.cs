@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 using Scripts.Utils;
+using System.Net;
 
 namespace Scripts.Networking
 {
@@ -11,7 +12,8 @@ namespace Scripts.Networking
         public static Client instance;
         private static int dataBufferSize = 4096;
 
-        public string ip = "127.0.0.1";
+        IPAddress ip = IPAddress.Parse("52.157.211.20");
+        //IPAddress ip = IPAddress.Parse("127.0.0.1");
         public int port = 26950;
         public int myId = 0;
         public TCP tcp;
@@ -47,11 +49,11 @@ namespace Scripts.Networking
         private void InitializePacketHandlers()
         {
             packetHandlers = new Dictionary<int, PacketHandler>
-        {
-            {(int)ServerPackets.Welcome, ClientHandle.Welcome },
-            {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
-            {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
-        };
+            {
+                {(int)ServerPackets.Welcome, ClientHandle.Welcome },
+                {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
+                {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
+            };
             Debug.Log("Initialized client packet handlers.");
         }
 
