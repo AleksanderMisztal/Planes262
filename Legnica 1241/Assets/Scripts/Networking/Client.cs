@@ -12,8 +12,8 @@ namespace Scripts.Networking
         public static Client instance;
         private static int dataBufferSize = 4096;
 
-        IPAddress ip = IPAddress.Parse("52.157.211.20");
-        //IPAddress ip = IPAddress.Parse("127.0.0.1");
+        //IPAddress ip = IPAddress.Parse("52.157.211.20");
+        IPAddress ip = IPAddress.Parse("127.0.0.1");
         public int port = 26950;
         public int myId = 0;
         public TCP tcp;

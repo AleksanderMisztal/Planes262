@@ -1,4 +1,5 @@
 ﻿using Scripts.GameLogic;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,11 @@ namespace Scripts.Networking
             NetworkingHub.OnConnect();
             Client.instance.myId = myId;
             ClientSend.WelcomeReceived();
-            
+        }
+
+        public static void GameJoined(Packet packet)
+        {
+            throw new NotImplementedException();
         }
 
         public static void TroopSpawned(Packet packet)

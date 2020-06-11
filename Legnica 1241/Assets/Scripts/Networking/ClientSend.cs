@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Scripts.Networking
 {
@@ -20,6 +21,11 @@ namespace Scripts.Networking
 
                 SendTcpData(packet);
             }
+        }
+
+        public static void JoinGame(int oponentId)
+        {
+            throw new NotImplementedException();
         }
 
         public static void MoveTroop(Vector2Int position, int direction)

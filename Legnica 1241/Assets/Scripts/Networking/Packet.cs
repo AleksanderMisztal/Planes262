@@ -11,15 +11,17 @@ namespace Scripts.Networking
     public enum ServerPackets
     {
         Welcome = 1,
-        TroopSpawned = 2,
-        TroopMoved = 3,
+        GameJoined = 2,
+        TroopSpawned = 3,
+        TroopMoved = 4,
     }
 
     /// <summary>Sent from client to server.</summary>
     public enum ClientPackets
     {
         WelcomeReceived = 1,
-        MoveTroop = 2,
+        JoinGame = 2,
+        MoveTroop = 3,
     }
 
     public class Packet : IDisposable
