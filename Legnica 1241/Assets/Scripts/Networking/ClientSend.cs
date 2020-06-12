@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Networking
 {
@@ -12,12 +11,12 @@ namespace Scripts.Networking
         }
 
 
-        public static void WelcomeReceived()
+        public static void JoinLobby(string username)
         {
-            using (Packet packet = new Packet((int)ClientPackets.WelcomeReceived))
+            using (Packet packet = new Packet((int)ClientPackets.JoinLobby))
             {
                 packet.Write(Client.instance.myId);
-                packet.Write("Elo");
+                packet.Write(username);
 
                 SendTcpData(packet);
             }
@@ -25,7 +24,12 @@ namespace Scripts.Networking
 
         public static void JoinGame(int oponentId)
         {
-            throw new NotImplementedException();
+            using (Packet packet = new Packet((int)ClientPackets.JoinGame))
+            {
+                packet.Write(oponentId);
+
+                SendTcpData(packet);
+            }
         }
 
         public static void MoveTroop(Vector2Int position, int direction)

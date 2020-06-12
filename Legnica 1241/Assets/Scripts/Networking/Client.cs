@@ -26,6 +26,7 @@ namespace Scripts.Networking
             if (instance == null)
             {
                 instance = this;
+                Debug.Log("Client = this...");
             }
             else if (instance != this)
             {
@@ -36,6 +37,7 @@ namespace Scripts.Networking
 
         private void Start()
         {
+            Debug.Log("Client started...");
             tcp = new TCP();
             ConnectToServer();
         }
@@ -51,6 +53,7 @@ namespace Scripts.Networking
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int)ServerPackets.Welcome, ClientHandle.Welcome },
+                {(int)ServerPackets.GameJoined, ClientHandle.GameJoined },
                 {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
                 {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
             };

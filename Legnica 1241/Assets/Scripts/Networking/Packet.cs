@@ -19,7 +19,7 @@ namespace Scripts.Networking
     /// <summary>Sent from client to server.</summary>
     public enum ClientPackets
     {
-        WelcomeReceived = 1,
+        JoinLobby = 1,
         JoinGame = 2,
         MoveTroop = 3,
     }

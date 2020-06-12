@@ -1,5 +1,5 @@
 ﻿using Scripts.GameLogic;
-using System;
+using Scripts.UnityStuff;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,14 +13,18 @@ namespace Scripts.Networking
             int myId = packet.ReadInt();
 
             Debug.Log($"Received a message: {message}");
-            NetworkingHub.OnConnect();
             Client.instance.myId = myId;
-            ClientSend.WelcomeReceived();
+
+            UIManager.Activate();
         }
 
         public static void GameJoined(Packet packet)
         {
-            throw new NotImplementedException();
+            string oponentName = packet.ReadString();
+            PlayerId side = (PlayerId)packet.ReadInt();
+
+            UIManager.SetOponentName(oponentName);
+            UIManager.SetSide(side);
         }
 
         public static void TroopSpawned(Packet packet)

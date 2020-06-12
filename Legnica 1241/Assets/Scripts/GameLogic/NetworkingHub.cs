@@ -16,7 +16,8 @@ namespace Scripts.GameLogic
         // Server -> Game
         public static void OnConnect()
         {
-            GameObject.FindObjectOfType<Activator>().GetComponent<SpriteRenderer>().color = Color.blue;
+            //TODO: call at the right time
+            //GameObject.FindObjectOfType<Activator>().GetComponent<SpriteRenderer>().color = Color.blue;
         }
 
         public static void OnTroopsSpawned(List<SpawnTemplate> templates)
