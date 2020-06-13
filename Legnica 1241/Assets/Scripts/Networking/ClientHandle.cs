@@ -23,14 +23,13 @@ namespace Scripts.Networking
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
 
+            GameController.Side = side;
             UIManager.SetOponentName(oponentName);
             UIManager.SetSide(side);
         }
 
         public static void TroopSpawned(Packet packet)
         {
-            Debug.Log($"Received Troop spawned!");
-
             int length = packet.ReadInt();
 
             List<SpawnTemplate> templates = new List<SpawnTemplate>();
@@ -40,8 +39,6 @@ namespace Scripts.Networking
                 SpawnTemplate template = packet.ReadSpawnTemplate();
 
                 templates.Add(template);
-
-                Debug.Log($"Template: {template}");
             }
             NetworkingHub.OnTroopsSpawned(templates);
         }

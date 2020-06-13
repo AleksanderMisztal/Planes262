@@ -24,7 +24,6 @@ namespace Scripts.UnityStuff
             if (instance == null)
             {
                 instance = this;
-                Debug.Log("Client = this...");
             }
             else if (instance != this)
             {

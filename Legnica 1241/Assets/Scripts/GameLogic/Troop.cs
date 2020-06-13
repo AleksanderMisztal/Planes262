@@ -21,6 +21,7 @@ namespace Scripts.GameLogic
             Orientation = spawn.orientation;
 
             Position = spawn.position;
+            StartingPosition = Position;
             transform.position = gridLayout.CellToWorld((Vector3Int)spawn.position);
         }
 
@@ -56,6 +57,7 @@ namespace Scripts.GameLogic
         public int MovePoints { get; private set; }
 
         public Vector2Int Position { get; private set; }
+        public Vector2Int StartingPosition { get; set; }
         public int Orientation { get; private set; }
 
 
@@ -68,18 +70,21 @@ namespace Scripts.GameLogic
 
         public void MoveInDirection(int direction)
         {
-            if (MovePoints <= 0)
+            if (MovePoints < 0)
             {
-                throw new IllegalMoveException("Attempting to move a NewTroop with no move points!");
+                throw new IllegalMoveException("Attempting to move a troop with no move points!");
             }
 
-            MovePoints--;
-            movePointsText.text = MovePoints.ToString();
+            if (MovePoints > 0)
+            {
+                MovePoints--;
+                movePointsText.text = MovePoints.ToString();
+            }
+
             if (MovePoints <= 0)
             {
                 movePointsText.gameObject.SetActive(false);
             }
-
 
             Orientation = (6 + Orientation + direction) % 6;
             Position = Hex.GetAdjacentHex(Position, Orientation);
@@ -100,9 +105,11 @@ namespace Scripts.GameLogic
             if (Health > 0)
             {
                 InitialMovePoints--;
-                if (MovePoints > 0)
+                MovePoints--;
+                movePointsText.text = MovePoints.ToString();
+                if (MovePoints <= 0)
                 {
-                    MovePoints--;
+                    movePointsText.gameObject.SetActive(false);
                 }
             }
             else
@@ -140,13 +147,13 @@ namespace Scripts.GameLogic
             MovePoints = InitialMovePoints;
             movePointsText.text = MovePoints.ToString();
             movePointsText.gameObject.SetActive(true);
-
-            //transform.Find("Move Points Text").gameObject.SetActive(true);
         }
 
         public void OnTurnEnd()
         {
             movePointsText.gameObject.SetActive(false);
+
+            StartingPosition = Position;
         }
 
 
