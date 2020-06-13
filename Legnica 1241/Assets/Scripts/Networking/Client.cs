@@ -56,6 +56,7 @@ namespace Scripts.Networking
                 {(int)ServerPackets.GameJoined, ClientHandle.GameJoined },
                 {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
                 {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
+                {(int)ServerPackets.GameEnded, ClientHandle.GameEnded },
             };
             Debug.Log("Initialized client packet handlers.");
         }

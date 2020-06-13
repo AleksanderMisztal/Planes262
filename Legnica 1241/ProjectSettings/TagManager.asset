@@ -7,6 +7,9 @@ TagManager:
   - Main Menu
   - Board
   - Side Icon
+  - Connected
+  - Game UI
+  - Game Ended
   layers:
   - Default
   - TransparentFX

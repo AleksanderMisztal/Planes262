@@ -25,7 +25,7 @@ namespace Scripts.Networking
 
             GameController.Side = side;
             UIManager.SetOponentName(oponentName);
-            UIManager.SetSide(side);
+            UIManager.StartGame(side);
         }
 
         public static void TroopSpawned(Packet packet)
@@ -56,6 +56,14 @@ namespace Scripts.Networking
             }
 
             NetworkingHub.OnTroopMoved(position, direction, battleResults);
+        }
+
+        public static void GameEnded(Packet packet)
+        {
+            int redScore = packet.ReadInt();
+            int blueScore = packet.ReadInt();
+
+            UIManager.EndGame(blueScore, redScore);
         }
     }
 }

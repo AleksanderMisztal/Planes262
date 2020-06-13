@@ -12,9 +12,13 @@ namespace Scripts.UnityStuff
 
         [SerializeField] private InputField username;
         [SerializeField] private Text oponentName;
+        [SerializeField] private Text resultText;
 
+        private GameObject mainMenu;
         private GameObject board;
         private GameObject sideIcon;
+        private GameObject gameUI;
+        private GameObject gameEnded;
 
         private int oponentId = -1;
 
@@ -36,8 +40,14 @@ namespace Scripts.UnityStuff
         {
             board = GameObject.FindWithTag("Board");
             sideIcon = GameObject.FindWithTag("Side Icon");
+            gameUI = GameObject.FindWithTag("Game UI");
+            gameEnded = GameObject.FindWithTag("Game Ended");
+            mainMenu = GameObject.FindWithTag("Main Menu");
+
             board.SetActive(false);
             sideIcon.SetActive(false);
+            gameUI.SetActive(false);
+            gameEnded.SetActive(false);
         }
 
         public void JoinLobby()
@@ -45,12 +55,20 @@ namespace Scripts.UnityStuff
             ClientSend.JoinLobby(username.text);
             ClientSend.JoinGame(oponentId);
 
-            GameObject.FindWithTag("Main Menu").SetActive(false);
+            mainMenu.SetActive(false);
             board.SetActive(true);
+        }
+
+        public void BackToMainMenu()
+        {
+            gameEnded.SetActive(false);
+            gameUI.SetActive(false);
+            mainMenu.SetActive(true);
         }
 
         public static void SetOponentName(string oponentName)
         {
+            instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
         }
 
@@ -59,11 +77,18 @@ namespace Scripts.UnityStuff
             instance.sideIcon.SetActive(true);
         }
 
-        public static void SetSide(PlayerId side)
+        public static void StartGame(PlayerId side)
         {
             Color color = side == PlayerId.Blue ? Color.blue : Color.red;
 
             instance.sideIcon.GetComponent<SpriteRenderer>().color = color;
+        }
+
+        public static void EndGame(int blueScore, int redScore)
+        {
+            instance.board.SetActive(false);
+            instance.gameEnded.SetActive(true);
+            instance.resultText.text = $"Final score: red: {redScore}, blue: {blueScore}";
         }
     }
 }
