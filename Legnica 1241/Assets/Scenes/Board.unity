@@ -361,6 +361,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 5178900742294545755}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &915533450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4278510258534516697, guid: 73df8765b6e74bc48bbeb8aae2516204,
+    type: 3}
+  m_PrefabInstance: {fileID: 267464973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64819700b613bc44be3638c0bbfe8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2417534152250436193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1027,6 +1039,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 915533450}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 331a9a62fcdba3a45a8ea508e08e5612, type: 3}
