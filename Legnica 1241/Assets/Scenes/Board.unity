@@ -385,6 +385,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Networking
       objectReference: {fileID: 0}
+    - target: {fileID: 2417534152700429970, guid: 5898c0577e1c03d4c871908bdb1380b0,
+        type: 3}
+      propertyPath: port
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 2417534152700429973, guid: 5898c0577e1c03d4c871908bdb1380b0,
         type: 3}
       propertyPath: m_LocalPosition.x

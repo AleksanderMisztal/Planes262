@@ -75,7 +75,7 @@ public class WsClient
 
     #region [Receive]
 
-    private async Task<string> Receive(UInt64 maxSize = MAXREADSIZE)
+    private async Task<string> Receive()
     {
         byte[] buf = new byte[4 * 1024];
         var memoryStream = new MemoryStream();
@@ -87,10 +87,6 @@ public class WsClient
             {
                 chunkResult = await ws.ReceiveAsync(arrayBuf, CancellationToken.None);
                 memoryStream.Write(arrayBuf.Array, arrayBuf.Offset, chunkResult.Count);
-                if ((UInt64)(chunkResult.Count) > MAXREADSIZE)
-                {
-                    Console.Error.WriteLine("Warning: Message is bigger than expected!");
-                }
             } while (!chunkResult.EndOfMessage);
             memoryStream.Seek(0, SeekOrigin.Begin);
 

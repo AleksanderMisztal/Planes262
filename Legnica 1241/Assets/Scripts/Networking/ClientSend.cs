@@ -1,45 +1,45 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Scripts.Networking
 {
     public class ClientSend
     {
-        private static void SendTcpData(Packet packet)
+        private static async Task SendDataWs(Packet packet)
         {
-            packet.WriteLength();
-            Client.instance.tcp.SendData(packet);
+            await Client.instance.wsClient.SendData(packet);
         }
 
 
-        public static void JoinLobby(string username)
+        public static async Task JoinLobby(string username)
         {
             using (Packet packet = new Packet((int)ClientPackets.JoinLobby))
             {
                 packet.Write(Client.instance.myId);
                 packet.Write(username);
 
-                SendTcpData(packet);
+                await SendDataWs(packet);
             }
         }
 
-        public static void JoinGame(int oponentId)
+        public static async Task JoinGame(int oponentId)
         {
             using (Packet packet = new Packet((int)ClientPackets.JoinGame))
             {
                 packet.Write(oponentId);
 
-                SendTcpData(packet);
+                await SendDataWs(packet);
             }
         }
 
-        public static void MoveTroop(Vector2Int position, int direction)
+        public static async Task MoveTroop(Vector2Int position, int direction)
         {
             using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
             {
                 packet.Write(position);
                 packet.Write(direction);
 
-                SendTcpData(packet);
+                await SendDataWs(packet);
             }
         }
     }
