@@ -1,45 +1,52 @@
-﻿using System.Threading.Tasks;
+﻿using Scripts.Utils;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Scripts.Networking
 {
-    public class ClientSend
+    public static class ClientSend
     {
-        private static async Task SendDataWs(Packet packet)
+        [DllImport("__Internal")]
+        private static extern void SendDataJS(string data);
+
+        private static void SendData(Packet packet)
         {
-            await Client.instance.wsClient.SendData(packet);
+            string byteArray = Serializer.Serialize(packet.ToArray());
+            Debug.Log("Sending " + byteArray);
+            SendDataJS(byteArray);
         }
 
 
-        public static async Task JoinLobby(string username)
+        public static void JoinLobby(string username)
         {
             using (Packet packet = new Packet((int)ClientPackets.JoinLobby))
             {
-                packet.Write(Client.instance.myId);
+                //TODO: remove on both sides, client doesn't need to know their id
+                packet.Write(-1);
                 packet.Write(username);
 
-                await SendDataWs(packet);
+                SendData(packet);
             }
         }
 
-        public static async Task JoinGame(int oponentId)
+        public static void JoinGame(int oponentId)
         {
             using (Packet packet = new Packet((int)ClientPackets.JoinGame))
             {
                 packet.Write(oponentId);
 
-                await SendDataWs(packet);
+                SendData(packet);
             }
         }
 
-        public static async Task MoveTroop(Vector2Int position, int direction)
+        public static void MoveTroop(Vector2Int position, int direction)
         {
             using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
             {
                 packet.Write(position);
                 packet.Write(direction);
 
-                await SendDataWs(packet);
+                SendData(packet);
             }
         }
     }

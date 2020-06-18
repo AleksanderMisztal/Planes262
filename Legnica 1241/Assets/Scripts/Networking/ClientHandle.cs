@@ -1,19 +1,41 @@
 ﻿using Scripts.GameLogic;
 using Scripts.UnityStuff;
+using Scripts.Utils;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Scripts.Networking
 {
-    public class ClientHandle
+    public static class ClientHandle
     {
+        private delegate void PacketHandler(Packet _packet);
+        private static readonly Dictionary<int, PacketHandler> packetHandlers = new Dictionary<int, PacketHandler>
+        {
+            {(int) ServerPackets.Welcome, Welcome },
+            {(int) ServerPackets.GameJoined, GameJoined },
+            {(int) ServerPackets.TroopSpawned, TroopSpawned },
+            {(int) ServerPackets.TroopMoved, TroopMoved },
+            {(int) ServerPackets.GameEnded, GameEnded },
+        };
+
+        public static void HandlePacket(string byteArray)
+        {
+            byte[] bytes = Serializer.Deserialize(byteArray);
+            using (Packet packet = new Packet(bytes))
+            {
+                int packetType = packet.ReadInt();
+                packetHandlers[packetType](packet);
+            }
+        }
+
+
         public static void Welcome(Packet packet)
         {
             string message = packet.ReadString();
             int myId = packet.ReadInt();
 
             Debug.Log($"Received a message: {message}");
-            Client.instance.myId = myId;
 
             UIManager.Activate();
         }
