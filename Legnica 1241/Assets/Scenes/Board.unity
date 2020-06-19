@@ -128,21 +128,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4278510257125496048, guid: 73df8765b6e74bc48bbeb8aae2516204,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1044272307}
+    - target: {fileID: 4278510257125496048, guid: 73df8765b6e74bc48bbeb8aae2516204,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JoinLobby
+      objectReference: {fileID: 0}
     - target: {fileID: 4278510257393196252, guid: 73df8765b6e74bc48bbeb8aae2516204,
         type: 3}
       propertyPath: m_Text
       value: Play as...
       objectReference: {fileID: 0}
-    - target: {fileID: 4278510258534516697, guid: 73df8765b6e74bc48bbeb8aae2516204,
-        type: 3}
-      propertyPath: oponentName
-      value: 
-      objectReference: {fileID: 692662725}
-    - target: {fileID: 4278510258534516697, guid: 73df8765b6e74bc48bbeb8aae2516204,
-        type: 3}
-      propertyPath: resultText
-      value: 
-      objectReference: {fileID: 512807540}
     - target: {fileID: 4278510258534516702, guid: 73df8765b6e74bc48bbeb8aae2516204,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 854021688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7f3b3286e91bf4fadd5f136f3cab04, type: 3}
+  m_Script: {fileID: 11500000, guid: be2db2ba53cffa44da55708bd54f63e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &854021690
@@ -404,16 +404,62 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 5178900742294545755}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &915533450 stripped
+--- !u!1 &1044272306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1044272308}
+  - component: {fileID: 1044272307}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1044272307
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4278510258534516697, guid: 73df8765b6e74bc48bbeb8aae2516204,
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044272306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64819700b613bc44be3638c0bbfe8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 1056408176}
+  oponentName: {fileID: 692662725}
+  resultText: {fileID: 512807540}
+--- !u!4 &1044272308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044272306}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.70992273, y: -1.2669032, z: -10.747448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1056408176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4278510257533537564, guid: 73df8765b6e74bc48bbeb8aae2516204,
     type: 3}
   m_PrefabInstance: {fileID: 267464973}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b64819700b613bc44be3638c0bbfe8a6, type: 3}
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3149599683737122320
@@ -1033,7 +1079,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 915533450}
+      objectReference: {fileID: 1044272307}
     - target: {fileID: 6391139535656567737, guid: 331a9a62fcdba3a45a8ea508e08e5612,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

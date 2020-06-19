@@ -1,22 +1,9 @@
-﻿using Scripts.Utils;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Networking
 {
     public static class ClientSend
     {
-        [DllImport("__Internal")]
-        private static extern void SendDataJS(string data);
-
-        private static void SendData(Packet packet)
-        {
-            string byteArray = Serializer.Serialize(packet.ToArray());
-            Debug.Log("Sending " + byteArray);
-            SendDataJS(byteArray);
-        }
-
-
         public static void JoinLobby(string username)
         {
             using (Packet packet = new Packet((int)ClientPackets.JoinLobby))
@@ -25,7 +12,7 @@ namespace Scripts.Networking
                 packet.Write(-1);
                 packet.Write(username);
 
-                SendData(packet);
+                Client.SendData(packet);
             }
         }
 
@@ -35,7 +22,7 @@ namespace Scripts.Networking
             {
                 packet.Write(oponentId);
 
-                SendData(packet);
+                Client.SendData(packet);
             }
         }
 
@@ -46,7 +33,7 @@ namespace Scripts.Networking
                 packet.Write(position);
                 packet.Write(direction);
 
-                SendData(packet);
+                Client.SendData(packet);
             }
         }
     }
