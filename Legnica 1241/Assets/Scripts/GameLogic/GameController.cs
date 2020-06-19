@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using Scripts.Utils;
 using UnityEngine;
@@ -16,9 +15,6 @@ namespace Scripts.GameLogic
         private Troop blueTroopPrefab;
         [SerializeField]
         private Troop redTroopPrefab;
-
-        //TODO: Get fight results from the server
-        //TODO: Get waves from the server
 
         private PlayerId activePlayer = PlayerId.Red;
         private int blueScore = 0;
@@ -89,6 +85,11 @@ namespace Scripts.GameLogic
             if (troop.Health > 0)
             {
                 ChangeTroopPosition(troop);
+                if (troop.MovePoints <= 0)
+                {
+                    troop.Desactivate();
+                    activeTroop = null;
+                }
             }
         }
 
