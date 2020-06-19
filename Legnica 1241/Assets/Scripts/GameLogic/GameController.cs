@@ -23,8 +23,6 @@ namespace Scripts.GameLogic
         private PlayerId activePlayer = PlayerId.Red;
         private int blueScore = 0;
         private int redScore = 0;
-
-        private int movePointsLeft;
         
         private PlayerId Oponent => activePlayer == PlayerId.Red ? PlayerId.Blue : PlayerId.Red;
 
@@ -80,7 +78,6 @@ namespace Scripts.GameLogic
             Troop troop = troopAtPosition[position];
 
             troop.MoveInDirection(direction);
-            DecrementMovePointsLeft();
 
             foreach (var battleResult in battleResults)
             {
@@ -126,8 +123,6 @@ namespace Scripts.GameLogic
                 }
                 activePlayer = PlayerId.Blue;
             }
-
-            SetInitialMovePointsLeft(activePlayer);
         }
 
 
@@ -207,16 +202,6 @@ namespace Scripts.GameLogic
             {
                 redTroops.Remove(troop);
             }
-
-            if (troop.ControllingPlayer == activePlayer)
-            {
-                movePointsLeft -= troop.MovePoints;
-            }
-        }
-
-        private void DecrementMovePointsLeft()
-        {
-            movePointsLeft--;
         }
 
         private void ChangeTroopPosition(Troop troop)
@@ -249,12 +234,6 @@ namespace Scripts.GameLogic
                     redTroops.Add(troop);
                 }
             }
-        }
-
-        private void SetInitialMovePointsLeft(PlayerId player)
-        {
-            HashSet<Troop> troops = player == PlayerId.Blue ? blueTroops : redTroops;
-            movePointsLeft = troops.Aggregate(0, (acc, t) => acc + t.InitialMovePoints);
         }
 
         private void EndGame()
