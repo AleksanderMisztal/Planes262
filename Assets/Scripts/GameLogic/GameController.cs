@@ -126,6 +126,23 @@ namespace Scripts.GameLogic
             }
         }
 
+        public void EndGame()
+        {
+            Debug.Log("Ending the game");
+            foreach (Troop troop in troopAtPosition.Values)
+            {
+                Destroy(troop.gameObject);
+            }
+            troopAtPosition.Clear();
+            blueTroops.Clear();
+            redTroops.Clear();
+            blueScore = 0;
+            redScore = 0;
+            activeTroop = null;
+            // TODO: server should send starting player
+            activePlayer = PlayerId.Red;
+        }
+
 
         // Private functions
         private void SetActiveTroop(Troop troop)
@@ -235,11 +252,6 @@ namespace Scripts.GameLogic
                     redTroops.Add(troop);
                 }
             }
-        }
-
-        private void EndGame()
-        {
-            Debug.Log($"Blue score: {blueScore}, red score: {redScore}");
         }
     }
 }

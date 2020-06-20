@@ -1,13 +1,13 @@
 ﻿#if UNITY_EDITOR || !UNITY_WEBGL
-using Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.WebSockets;
 using System.Text;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Scripts.Utils;
 
 namespace Scripts.Networking
 {
@@ -15,9 +15,9 @@ namespace Scripts.Networking
     {
         public static WebSocket instance;
 
-        private readonly static string host = "wwsserver.azurewebsites.net";
-        //private readonly static string host = "localhost";
-        private readonly static int port = 443;
+        //private readonly static string host = "wwsserver.azurewebsites.net";
+        private readonly static string host = "localhost";
+        private readonly static int port = 5001;
         public int myId;
         public WsClient wsClient;
 

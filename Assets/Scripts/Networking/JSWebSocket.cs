@@ -1,10 +1,9 @@
 ﻿#if UNITY_WEBGL && !UNITY_EDITOR
-using Assets.Scripts.Networking;
 using Scripts.Networking;
 using Scripts.Utils;
 using System.Runtime.InteropServices;
 
-public class JWebSocket
+public class WebSocket
 {
     [DllImport("__Internal")]
     public static extern void InitializeConnectionJS();

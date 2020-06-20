@@ -85,6 +85,7 @@ namespace Scripts.UnityStuff
 
         public static void EndGame(int blueScore, int redScore)
         {
+            GameController.instance.EndGame();
             instance.board.SetActive(false);
             instance.gameEnded.SetActive(true);
             instance.resultText.text = $"Final score: red: {redScore}, blue: {blueScore}";

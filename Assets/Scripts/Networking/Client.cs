@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Scripts.Utils;
+using UnityEngine;
 
 namespace Scripts.Networking
 {
@@ -32,6 +33,11 @@ namespace Scripts.Networking
         public static void SendData(Packet packet)
         {
             instance.socket.SendData(packet);
+        }
+
+        public void ReceiveWsMessage(string message)
+        {
+            ClientHandle.HandlePacket(message);
         }
 
 #if UNITY_EDITOR || !UNITY_WEBGL
