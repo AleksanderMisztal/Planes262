@@ -16,6 +16,7 @@ namespace Scripts.Networking
             {(int) ServerPackets.TroopSpawned, TroopSpawned },
             {(int) ServerPackets.TroopMoved, TroopMoved },
             {(int) ServerPackets.GameEnded, GameEnded },
+            {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
         };
 
         public static void HandlePacket(string byteArray)
@@ -36,7 +37,7 @@ namespace Scripts.Networking
 
             Debug.Log($"Received a message: {message}");
 
-            UIManager.Activate();
+            UIManager.OnConnected();
         }
 
         public static void GameJoined(Packet packet)
@@ -45,8 +46,7 @@ namespace Scripts.Networking
             PlayerId side = (PlayerId)packet.ReadInt();
 
             GameController.Side = side;
-            UIManager.SetOponentName(oponentName);
-            UIManager.StartGame(side);
+            UIManager.StartGame(side, oponentName);
         }
 
         public static void TroopSpawned(Packet packet)
@@ -85,6 +85,11 @@ namespace Scripts.Networking
             int blueScore = packet.ReadInt();
 
             UIManager.EndGame(blueScore, redScore);
+        }
+
+        public static void OpponentDisconnected(Packet packet)
+        {
+            UIManager.OpponentDisconnected();
         }
     }
 }

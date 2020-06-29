@@ -10,6 +10,7 @@ TagManager:
   - Connected
   - Game UI
   - Game Ended
+  - Waiting
   layers:
   - Default
   - TransparentFX

@@ -15,30 +15,14 @@ namespace Scripts.Networking
     {
         public static WebSocket instance;
 
-        //private readonly static string host = "wwsserver.azurewebsites.net";
-        private readonly static string host = "localhost";
-        private readonly static int port = 5001;
+        private readonly static string host = "wwsserver.azurewebsites.net";
+        //private readonly static string host = "localhost";
+        private readonly static int port = 443;
         public int myId;
         public WsClient wsClient;
 
-        private delegate void PacketHandler(Packet _packet);
-        private static Dictionary<int, PacketHandler> packetHandlers;
-
-        private void InitializePacketHandlers()
-        {
-            packetHandlers = new Dictionary<int, PacketHandler>
-            {
-                {(int)ServerPackets.Welcome, ClientHandle.Welcome },
-                {(int)ServerPackets.GameJoined, ClientHandle.GameJoined },
-                {(int)ServerPackets.TroopSpawned, ClientHandle.TroopSpawned },
-                {(int)ServerPackets.TroopMoved, ClientHandle.TroopMoved },
-                {(int)ServerPackets.GameEnded, ClientHandle.GameEnded },
-            };
-        }
-
         public async Task InitializeConnection()
         {
-            InitializePacketHandlers();
             wsClient = new WsClient();
             await wsClient.Connect();
         }
@@ -79,7 +63,7 @@ namespace Scripts.Networking
                 await BeginListen();
             }
 
-            private async Task<byte[]> Receive()
+            private async Task<string> Receive()
             {
                 ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
                 var memoryStream = new MemoryStream();
@@ -99,7 +83,7 @@ namespace Scripts.Networking
                         string bytes = reader.ReadToEnd();
                         try
                         {
-                            return Serializer.Deserialize(bytes);
+                            return bytes;
                         }
                         catch
                         {
@@ -112,13 +96,9 @@ namespace Scripts.Networking
 
             private async Task BeginListen()
             {
-                byte[] data = await Receive();
+                string data = await Receive();
 
-                using (Packet packet = new Packet(data))
-                {
-                    int packetType = packet.ReadInt();
-                    packetHandlers[packetType](packet);
-                }
+                ClientHandle.HandlePacket(data);
 
                 await BeginListen();
             }

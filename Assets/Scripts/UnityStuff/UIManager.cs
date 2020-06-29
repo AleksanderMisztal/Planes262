@@ -15,6 +15,7 @@ namespace Scripts.UnityStuff
 
         private GameObject mainMenu;
         private GameObject board;
+        private GameObject waitingText;
         private GameObject sideIcon;
         private GameObject gameUI;
         private GameObject gameEnded;
@@ -42,11 +43,14 @@ namespace Scripts.UnityStuff
             gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
+            waitingText = GameObject.FindWithTag("Waiting");
 
             board.SetActive(false);
             sideIcon.SetActive(false);
+            waitingText.SetActive(false);
             gameUI.SetActive(false);
             gameEnded.SetActive(false);
+            mainMenu.SetActive(false);
         }
 
         public void JoinLobby()
@@ -56,6 +60,7 @@ namespace Scripts.UnityStuff
 
             mainMenu.SetActive(false);
             board.SetActive(true);
+            waitingText.SetActive(true);
         }
 
         public void BackToMainMenu()
@@ -65,26 +70,35 @@ namespace Scripts.UnityStuff
             mainMenu.SetActive(true);
         }
 
-        public static void SetOponentName(string oponentName)
-        {
-            instance.gameUI.SetActive(true);
-            instance.oponentName.text = oponentName;
-        }
-
-        public static void Activate()
+        public static void OnConnected()
         {
             instance.sideIcon.SetActive(true);
+            instance.mainMenu.SetActive(true);
         }
 
-        public static void StartGame(PlayerId side)
+        public static void StartGame(PlayerId side, string oponentName)
         {
-            Color color = side == PlayerId.Blue ? Color.blue : Color.red;
+            instance.waitingText.SetActive(false);
 
+            instance.gameUI.SetActive(true);
+            instance.oponentName.text = oponentName;
+
+            Color color = side == PlayerId.Blue ? Color.blue : Color.red;
             instance.sideIcon.GetComponent<SpriteRenderer>().color = color;
+        }
+
+        public static void OpponentDisconnected()
+        {
+            instance.sideIcon.GetComponent<SpriteRenderer>().color = Color.white;
+            GameController.instance.EndGame();
+            instance.board.SetActive(false);
+            instance.gameEnded.SetActive(true);
+            instance.resultText.text = "Opponent has disconnected :(";
         }
 
         public static void EndGame(int blueScore, int redScore)
         {
+            instance.sideIcon.GetComponent<SpriteRenderer>().color = Color.white;
             GameController.instance.EndGame();
             instance.board.SetActive(false);
             instance.gameEnded.SetActive(true);

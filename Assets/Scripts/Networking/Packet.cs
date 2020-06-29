@@ -15,6 +15,7 @@ namespace Scripts.Networking
         TroopSpawned = 3,
         TroopMoved = 4,
         GameEnded = 5,
+        OpponentDisconnected = 6,
     }
 
     /// <summary>Sent from client to server.</summary>
