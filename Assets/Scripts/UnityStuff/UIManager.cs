@@ -16,7 +16,6 @@ namespace Scripts.UnityStuff
         private GameObject mainMenu;
         private GameObject board;
         private GameObject waitingText;
-        private GameObject sideIcon;
         private GameObject gameUI;
         private GameObject gameEnded;
 
@@ -39,14 +38,12 @@ namespace Scripts.UnityStuff
         private void Start()
         {
             board = GameObject.FindWithTag("Board");
-            sideIcon = GameObject.FindWithTag("Side Icon");
             gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
             waitingText = GameObject.FindWithTag("Waiting");
 
             board.SetActive(false);
-            sideIcon.SetActive(false);
             waitingText.SetActive(false);
             gameUI.SetActive(false);
             gameEnded.SetActive(false);
@@ -72,7 +69,6 @@ namespace Scripts.UnityStuff
 
         public static void OnConnected()
         {
-            instance.sideIcon.SetActive(true);
             instance.mainMenu.SetActive(true);
         }
 
@@ -82,14 +78,10 @@ namespace Scripts.UnityStuff
 
             instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
-
-            Color color = side == PlayerId.Blue ? Color.blue : Color.red;
-            instance.sideIcon.GetComponent<SpriteRenderer>().color = color;
         }
 
         public static void OpponentDisconnected()
         {
-            instance.sideIcon.GetComponent<SpriteRenderer>().color = Color.white;
             GameController.instance.EndGame();
             instance.board.SetActive(false);
             instance.gameEnded.SetActive(true);
@@ -98,7 +90,6 @@ namespace Scripts.UnityStuff
 
         public static void EndGame(int blueScore, int redScore)
         {
-            instance.sideIcon.GetComponent<SpriteRenderer>().color = Color.white;
             GameController.instance.EndGame();
             instance.board.SetActive(false);
             instance.gameEnded.SetActive(true);

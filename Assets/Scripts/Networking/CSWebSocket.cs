@@ -15,9 +15,9 @@ namespace Scripts.Networking
     {
         public static WebSocket instance;
 
-        private readonly static string host = "wwsserver.azurewebsites.net";
-        //private readonly static string host = "localhost";
-        private readonly static int port = 443;
+        //private readonly static string host = "wwsserver.azurewebsites.net";
+        private readonly static string host = "localhost";
+        private readonly static int port = 5001;
         public int myId;
         public WsClient wsClient;
 
@@ -105,10 +105,8 @@ namespace Scripts.Networking
 
             private async Task SendData(Packet packet)
             {
-                Debug.Log("Sending a packet: " + packet);
                 var buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
                 await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
-                Debug.Log("Sent!");
             }
         }
     }

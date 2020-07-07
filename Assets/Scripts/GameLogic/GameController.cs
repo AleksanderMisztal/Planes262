@@ -27,6 +27,8 @@ namespace Scripts.GameLogic
         private readonly Dictionary<Vector2Int, Troop> troopAtPosition = new Dictionary<Vector2Int, Troop>();
 
         private Troop activeTroop = null;
+        private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
+        private Dictionary<Vector2Int, Vector2Int> tileParent = new Dictionary<Vector2Int, Vector2Int>();
 
 
         private void Awake()
@@ -46,12 +48,18 @@ namespace Scripts.GameLogic
         // Public interface
         public void OnCellClicked(Vector2Int cell)
         {
+            if (activeTroop && activeTiles.Contains(cell))
+            {
+                MoveActiveTroopTo(cell);
+                return;
+            }
+
             troopAtPosition.TryGetValue(cell, out Troop clickedTroop);
 
             if (activeTroop 
                 && activeTroop.MovePoints > 0
                 && (!clickedTroop || clickedTroop.ControllingPlayer == Oponent)
-                && Hex.IsLegalMove(activeTroop.Position, activeTroop.Orientation, cell, out int direction))
+                && Hex.IsLegalMove(activeTroop.Position, activeTroop.Orientation, cell, out  int direction))
             {
                 MoveTroop(activeTroop, direction);
                 return;
@@ -65,7 +73,7 @@ namespace Scripts.GameLogic
                 SetActiveTroop(clickedTroop);
                 return;
             }
-            activeTroop?.Desactivate();
+            activeTroop?.Deactivate();
             activeTroop = null;
         }
 
@@ -85,17 +93,18 @@ namespace Scripts.GameLogic
             if (troop.Health > 0)
             {
                 ChangeTroopPosition(troop);
-                if (troop.MovePoints <= 0)
+                if (troop.MovePoints <= 0 && activeTroop)
                 {
-                    troop.Desactivate();
+                    troop.Deactivate();
                     activeTroop = null;
                 }
             }
+            SetActiveTiles();
         }
 
         public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
         {
-            activeTroop?.Desactivate();
+            activeTroop?.Deactivate();
             activeTroop = null;
 
             SpawnNextWave(spawns);
@@ -145,15 +154,73 @@ namespace Scripts.GameLogic
 
 
         // Private functions
+        private void MoveActiveTroopTo(Vector2Int cell)
+        {
+            Stack<Vector2Int> path = new Stack<Vector2Int>();
+            Vector2Int v = cell;
+            path.Push(v);
+            while (tileParent.TryGetValue(v, out v) && v != activeTroop.Position)
+            {
+                path.Push(v);
+            }
+
+            Hex coords = new Hex(activeTroop.Position, activeTroop.Orientation);
+            while (path.Count > 0)
+            {
+                v = path.Pop();
+                if (!Hex.IsLegalMove(coords.Position, coords.Orientation, v, out int dir))
+                    throw new IllegalMoveException("bad dir");
+                Debug.Log("Coords is: " + coords.Position + coords.Orientation);
+                NetworkingHub.SendTroopMove(coords.Position, coords.Orientation);
+                coords.Move(dir);
+            }
+        }
+
         private void SetActiveTroop(Troop troop)
         {
-            activeTroop?.Desactivate();
+            activeTroop?.Deactivate();
             activeTroop = troop;
             activeTroop.Activate();
+            SetActiveTiles();
+        }
+
+        private void SetActiveTiles()
+        {
+            if (!activeTroop) return;
+            var tiles = new HashSet<Vector2Int>();
+            tileParent = new Dictionary<Vector2Int, Vector2Int>();
+            GetReachableTiles(activeTroop.Position, activeTroop.Orientation, activeTroop.MovePoints, tiles);
+            activeTiles = tiles;
+            TileManager.ActivateTiles(tiles);
+        }
+
+        private void GetReachableTiles(Vector2Int position, int orientation, int movePoints, HashSet<Vector2Int> acm)
+        {
+            if (movePoints <= 0) return;
+
+            for (int i = -1; i < 2; i++)
+            {
+                int direction = (orientation + i + 6) % 6;
+                Vector2Int tile = Hex.GetAdjacentHex(position, direction);
+
+                if (troopAtPosition.TryGetValue(tile, out Troop enc) && enc.ControllingPlayer == activePlayer) continue;
+                if (!acm.Contains(tile))
+                {
+                    acm.Add(tile);
+                    tileParent.Add(tile, position);
+                }
+                if (!enc) GetReachableTiles(tile, direction, movePoints - 1, acm);
+            }
         }
 
         private void MoveTroop(Troop troop, int direction)
         {
+            direction = (direction + 6) % 6;
+            if (direction != 0 && direction != 1 && direction != 5)
+            {
+                throw new IllegalMoveException("Troop can't move in direction " + direction + "!");
+            }
+
             if (activePlayer != troop.ControllingPlayer)
             {
                 throw new IllegalMoveException("Attempting to make a move in oponent's turn!");
@@ -210,7 +277,11 @@ namespace Scripts.GameLogic
         private void DestroyTroop(Troop troop)
         {
             troopAtPosition.Remove(troop.StartingPosition);
-            if (activeTroop == troop) activeTroop = null;
+            if (activeTroop == troop)
+            {
+                activeTroop = null;
+                TileManager.DeactivateTiles();
+            }
 
             if (troop.ControllingPlayer == PlayerId.Blue)
             {
@@ -253,5 +324,7 @@ namespace Scripts.GameLogic
                 }
             }
         }
+
+        //activate / deactivate troops
     }
 }

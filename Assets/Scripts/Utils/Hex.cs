@@ -5,6 +5,20 @@ namespace Scripts.Utils
 {
     public class Hex
     {
+        public int Orientation { get; private set; }
+        public Vector2Int Position { get; private set; }
+
+        public Hex(Vector2Int p, int o)
+        {
+            Orientation = o;
+            Position = p;
+        }
+        public void Move(int direction)
+        {
+            Orientation = (Orientation + direction + 6) % 6;
+            Position = GetAdjacentHex(Position, Orientation);
+        }
+
         public static int GetDistance(Vector2Int v1, Vector2Int v2)
         {
             Vector3Int cube1 = new HexOffset(v1).ToCube().ToVector();

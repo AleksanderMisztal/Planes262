@@ -8,6 +8,7 @@ namespace Scripts.GameLogic
         private GridLayout gridLayout;
         private Animator animator;
         private TextMesh movePointsText;
+        private Transform body;
 
         public void Initilalize(SpawnTemplate spawn)
         {
@@ -23,6 +24,9 @@ namespace Scripts.GameLogic
             Position = spawn.position;
             StartingPosition = Position;
             transform.position = gridLayout.CellToWorld((Vector3Int)spawn.position);
+
+            body = transform.Find("Body");
+            body.Find("Damaged").gameObject.SetActive(false);
         }
 
         private void MatchWorldPosition()
@@ -33,19 +37,14 @@ namespace Scripts.GameLogic
 
             transform.Find("Body").transform.rotation = Quaternion.identity;
             transform.Find("Body").transform.Rotate(Vector3.forward * 60 * (Orientation + orientationModifier));
-
-            transform.Find("Direction Arrow").transform.rotation = Quaternion.identity;
-            transform.Find("Direction Arrow").transform.Rotate(Vector3.forward * 60 * (Orientation + orientationModifier));
         }
 
         private void MatchSpriteToHealth()
         {
             if (Health == 1)
             {
-                if (ControllingPlayer == PlayerId.Red)
-                    transform.Find("Body").GetComponent<SpriteRenderer>().color = new Color32(255, 255, 127, 255);
-                if (ControllingPlayer == PlayerId.Blue)
-                    transform.Find("Body").GetComponent<SpriteRenderer>().color = new Color32(127, 255, 255, 255);
+                body.Find("Healthy").gameObject.SetActive(false);
+                body.Find("Damaged").gameObject.SetActive(true);
             }
         }
 
@@ -136,9 +135,10 @@ namespace Scripts.GameLogic
             animator.SetBool("isActive", true);
         }
 
-        public void Desactivate()
+        public void Deactivate()
         {
             animator.SetBool("isActive", false);
+            TileManager.DeactivateTiles();
         }
 
         public void OnTurnBegin()
