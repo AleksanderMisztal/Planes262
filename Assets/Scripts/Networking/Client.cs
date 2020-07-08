@@ -1,5 +1,4 @@
-﻿using Scripts.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Networking
 {
@@ -39,12 +38,5 @@ namespace Scripts.Networking
         {
             ClientHandle.HandlePacket(message);
         }
-
-#if UNITY_EDITOR || !UNITY_WEBGL
-        private async void FixedUpdate()
-        {
-            await socket.wsClient.SendPackets();
-        }
-#endif
     }
 }

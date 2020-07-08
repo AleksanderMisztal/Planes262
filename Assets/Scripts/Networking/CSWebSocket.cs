@@ -44,10 +44,14 @@ namespace Scripts.Networking
 
             public async Task SendPackets()
             {
-                while (sendQueue.Count != 0)
+                while (true)
                 {
-                    Packet packet = sendQueue.Dequeue();
-                    await SendData(packet);
+                    while (sendQueue.Count != 0)
+                    {
+                        Packet packet = sendQueue.Dequeue();
+                        await SendData(packet);
+                    }
+                    await Task.Delay(100);
                 }
             }
 
@@ -60,6 +64,8 @@ namespace Scripts.Networking
                 socket = new ClientWebSocket();
                 Debug.Log("Attempting to connect to " + serverUri.ToString());
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
+
+                SendPackets();
                 await BeginListen();
             }
 

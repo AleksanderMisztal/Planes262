@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Scripts.Utils;
 using UnityEngine;
 
@@ -100,6 +102,7 @@ namespace Scripts.GameLogic
                 }
             }
             SetActiveTiles();
+            Thread.Sleep(400);
         }
 
         public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
@@ -170,8 +173,7 @@ namespace Scripts.GameLogic
                 v = path.Pop();
                 if (!Hex.IsLegalMove(coords.Position, coords.Orientation, v, out int dir))
                     throw new IllegalMoveException("bad dir");
-                Debug.Log("Coords is: " + coords.Position + coords.Orientation);
-                NetworkingHub.SendTroopMove(coords.Position, coords.Orientation);
+                NetworkingHub.SendTroopMove(coords.Position, dir);
                 coords.Move(dir);
             }
         }
@@ -187,14 +189,26 @@ namespace Scripts.GameLogic
         private void SetActiveTiles()
         {
             if (!activeTroop) return;
-            var tiles = new HashSet<Vector2Int>();
             tileParent = new Dictionary<Vector2Int, Vector2Int>();
-            GetReachableTiles(activeTroop.Position, activeTroop.Orientation, activeTroop.MovePoints, tiles);
+            var tiles = GetReachableTiles(activeTroop.Position, activeTroop.Orientation, activeTroop.MovePoints);
             activeTiles = tiles;
             TileManager.ActivateTiles(tiles);
         }
 
-        private void GetReachableTiles(Vector2Int position, int orientation, int movePoints, HashSet<Vector2Int> acm)
+        private HashSet<Vector2Int> GetReachableTiles(Vector2Int position, int orientation, int movePoints)
+        {
+            HashSet<Vector2Int> acm = new HashSet<Vector2Int>();
+            Queue<Action> q = new Queue<Action>();
+
+            q.Enqueue(() => GetReachableTiles(position, orientation, movePoints, acm, q));
+            while(q.Count > 0)
+            {
+                q.Dequeue()();
+            }
+            return acm;
+        }
+
+        private void GetReachableTiles(Vector2Int position, int orientation, int movePoints, HashSet<Vector2Int> acm, Queue<Action> q)
         {
             if (movePoints <= 0) return;
 
@@ -209,7 +223,7 @@ namespace Scripts.GameLogic
                     acm.Add(tile);
                     tileParent.Add(tile, position);
                 }
-                if (!enc) GetReachableTiles(tile, direction, movePoints - 1, acm);
+                if (!enc) q.Enqueue(() => GetReachableTiles(tile, direction, movePoints - 1, acm, q));
             }
         }
 
