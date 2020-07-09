@@ -29,7 +29,8 @@ namespace Scripts.GameLogic
 
         private Troop activeTroop = null;
         private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
-        private Dictionary<Vector2Int, Vector2Int> tileParent = new Dictionary<Vector2Int, Vector2Int>();
+        private Dictionary<Vector2Int, Vector3Int> addOrientation = new Dictionary<Vector2Int, Vector3Int>();
+        private Dictionary<Vector3Int, Vector3Int> tileParent = new Dictionary<Vector3Int, Vector3Int>();
 
         private Stack<Vector2Int> path = null;
         private Vector2Int target = new Vector2Int();
@@ -170,11 +171,11 @@ namespace Scripts.GameLogic
         {
             target = cell;
             path = new Stack<Vector2Int>();
-            Vector2Int v = cell;
-            path.Push(v);
-            while (tileParent.TryGetValue(v, out v) && v != activeTroop.Position)
+            Vector3Int v = addOrientation[cell];
+            path.Push((Vector2Int)v);
+            while (tileParent.TryGetValue(v, out v) && (Vector2Int)v != activeTroop.Position)
             {
-                path.Push(v);
+                path.Push((Vector2Int)v);
             }
             TileManager.HighlightPath(path);
         }
@@ -186,7 +187,10 @@ namespace Scripts.GameLogic
             {
                 Vector2Int v = path.Pop();
                 if (!Hex.IsLegalMove(coords.Position, coords.Orientation, v, out int dir))
-                    throw new IllegalMoveException("bad dir");
+                {
+                    Debug.Log("Illegal move!");
+                    return;
+                }
                 NetworkingHub.SendTroopMove(coords.Position, dir);
                 coords.Move(dir);
             }
@@ -204,7 +208,7 @@ namespace Scripts.GameLogic
         private void SetActiveTiles()
         {
             if (!activeTroop) return;
-            tileParent = new Dictionary<Vector2Int, Vector2Int>();
+            tileParent = new Dictionary<Vector3Int, Vector3Int>();
             var tiles = GetReachableTiles(activeTroop.Position, activeTroop.Orientation, activeTroop.MovePoints);
             activeTiles = tiles;
             TileManager.ActivateTiles(tiles);
@@ -231,13 +235,16 @@ namespace Scripts.GameLogic
             {
                 int direction = (orientation + i + 6) % 6;
                 Vector2Int tile = Hex.GetAdjacentHex(position, direction);
+                Vector3Int orientedTile = new Vector3Int(tile.x, tile.y, direction);
+                Vector3Int orientedParent = new Vector3Int(position.x, position.y, orientation);
 
                 if (troopAtPosition.TryGetValue(tile, out Troop enc) && enc.ControllingPlayer == activePlayer) continue;
                 if (!acm.Contains(tile))
                 {
                     acm.Add(tile);
-                    tileParent.Add(tile, position);
+                    addOrientation[tile] = orientedTile;
                 }
+                if (!tileParent.ContainsKey(orientedTile)) tileParent[orientedTile] = orientedParent;
                 if (!enc) q.Enqueue(() => GetReachableTiles(tile, direction, movePoints - 1, acm, q));
             }
         }
