@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Scripts.Utils;
 using UnityEngine;
 
@@ -32,6 +31,9 @@ namespace Scripts.GameLogic
         private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
         private Dictionary<Vector2Int, Vector2Int> tileParent = new Dictionary<Vector2Int, Vector2Int>();
 
+        private Stack<Vector2Int> path = null;
+        private Vector2Int target = new Vector2Int();
+
 
         private void Awake()
         {
@@ -52,7 +54,14 @@ namespace Scripts.GameLogic
         {
             if (activeTroop && activeTiles.Contains(cell))
             {
-                MoveActiveTroopTo(cell);
+                if (path == null || cell != target)
+                {
+                    HighlightPathTo(cell);
+                }
+                else 
+                {
+                    MoveActiveTroop();
+                }
                 return;
             }
 
@@ -157,25 +166,31 @@ namespace Scripts.GameLogic
 
 
         // Private functions
-        private void MoveActiveTroopTo(Vector2Int cell)
+        private void HighlightPathTo(Vector2Int cell)
         {
-            Stack<Vector2Int> path = new Stack<Vector2Int>();
+            target = cell;
+            path = new Stack<Vector2Int>();
             Vector2Int v = cell;
             path.Push(v);
             while (tileParent.TryGetValue(v, out v) && v != activeTroop.Position)
             {
                 path.Push(v);
             }
+            TileManager.HighlightPath(path);
+        }
 
+        private void MoveActiveTroop()
+        {
             Hex coords = new Hex(activeTroop.Position, activeTroop.Orientation);
             while (path.Count > 0)
             {
-                v = path.Pop();
+                Vector2Int v = path.Pop();
                 if (!Hex.IsLegalMove(coords.Position, coords.Orientation, v, out int dir))
                     throw new IllegalMoveException("bad dir");
                 NetworkingHub.SendTroopMove(coords.Position, dir);
                 coords.Move(dir);
             }
+            path = null;
         }
 
         private void SetActiveTroop(Troop troop)
