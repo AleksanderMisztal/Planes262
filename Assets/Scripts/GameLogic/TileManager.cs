@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,6 +13,7 @@ public class TileManager : MonoBehaviour
 
     private static Color transparent = new Color(255, 255, 255, 0);
     private static Color active = new Color(255, 255, 255, 127);
+    private static Color activeBlocked = new Color(0, 0, 0, 127);
     private static Color onPath = new Color(255, 0, 0, 127);
 
 
@@ -51,6 +53,17 @@ public class TileManager : MonoBehaviour
         foreach(var pos in positions)
         {
             instance.tilemap.SetColor((Vector3Int)pos, active);
+        }
+        instance.positions = positions;
+    }
+
+    internal static void ActivateTilesBlocked(HashSet<Vector2Int> positions)
+    {
+        DeactivateTiles();
+
+        foreach (var pos in positions)
+        {
+            instance.tilemap.SetColor((Vector3Int)pos, activeBlocked);
         }
         instance.positions = positions;
     }

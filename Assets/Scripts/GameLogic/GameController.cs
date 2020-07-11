@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Scripts.Utils;
 using UnityEngine;
@@ -68,15 +69,6 @@ namespace Scripts.GameLogic
 
             troopAtPosition.TryGetValue(cell, out Troop clickedTroop);
 
-            if (activeTroop 
-                && activeTroop.MovePoints > 0
-                && (!clickedTroop || clickedTroop.ControllingPlayer == Oponent)
-                && Hex.IsLegalMove(activeTroop.Position, activeTroop.Orientation, cell, out  int direction))
-            {
-                MoveTroop(activeTroop, direction);
-                return;
-            }
-
             if (clickedTroop 
                 && clickedTroop.ControllingPlayer == activePlayer
                 && clickedTroop.ControllingPlayer == Side
@@ -112,7 +104,7 @@ namespace Scripts.GameLogic
                 }
             }
             SetActiveTiles();
-            Thread.Sleep(400);
+            Thread.Sleep(200);
         }
 
         public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
@@ -167,6 +159,16 @@ namespace Scripts.GameLogic
 
 
         // Private functions
+        private bool BlockedByAllies(Troop troop)
+        {
+            foreach (var cell in Hex.GetControllZone(troop.Position, troop.Orientation))
+            {
+                if (!troopAtPosition.TryGetValue(cell, out Troop enc) || enc.ControllingPlayer != troop.ControllingPlayer)
+                    return false;
+            }
+            return true;
+        }
+
         private void HighlightPathTo(Vector2Int cell)
         {
             target = cell;
@@ -211,11 +213,19 @@ namespace Scripts.GameLogic
             tileParent = new Dictionary<Vector3Int, Vector3Int>();
             var tiles = GetReachableTiles(activeTroop.Position, activeTroop.Orientation, activeTroop.MovePoints);
             activeTiles = tiles;
-            TileManager.ActivateTiles(tiles);
+            if (BlockedByAllies(activeTroop))
+                TileManager.ActivateTilesBlocked(tiles);
+            else
+                TileManager.ActivateTiles(tiles);
         }
 
         private HashSet<Vector2Int> GetReachableTiles(Vector2Int position, int orientation, int movePoints)
         {
+            bool blocked = Hex.GetControllZone(position, orientation)
+                .All(c => troopAtPosition.TryGetValue(c, out Troop enc) && enc.ControllingPlayer == activePlayer);
+
+            if (blocked) return new HashSet<Vector2Int>(Hex.GetControllZone(position, orientation));
+
             HashSet<Vector2Int> acm = new HashSet<Vector2Int>();
             Queue<Action> q = new Queue<Action>();
 
@@ -247,36 +257,6 @@ namespace Scripts.GameLogic
                 if (!tileParent.ContainsKey(orientedTile)) tileParent[orientedTile] = orientedParent;
                 if (!enc) q.Enqueue(() => GetReachableTiles(tile, direction, movePoints - 1, acm, q));
             }
-        }
-
-        private void MoveTroop(Troop troop, int direction)
-        {
-            direction = (direction + 6) % 6;
-            if (direction != 0 && direction != 1 && direction != 5)
-            {
-                throw new IllegalMoveException("Troop can't move in direction " + direction + "!");
-            }
-
-            if (activePlayer != troop.ControllingPlayer)
-            {
-                throw new IllegalMoveException("Attempting to make a move in oponent's turn!");
-            }
-
-            if (troop.MovePoints <= 0)
-            {
-                throw new IllegalMoveException("Attempting to move a troop with no move points!");
-            }
-
-            Vector2Int targetPosition = troop.GetAdjacentHex(direction);
-
-            if (troopAtPosition.TryGetValue(targetPosition, out Troop encounter) && encounter.ControllingPlayer == troop.ControllingPlayer)
-            {
-                throw new IllegalMoveException("Attempting to enter a cell with a friendly troop!");
-            }
-
-            Vector2Int originalPosition = troop.Position;
-
-            NetworkingHub.SendTroopMove(originalPosition, direction);
         }
 
         private void ApplyDamage(BattleResult battleResult, Troop attacker, Troop defender)
