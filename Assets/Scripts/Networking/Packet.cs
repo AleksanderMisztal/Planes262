@@ -59,6 +59,13 @@ namespace Scripts.Networking
             SetBytes(_data);
         }
 
+        public Packet(Packet p)
+        {
+            buffer = p.buffer;
+            readableBuffer = p.readableBuffer;
+            readPos = p.readPos;
+        }
+
         #region Functions
         /// <summary>Sets the packet's content and prepares it to be read.</summary>
         /// <param name="_data">The bytes to add to the packet.</param>

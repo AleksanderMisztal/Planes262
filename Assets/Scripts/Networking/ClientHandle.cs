@@ -1,4 +1,5 @@
-﻿using Scripts.GameLogic;
+﻿using Cysharp.Threading.Tasks;
+using Scripts.GameLogic;
 using Scripts.UnityStuff;
 using Scripts.Utils;
 using System.Collections.Generic;
@@ -40,17 +41,21 @@ namespace Scripts.Networking
             UIManager.OnConnected();
         }
 
-        public static void GameJoined(Packet packet)
+        public static async void GameJoined(Packet packet)
         {
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
 
             GameController.Side = side;
-            UIManager.StartGame(side, oponentName);
+            await UIManager.StartGame(side, oponentName);
         }
 
-        public static void TroopSpawned(Packet packet)
+        public static async void TroopSpawned(Packet packet)
         {
+            packet = new Packet(packet);
+
+            await UniTask.WaitUntil(() => UIManager.GameStarted);
+
             int length = packet.ReadInt();
 
             List<SpawnTemplate> templates = new List<SpawnTemplate>();

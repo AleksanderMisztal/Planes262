@@ -1,4 +1,5 @@
-﻿using Scripts.GameLogic;
+﻿using Cysharp.Threading.Tasks;
+using Scripts.GameLogic;
 using Scripts.Networking;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ namespace Scripts.UnityStuff
         private GameObject waitingText;
         private GameObject gameUI;
         private GameObject gameEnded;
+
+        public static bool GameStarted { get;  private set; }
 
         private int oponentId = -1;
 
@@ -62,11 +65,15 @@ namespace Scripts.UnityStuff
             waitingText.SetActive(true);
         }
 
-        public void BackToMainMenu()
+        public async void BackToMainMenu()
         {
+            await TransitionController.StartTransition();
+
             gameEnded.SetActive(false);
             gameUI.SetActive(false);
             mainMenu.SetActive(true);
+
+            await TransitionController.EndTransition();
         }
 
         public static void OnConnected()
@@ -75,9 +82,9 @@ namespace Scripts.UnityStuff
             TransitionController.EndTransition();
         }
 
-        public static void StartGame(PlayerId side, string oponentName)
+        public static async UniTask StartGame(PlayerId side, string oponentName)
         {
-            TransitionController.StartTransition();
+            await TransitionController.StartTransition();
 
             instance.waitingText.SetActive(false);
             instance.particles.SetActive(false);
@@ -85,7 +92,9 @@ namespace Scripts.UnityStuff
             instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
 
-            TransitionController.EndTransition();
+            GameStarted = true;
+
+            await TransitionController.EndTransition();
         }
 
         public static void OpponentDisconnected()

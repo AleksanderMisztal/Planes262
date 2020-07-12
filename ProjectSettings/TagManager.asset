@@ -33,7 +33,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Transition
   - 
   - 
   - 
@@ -54,4 +54,7 @@ TagManager:
     locked: 0
   - name: Text
     uniqueID: 2143656977
+    locked: 0
+  - name: Transition
+    uniqueID: 565942003
     locked: 0

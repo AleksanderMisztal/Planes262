@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class TransitionController : MonoBehaviour
@@ -30,25 +31,25 @@ public class TransitionController : MonoBehaviour
 
     }
 
-    public static void StartTransition()
+    public static async UniTask StartTransition()
     {
         instance.animator.SetBool("shouldContinue", false);
         instance.animator.SetBool("shouldStart", true);
+
+        await UniTask.WaitUntil(() => instance.animator.GetCurrentAnimatorStateInfo(0).IsName("transition start"));
+        await UniTask.WaitUntil(() =>
+            instance.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1
+            && !instance.animator.IsInTransition(0));
     }
 
-    public static void EndTransition()
+    public static async UniTask EndTransition()
     {
-        instance.StartCoroutine(instance.WaitThenEnd());
-    }
-
-    private IEnumerator WaitThenEnd()
-    {
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("transition end"))
-        {
-            yield return new WaitForSeconds(.1f);
-        }
-        Debug.Log("Wait completed");
         instance.animator.SetBool("shouldStart", false);
         instance.animator.SetBool("shouldContinue", true);
+
+        await UniTask.WaitUntil(() => instance.animator.GetCurrentAnimatorStateInfo(0).IsName("transition end"));
+        await UniTask.WaitUntil(() => 
+            instance.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 
+            && !instance.animator.IsInTransition(0));
     }
 }

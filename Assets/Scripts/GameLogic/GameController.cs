@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Scripts.Utils;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ namespace Scripts.GameLogic
             activeTroop = null;
         }
 
-        public void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
+        public async void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
             Troop troop = troopAtPosition[position];
 
@@ -104,7 +105,7 @@ namespace Scripts.GameLogic
                 }
             }
             SetActiveTiles();
-            Thread.Sleep(200);
+            await UniTask.Delay(200);
         }
 
         public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
