@@ -15,6 +15,7 @@ namespace Scripts.UnityStuff
 
         private GameObject mainMenu;
         private GameObject board;
+        private GameObject particles;
         private GameObject waitingText;
         private GameObject gameUI;
         private GameObject gameEnded;
@@ -38,6 +39,7 @@ namespace Scripts.UnityStuff
         private void Start()
         {
             board = GameObject.FindWithTag("Board");
+            particles = GameObject.FindWithTag("Particles");
             gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
@@ -70,30 +72,42 @@ namespace Scripts.UnityStuff
         public static void OnConnected()
         {
             instance.mainMenu.SetActive(true);
+            TransitionController.EndTransition();
         }
 
         public static void StartGame(PlayerId side, string oponentName)
         {
+            TransitionController.StartTransition();
+
             instance.waitingText.SetActive(false);
+            instance.particles.SetActive(false);
 
             instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
+
+            TransitionController.EndTransition();
         }
 
         public static void OpponentDisconnected()
-        {
-            GameController.instance.EndGame();
-            instance.board.SetActive(false);
-            instance.gameEnded.SetActive(true);
-            instance.resultText.text = "Opponent has disconnected :(";
+        { 
+            string message = "Opponent has disconnected :(";
+            instance.EndGame(message);
         }
 
         public static void EndGame(int blueScore, int redScore)
         {
+            string message = $"Final score: red: {redScore}, blue: {blueScore}";
+            instance.EndGame(message);
+        }
+
+        private void EndGame(string message)
+        {
             GameController.instance.EndGame();
-            instance.board.SetActive(false);
-            instance.gameEnded.SetActive(true);
-            instance.resultText.text = $"Final score: red: {redScore}, blue: {blueScore}";
+            board.SetActive(false);
+            gameEnded.SetActive(true);
+            particles.SetActive(true);
+            TileManager.DeactivateTiles();
+            resultText.text = message;
         }
     }
 }

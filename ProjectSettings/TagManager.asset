@@ -11,6 +11,7 @@ TagManager:
   - Game UI
   - Game Ended
   - Waiting
+  - Particles
   layers:
   - Default
   - TransparentFX
