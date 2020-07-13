@@ -1,4 +1,6 @@
-﻿using Scripts.Utils;
+﻿using Cysharp.Threading.Tasks;
+using Scripts.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.GameLogic
@@ -7,8 +9,27 @@ namespace Scripts.GameLogic
     {
         private GridLayout gridLayout;
         private Animator animator;
+        private Animator bodyAnimator;
         private TextMesh movePointsText;
         private Transform body;
+
+        public PlayerId ControllingPlayer { get; private set; }
+        public int Health { get; private set; }
+
+        public int InitialMovePoints { get; private set; }
+        public int MovePoints { get; private set; }
+
+        public Vector2Int Position { get; private set; }
+        public Vector2Int StartingPosition { get; set; }
+        public int Orientation { get; private set; }
+
+        private Queue<int> moveQueue = new Queue<int>();
+        private Vector3 target;
+        private int spriteOrientation;
+        private Vector2Int spritePosition;
+        private float speed = 4f;
+        private bool isCloseToTarget = true;
+
 
         public void Initilalize(SpawnTemplate spawn)
         {
@@ -25,50 +46,55 @@ namespace Scripts.GameLogic
             StartingPosition = Position;
             transform.position = gridLayout.CellToWorld((Vector3Int)spawn.position);
 
+            target = transform.position;
+            spritePosition = Position;
+            spriteOrientation = Orientation;
+
             body = transform.Find("Body");
             body.Find("Damaged").gameObject.SetActive(false);
+            bodyAnimator = body.GetComponent<Animator>();
         }
 
-        private void MatchWorldPosition()
+
+        private void Update()
         {
-            transform.position = gridLayout.CellToWorld((Vector3Int)Position);
-
-            int orientationModifier = ControllingPlayer == PlayerId.Blue ? 0 : 3;
-
-            transform.Find("Body").transform.rotation = Quaternion.identity;
-            transform.Find("Body").transform.Rotate(Vector3.forward * 60 * (Orientation + orientationModifier));
-        }
-
-        private void MatchSpriteToHealth()
-        {
-            if (Health == 1)
+            isCloseToTarget = (transform.position - target).sqrMagnitude < 0.01;
+            if (isCloseToTarget && moveQueue.Count == 0)
             {
-                body.Find("Healthy").gameObject.SetActive(false);
-                body.Find("Damaged").gameObject.SetActive(true);
+                transform.position = target;
+                bodyAnimator.SetBool("isIdle", true);
+                return;
             }
+            if (isCloseToTarget)
+            {
+                int direction = moveQueue.Dequeue();
+                spriteOrientation = (6 + spriteOrientation + direction) % 6;
+                spritePosition = Hex.GetAdjacentHex(spritePosition, spriteOrientation);
+                target = gridLayout.CellToWorld((Vector3Int)spritePosition);
+
+                int orientationModifier = ControllingPlayer == PlayerId.Blue ? 0 : 3;
+                transform.Find("Body").transform.rotation = Quaternion.identity;
+                transform.Find("Body").transform.Rotate(Vector3.forward * 60 * (spriteOrientation + orientationModifier));
+            }
+
+            transform.position += (target - transform.position).normalized * speed * Time.deltaTime;
         }
 
-
-        public PlayerId ControllingPlayer { get; private set; }
-        public int Health { get; private set; }
-
-        public int InitialMovePoints { get; private set; }
-        public int MovePoints { get; private set; }
-
-        public Vector2Int Position { get; private set; }
-        public Vector2Int StartingPosition { get; set; }
-        public int Orientation { get; private set; }
-
-
-        public void JumpForward()
+        public UniTask JumpForward()
         {
+            Debug.Log("Jumping forward");
             Position = Hex.GetAdjacentHex(Position, Orientation);
 
-            MatchWorldPosition();
+            moveQueue.Enqueue(0);
+            bodyAnimator.SetBool("isIdle", false);
+
+            return UniTask.WaitUntil(() => isCloseToTarget);
+            //MatchWorldPosition();
         }
 
-        public void MoveInDirection(int direction)
+        public UniTask MoveInDirection(int direction)
         {
+            Debug.Log("Moving forward");
             if (MovePoints < 0)
             {
                 throw new IllegalMoveException("Attempting to move a troop with no move points!");
@@ -88,7 +114,10 @@ namespace Scripts.GameLogic
             Orientation = (6 + Orientation + direction) % 6;
             Position = Hex.GetAdjacentHex(Position, Orientation);
 
-            MatchWorldPosition();
+            moveQueue.Enqueue(direction);
+            bodyAnimator.SetBool("isIdle", false);
+
+            return UniTask.WaitUntil(() => isCloseToTarget);
         }
 
         public Vector2Int GetAdjacentHex(int direction)
@@ -116,6 +145,15 @@ namespace Scripts.GameLogic
                 Destroy(gameObject);
             }
             return Health <= 0;
+        }
+
+        private void MatchSpriteToHealth()
+        {
+            if (Health == 1)
+            {
+                body.Find("Healthy").gameObject.SetActive(false);
+                body.Find("Damaged").gameObject.SetActive(true);
+            }
         }
 
         public bool InControlZone(Vector2Int cell)

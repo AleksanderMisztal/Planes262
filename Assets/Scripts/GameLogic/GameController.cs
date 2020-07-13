@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using Scripts.Utils;
 using UnityEngine;
@@ -37,6 +36,8 @@ namespace Scripts.GameLogic
         private Stack<Vector2Int> path = null;
         private Vector2Int target = new Vector2Int();
 
+        public static bool AcceptsCalls { get; private set; } = true;
+
 
         private void Awake()
         {
@@ -55,6 +56,7 @@ namespace Scripts.GameLogic
         // Public interface
         public void OnCellClicked(Vector2Int cell)
         {
+            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
             if (activeTroop && activeTiles.Contains(cell))
             {
                 if (path == null || cell != target)
@@ -82,17 +84,20 @@ namespace Scripts.GameLogic
             activeTroop = null;
         }
 
-        public async void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
+        public async UniTask OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
+            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
+            AcceptsCalls = false;
+
             Troop troop = troopAtPosition[position];
 
-            troop.MoveInDirection(direction);
+            await troop.MoveInDirection(direction);
 
             foreach (var battleResult in battleResults)
             {
                 Troop encounter = troopAtPosition[troop.Position];
                 ApplyDamage(battleResult, troop, encounter);
-                troop.JumpForward();
+                await troop.JumpForward();
             }
 
             if (troop.Health > 0)
@@ -105,11 +110,13 @@ namespace Scripts.GameLogic
                 }
             }
             SetActiveTiles();
-            await UniTask.Delay(200);
+
+            AcceptsCalls = true;
         }
 
         public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
         {
+            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
             activeTroop?.Deactivate();
             activeTroop = null;
 
@@ -143,6 +150,7 @@ namespace Scripts.GameLogic
 
         public void EndGame()
         {
+            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
             Debug.Log("Ending the game");
             foreach (Troop troop in troopAtPosition.Values)
             {

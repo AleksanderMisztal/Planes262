@@ -2,6 +2,7 @@
 using Scripts.GameLogic;
 using Scripts.UnityStuff;
 using Scripts.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,14 +21,23 @@ namespace Scripts.Networking
             {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
         };
 
+        private static readonly Queue<Action> q = new Queue<Action>();
+
+        public static async UniTask StartHandling()
+        {
+            while (q.Count > 0)
+            {
+                await UniTask.WaitUntil(() => GameController.AcceptsCalls);
+                if (q.Count > 0) q.Dequeue()();
+            }
+        }
+
         public static void HandlePacket(string byteArray)
         {
             byte[] bytes = Serializer.Deserialize(byteArray);
-            using (Packet packet = new Packet(bytes))
-            {
-                int packetType = packet.ReadInt();
-                packetHandlers[packetType](packet);
-            }
+            Packet packet = new Packet(bytes);
+            int packetType = packet.ReadInt();
+            q.Enqueue(() => packetHandlers[packetType](packet));
         }
 
 
@@ -39,6 +49,7 @@ namespace Scripts.Networking
             Debug.Log($"Received a message: {message}");
 
             UIManager.OnConnected();
+            packet.Dispose();
         }
 
         public static async void GameJoined(Packet packet)
@@ -48,6 +59,7 @@ namespace Scripts.Networking
 
             GameController.Side = side;
             await UIManager.StartGame(side, oponentName);
+            packet.Dispose();
         }
 
         public static async void TroopSpawned(Packet packet)
@@ -67,6 +79,7 @@ namespace Scripts.Networking
                 templates.Add(template);
             }
             NetworkingHub.OnTroopsSpawned(templates);
+            packet.Dispose();
         }
 
         public static void TroopMoved(Packet packet)
@@ -82,6 +95,7 @@ namespace Scripts.Networking
             }
 
             NetworkingHub.OnTroopMoved(position, direction, battleResults);
+            packet.Dispose();
         }
 
         public static void GameEnded(Packet packet)
@@ -90,11 +104,13 @@ namespace Scripts.Networking
             int blueScore = packet.ReadInt();
 
             UIManager.EndGame(blueScore, redScore);
+            packet.Dispose();
         }
 
         public static void OpponentDisconnected(Packet packet)
         {
             UIManager.OpponentDisconnected();
+            packet.Dispose();
         }
     }
 }
