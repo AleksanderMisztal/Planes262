@@ -23,6 +23,9 @@ namespace Scripts.UnityStuff
 
         public static bool GameStarted { get;  private set; }
 
+        public static string Username => instance.username.text;
+        public static string OponentName => instance.oponentName.text;
+
         private int oponentId = -1;
 
 

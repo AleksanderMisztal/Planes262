@@ -19,6 +19,7 @@ namespace Scripts.Networking
             {(int) ServerPackets.TroopMoved, TroopMoved },
             {(int) ServerPackets.GameEnded, GameEnded },
             {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
+            {(int) ServerPackets.MessageReceived, MessageReceived },
         };
 
         private static readonly Queue<Action> q = new Queue<Action>();
@@ -111,6 +112,12 @@ namespace Scripts.Networking
         {
             UIManager.OpponentDisconnected();
             packet.Dispose();
+        }
+
+        public static void MessageReceived(Packet packet)
+        {
+            string message = packet.ReadString();
+            Messenger.MessageReceived(message);
         }
     }
 }

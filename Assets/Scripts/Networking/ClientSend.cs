@@ -36,5 +36,15 @@ namespace Scripts.Networking
                 Client.SendData(packet);
             }
         }
+
+        public static void SendAMessage(string message)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.SendMessage))
+            {
+                packet.Write(message);
+
+                Client.SendData(packet);
+            }
+        }
     }
 }

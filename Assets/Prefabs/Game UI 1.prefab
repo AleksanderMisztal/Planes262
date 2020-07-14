@@ -32,8 +32,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 5604554097176145803}
-  - {fileID: 5604554096673179446}
   - {fileID: 5604554097078165326}
+  - {fileID: 5604554096673179446}
   - {fileID: 5604554097005546407}
   - {fileID: 5604554097520794721}
   m_Father: {fileID: 0}
@@ -509,7 +509,7 @@ Transform:
   - {fileID: 5604554097474198134}
   - {fileID: 5604554097670849567}
   m_Father: {fileID: 7305298214906024179}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5604554096709840575
 GameObject:
@@ -697,7 +697,7 @@ Transform:
   - {fileID: 5604554096098516267}
   - {fileID: 5604554096709840573}
   m_Father: {fileID: 7305298214906024179}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5604554097131024094
 GameObject:

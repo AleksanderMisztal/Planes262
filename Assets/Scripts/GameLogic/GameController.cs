@@ -56,7 +56,7 @@ namespace Scripts.GameLogic
         // Public interface
         public void OnCellClicked(Vector2Int cell)
         {
-            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
+            if (!AcceptsCalls) return;
             if (activeTroop && activeTiles.Contains(cell))
             {
                 if (path == null || cell != target)

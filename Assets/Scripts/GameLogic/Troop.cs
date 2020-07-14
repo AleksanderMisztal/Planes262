@@ -128,6 +128,9 @@ namespace Scripts.GameLogic
 
         public bool ApplyDamage()
         {
+            EffectManager.InstantiateExplosion(transform.position + Random.insideUnitSphere);
+            EffectManager.InstantiateExplosion(transform.position + Random.insideUnitSphere);
+
             Health--;
             MatchSpriteToHealth();
             if (Health > 0)
