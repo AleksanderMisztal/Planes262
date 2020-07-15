@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 744419646023956573}
   - component: {fileID: 7446925240038314017}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Damaged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 532518594975008142}
   - component: {fileID: 2101573755525080850}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 8171896532250819772}
   - component: {fileID: 5162588663590513417}
   - component: {fileID: 3655773444291505205}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Move Points Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 3707210992810289717}
   - component: {fileID: 3707210992810289718}
   - component: {fileID: 8010123504070118737}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Red Troop (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3707210993278717645}
   - component: {fileID: 3707210993278717646}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Healthy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3707210993673439821}
   - component: {fileID: 3707210993673439822}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Active Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

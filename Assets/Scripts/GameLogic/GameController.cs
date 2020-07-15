@@ -233,7 +233,22 @@ namespace Scripts.GameLogic
             bool blocked = Hex.GetControllZone(position, orientation)
                 .All(c => troopAtPosition.TryGetValue(c, out Troop enc) && enc.ControllingPlayer == activePlayer);
 
-            if (blocked) return new HashSet<Vector2Int>(Hex.GetControllZone(position, orientation));
+            if (blocked) 
+            {
+                var cells = new HashSet<Vector2Int>();
+                for (int i = -1; i < 2; i++)
+                {
+                    int direction = (orientation + i + 6) % 6;
+                    Vector2Int tile = Hex.GetAdjacentHex(position, direction);
+                    Vector3Int orientedTile = new Vector3Int(tile.x, tile.y, direction);
+                    Vector3Int orientedParent = new Vector3Int(position.x, position.y, orientation);
+                    cells.Add(tile);
+                    addOrientation[tile] = orientedTile;
+                    if (!tileParent.ContainsKey(orientedTile)) tileParent[orientedTile] = orientedParent;
+                }
+
+                return cells; 
+            }
 
             HashSet<Vector2Int> acm = new HashSet<Vector2Int>();
             Queue<Action> q = new Queue<Action>();
@@ -349,7 +364,5 @@ namespace Scripts.GameLogic
                 }
             }
         }
-
-        //activate / deactivate troops
     }
 }

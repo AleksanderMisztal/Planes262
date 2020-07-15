@@ -12,6 +12,11 @@ TagManager:
   - Game Ended
   - Waiting
   - Particles
+  - UI
+  - Transition
+  - Background
+  - Board Camera
+  - Board Background
   layers:
   - Default
   - TransparentFX
@@ -21,19 +26,19 @@ TagManager:
   - UI
   - 
   - 
-  - Core Game
-  - 
-  - 
-  - Troops
-  - Other Core Game
-  - 
-  - 
-  - Side Bars
-  - 
-  - 
-  - 
-  - 
+  - Board
+  - GameUI
+  - Menus
   - Transition
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

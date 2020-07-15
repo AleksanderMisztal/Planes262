@@ -82,7 +82,6 @@ namespace Scripts.GameLogic
 
         public UniTask JumpForward()
         {
-            Debug.Log("Jumping forward");
             Position = Hex.GetAdjacentHex(Position, Orientation);
 
             moveQueue.Enqueue(0);
@@ -94,7 +93,6 @@ namespace Scripts.GameLogic
 
         public UniTask MoveInDirection(int direction)
         {
-            Debug.Log("Moving forward");
             if (MovePoints < 0)
             {
                 throw new IllegalMoveException("Attempting to move a troop with no move points!");

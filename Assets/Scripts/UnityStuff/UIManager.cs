@@ -15,11 +15,14 @@ namespace Scripts.UnityStuff
         [SerializeField] private Text resultText;
 
         private GameObject mainMenu;
+        private GameObject ui;
         private GameObject board;
         private GameObject particles;
         private GameObject waitingText;
         private GameObject gameUI;
         private GameObject gameEnded;
+        private GameObject background;
+        private GameObject boardCamera;
 
         public static bool GameStarted { get;  private set; }
 
@@ -44,18 +47,25 @@ namespace Scripts.UnityStuff
 
         private void Start()
         {
+            ui = GameObject.FindWithTag("UI");
             board = GameObject.FindWithTag("Board");
             particles = GameObject.FindWithTag("Particles");
             gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
             waitingText = GameObject.FindWithTag("Waiting");
+            background = GameObject.FindWithTag("Background");
+            boardCamera = GameObject.FindWithTag("Board Camera");
 
+            ui.SetActive(false);
             board.SetActive(false);
             waitingText.SetActive(false);
             gameUI.SetActive(false);
             gameEnded.SetActive(false);
             mainMenu.SetActive(false);
+            boardCamera.SetActive(false);
+
+            Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
         public void JoinLobby()
@@ -95,6 +105,11 @@ namespace Scripts.UnityStuff
             instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
 
+            instance.ui.SetActive(true);
+            instance.background.layer = LayerMask.NameToLayer("Board");
+            instance.boardCamera.SetActive(true);
+            instance.background.SetActive(false);
+
             GameStarted = true;
 
             await TransitionController.EndTransition();
@@ -112,8 +127,13 @@ namespace Scripts.UnityStuff
             instance.EndGame(message);
         }
 
-        private void EndGame(string message)
+        private async void EndGame(string message)
         {
+            await UniTask.Delay(1500);
+
+            instance.background.gameObject.layer = LayerMask.NameToLayer("Menus");
+            instance.background.SetActive(true);
+
             GameController.instance.EndGame();
             board.SetActive(false);
             gameEnded.SetActive(true);

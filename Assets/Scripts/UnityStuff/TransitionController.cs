@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using System.Collections;
 using UnityEngine;
 
 public class TransitionController : MonoBehaviour

@@ -7,10 +7,16 @@ namespace Scripts.UnityStuff
     {
         private GridLayout gridLayout;
 
+        private Camera boardCamera;
 
         private void Awake()
         {
             gridLayout = FindObjectOfType<GridLayout>();
+        }
+
+        private void Start()
+        {
+            boardCamera = GameObject.FindGameObjectWithTag("Board Camera").GetComponent<Camera>();
         }
 
         public Vector2Int GetCell(Vector3 v)
@@ -20,7 +26,7 @@ namespace Scripts.UnityStuff
 
         private void OnMouseDown()
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int cell = GetCell(mousePosition);
 
             GameController.instance.OnCellClicked(cell);
