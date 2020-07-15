@@ -82,6 +82,7 @@ namespace Scripts.GameLogic
             }
             activeTroop?.Deactivate();
             activeTroop = null;
+            path = null;
         }
 
         public async UniTask OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
