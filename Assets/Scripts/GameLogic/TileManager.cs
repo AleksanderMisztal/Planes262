@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Scripts.GameLogic;
 
 public class TileManager : MonoBehaviour
 {
     private static TileManager instance;
 
-    private Tilemap tilemap;
+    [SerializeField]
+    private Tile boardTile;
+    [SerializeField]
+    private Tile clickTile;
+
+    [SerializeField]
+    private Tilemap boardMap;
+    [SerializeField]
+    private Tilemap clickMap;
+
     private IEnumerable<Vector2Int> positions = new List<Vector2Int>();
     private IEnumerable<Vector2Int> path = new List<Vector2Int>();
 
@@ -32,16 +41,30 @@ public class TileManager : MonoBehaviour
 
     private void Start()
     {
-        tilemap = GetComponent<Tilemap>();
         positions = new List<Vector2Int>();
 
-        var poss = tilemap.cellBounds.allPositionsWithin;
+        var poss = boardMap.cellBounds.allPositionsWithin;
         foreach (var pos in poss)
         {
-            if (tilemap.GetTile(pos))
+            if (boardMap.GetTile(pos))
             {
-                tilemap.SetTileFlags(pos, TileFlags.None);
-                tilemap.SetColor(pos, transparent);
+                boardMap.SetTileFlags(pos, TileFlags.None);
+                boardMap.SetColor(pos, transparent);
+            }
+        }
+    }
+
+    public static void CreateBoard(BoardParams board)
+    {
+        Debug.Log("Creating the board");
+        for (int x = board.xMin; x <= board.xMax; x++)
+        {
+            for (int y = board.yMin; y <= board.yMax; y++)
+            {
+                //instantiate map tile
+                instance.boardMap.SetTile(new Vector3Int(x, y, 0), instance.boardTile);
+                //instantiate click tile
+                instance.clickMap.SetTile(new Vector3Int(x, y, 0), instance.clickTile);
             }
         }
     }
@@ -52,7 +75,7 @@ public class TileManager : MonoBehaviour
 
         foreach(var pos in positions)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, active);
+            instance.boardMap.SetColor((Vector3Int)pos, active);
         }
         instance.positions = positions;
     }
@@ -63,7 +86,7 @@ public class TileManager : MonoBehaviour
 
         foreach (var pos in positions)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, activeBlocked);
+            instance.boardMap.SetColor((Vector3Int)pos, activeBlocked);
         }
         instance.positions = positions;
     }
@@ -72,12 +95,12 @@ public class TileManager : MonoBehaviour
     {
         foreach (var pos in instance.path)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, active);
+            instance.boardMap.SetColor((Vector3Int)pos, active);
         }
 
         foreach (var pos in positions)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, onPath);
+            instance.boardMap.SetColor((Vector3Int)pos, onPath);
         }
         instance.path = positions;
     }
@@ -86,11 +109,11 @@ public class TileManager : MonoBehaviour
     {
         foreach (var pos in instance.positions)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, transparent);
+            instance.boardMap.SetColor((Vector3Int)pos, transparent);
         }
         foreach (var pos in instance.path)
         {
-            instance.tilemap.SetColor((Vector3Int)pos, transparent);
+            instance.boardMap.SetColor((Vector3Int)pos, transparent);
         }
         instance.positions = new List<Vector2Int>();
         instance.path = new List<Vector2Int>();

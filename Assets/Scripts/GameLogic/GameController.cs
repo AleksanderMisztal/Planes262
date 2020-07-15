@@ -19,6 +19,8 @@ namespace Scripts.GameLogic
         [SerializeField]
         private Troop redTroopPrefab;
 
+        public static BoardParams Board { get; set; }
+
         private PlayerId activePlayer = PlayerId.Red;
         private int blueScore = 0;
         private int redScore = 0;

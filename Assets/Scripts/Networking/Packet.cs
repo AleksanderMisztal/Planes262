@@ -399,10 +399,22 @@ namespace Scripts.Networking
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public BattleResult ReadBattleResult(bool _moveReadPos = true)
         {
-            bool attackerDamaged = ReadBool();
-            bool defenderDamaged = ReadBool();
+            bool attackerDamaged = ReadBool(_moveReadPos);
+            bool defenderDamaged = ReadBool(_moveReadPos);
 
             return new BattleResult(defenderDamaged, attackerDamaged);
+        }
+
+        /// <summary>Reads a BoardParams from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public BoardParams ReadBoardParams(bool _moveReadPos = true)
+        {
+            int xMin = ReadInt(_moveReadPos);
+            int xMax = ReadInt(_moveReadPos);
+            int yMin = ReadInt(_moveReadPos);
+            int yMax = ReadInt(_moveReadPos);
+
+            return new BoardParams(xMin, xMax, yMin, yMax);
         }
         #endregion
 

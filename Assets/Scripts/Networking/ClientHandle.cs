@@ -58,8 +58,11 @@ namespace Scripts.Networking
         {
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
+            BoardParams board = packet.ReadBoardParams();
 
             GameController.Side = side;
+            GameController.Board = board;
+            TileManager.CreateBoard(board);
             await UIManager.StartGame(side, oponentName);
             packet.Dispose();
         }
