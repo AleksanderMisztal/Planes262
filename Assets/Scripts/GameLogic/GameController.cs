@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Scripts.UnityStuff;
 using Scripts.Utils;
 using UnityEngine;
 
@@ -37,6 +38,9 @@ namespace Scripts.GameLogic
         private Vector2Int target = new Vector2Int();
 
         public static bool AcceptsCalls { get; private set; } = true;
+
+        public static int BlueScore => instance.blueScore;
+        public static int RedScore => instance.redScore;
 
 
         private void Awake()
@@ -160,9 +164,10 @@ namespace Scripts.GameLogic
             troopAtPosition.Clear();
             blueTroops.Clear();
             redTroops.Clear();
+            activeTroop = null;
+            path = null;
             blueScore = 0;
             redScore = 0;
-            activeTroop = null;
             // TODO: server should send starting player
             activePlayer = PlayerId.Red;
         }
@@ -313,6 +318,8 @@ namespace Scripts.GameLogic
             if (player == PlayerId.Blue) blueScore++;
             if (player == PlayerId.Red) redScore++;
             Debug.Log($"{blueScore} : {redScore}");
+
+            UIManager.UpdateScoreDisplay();
         }
 
         private void DestroyTroop(Troop troop)

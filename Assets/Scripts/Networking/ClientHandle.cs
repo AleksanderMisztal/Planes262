@@ -38,6 +38,7 @@ namespace Scripts.Networking
             byte[] bytes = Serializer.Deserialize(byteArray);
             Packet packet = new Packet(bytes);
             int packetType = packet.ReadInt();
+            Debug.Log($"Received a packet of type {packetType}...");
             q.Enqueue(() => packetHandlers[packetType](packet));
         }
 

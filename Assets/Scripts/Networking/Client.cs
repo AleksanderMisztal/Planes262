@@ -22,6 +22,8 @@ namespace Scripts.Networking
 
         private async void Start()
         {
+            Application.runInBackground = true;
+
             socket = new WebSocket();
 #if UNITY_EDITOR || !UNITY_WEBGL 
             await 

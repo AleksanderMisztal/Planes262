@@ -13,6 +13,7 @@ namespace Scripts.UnityStuff
         [SerializeField] private InputField username;
         [SerializeField] private Text oponentName;
         [SerializeField] private Text resultText;
+        [SerializeField] private Text participantsText;
 
         private GameObject mainMenu;
         private GameObject ui;
@@ -28,6 +29,8 @@ namespace Scripts.UnityStuff
 
         public static string Username => instance.username.text;
         public static string OponentName => instance.oponentName.text;
+
+        public static PlayerId Side { get; private set; }
 
         private int oponentId = -1;
 
@@ -104,6 +107,8 @@ namespace Scripts.UnityStuff
 
             instance.gameUI.SetActive(true);
             instance.oponentName.text = oponentName;
+            Side = side;
+            UpdateScoreDisplay();
 
             instance.ui.SetActive(true);
             instance.background.layer = LayerMask.NameToLayer("Board");
@@ -113,6 +118,13 @@ namespace Scripts.UnityStuff
             GameStarted = true;
 
             await TransitionController.EndTransition();
+        }
+
+        public static void UpdateScoreDisplay()
+        {
+            instance.participantsText.text = Side == PlayerId.Red ?
+                $"{OponentName} {GameController.BlueScore} : {GameController.RedScore} {Username}" :
+                $"{Username} {GameController.BlueScore} : {GameController.RedScore} {OponentName}";
         }
 
         public static void OpponentDisconnected()
@@ -129,12 +141,14 @@ namespace Scripts.UnityStuff
 
         private async void EndGame(string message)
         {
+            Debug.Log("UI manager ending the game");
+            GameController.instance.EndGame();
+
             await UniTask.Delay(1500);
 
             instance.background.gameObject.layer = LayerMask.NameToLayer("Menus");
             instance.background.SetActive(true);
 
-            GameController.instance.EndGame();
             board.SetActive(false);
             gameEnded.SetActive(true);
             particles.SetActive(true);

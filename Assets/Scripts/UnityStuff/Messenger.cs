@@ -6,18 +6,6 @@ using UnityEngine.UI;
 
 public class Messenger : MonoBehaviour
 {
-    private class MessageInfo
-    {
-        public string Sender { get; }
-        public string Text { get; }
-
-        public MessageInfo(string sender, string text)
-        {
-            Sender = sender;
-            Text = text;
-        }
-    }
-
     private static Messenger instance;
 
     [SerializeField]
@@ -46,24 +34,27 @@ public class Messenger : MonoBehaviour
 
     public void SendAMessage()
     {
-        string message = input.text;
+        string message = UIManager.Username + ": " + input.text;
         input.text = "";
 
         ClientSend.SendAMessage(message);
 
-        Text messageObject = Instantiate(messagePrefab);
-        messageObject.text = UIManager.Username + ": " + message;
-        messageObject.transform.SetParent(textParent.transform);
-
-        messages.Add(messageObject.gameObject);
+        Display(message);
     }
 
     public static void MessageReceived(string message)
     {
-        Text newMessage = Instantiate(instance.messagePrefab);
-        newMessage.text = UIManager.Username + ": " + message;
+        instance.Display(UIManager.OponentName + ": " + message);
+    }
 
-        instance.messages.Add(newMessage.gameObject);
+    private void Display(string message)
+    {
+        Text messageObject = Instantiate(messagePrefab);
+        messageObject.text = message;
+        messageObject.transform.SetParent(textParent.transform);
+        messageObject.transform.localScale = new Vector3(.95f, 1, 1);
+
+        messages.Add(messageObject.gameObject);
     }
 
     public static void ResetMessages()
