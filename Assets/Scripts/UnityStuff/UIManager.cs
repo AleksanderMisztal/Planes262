@@ -11,7 +11,6 @@ namespace Scripts.UnityStuff
         private static UIManager instance;
 
         [SerializeField] private InputField username;
-        [SerializeField] private Text oponentName;
         [SerializeField] private Text resultText;
         [SerializeField] private Text participantsText;
 
@@ -20,7 +19,7 @@ namespace Scripts.UnityStuff
         private GameObject board;
         private GameObject particles;
         private GameObject waitingText;
-        private GameObject gameUI;
+        //private GameObject gameUI;
         private GameObject gameEnded;
         private GameObject background;
         private GameObject boardCamera;
@@ -28,7 +27,7 @@ namespace Scripts.UnityStuff
         public static bool GameStarted { get;  private set; }
 
         public static string Username => instance.username.text;
-        public static string OponentName => instance.oponentName.text;
+        public static string OponentName { get; private set; }
 
         public static PlayerId Side { get; private set; }
 
@@ -53,7 +52,7 @@ namespace Scripts.UnityStuff
             ui = GameObject.FindWithTag("UI");
             board = GameObject.FindWithTag("Board");
             particles = GameObject.FindWithTag("Particles");
-            gameUI = GameObject.FindWithTag("Game UI");
+            //gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
             waitingText = GameObject.FindWithTag("Waiting");
@@ -63,7 +62,7 @@ namespace Scripts.UnityStuff
             ui.SetActive(false);
             board.SetActive(false);
             waitingText.SetActive(false);
-            gameUI.SetActive(false);
+            //gameUI.SetActive(false);
             gameEnded.SetActive(false);
             mainMenu.SetActive(false);
             boardCamera.SetActive(false);
@@ -86,7 +85,7 @@ namespace Scripts.UnityStuff
             await TransitionController.StartTransition();
 
             gameEnded.SetActive(false);
-            gameUI.SetActive(false);
+            //gameUI.SetActive(false);
             mainMenu.SetActive(true);
 
             await TransitionController.EndTransition();
@@ -98,22 +97,24 @@ namespace Scripts.UnityStuff
             TransitionController.EndTransition();
         }
 
-        public static async UniTask StartGame(PlayerId side, string oponentName)
+        public static async UniTask StartGame(PlayerId side, string oponentName, BoardParams board)
         {
             await TransitionController.StartTransition();
 
             instance.waitingText.SetActive(false);
             instance.particles.SetActive(false);
 
-            instance.gameUI.SetActive(true);
-            instance.oponentName.text = oponentName;
+            //instance.gameUI.SetActive(true);
+            OponentName = oponentName;
             Side = side;
             UpdateScoreDisplay();
 
+
             instance.ui.SetActive(true);
-            instance.background.layer = LayerMask.NameToLayer("Board");
-            instance.boardCamera.SetActive(true);
             instance.background.SetActive(false);
+            instance.boardCamera.SetActive(true);
+            TileManager.CreateBoard(board);
+            BoardCamera.Initialize(board);
 
             GameStarted = true;
 
@@ -143,10 +144,10 @@ namespace Scripts.UnityStuff
         {
             Debug.Log("UI manager ending the game");
             GameController.instance.EndGame();
+            TileManager.DeactivateTiles();
 
             await UniTask.Delay(1500);
 
-            instance.background.gameObject.layer = LayerMask.NameToLayer("Menus");
             instance.background.SetActive(true);
 
             board.SetActive(false);

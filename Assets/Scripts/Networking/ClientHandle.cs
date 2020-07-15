@@ -62,8 +62,7 @@ namespace Scripts.Networking
 
             GameController.Side = side;
             GameController.Board = board;
-            TileManager.CreateBoard(board);
-            await UIManager.StartGame(side, oponentName);
+            await UIManager.StartGame(side, oponentName, board);
             packet.Dispose();
         }
 

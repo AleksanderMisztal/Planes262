@@ -61,10 +61,13 @@ public class TileManager : MonoBehaviour
         {
             for (int y = board.yMin; y <= board.yMax; y++)
             {
-                //instantiate map tile
-                instance.boardMap.SetTile(new Vector3Int(x, y, 0), instance.boardTile);
-                //instantiate click tile
-                instance.clickMap.SetTile(new Vector3Int(x, y, 0), instance.clickTile);
+                var pos = new Vector3Int(x, y, 0);
+                instance.boardMap.SetTile(pos, instance.boardTile);
+
+                instance.boardMap.SetTileFlags(pos, TileFlags.None);
+                instance.boardMap.SetColor(pos, transparent);
+
+                instance.clickMap.SetTile(pos, instance.clickTile);
             }
         }
     }
