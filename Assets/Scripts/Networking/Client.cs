@@ -31,11 +31,6 @@ namespace Scripts.Networking
             socket.InitializeConnection();
         }
 
-        private async void Update()
-        {
-            await ClientHandle.StartHandling();
-        }
-
         public static void SendData(Packet packet)
         {
             instance.socket.SendData(packet);

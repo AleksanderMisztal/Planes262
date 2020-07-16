@@ -96,35 +96,35 @@ namespace Scripts.UnityStuff
             TransitionController.EndTransition();
         }
 
-        public static async UniTask StartGame(PlayerId side, string oponentName, BoardParams board)
+        public static async UniTask StartTransitionIntoGame(PlayerId side, string oponentName, BoardParams board)
         {
             await TransitionController.StartTransition();
 
-            instance.waitingText.SetActive(false);
-            instance.particles.SetActive(false);
-
-            //instance.gameUI.SetActive(true);
             OponentName = oponentName;
             Side = side;
-            UpdateScoreDisplay();
 
-
+            instance.waitingText.SetActive(false);
+            instance.particles.SetActive(false);
             instance.ui.SetActive(true);
             instance.background.SetActive(false);
             instance.boardCamera.SetActive(true);
+
+            UpdateScoreDisplay(0, 0);
+
             TileManager.CreateBoard(board);
             BoardCamera.Initialize(board);
-
-            GameStarted = true;
-
-            await TransitionController.EndTransition();
         }
 
-        public static void UpdateScoreDisplay()
+        public static UniTask EndTransitionIntoGame()
+        {
+            return TransitionController.EndTransition();
+        }
+
+        public static void UpdateScoreDisplay(int redScore, int blueScore)
         {
             instance.participantsText.text = Side == PlayerId.Red ?
-                $"{OponentName} {GameController.BlueScore} : {GameController.RedScore} {Username}" :
-                $"{Username} {GameController.BlueScore} : {GameController.RedScore} {OponentName}";
+                $"{OponentName} {blueScore} : {redScore} {Username}" :
+                $"{Username} {blueScore} : {redScore} {OponentName}";
         }
 
         public static void OpponentDisconnected()
@@ -145,8 +145,6 @@ namespace Scripts.UnityStuff
         {
             Debug.Log("UI manager ending the game");
             TileManager.DeactivateTiles();
-
-            GameController.instance.EndGame();
 
             instance.background.SetActive(true);
             board.SetActive(false);

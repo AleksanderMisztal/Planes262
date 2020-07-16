@@ -29,7 +29,7 @@ namespace Scripts.UnityStuff
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int cell = GetCell(mousePosition);
 
-            GameController.instance.OnCellClicked(cell);
+            GameController.OnCellClicked(cell);
         }
     }
 }

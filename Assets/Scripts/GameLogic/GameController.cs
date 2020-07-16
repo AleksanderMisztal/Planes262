@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Scripts.Networking;
 using Scripts.UnityStuff;
 using Scripts.Utils;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Scripts.GameLogic
 {
     public class GameController : MonoBehaviour
     {
-        public static GameController instance;
+        private static GameController instance;
 
         public static PlayerId Side { get; set; }
 
@@ -39,10 +40,12 @@ namespace Scripts.GameLogic
         private Stack<Vector2Int> path = null;
         private Vector2Int target = new Vector2Int();
 
-        public static bool AcceptsCalls { get; private set; } = true;
+        public static bool AcceptsCalls { get; private set; } = false;
 
         public static int BlueScore => instance.blueScore;
         public static int RedScore => instance.redScore;
+
+        private static Queue<Action> q = new Queue<Action>();
 
 
         private void Awake()
@@ -58,120 +61,151 @@ namespace Scripts.GameLogic
             }
         }
 
+        private async void Update()
+        {
+            while(q.Count > 0)
+            {
+                await UniTask.WaitUntil(() => AcceptsCalls);
+                if (q.Count <= 0 || !AcceptsCalls) return;
+                q.Dequeue()();
+            }
+        }
+
 
         // Public interface
-        public void OnCellClicked(Vector2Int cell)
+        public static async UniTask StartGame(PlayerId side, string oponentName, BoardParams board)
         {
-            if (!AcceptsCalls) return;
-            if (activeTroop && activeTiles.Contains(cell))
+            await UIManager.StartTransitionIntoGame(side, oponentName, board);
+            AcceptsCalls = true;
+            await UIManager.EndTransitionIntoGame();
+        }
+
+        public static void OnCellClicked(Vector2Int cell)
+        {
+            if (!AcceptsCalls)
             {
-                if (path == null || cell != target)
+                Debug.Log("Not accepting calls");
+                return;
+            }
+            if (instance.activeTroop && instance.activeTiles.Contains(cell))
+            {
+                if (instance.path == null || cell != instance.target)
                 {
-                    HighlightPathTo(cell);
+                    instance.HighlightPathTo(cell);
                 }
-                else 
+                else
                 {
-                    MoveActiveTroop();
+                    instance.MoveActiveTroop();
                 }
                 return;
             }
 
-            troopAtPosition.TryGetValue(cell, out Troop clickedTroop);
+            instance.troopAtPosition.TryGetValue(cell, out Troop clickedTroop);
 
             if (clickedTroop 
-                && clickedTroop.ControllingPlayer == activePlayer
+                && clickedTroop.ControllingPlayer == instance.activePlayer
                 && clickedTroop.ControllingPlayer == Side
                 && clickedTroop.MovePoints > 0)
             {
-                SetActiveTroop(clickedTroop);
+                instance.SetActiveTroop(clickedTroop);
                 return;
             }
-            activeTroop?.Deactivate();
-            activeTroop = null;
-            path = null;
+            instance.activeTroop?.Deactivate();
+            instance.activeTroop = null;
+            instance.path = null;
         }
 
-        public async UniTask OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
+        public static void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
-            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
-            AcceptsCalls = false;
-
-            Troop troop = troopAtPosition[position];
-
-            await troop.MoveInDirection(direction);
-
-            foreach (var battleResult in battleResults)
+            q.Enqueue(async () =>
             {
-                Troop encounter = troopAtPosition[troop.Position];
-                ApplyDamage(battleResult, troop, encounter);
-                await troop.JumpForward();
-            }
+                AcceptsCalls = false;
 
-            if (troop.Health > 0)
-            {
-                ChangeTroopPosition(troop);
-                if (troop.MovePoints <= 0 && activeTroop)
+                Troop troop = instance.troopAtPosition[position];
+
+                await troop.MoveInDirection(direction);
+
+                foreach (var battleResult in battleResults)
                 {
-                    troop.Deactivate();
-                    activeTroop = null;
+                    Troop encounter = instance.troopAtPosition[troop.Position];
+                    instance.ApplyDamage(battleResult, troop, encounter);
+                    await troop.JumpForward();
                 }
-            }
-            SetActiveTiles();
 
-            AcceptsCalls = true;
+                if (troop.Health > 0)
+                {
+                    instance.ChangeTroopPosition(troop);
+                    if (troop.MovePoints <= 0 && instance.activeTroop)
+                    {
+                        troop.Deactivate();
+                        instance.activeTroop = null;
+                    }
+                }
+                instance.SetActiveTiles();
+
+                AcceptsCalls = true;
+            });
         }
 
-        public void StartNextRound(IEnumerable<SpawnTemplate> spawns)
+        public static void StartNextRound(IEnumerable<SpawnTemplate> spawns)
         {
-            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
-            activeTroop?.Deactivate();
-            activeTroop = null;
-
-            SpawnNextWave(spawns);
-
-            if (activePlayer == PlayerId.Blue)
+            q.Enqueue(() =>
             {
-                foreach (Troop troop in redTroops)
+                if (instance.activeTroop)
                 {
-                    troop.OnTurnBegin();
+                    instance.activeTroop.Deactivate();
+                    instance.activeTroop = null;
                 }
-                foreach (Troop troop in blueTroops)
+
+                instance.SpawnNextWave(spawns);
+
+                if (instance.activePlayer == PlayerId.Blue)
                 {
-                    troop.OnTurnEnd();
+                    foreach (Troop troop in instance.redTroops)
+                    {
+                        troop.OnTurnBegin();
+                    }
+                    foreach (Troop troop in instance.blueTroops)
+                    {
+                        troop.OnTurnEnd();
+                    }
+                    instance.activePlayer = PlayerId.Red;
                 }
-                activePlayer = PlayerId.Red;
-            }
-            else
-            {
-                foreach (Troop troop in blueTroops)
+                else
                 {
-                    troop.OnTurnBegin();
+                    foreach (Troop troop in instance.blueTroops)
+                    {
+                        troop.OnTurnBegin();
+                    }
+                    foreach (Troop troop in instance.redTroops)
+                    {
+                        troop.OnTurnEnd();
+                    }
+                    instance.activePlayer = PlayerId.Blue;
                 }
-                foreach (Troop troop in redTroops)
-                {
-                    troop.OnTurnEnd();
-                }
-                activePlayer = PlayerId.Blue;
-            }
+            });
         }
 
-        public void EndGame()
+        public static void EndGame()
         {
-            if (!AcceptsCalls) throw new Exception("Not acepting calls!");
-            Debug.Log("Ending the game");
-            foreach (Troop troop in troopAtPosition.Values)
+            q.Enqueue(() =>
             {
-                Destroy(troop.gameObject);
-            }
-            troopAtPosition.Clear();
-            blueTroops.Clear();
-            redTroops.Clear();
-            activeTroop = null;
-            path = null;
-            blueScore = 0;
-            redScore = 0;
-            // TODO: server should send starting player
-            activePlayer = PlayerId.Red;
+                AcceptsCalls = false;
+                Debug.Log("Ending the game");
+                foreach (Troop troop in instance.troopAtPosition.Values)
+                {
+                    Destroy(troop.gameObject);
+                }
+                instance.troopAtPosition.Clear();
+                instance.blueTroops.Clear();
+                instance.redTroops.Clear();
+                instance.activeTroop = null;
+                instance.path = null;
+                instance.blueScore = 0;
+                instance.redScore = 0;
+                // TODO: server should send starting player
+                instance.activePlayer = PlayerId.Red;
+            });
         }
 
 
@@ -180,7 +214,9 @@ namespace Scripts.GameLogic
         {
             foreach (var cell in Hex.GetControllZone(troop.Position, troop.Orientation))
             {
-                if (!troopAtPosition.TryGetValue(cell, out Troop enc) || enc.ControllingPlayer != troop.ControllingPlayer)
+                if (Board.IsInside(cell)
+                    && (!troopAtPosition.TryGetValue(cell, out Troop enc) 
+                        || enc.ControllingPlayer != troop.ControllingPlayer))
                     return false;
             }
             return true;
@@ -210,7 +246,7 @@ namespace Scripts.GameLogic
                     Debug.Log("Illegal move!");
                     return;
                 }
-                NetworkingHub.SendTroopMove(coords.Position, dir);
+                ClientSend.MoveTroop(coords.Position, dir);
                 coords.Move(dir);
             }
             path = null;
@@ -239,7 +275,9 @@ namespace Scripts.GameLogic
         private HashSet<Vector2Int> GetReachableTiles(Vector2Int position, int orientation, int movePoints)
         {
             bool blocked = Hex.GetControllZone(position, orientation)
-                .All(c => troopAtPosition.TryGetValue(c, out Troop enc) && enc.ControllingPlayer == activePlayer);
+                .All(c => !Board.IsInside(c) 
+                            || (troopAtPosition.TryGetValue(c, out Troop enc) 
+                                && enc.ControllingPlayer == activePlayer));
 
             if (blocked) 
             {
@@ -280,7 +318,11 @@ namespace Scripts.GameLogic
                 Vector3Int orientedTile = new Vector3Int(tile.x, tile.y, direction);
                 Vector3Int orientedParent = new Vector3Int(position.x, position.y, orientation);
 
-                if (troopAtPosition.TryGetValue(tile, out Troop enc) && enc.ControllingPlayer == activePlayer) continue;
+                if (!Board.IsInside(tile) 
+                    || (troopAtPosition.TryGetValue(tile, out Troop enc) 
+                        && enc.ControllingPlayer == activePlayer)) 
+                    continue;
+
                 if (!acm.Contains(tile))
                 {
                     acm.Add(tile);
@@ -321,7 +363,7 @@ namespace Scripts.GameLogic
             if (player == PlayerId.Red) redScore++;
             Debug.Log($"{blueScore} : {redScore}");
 
-            UIManager.UpdateScoreDisplay();
+            UIManager.UpdateScoreDisplay(redScore, blueScore);
         }
 
         private void DestroyTroop(Troop troop)

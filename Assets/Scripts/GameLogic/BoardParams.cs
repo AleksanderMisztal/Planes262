@@ -1,4 +1,6 @@
-﻿namespace Scripts.GameLogic
+﻿using UnityEngine;
+
+namespace Scripts.GameLogic
 {
     public class BoardParams
     {
@@ -13,6 +15,11 @@
             this.xMax = xMax;
             this.yMin = yMin;
             this.yMax = yMax;
+        }
+
+        public bool IsInside(Vector2Int v)
+        {
+            return v.x >= xMin && v.x <= xMax && v.y >= yMin && v.y <= yMax;
         }
     }
 }

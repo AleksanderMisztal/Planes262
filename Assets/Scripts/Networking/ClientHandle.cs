@@ -22,24 +22,12 @@ namespace Scripts.Networking
             {(int) ServerPackets.MessageReceived, MessageReceived },
         };
 
-        private static readonly Queue<Action> q = new Queue<Action>();
-
-        public static async UniTask StartHandling()
-        {
-            while (q.Count > 0)
-            {
-                await UniTask.WaitUntil(() => GameController.AcceptsCalls);
-                if (q.Count > 0) q.Dequeue()();
-            }
-        }
-
         public static void HandlePacket(string byteArray)
         {
             byte[] bytes = Serializer.Deserialize(byteArray);
             Packet packet = new Packet(bytes);
             int packetType = packet.ReadInt();
-            Debug.Log($"Received a packet of type {packetType}...");
-            q.Enqueue(() => packetHandlers[packetType](packet));
+            packetHandlers[packetType](packet);
         }
 
 
@@ -54,7 +42,7 @@ namespace Scripts.Networking
             packet.Dispose();
         }
 
-        public static async void GameJoined(Packet packet)
+        public static void GameJoined(Packet packet)
         {
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
@@ -62,15 +50,13 @@ namespace Scripts.Networking
 
             GameController.Side = side;
             GameController.Board = board;
-            await UIManager.StartGame(side, oponentName, board);
             packet.Dispose();
+            GameController.StartGame(side, oponentName, board);
         }
 
-        public static async void TroopSpawned(Packet packet)
+        public static void TroopSpawned(Packet packet)
         {
             packet = new Packet(packet);
-
-            await UniTask.WaitUntil(() => UIManager.GameStarted);
 
             int length = packet.ReadInt();
 
@@ -82,7 +68,7 @@ namespace Scripts.Networking
 
                 templates.Add(template);
             }
-            NetworkingHub.OnTroopsSpawned(templates);
+            GameController.StartNextRound(templates);
             packet.Dispose();
         }
 
@@ -98,23 +84,25 @@ namespace Scripts.Networking
                 battleResults.Add(packet.ReadBattleResult());
             }
 
-            NetworkingHub.OnTroopMoved(position, direction, battleResults);
             packet.Dispose();
+            GameController.OnTroopMoved(position, direction, battleResults);
         }
 
-        public static void GameEnded(Packet packet)
+        public static async void GameEnded(Packet packet)
         {
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
-
-            UIManager.EndGame(blueScore, redScore);
             packet.Dispose();
+
+            GameController.EndGame();
+            await UIManager.EndGame(blueScore, redScore);
         }
 
         public static void OpponentDisconnected(Packet packet)
         {
-            UIManager.OpponentDisconnected();
             packet.Dispose();
+            GameController.EndGame();
+            UIManager.OpponentDisconnected();
         }
 
         public static void MessageReceived(Packet packet)
