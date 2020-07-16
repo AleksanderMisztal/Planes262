@@ -15,13 +15,18 @@ public class TileManager : MonoBehaviour
     [SerializeField]
     private Tilemap boardMap;
     [SerializeField]
+    private Tilemap gridMap;
+    [SerializeField]
     private Tilemap clickMap;
+
+    private static bool isGridActive = false;
 
     private IEnumerable<Vector2Int> positions = new List<Vector2Int>();
     private IEnumerable<Vector2Int> path = new List<Vector2Int>();
 
     private static Color transparent = new Color(255, 255, 255, 0);
     private static Color active = new Color(255, 255, 255, 127);
+    private static Color grid = new Color(255, 255, 255, 10);
     private static Color activeBlocked = new Color(0, 0, 0, 127);
     private static Color onPath = new Color(255, 0, 0, 127);
 
@@ -39,21 +44,6 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        positions = new List<Vector2Int>();
-
-        var poss = boardMap.cellBounds.allPositionsWithin;
-        foreach (var pos in poss)
-        {
-            if (boardMap.GetTile(pos))
-            {
-                boardMap.SetTileFlags(pos, TileFlags.None);
-                boardMap.SetColor(pos, transparent);
-            }
-        }
-    }
-
     public static void CreateBoard(BoardParams board)
     {
         Debug.Log("Creating the board");
@@ -62,14 +52,26 @@ public class TileManager : MonoBehaviour
             for (int y = board.yMin; y <= board.yMax; y++)
             {
                 var pos = new Vector3Int(x, y, 0);
-                instance.boardMap.SetTile(pos, instance.boardTile);
 
+                instance.boardMap.SetTile(pos, instance.boardTile);
                 instance.boardMap.SetTileFlags(pos, TileFlags.None);
                 instance.boardMap.SetColor(pos, transparent);
+
+                instance.gridMap.SetTile(pos, instance.boardTile);
+                instance.gridMap.SetTileFlags(pos, TileFlags.None);
+                instance.gridMap.SetColor(pos, grid);
+
 
                 instance.clickMap.SetTile(pos, instance.clickTile);
             }
         }
+        instance.gridMap.gameObject.SetActive(false);
+    }
+
+    public void ShowHideGrid()
+    {
+        isGridActive = !isGridActive;
+        gridMap.gameObject.SetActive(isGridActive);
     }
 
     public static void ActivateTiles(IEnumerable<Vector2Int> positions)

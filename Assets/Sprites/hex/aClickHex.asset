@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: hexagonTerrain_sheet_5
+  m_Name: aClickHex
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -4530855532894719890, guid: 0409e03d128413a428d8e4f84c719be6,
     type: 3}

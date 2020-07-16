@@ -19,7 +19,6 @@ namespace Scripts.UnityStuff
         private GameObject board;
         private GameObject particles;
         private GameObject waitingText;
-        //private GameObject gameUI;
         private GameObject gameEnded;
         private GameObject background;
         private GameObject boardCamera;
@@ -134,26 +133,26 @@ namespace Scripts.UnityStuff
             instance.EndGame(message);
         }
 
-        public static void EndGame(int blueScore, int redScore)
+        public static async UniTask EndGame(int blueScore, int redScore)
         {
+            await UniTask.Delay(1500);
+
             string message = $"Final score: red: {redScore}, blue: {blueScore}";
             instance.EndGame(message);
         }
 
-        private async void EndGame(string message)
+        private void EndGame(string message)
         {
             Debug.Log("UI manager ending the game");
-            GameController.instance.EndGame();
             TileManager.DeactivateTiles();
 
-            await UniTask.Delay(1500);
+            GameController.instance.EndGame();
 
             instance.background.SetActive(true);
-
             board.SetActive(false);
             gameEnded.SetActive(true);
             particles.SetActive(true);
-            TileManager.DeactivateTiles();
+
             resultText.text = message;
         }
     }
