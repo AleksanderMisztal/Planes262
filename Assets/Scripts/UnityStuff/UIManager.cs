@@ -88,10 +88,10 @@ namespace Scripts.UnityStuff
             await TransitionController.EndTransition();
         }
 
-        public static void OnConnected()
+        public static UniTask OnConnected()
         {
             instance.mainMenu.SetActive(true);
-            TransitionController.EndTransition();
+            return TransitionController.EndTransition();
         }
 
         public static async UniTask StartTransitionIntoGame(PlayerId side, string oponentName, BoardParams board)

@@ -94,8 +94,8 @@ namespace Scripts.Networking
             int blueScore = packet.ReadInt();
             packet.Dispose();
 
-            GameController.EndGame();
             await UIManager.EndGame(blueScore, redScore);
+            GameController.EndGame();
         }
 
         public static void OpponentDisconnected(Packet packet)
