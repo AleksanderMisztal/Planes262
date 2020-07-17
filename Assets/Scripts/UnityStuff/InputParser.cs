@@ -7,16 +7,12 @@ namespace Scripts.UnityStuff
     {
         private GridLayout gridLayout;
 
+        [SerializeField]
         private Camera boardCamera;
 
         private void Awake()
         {
             gridLayout = FindObjectOfType<GridLayout>();
-        }
-
-        private void Start()
-        {
-            boardCamera = GameObject.FindGameObjectWithTag("Board Camera").GetComponent<Camera>();
         }
 
         public Vector2Int GetCell(Vector3 v)

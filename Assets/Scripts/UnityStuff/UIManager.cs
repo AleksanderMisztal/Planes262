@@ -51,7 +51,6 @@ namespace Scripts.UnityStuff
             ui = GameObject.FindWithTag("UI");
             board = GameObject.FindWithTag("Board");
             particles = GameObject.FindWithTag("Particles");
-            //gameUI = GameObject.FindWithTag("Game UI");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
             waitingText = GameObject.FindWithTag("Waiting");
@@ -61,7 +60,6 @@ namespace Scripts.UnityStuff
             ui.SetActive(false);
             board.SetActive(false);
             waitingText.SetActive(false);
-            //gameUI.SetActive(false);
             gameEnded.SetActive(false);
             mainMenu.SetActive(false);
             boardCamera.SetActive(false);

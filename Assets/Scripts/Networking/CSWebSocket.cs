@@ -15,9 +15,9 @@ namespace Scripts.Networking
     {
         public static WebSocket instance;
 
-        ///private readonly static string host = "wwsserver.azurewebsites.net";
-        private readonly static string host = "localhost";
-        private readonly static int port = 5001;
+        private readonly static string host = "wwsserver.azurewebsites.net";
+        //private readonly static string host = "localhost";
+        private readonly static int port = 443;
         public int myId;
         public WsClient wsClient;
 

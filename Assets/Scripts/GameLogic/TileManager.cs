@@ -25,8 +25,8 @@ public class TileManager : MonoBehaviour
     private IEnumerable<Vector2Int> path = new List<Vector2Int>();
 
     private static Color transparent = new Color(255, 255, 255, 0);
-    private static Color active = new Color(255, 255, 255, 127);
-    private static Color grid = new Color(255, 255, 255, 10);
+    private static Color grid = new Color(0, 0, 255, 127);
+    private static Color active = new Color(255, 255, 255, 10);
     private static Color activeBlocked = new Color(0, 0, 0, 127);
     private static Color onPath = new Color(255, 0, 0, 127);
 
