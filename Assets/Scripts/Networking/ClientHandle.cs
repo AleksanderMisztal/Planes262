@@ -33,11 +33,11 @@ namespace Scripts.Networking
         {
             string message = packet.ReadString();
             int myId = packet.ReadInt();
+            packet.Dispose();
 
             Debug.Log($"Received a message: {message}");
 
             UIManager.OnConnected();
-            packet.Dispose();
         }
 
         public static void GameJoined(Packet packet)
@@ -45,10 +45,10 @@ namespace Scripts.Networking
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
             BoardParams board = packet.ReadBoardParams();
+            packet.Dispose();
 
             GameController.Side = side;
             GameController.Board = board;
-            packet.Dispose();
             GameController.StartGame(side, oponentName, board);
         }
 
@@ -66,8 +66,9 @@ namespace Scripts.Networking
 
                 templates.Add(template);
             }
-            GameController.StartNextRound(templates);
             packet.Dispose();
+
+            GameController.StartNextRound(templates);
         }
 
         public static void TroopMoved(Packet packet)
@@ -81,8 +82,8 @@ namespace Scripts.Networking
             {
                 battleResults.Add(packet.ReadBattleResult());
             }
-
             packet.Dispose();
+
             GameController.OnTroopMoved(position, direction, battleResults);
         }
 
@@ -106,6 +107,8 @@ namespace Scripts.Networking
         public static void MessageReceived(Packet packet)
         {
             string message = packet.ReadString();
+            packet.Dispose();
+
             Messenger.MessageReceived(message);
         }
     }

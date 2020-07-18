@@ -44,7 +44,7 @@ public class Messenger : MonoBehaviour
 
     public static void MessageReceived(string message)
     {
-        instance.Display(UIManager.OponentName + ": " + message);
+        instance.Display(message);
     }
 
     private void Display(string message)
