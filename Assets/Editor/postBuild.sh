@@ -9,7 +9,7 @@ if [ -z "$buildfolder" ]; then
 fi
 
 if [ ! -d ./tmp ]; then
-  git clone "https://github.com/AleksanderMisztal/WebGL.git" ./tmp
+  git clone "git@github.com:AleksanderMisztal/WebGL.git" ./tmp
 fi
 cp -r "$buildfolder" ./tmp
 cd ./tmp
