@@ -5,14 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Main Menu
-  - Board
-  - Side Icon
   - Connected
   - Game UI
   - Game Ended
-  - Waiting
-  - Particles
-  - UI
   - Transition
   - Background
   - Board Camera

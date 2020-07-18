@@ -13,12 +13,12 @@ namespace Scripts.UnityStuff
         [SerializeField] private InputField username;
         [SerializeField] private Text resultText;
         [SerializeField] private Text participantsText;
+        [SerializeField] private GameObject waitingText;
+        [SerializeField] private GameObject particles;
+        [SerializeField] private GameObject gameUi;
+        [SerializeField] private GameObject board;
 
         private GameObject mainMenu;
-        private GameObject ui;
-        private GameObject board;
-        private GameObject particles;
-        private GameObject waitingText;
         private GameObject gameEnded;
         private GameObject background;
         private GameObject boardCamera;
@@ -48,16 +48,12 @@ namespace Scripts.UnityStuff
 
         private void Start()
         {
-            ui = GameObject.FindWithTag("UI");
-            board = GameObject.FindWithTag("Board");
-            particles = GameObject.FindWithTag("Particles");
             gameEnded = GameObject.FindWithTag("Game Ended");
             mainMenu = GameObject.FindWithTag("Main Menu");
-            waitingText = GameObject.FindWithTag("Waiting");
             background = GameObject.FindWithTag("Background");
             boardCamera = GameObject.FindWithTag("Board Camera");
 
-            ui.SetActive(false);
+            gameUi.SetActive(false);
             board.SetActive(false);
             waitingText.SetActive(false);
             gameEnded.SetActive(false);
@@ -103,7 +99,7 @@ namespace Scripts.UnityStuff
 
             instance.waitingText.SetActive(false);
             instance.particles.SetActive(false);
-            instance.ui.SetActive(true);
+            instance.gameUi.SetActive(true);
             instance.background.SetActive(false);
             instance.boardCamera.SetActive(true);
 

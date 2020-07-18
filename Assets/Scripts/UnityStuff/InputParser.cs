@@ -15,20 +15,10 @@ namespace Scripts.UnityStuff
             gridLayout = FindObjectOfType<GridLayout>();
         }
 
-        public Vector2Int GetCell(Vector3 v)
-        {
-            return (Vector2Int)gridLayout.WorldToCell(v);
-        }
-
         private void OnMouseDown()
         {
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int cell = GetCell(mousePosition);
-
-            Debug.Log("Mouse (screen): " + Input.mousePosition);
-            Debug.Log("Mouse (world): " + mousePosition);
-            Debug.Log("Cell: " + cell);
-
+            Vector2Int cell = (Vector2Int)gridLayout.WorldToCell(mousePosition);
 
             GameController.OnCellClicked(cell);
         }
