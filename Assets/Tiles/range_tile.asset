@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: hexagonTerrain_sheet_84
+  m_Name: range_tile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -267020338524071683, guid: 0409e03d128413a428d8e4f84c719be6,
+  m_Sprite: {fileID: -6145589264226499348, guid: 0409e03d128413a428d8e4f84c719be6,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6037736, g: 0.49270204, b: 0.49270204, a: 1}
   m_Transform:
     e00: 1
     e01: 0

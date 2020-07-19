@@ -10,14 +10,16 @@ public class TileManager : MonoBehaviour
     [SerializeField]
     private Tile boardTile;
     [SerializeField]
+    private Tile rangeTile;
+    [SerializeField]
     private Tile clickTile;
 
     [SerializeField]
-    private Tilemap boardMap;
+    private Tilemap boardTilemap;
     [SerializeField]
-    private Tilemap gridMap;
+    private Tilemap rangeTilemap;
     [SerializeField]
-    private Tilemap clickMap;
+    private Tilemap clickTilemap;
 
     private static bool isGridActive = false;
 
@@ -25,8 +27,7 @@ public class TileManager : MonoBehaviour
     private IEnumerable<Vector2Int> path = new List<Vector2Int>();
 
     private static Color transparent = new Color(255, 255, 255, 0);
-    private static Color grid = new Color(0, 0, 255, 127);
-    private static Color active = new Color(255, 255, 255, 10);
+    private static Color active = new Color(0, 0, 255, 255);
     private static Color activeBlocked = new Color(0, 0, 0, 127);
     private static Color onPath = new Color(255, 0, 0, 127);
 
@@ -53,25 +54,23 @@ public class TileManager : MonoBehaviour
             {
                 var pos = new Vector3Int(x, y, 0);
 
-                instance.boardMap.SetTile(pos, instance.boardTile);
-                instance.boardMap.SetTileFlags(pos, TileFlags.None);
-                instance.boardMap.SetColor(pos, transparent);
+                instance.boardTilemap.SetTile(pos, instance.boardTile);
 
-                instance.gridMap.SetTile(pos, instance.boardTile);
-                instance.gridMap.SetTileFlags(pos, TileFlags.None);
-                instance.gridMap.SetColor(pos, grid);
+                instance.rangeTilemap.SetTile(pos, instance.rangeTile);
+                instance.rangeTilemap.SetTileFlags(pos, TileFlags.None);
+                instance.rangeTilemap.SetColor(pos, transparent);
 
 
-                instance.clickMap.SetTile(pos, instance.clickTile);
+                instance.clickTilemap.SetTile(pos, instance.clickTile);
             }
         }
-        instance.gridMap.gameObject.SetActive(false);
+        instance.boardTilemap.gameObject.SetActive(false);
     }
 
     public void ShowHideGrid()
     {
         isGridActive = !isGridActive;
-        gridMap.gameObject.SetActive(isGridActive);
+        boardTilemap.gameObject.SetActive(isGridActive);
     }
 
     public static void ActivateTiles(IEnumerable<Vector2Int> positions)
@@ -80,7 +79,7 @@ public class TileManager : MonoBehaviour
 
         foreach(var pos in positions)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, active);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, active);
         }
         instance.positions = positions;
     }
@@ -91,7 +90,7 @@ public class TileManager : MonoBehaviour
 
         foreach (var pos in positions)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, activeBlocked);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, activeBlocked);
         }
         instance.positions = positions;
     }
@@ -100,12 +99,12 @@ public class TileManager : MonoBehaviour
     {
         foreach (var pos in instance.path)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, active);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, active);
         }
 
         foreach (var pos in positions)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, onPath);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, onPath);
         }
         instance.path = positions;
     }
@@ -114,11 +113,11 @@ public class TileManager : MonoBehaviour
     {
         foreach (var pos in instance.positions)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, transparent);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, transparent);
         }
         foreach (var pos in instance.path)
         {
-            instance.boardMap.SetColor((Vector3Int)pos, transparent);
+            instance.rangeTilemap.SetColor((Vector3Int)pos, transparent);
         }
         instance.positions = new List<Vector2Int>();
         instance.path = new List<Vector2Int>();

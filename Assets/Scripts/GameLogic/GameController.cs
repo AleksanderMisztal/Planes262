@@ -254,7 +254,11 @@ namespace Scripts.GameLogic
 
         private void SetActiveTroop(Troop troop)
         {
-            activeTroop?.Deactivate();
+            if (activeTroop)
+            {
+                activeTroop.Deactivate();
+                path = null;
+            }
             activeTroop = troop;
             activeTroop.Activate();
             SetActiveTiles();
