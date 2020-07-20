@@ -17,6 +17,7 @@ namespace Scripts.UnityStuff
         [SerializeField] private GameObject particles;
         [SerializeField] private GameObject gameUi;
         [SerializeField] private GameObject board;
+        [SerializeField] private Text timeControllText;
 
         private GameObject mainMenu;
         private GameObject gameEnded;
@@ -119,6 +120,11 @@ namespace Scripts.UnityStuff
             instance.participantsText.text = Side == PlayerId.Red ?
                 $"{OponentName} {blueScore} : {redScore} {Username}" :
                 $"{Username} {blueScore} : {redScore} {OponentName}";
+        }
+
+        public static void UpdateTimeControll(int redTime, int blueTime)
+        {
+            instance.timeControllText.text = $"{redTime} : {blueTime}";
         }
 
         public static void OpponentDisconnected()

@@ -17,6 +17,7 @@ namespace Scripts.Networking
         GameEnded = 5,
         OpponentDisconnected = 6,
         MessageReceived = 7,
+        LostOnTime = 8,
     }
 
     /// <summary>Sent from client to server.</summary>

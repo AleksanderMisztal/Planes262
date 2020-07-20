@@ -18,6 +18,7 @@ namespace Scripts.Networking
             {(int) ServerPackets.GameEnded, GameEnded },
             {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
             {(int) ServerPackets.MessageReceived, MessageReceived },
+            {(int) ServerPackets.LostOnTime, LostOnTime },
         };
 
         public static void HandlePacket(string byteArray)
@@ -66,6 +67,10 @@ namespace Scripts.Networking
 
                 templates.Add(template);
             }
+
+            int timeStamp = packet.ReadInt();
+            Debug.Log("Timestamp: " + timeStamp);
+
             packet.Dispose();
 
             GameController.StartNextRound(templates);
@@ -110,6 +115,14 @@ namespace Scripts.Networking
             packet.Dispose();
 
             Messenger.MessageReceived(message);
+        }
+
+        public static void LostOnTime(Packet packet)
+        {
+            PlayerId looser = (PlayerId)packet.ReadInt();
+            packet.Dispose();
+
+            Debug.Log(looser + " lost on time!");
         }
     }
 }
