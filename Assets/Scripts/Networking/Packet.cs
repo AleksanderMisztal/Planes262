@@ -408,14 +408,14 @@ namespace Scripts.Networking
 
         /// <summary>Reads a BoardParams from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
-        public BoardParams ReadBoardParams(bool _moveReadPos = true)
+        public Board ReadBoardParams(bool _moveReadPos = true)
         {
             int xMin = ReadInt(_moveReadPos);
             int xMax = ReadInt(_moveReadPos);
             int yMin = ReadInt(_moveReadPos);
             int yMax = ReadInt(_moveReadPos);
 
-            return new BoardParams(xMin, xMax, yMin, yMax);
+            return new Board(xMin, xMax, yMin, yMax);
         }
         #endregion
 

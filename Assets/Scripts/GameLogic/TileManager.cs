@@ -45,7 +45,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public static void CreateBoard(BoardParams board)
+    public static void CreateBoard(Board board)
     {
         Debug.Log("Creating the board");
         for (int x = board.xMin; x <= board.xMax; x++)

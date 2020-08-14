@@ -20,7 +20,7 @@ namespace Scripts.GameLogic
         [SerializeField]
         private Troop redTroopPrefab;
 
-        public static BoardParams Board { get; set; }
+        public static Board Board { get; set; }
 
         private PlayerId activePlayer = PlayerId.Red;
         private int blueScore = 0;
@@ -73,7 +73,7 @@ namespace Scripts.GameLogic
 
 
         // Public interface
-        public static async UniTask StartGame(PlayerId side, string oponentName, BoardParams board)
+        public static async UniTask StartGame(PlayerId side, string oponentName, Board board)
         {
             await UIManager.StartTransitionIntoGame(side, oponentName, board);
             AcceptsCalls = true;

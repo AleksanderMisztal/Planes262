@@ -45,7 +45,7 @@ namespace Scripts.Networking
         {
             string oponentName = packet.ReadString();
             PlayerId side = (PlayerId)packet.ReadInt();
-            BoardParams board = packet.ReadBoardParams();
+            Board board = packet.ReadBoardParams();
             packet.Dispose();
 
             GameController.Side = side;

@@ -34,7 +34,15 @@ public class BoardCamera : MonoBehaviour
         }
     }
 
-    public static void Initialize(BoardParams board)
+
+    public static void Initialize(Board board)
+    {
+        SetCameraPosition(board);
+        SetCameraSize(board);
+        InitializeBoardBoundaries();
+    }
+
+    private static void SetCameraPosition(Board board)
     {
         Vector3 bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(board.xMin - 1, board.yMin - 1, -10));
         Vector3 topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.xMax + 1, board.yMax + 1, -10));
@@ -43,6 +51,10 @@ public class BoardCamera : MonoBehaviour
         center.z = -10;
 
         instance.transform.position = center;
+    }
+
+    private static void SetCameraSize(Board board)
+    {
 
         //TODO: calculate based on screen size
         float xSize = ((float)(board.xMax - board.xMin)) / 3 + 1.5f;
@@ -50,7 +62,10 @@ public class BoardCamera : MonoBehaviour
 
         boardCamera = instance.GetComponent<Camera>();
         boardCamera.orthographicSize = maxSize = Mathf.Max(xSize, ySize);
+    }
 
+    private static void InitializeBoardBoundaries()
+    {
         Vector3 camBottomLeft = boardCamera.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 camTopRight = boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, boardCamera.pixelHeight, 0));
 
@@ -60,11 +75,22 @@ public class BoardCamera : MonoBehaviour
         yMax = camTopRight.y;
     }
 
+
     private void Update()
+    {
+        UpdateCameraSize();
+        UpdateCameraPosition();
+        ClampCameraPosition();
+    }
+
+    private static void UpdateCameraSize()
     {
         float deltaSize = -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
         boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, minSize, maxSize);
+    }
 
+    private static void UpdateCameraPosition()
+    {
         if (Input.GetKey(KeyCode.UpArrow))
             instance.transform.position += Vector3.up * mobility;
         if (Input.GetKey(KeyCode.DownArrow))
@@ -73,10 +99,13 @@ public class BoardCamera : MonoBehaviour
             instance.transform.position += Vector3.right * mobility;
         if (Input.GetKey(KeyCode.LeftArrow))
             instance.transform.position += Vector3.left * mobility;
+    }
 
+    private void ClampCameraPosition()
+    {
         float x = Mathf.Clamp(instance.transform.position.x,
-                                xMin + CenterXOffset,
-                                xMax - CenterXOffset);
+                                        xMin + CenterXOffset,
+                                        xMax - CenterXOffset);
         float y = Mathf.Clamp(instance.transform.position.y,
                                 yMin + CenterYOffset,
                                 yMax - CenterYOffset);

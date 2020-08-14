@@ -91,7 +91,7 @@ namespace Scripts.UnityStuff
             return TransitionController.EndTransition();
         }
 
-        public static async UniTask StartTransitionIntoGame(PlayerId side, string oponentName, BoardParams board)
+        public static async UniTask StartTransitionIntoGame(PlayerId side, string oponentName, Board board)
         {
             await TransitionController.StartTransition();
 
@@ -120,11 +120,6 @@ namespace Scripts.UnityStuff
             instance.participantsText.text = Side == PlayerId.Red ?
                 $"{OponentName} {blueScore} : {redScore} {Username}" :
                 $"{Username} {blueScore} : {redScore} {OponentName}";
-        }
-
-        public static void UpdateTimeControll(int redTime, int blueTime)
-        {
-            instance.timeControllText.text = $"{redTime} : {blueTime}";
         }
 
         public static void OpponentDisconnected()
