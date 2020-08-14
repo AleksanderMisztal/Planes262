@@ -1,6 +1,5 @@
-﻿using GameServer.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GameServer.Utils;
 
 namespace GameServer.GameLogic
 {
@@ -10,19 +9,14 @@ namespace GameServer.GameLogic
 
         private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
         private readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
-        private readonly Board board;
 
-        public TroopMap(Board board)
-        {
-            this.board = board;
-        }
 
         public void AdjustPosition(Troop troop)
         {
             map.Remove(troop.StartingPosition);
             map.Add(troop.Position, troop);
 
-            troop.StartingPosition = troop.Position;
+            troop.ResetStartingPosition();
         }
 
         public HashSet<Troop> GetTroops(PlayerSide player)
@@ -48,33 +42,10 @@ namespace GameServer.GameLogic
             GetTroops(troop.Player).Remove(troop);
         }
 
-        // TODO: Don't return cells outside the board
-        private Vector2Int GetEmptyCell(Vector2Int seedPosition)
-        {
-            if (Get(seedPosition) == null) return seedPosition;
-
-            Queue<Vector2Int> q = new Queue<Vector2Int>();
-            q.Enqueue(seedPosition);
-            while (q.Count > 0)
-            {
-                var position = q.Dequeue();
-                if (Get(position) == null) return position;
-                var neighbours = Hex.GetNeighbours(seedPosition);
-                foreach (var neigh in neighbours)
-                    if (board.IsInside(neigh))
-                        q.Enqueue(neigh);
-            }
-            throw new Exception("Couldn't find an empty cell");
-        }
-
-        public List<Troop> SpawnWave(List<Troop> wave)
+        public void SpawnWave(IEnumerable<Troop> wave)
         {
             foreach (var troop in wave)
-            {
-                troop.Position = GetEmptyCell(troop.Position);
                 Add(troop);
-            }
-            return wave;
         }
 
         private void Add(Troop troop)

@@ -2,8 +2,8 @@
 {
     public interface IBattleResolver
     {
-        public BattleResult GetFightResult(Troop attacker, Troop defender);
+        BattleResult GetFightResult(Troop attacker, Troop defender);
 
-        public BattleResult GetCollisionResult();
+        BattleResult GetCollisionResult();
     }
 }

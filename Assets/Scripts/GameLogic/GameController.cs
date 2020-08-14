@@ -15,14 +15,14 @@ namespace GameServer.GameLogic
 
         public GameController(Board board)
         {
-            troopMap = new TroopMap(board);
+            troopMap = new TroopMap();
             validator = new MoveValidator(troopMap, board, activePlayer);
         }
 
 
         public void BeginNextRound(IEnumerable<Troop> troops)
         {
-            AddSpawnsForCurrentRound(troops);
+            troopMap.SpawnWave(troops);
             ChangeActivePlayer();
         }
 
@@ -34,11 +34,6 @@ namespace GameServer.GameLogic
 
             activePlayer = activePlayer.Opponent();
             validator.ToggleActivePlayer();
-        }
-
-        private void AddSpawnsForCurrentRound(IEnumerable<Troop> troops)
-        {
-            throw new NotImplementedException();
         }
 
         public void MoveTroop(Vector2Int position, int direction, List<BattleResult> battleResults)

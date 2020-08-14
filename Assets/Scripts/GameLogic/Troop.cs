@@ -9,24 +9,12 @@ namespace GameServer.GameLogic
         public int InitialMovePoints { get; private set; }
         public int MovePoints { get; private set; }
 
-        public Vector2Int Position { get; set; }
-        public Vector2Int StartingPosition { get; set; }
+        public Vector2Int Position { get; private set; }
+        public Vector2Int StartingPosition { get; private set; }
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
 
-
-        //public Troop(TroopTemplate template)
-        //{
-        //    Player = template.player;
-        //    InitialMovePoints = template.movePoints;
-        //    MovePoints = template.movePoints;
-        //    Health = template.health;
-        //    Orientation = template.orientation;
-
-        //    Position = template.position;
-        //    StartingPosition = template.position;
-        //}
 
         public Troop(PlayerSide player, int movePoints, Vector2Int position, int orientation, int health)
         {
@@ -76,6 +64,11 @@ namespace GameServer.GameLogic
         public void ResetMovePoints()
         {
             MovePoints = InitialMovePoints;
+        }
+
+        public void ResetStartingPosition()
+        {
+            StartingPosition = Position;
         }
 
 
