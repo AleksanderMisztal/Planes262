@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GameServer.Networking;
+using Scripts.Networking;
 using GameServer.Utils;
 
 namespace GameServer.GameLogic.ServerEvents

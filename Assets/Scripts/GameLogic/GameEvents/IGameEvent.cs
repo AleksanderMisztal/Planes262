@@ -1,4 +1,4 @@
-﻿using GameServer.Networking;
+﻿using Scripts.Networking;
 
 namespace GameServer.GameLogic.ServerEvents
 {

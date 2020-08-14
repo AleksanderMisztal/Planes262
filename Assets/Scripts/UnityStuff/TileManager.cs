@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GameServer.GameLogic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Scripts.GameLogic;
 
 public class TileManager : MonoBehaviour
 {
@@ -48,9 +48,9 @@ public class TileManager : MonoBehaviour
     public static void CreateBoard(Board board)
     {
         Debug.Log("Creating the board");
-        for (int x = board.xMin; x <= board.xMax; x++)
+        for (int x = 0; x <= board.xMax; x++)
         {
-            for (int y = board.yMin; y <= board.yMax; y++)
+            for (int y = 0; y <= board.yMax; y++)
             {
                 var pos = new Vector3Int(x, y, 0);
 

@@ -50,7 +50,7 @@ namespace Assets.Scripts.UnityStuff
         public static void OnOpponentDisconnected()
         {
             throw new NotImplementedException();
-            // end game and go back to main screen
+            // TODO: end game and go back to main screen
         }
     }
 }

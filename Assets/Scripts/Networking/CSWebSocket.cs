@@ -65,6 +65,7 @@ namespace Scripts.Networking
                 Debug.Log("Attempting to connect to " + serverUri.ToString());
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
 
+                //TODO: Fix this dangerous thingy
                 SendPackets();
                 await BeginListen();
             }

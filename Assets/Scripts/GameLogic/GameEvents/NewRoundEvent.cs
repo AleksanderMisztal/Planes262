@@ -1,4 +1,4 @@
-﻿using GameServer.Networking;
+﻿using Scripts.Networking;
 using System.Collections.Generic;
 using System.Text;
 

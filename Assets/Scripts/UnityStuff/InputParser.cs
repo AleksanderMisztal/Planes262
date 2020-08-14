@@ -1,4 +1,4 @@
-﻿using Scripts.GameLogic;
+﻿using GameServer.GameLogic;
 using UnityEngine;
 
 namespace Scripts.UnityStuff
@@ -20,7 +20,8 @@ namespace Scripts.UnityStuff
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int cell = (Vector2Int)gridLayout.WorldToCell(mousePosition);
 
-            GameController.OnCellClicked(cell);
+            // TODO: Make moves when board is clicked
+            //GameController.OnCellClicked(cell);
         }
     }
 }

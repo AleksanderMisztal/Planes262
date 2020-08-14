@@ -1,4 +1,4 @@
-﻿using Scripts.GameLogic;
+﻿using GameServer.GameLogic;
 using UnityEngine;
 
 public class BoardCamera : MonoBehaviour
@@ -44,7 +44,7 @@ public class BoardCamera : MonoBehaviour
 
     private static void SetCameraPosition(Board board)
     {
-        Vector3 bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(board.xMin - 1, board.yMin - 1, -10));
+        Vector3 bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(-1, -1, -10));
         Vector3 topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.xMax + 1, board.yMax + 1, -10));
 
         center = (bottomLeft + topRight) / 2;
@@ -57,8 +57,8 @@ public class BoardCamera : MonoBehaviour
     {
 
         //TODO: calculate based on screen size
-        float xSize = ((float)(board.xMax - board.xMin)) / 3 + 1.5f;
-        float ySize = ((float)(board.yMax - board.yMin)) / 2 + 1;
+        float xSize = ((float)board.xMax) / 3 + 1.5f;
+        float ySize = ((float)board.yMax) / 2 + 1;
 
         boardCamera = instance.GetComponent<Camera>();
         boardCamera.orthographicSize = maxSize = Mathf.Max(xSize, ySize);

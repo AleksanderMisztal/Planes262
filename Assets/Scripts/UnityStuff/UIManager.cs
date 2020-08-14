@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using Scripts.GameLogic;
+using GameServer.GameLogic;
 using Scripts.Networking;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,9 +29,7 @@ namespace Scripts.UnityStuff
         public static string Username => instance.username.text;
         public static string OponentName { get; private set; }
 
-        public static PlayerId Side { get; private set; }
-
-        private int oponentId = -1;
+        public static PlayerSide Side { get; private set; }
 
 
         private void Awake()
@@ -66,8 +64,7 @@ namespace Scripts.UnityStuff
 
         public void JoinLobby()
         {
-            ClientSend.JoinLobby(username.text);
-            ClientSend.JoinGame(oponentId);
+            ClientSend.JoinGame(username.text);
 
             mainMenu.SetActive(false);
             board.SetActive(true);
@@ -91,7 +88,7 @@ namespace Scripts.UnityStuff
             return TransitionController.EndTransition();
         }
 
-        public static async UniTask StartTransitionIntoGame(PlayerId side, string oponentName, Board board)
+        public static async UniTask StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)
         {
             await TransitionController.StartTransition();
 
@@ -117,7 +114,7 @@ namespace Scripts.UnityStuff
 
         public static void UpdateScoreDisplay(int redScore, int blueScore)
         {
-            instance.participantsText.text = Side == PlayerId.Red ?
+            instance.participantsText.text = Side == PlayerSide.Red ?
                 $"{OponentName} {blueScore} : {redScore} {Username}" :
                 $"{Username} {blueScore} : {redScore} {OponentName}";
         }
