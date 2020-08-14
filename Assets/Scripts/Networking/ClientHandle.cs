@@ -1,4 +1,4 @@
-﻿using Scripts.GameLogic;
+﻿using GameServer.GameLogic;
 using Scripts.UnityStuff;
 using Scripts.Utils;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace Scripts.Networking
         public static void GameJoined(Packet packet)
         {
             string oponentName = packet.ReadString();
-            PlayerId side = (PlayerId)packet.ReadInt();
+            PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoardParams();
             packet.Dispose();
 
@@ -119,7 +119,7 @@ namespace Scripts.Networking
 
         public static void LostOnTime(Packet packet)
         {
-            PlayerId looser = (PlayerId)packet.ReadInt();
+            PlayerSide looser = (PlayerSide)packet.ReadInt();
             packet.Dispose();
 
             Debug.Log(looser + " lost on time!");

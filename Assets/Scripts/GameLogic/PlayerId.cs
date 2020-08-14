@@ -1,8 +1,16 @@
-﻿namespace Scripts.GameLogic
+﻿namespace GameServer.GameLogic
 {
-    public enum PlayerId
+    public enum PlayerSide
     {
-        Blue,
-        Red
+        Blue = 0,
+        Red = 1
+    }
+
+    static class PlayerIdExtensions
+    {
+        public static PlayerSide Opponent(this PlayerSide player)
+        {
+            return player == PlayerSide.Red ? PlayerSide.Blue : PlayerSide.Red;
+        }
     }
 }

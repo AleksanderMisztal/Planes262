@@ -1,204 +1,114 @@
-﻿using Cysharp.Threading.Tasks;
-using Scripts.Utils;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using GameServer.Utils;
 
-namespace Scripts.GameLogic
+namespace GameServer.GameLogic
 {
-    public class Troop : MonoBehaviour
+    public class Troop
     {
-        private GridLayout gridLayout;
-        private Animator animator;
-        private Animator bodyAnimator;
-        private TextMesh movePointsText;
-        private Transform body;
-
-        public PlayerId ControllingPlayer { get; private set; }
-        public int Health { get; private set; }
+        public PlayerSide Player { get; }
 
         public int InitialMovePoints { get; private set; }
         public int MovePoints { get; private set; }
 
-        public Vector2Int Position { get; private set; }
+        public Vector2Int Position { get; set; }
         public Vector2Int StartingPosition { get; set; }
         public int Orientation { get; private set; }
 
-        private Queue<int> moveQueue = new Queue<int>();
-        private Vector3 target;
-        private int spriteOrientation;
-        private Vector2Int spritePosition;
-        private float speed = 4f;
-        private bool isCloseToTarget = true;
+        public int Health { get; private set; }
 
 
-        public void Initilalize(SpawnTemplate spawn)
+        //public Troop(TroopTemplate template)
+        //{
+        //    Player = template.player;
+        //    InitialMovePoints = template.movePoints;
+        //    MovePoints = template.movePoints;
+        //    Health = template.health;
+        //    Orientation = template.orientation;
+
+        //    Position = template.position;
+        //    StartingPosition = template.position;
+        //}
+
+        public Troop(PlayerSide player, int movePoints, Vector2Int position, int orientation, int health)
         {
-            gridLayout = FindObjectOfType<Grid>();
-            animator = GetComponent<Animator>();
-            movePointsText = transform.Find("Move Points Text").GetComponent<TextMesh>();
-
-            ControllingPlayer = spawn.controllingPlayer;
-            InitialMovePoints = spawn.movePoints;
-            Health = spawn.health;
-            Orientation = spawn.orientation;
-
-            Position = spawn.position;
-            StartingPosition = Position;
-            transform.position = gridLayout.CellToWorld((Vector3Int)spawn.position);
-
-            target = transform.position;
-            spritePosition = Position;
-            spriteOrientation = Orientation;
-
-            body = transform.Find("Body");
-            body.Find("Damaged").gameObject.SetActive(false);
-            bodyAnimator = body.GetComponent<Animator>();
+            Player = player;
+            InitialMovePoints = movePoints;
+            MovePoints = movePoints;
+            Position = position;
+            StartingPosition = position;
+            Orientation = orientation;
+            Health = health;
         }
 
-
-        private void Update()
+        public void MoveInDirection(int direction)
         {
-            isCloseToTarget = (transform.position - target).sqrMagnitude < 0.01;
-            if (isCloseToTarget && moveQueue.Count == 0)
-            {
-                transform.position = target;
-                bodyAnimator.SetBool("isIdle", true);
-                return;
-            }
-            if (isCloseToTarget)
-            {
-                int direction = moveQueue.Dequeue();
-                spriteOrientation = (6 + spriteOrientation + direction) % 6;
-                spritePosition = Hex.GetAdjacentHex(spritePosition, spriteOrientation);
-                target = gridLayout.CellToWorld((Vector3Int)spritePosition);
-
-                int orientationModifier = ControllingPlayer == PlayerId.Blue ? 0 : 3;
-                transform.Find("Body").transform.rotation = Quaternion.identity;
-                transform.Find("Body").transform.Rotate(Vector3.forward * 60 * (spriteOrientation + orientationModifier));
-            }
-
-            transform.position += (target - transform.position).normalized * speed * Time.deltaTime;
-        }
-
-        public UniTask JumpForward()
-        {
-            Position = Hex.GetAdjacentHex(Position, Orientation);
-
-            moveQueue.Enqueue(0);
-            bodyAnimator.SetBool("isIdle", false);
-
-            return UniTask.WaitUntil(() => isCloseToTarget);
-            //MatchWorldPosition();
-        }
-
-        public UniTask MoveInDirection(int direction)
-        {
-            if (MovePoints < 0)
-            {
-                throw new IllegalMoveException("Attempting to move a troop with no move points!");
-            }
-
-            if (MovePoints > 0)
-            {
-                MovePoints--;
-                movePointsText.text = MovePoints.ToString();
-            }
-
             if (MovePoints <= 0)
-            {
-                movePointsText.gameObject.SetActive(false);
-            }
+                throw new IllegalMoveException("I have no move points!");
 
+            MovePoints--;
             Orientation = (6 + Orientation + direction) % 6;
             Position = Hex.GetAdjacentHex(Position, Orientation);
-
-            moveQueue.Enqueue(direction);
-            bodyAnimator.SetBool("isIdle", false);
-
-            return UniTask.WaitUntil(() => isCloseToTarget);
         }
 
-        public Vector2Int GetAdjacentHex(int direction)
+        public void FlyOverOtherTroop()
         {
-            direction = (6 + Orientation + direction) % 6;
-            return Hex.GetAdjacentHex(Position, direction);
+            Position = Hex.GetAdjacentHex(Position, Orientation);
         }
 
-        public bool ApplyDamage()
+        public void ApplyDamage()
         {
-            EffectManager.InstantiateExplosion(transform.position + Random.insideUnitSphere);
-            EffectManager.InstantiateExplosion(transform.position + Random.insideUnitSphere);
-
             Health--;
-            MatchSpriteToHealth();
-            if (Health > 0)
-            {
-                InitialMovePoints--;
+            InitialMovePoints--;
+            if (MovePoints > 0)
                 MovePoints--;
-                movePointsText.text = MovePoints.ToString();
-                if (MovePoints <= 0)
-                {
-                    movePointsText.gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            return Health <= 0;
         }
 
-        private void MatchSpriteToHealth()
-        {
-            if (Health == 1)
-            {
-                body.Find("Healthy").gameObject.SetActive(false);
-                body.Find("Damaged").gameObject.SetActive(true);
-            }
-        }
+        public Vector2Int[] ControllZone => Hex.GetControllZone(Position, Orientation);
 
-        public bool InControlZone(Vector2Int cell)
+        public bool InControlZone(Vector2Int position)
         {
-            for (int rotation = -1; rotation <= 1; rotation++)
-            {
-                int dir = (6 + Orientation + rotation) % 6;
-                Vector2Int controlledCell = Hex.GetAdjacentHex(Position, dir);
-                // Potential source of bugs but should work with == overloaded
-                if (cell == controlledCell) return true;
-            }
+            foreach (var cell in ControllZone)
+                if (cell == position)
+                    return true;
+
             return false;
         }
 
-        public void Activate()
+        public void ResetMovePoints()
         {
-            animator.SetBool("isActive", true);
-        }
-
-        public void Deactivate()
-        {
-            animator.SetBool("isActive", false);
-            TileManager.DeactivateTiles();
-        }
-
-        public void OnTurnBegin()
-        {
-            //if (Health <= 0) return;
             MovePoints = InitialMovePoints;
-            movePointsText.text = MovePoints.ToString();
-            movePointsText.gameObject.SetActive(true);
         }
 
-        public void OnTurnEnd()
+
+        // Factories
+        public static Troop Red(int x, int y)
         {
-            movePointsText.gameObject.SetActive(false);
-
-            StartingPosition = Position;
+            return new Troop(PlayerSide.Red, 5, new Vector2Int(x, y), 3, 2);
         }
 
-
-        public override string ToString()
+        public static Troop Blue(int x, int y)
         {
-            return $"cp: {ControllingPlayer}, p: {Position}, o: {Orientation}, imp: {InitialMovePoints}, mp: {MovePoints}, h: {Health}";
+            return new Troop(PlayerSide.Blue, 5, new Vector2Int(x, y), 0, 2);
         }
+
+        public static Troop Red(Vector2Int position)
+        {
+            return new Troop(PlayerSide.Red, 5, position, 3, 2);
+        }
+
+        public static Troop Blue(Vector2Int position)
+        {
+            return new Troop(PlayerSide.Blue, 5, position, 0, 2);
+        }
+
+        public static Troop Red(Vector2Int position, int orientation)
+        {
+            return new Troop(PlayerSide.Red, 5, position, orientation, 2);
+        }
+
+        public static Troop Blue(Vector2Int position, int orientation)
+        {
+            return new Troop(PlayerSide.Blue, 5, position, orientation, 2);
+        }
+
     }
 }
