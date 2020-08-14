@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using GameServer.GameLogic;
+﻿using GameServer.GameLogic;
 using Scripts.Networking;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,26 +70,26 @@ namespace Scripts.UnityStuff
             waitingText.SetActive(true);
         }
 
-        public async void BackToMainMenu()
+        public void BackToMainMenu()
         {
-            await TransitionController.StartTransition();
+            TransitionController.StartTransition();
 
             gameEnded.SetActive(false);
             //gameUI.SetActive(false);
             mainMenu.SetActive(true);
 
-            await TransitionController.EndTransition();
+            TransitionController.EndTransition();
         }
 
-        public static UniTask OnConnected()
+        public static void OnConnected()
         {
             instance.mainMenu.SetActive(true);
-            return TransitionController.EndTransition();
+            TransitionController.EndTransition();
         }
 
-        public static async UniTask StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)
+        public static void StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)
         {
-            await TransitionController.StartTransition();
+            TransitionController.StartTransition();
 
             OponentName = oponentName;
             Side = side;
@@ -107,9 +106,9 @@ namespace Scripts.UnityStuff
             BoardCamera.Initialize(board);
         }
 
-        public static UniTask EndTransitionIntoGame()
+        public static void EndTransitionIntoGame()
         {
-            return TransitionController.EndTransition();
+            TransitionController.EndTransition();
         }
 
         public static void UpdateScoreDisplay(int redScore, int blueScore)
@@ -125,9 +124,9 @@ namespace Scripts.UnityStuff
             instance.EndGame(message);
         }
 
-        public static async UniTask EndGame(int blueScore, int redScore)
+        public static void EndGame(int blueScore, int redScore)
         {
-            await UniTask.Delay(1500);
+            // TODO: Wait for 1-2 seconds
 
             string message = $"Final score: red: {redScore}, blue: {blueScore}";
             instance.EndGame(message);

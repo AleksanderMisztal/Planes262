@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TransitionController : MonoBehaviour
 {
@@ -30,25 +29,19 @@ public class TransitionController : MonoBehaviour
 
     }
 
-    public static async UniTask StartTransition()
+    public static void StartTransition()
     {
         instance.animator.SetBool("shouldContinue", false);
         instance.animator.SetBool("shouldStart", true);
 
-        await UniTask.WaitUntil(() => instance.animator.GetCurrentAnimatorStateInfo(0).IsName("transition start"));
-        await UniTask.WaitUntil(() =>
-            instance.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1
-            && !instance.animator.IsInTransition(0));
+        // May want to be able to await animation end
     }
 
-    public static async UniTask EndTransition()
+    public static void EndTransition()
     {
         instance.animator.SetBool("shouldStart", false);
         instance.animator.SetBool("shouldContinue", true);
 
-        await UniTask.WaitUntil(() => instance.animator.GetCurrentAnimatorStateInfo(0).IsName("transition end"));
-        await UniTask.WaitUntil(() => 
-            instance.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 
-            && !instance.animator.IsInTransition(0));
+        // May want to be able to await animation end
     }
 }
