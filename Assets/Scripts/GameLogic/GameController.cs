@@ -1,71 +1,29 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using GameServer.Utils;
-using GameServer.GameLogic.ServerEvents;
 
 namespace GameServer.GameLogic
 {
     public class GameController
     {
         private PlayerSide activePlayer = PlayerSide.Red;
-        private int roundNumber = 0;
-        private int movePointsLeft;
 
         private readonly Score score = new Score();
 
-        private readonly IBattleResolver battleResolver;
-        private readonly Waves waves;
-        private readonly Board board;
         private readonly TroopMap troopMap;
         private readonly MoveValidator validator;
-        private readonly TroopAi troopAi;
 
-
-        public GameController(Waves waves, Board board)
+        public GameController(Board board)
         {
-            battleResolver = new StandardBattles();
-            this.waves = waves;
-            this.board = board;
             troopMap = new TroopMap(board);
             validator = new MoveValidator(troopMap, board, activePlayer);
-            troopAi = new TroopAi(troopMap, board);
         }
 
-        public GameController(IBattleResolver battleResolver, Board board, Waves waves)
+
+        public void BeginNextRound(IEnumerable<Troop> troops)
         {
-            this.battleResolver = battleResolver;
-            this.waves = waves;
-            this.board = board;
-            troopMap = new TroopMap(board);
-            validator = new MoveValidator(troopMap, board, activePlayer);
-            troopAi = new TroopAi(troopMap, board);
-        }
-
-        
-        public NewRoundEvent InitializeAndReturnEvent()
-        {
-            if (roundNumber == 0)
-            {
-                return (NewRoundEvent)ToggleActivePlayerAndReturnEvents()[0];
-            }
-            throw new Exception("This game controller has already been initialized");
-        }
-
-        private List<IGameEvent> ToggleActivePlayerAndReturnEvents()
-        {
-            roundNumber++;
-            List<IGameEvent> events = new List<IGameEvent>();
-
-            var troopsSpawnedEvent = AddSpawnsForCurrentRoundAndReturnEvent();
-            events.Add(troopsSpawnedEvent);
-
+            AddSpawnsForCurrentRound(troops);
             ChangeActivePlayer();
-
-            var aiMoveEvents = ExecuteAiMoves();
-            events.AddRange(aiMoveEvents);
-
-            return events;
         }
 
         private void ChangeActivePlayer()
@@ -76,97 +34,27 @@ namespace GameServer.GameLogic
 
             activePlayer = activePlayer.Opponent();
             validator.ToggleActivePlayer();
-            SetInitialMovePointsLeft(activePlayer);
         }
 
-        private NewRoundEvent AddSpawnsForCurrentRoundAndReturnEvent()
+        private void AddSpawnsForCurrentRound(IEnumerable<Troop> troops)
         {
-            List<Troop> wave = waves.GetTroops(roundNumber);
-            wave = troopMap.SpawnWave(wave);
-            return new NewRoundEvent(wave);
+            throw new NotImplementedException();
         }
 
-        private void SetInitialMovePointsLeft(PlayerSide player)
+        public void MoveTroop(Vector2Int position, int direction, List<BattleResult> battleResults)
         {
-            HashSet<Troop> troops = troopMap.GetTroops(player);
-            movePointsLeft = troops.Aggregate(0, (acc, t) => acc + t.InitialMovePoints);
-        }
-
-
-        public List<IGameEvent> ProcessMove(PlayerSide player, Vector2Int position, int direction)
-        {
-            List<IGameEvent> events = new List<IGameEvent>();
-
-            if (validator.IsLegalMove(player, position, direction))
-            {
-                Troop troop = troopMap.Get(position);
-                TroopMovedEvent mainMove = MoveTroop(position, direction);
-                events.Add(mainMove);
-                if (board.IsOutside(troop.Position))
-                {
-                    var aiMoveEvents = ControllWithAi(troop);
-                    events.AddRange(aiMoveEvents);
-                }
-
-                while (!GameHasEnded())
-                {
-                    if (movePointsLeft == 0)
-                    {
-                        var turnEndEvents = ToggleActivePlayerAndReturnEvents();
-                        events.AddRange(turnEndEvents);
-                    }
-                    else return events;
-                }
-                GameEndedEvent gameEndEvent = new GameEndedEvent(score);
-                events.Add(gameEndEvent);
-            }
-
-            return events;
-        }
-
-        private List<TroopMovedEvent> ControllWithAi(Troop troop)
-        {
-            List<TroopMovedEvent> events = new List<TroopMovedEvent>();
-            while (troopAi.ShouldControll(troop) && troop.MovePoints > 0)
-            {
-                int direction = troopAi.GetOptimalDirection(troop);
-                var moveEvent = MoveTroop(troop.Position, direction);
-                events.Add(moveEvent);
-            }
-            return events;
-        }
-
-        private bool GameHasEnded()
-        {
-            bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0 && waves.maxRedWave <= roundNumber;
-            bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0 && waves.maxBlueWave <= roundNumber;
-
-            return redLost || blueLost;
-        }
-
-        private TroopMovedEvent MoveTroop(Vector2Int position, int direction)
-        {
-            movePointsLeft--;
-
-            // Maybe remove position from troop? (kept in troopMap)
-            // Would also make sense on frontend (troopMap.AdjustPosition takes care of display)
-            // Animation not a problem
+            int battleId = 0;
             Troop troop = troopMap.Get(position);
             troop.MoveInDirection(direction);
 
-            List<BattleResult> battleResults = new List<BattleResult>();
             Troop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop);
-                return new TroopMovedEvent(position, direction, battleResults);
+                return;
             }
+            var result = battleResults[battleId++];
 
-            BattleResult result = BattleResult.FriendlyCollision;
-            if (encounter.Player != troop.Player)
-                result = battleResolver.GetFightResult(troop, encounter);
-
-            battleResults.Add(result);
             if (result.AttackerDamaged) ApplyDamage(troop);
             if (result.DefenderDamaged) ApplyDamage(encounter);
 
@@ -174,7 +62,7 @@ namespace GameServer.GameLogic
             
             while ((encounter = troopMap.Get(troop.Position)) != null && troop.Health > 0)
             {
-                result = battleResolver.GetCollisionResult();
+                result = battleResults[battleId++];
                 battleResults.Add(result);
                 if (result.AttackerDamaged) ApplyDamage(troop);
                 if (result.DefenderDamaged) ApplyDamage(encounter);
@@ -184,17 +72,12 @@ namespace GameServer.GameLogic
 
             if (troop.Health > 0)
                 troopMap.AdjustPosition(troop);
-
-            return new TroopMovedEvent(position, direction, battleResults);
         }
 
         private void ApplyDamage(Troop troop)
         {
             PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
-
-            if (troop.Player == activePlayer && troop.MovePoints > 0)
-                movePointsLeft--;
 
             troop.ApplyDamage();
             if (troop.Health <= 0)
@@ -204,22 +87,11 @@ namespace GameServer.GameLogic
         private void DestroyTroop(Troop troop)
         {
             troopMap.Remove(troop);
-            if (troop.Player == activePlayer)
-                movePointsLeft -= troop.MovePoints;
         }
 
-        private List<TroopMovedEvent> ExecuteAiMoves()
+        public void EndGame()
         {
-            List<TroopMovedEvent> events = new List<TroopMovedEvent>();
-            foreach (var troop in troopMap.GetTroops(activePlayer))
-            {
-                if (troopAi.ShouldControll(troop))
-                {
-                    var moveEvents = ControllWithAi(troop);
-                    events.AddRange(moveEvents);
-                }
-            }
-            return events;
+            throw new NotImplementedException();
         }
     }
 }

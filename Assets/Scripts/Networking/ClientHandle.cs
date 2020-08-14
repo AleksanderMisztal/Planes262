@@ -1,8 +1,9 @@
-﻿using GameServer.GameLogic;
-using Scripts.UnityStuff;
+﻿using System.Collections.Generic;
+using Assets.Scripts.UnityStuff;
+using GameServer.GameLogic;
+using GameServer.Networking;
+using GameServer.Utils;
 using Scripts.Utils;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Scripts.Networking
 {
@@ -17,112 +18,70 @@ namespace Scripts.Networking
             {(int) ServerPackets.TroopMoved, TroopMoved },
             {(int) ServerPackets.GameEnded, GameEnded },
             {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
-            {(int) ServerPackets.MessageReceived, MessageReceived },
-            {(int) ServerPackets.LostOnTime, LostOnTime },
+            {(int) ServerPackets.MessageSent, MessageSent },
         };
 
+        // TODO: Move string to byte conversion into Client class
         public static void HandlePacket(string byteArray)
         {
             byte[] bytes = Serializer.Deserialize(byteArray);
-            Packet packet = new Packet(bytes);
-            int packetType = packet.ReadInt();
-            packetHandlers[packetType](packet);
+            using (Packet packet = new Packet(bytes))
+            {
+                int packetType = packet.ReadInt();
+                packetHandlers[packetType](packet);
+            }
         }
 
 
         public static void Welcome(Packet packet)
         {
-            string message = packet.ReadString();
-            int myId = packet.ReadInt();
-            packet.Dispose();
-
-            Debug.Log($"Received a message: {message}");
-
-            UIManager.OnConnected();
+            GameInstance.OnWelcome();
         }
 
         public static void GameJoined(Packet packet)
         {
-            string oponentName = packet.ReadString();
+            string opponentName = packet.ReadString();
             PlayerSide side = (PlayerSide)packet.ReadInt();
-            Board board = packet.ReadBoardParams();
-            packet.Dispose();
+            Board board = packet.ReadBoard();
 
-            GameController.Side = side;
-            GameController.Board = board;
-            GameController.StartGame(side, oponentName, board);
+            GameInstance.OnGameJoined(opponentName, side, board);
         }
 
         public static void TroopSpawned(Packet packet)
         {
-            packet = new Packet(packet);
+            List<Troop> troops = packet.ReadTroops();
 
-            int length = packet.ReadInt();
-
-            List<SpawnTemplate> templates = new List<SpawnTemplate>();
-
-            for (int i = 0; i < length; i++)
-            {
-                SpawnTemplate template = packet.ReadSpawnTemplate();
-
-                templates.Add(template);
-            }
-
-            int timeStamp = packet.ReadInt();
-            Debug.Log("Timestamp: " + timeStamp);
-
-            packet.Dispose();
-
-            GameController.StartNextRound(templates);
+            GameInstance.OnTroopsSpawned(troops);
         }
 
         public static void TroopMoved(Packet packet)
         {
             Vector2Int position = packet.ReadVector2Int();
             int direction = packet.ReadInt();
+            List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            int length = packet.ReadInt();
-            List<BattleResult> battleResults = new List<BattleResult>();
-            for (int i = 0; i < length; i++)
-            {
-                battleResults.Add(packet.ReadBattleResult());
-            }
-            packet.Dispose();
-
-            GameController.OnTroopMoved(position, direction, battleResults);
+            GameInstance.OnTroopMoved(position, direction, battleResults);
         }
 
-        public static async void GameEnded(Packet packet)
+        public static void GameEnded(Packet packet)
         {
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
-            packet.Dispose();
 
-            await UIManager.EndGame(blueScore, redScore);
-            GameController.EndGame();
+            GameInstance.OnGameEnded(redScore, blueScore);
+        }
+
+        public static void MessageSent(Packet packet)
+        {
+            string message = packet.ReadString();
+
+            GameInstance.OnMessageSent(message);
         }
 
         public static void OpponentDisconnected(Packet packet)
         {
-            packet.Dispose();
-            GameController.EndGame();
-            UIManager.OpponentDisconnected();
-        }
-
-        public static void MessageReceived(Packet packet)
-        {
-            string message = packet.ReadString();
-            packet.Dispose();
-
-            Messenger.MessageReceived(message);
-        }
-
-        public static void LostOnTime(Packet packet)
-        {
-            PlayerSide looser = (PlayerSide)packet.ReadInt();
-            packet.Dispose();
-
-            Debug.Log(looser + " lost on time!");
+            GameInstance.OnOpponentDisconnected();
+            //UIManager.OpponentDisconnected();
         }
     }
 }

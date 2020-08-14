@@ -6,7 +6,7 @@
         Red = 1
     }
 
-    static class PlayerIdExtensions
+    static class PlayerSideExtensions
     {
         public static PlayerSide Opponent(this PlayerSide player)
         {

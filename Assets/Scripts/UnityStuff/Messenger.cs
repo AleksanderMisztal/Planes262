@@ -37,7 +37,7 @@ public class Messenger : MonoBehaviour
         string message = UIManager.Username + ": " + input.text;
         input.text = "";
 
-        ClientSend.SendAMessage(message);
+        ClientSend.SendMessage(message);
 
         Display(message);
     }
