@@ -11,16 +11,12 @@ namespace Assets.Scripts.UnityStuff
 
         public static IEnumerable<VectorTwo> GetReachableCells(VectorTwo position)
         {
-            var cells = new List<VectorTwo>();
-            // gc blah blah
-            return cells;
+            return gc.GetReachableCells(position);
         }
 
         public static List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
-            var directions = new List<int>();
-            // gc blah blah
-            return directions;
+            return gc.GetDirections(start, end);
         }
 
 

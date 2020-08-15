@@ -3,7 +3,7 @@ using GameServer.Utils;
 
 namespace GameServer.GameLogic
 {
-    public class TroopMap
+    public partial class TroopMap
     {
         private readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
 

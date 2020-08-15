@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.GameLogic;
 using GameServer.Utils;
 
 namespace GameServer.GameLogic
@@ -11,13 +12,14 @@ namespace GameServer.GameLogic
 
         private readonly TroopMap troopMap;
         private readonly MoveValidator validator;
+        private readonly PathFinder pathFinder;
 
         public GameController(Board board)
         {
             troopMap = new TroopMap();
             validator = new MoveValidator(troopMap, board, activePlayer);
+            pathFinder = new PathFinder(troopMap);
         }
-
 
         public void BeginNextRound(IEnumerable<Troop> troops)
         {
@@ -81,6 +83,16 @@ namespace GameServer.GameLogic
         private void DestroyTroop(Troop troop)
         {
             troopMap.Remove(troop);
+        }
+
+        public IEnumerable<VectorTwo> GetReachableCells(VectorTwo position)
+        {
+            return pathFinder.GetReachableCells(position);
+        }
+
+        public List<int> GetDirections(VectorTwo start, VectorTwo end)
+        {
+            return pathFinder.GetDirections(start, end);
         }
     }
 }
