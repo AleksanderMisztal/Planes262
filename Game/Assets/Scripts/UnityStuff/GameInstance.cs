@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameServer.GameLogic;
 using GameServer.Utils;
+using Scripts.UnityStuff;
 
 namespace Assets.Scripts.UnityStuff
 {
@@ -12,6 +13,7 @@ namespace Assets.Scripts.UnityStuff
         public static void OnWelcome()
         {
             UnityEngine.Debug.Log("Connected to server!");
+            UIManager.OnConnected();
         }
 
         public static void OnGameJoined(object opponentName, PlayerSide side, Board board)
@@ -29,9 +31,10 @@ namespace Assets.Scripts.UnityStuff
         public static void OnTroopsSpawned(IEnumerable<Troop> troops)
         {
             gc.BeginNextRound(troops);
+            GameDisplay.BeginNextRound(troops);
         }
 
-        public static void OnTroopMoved(Vector2Int position, int direction, List<BattleResult> battleResults)
+        public static void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
             gc.MoveTroop(position, direction, battleResults);
         }
@@ -49,8 +52,8 @@ namespace Assets.Scripts.UnityStuff
 
         public static void OnOpponentDisconnected()
         {
-            throw new NotImplementedException();
             // TODO: end game and go back to main screen
+            throw new NotImplementedException();
         }
     }
 }

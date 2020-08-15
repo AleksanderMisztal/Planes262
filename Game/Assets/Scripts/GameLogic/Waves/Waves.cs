@@ -34,13 +34,13 @@ namespace GameServer.GameLogic
         {
             List<Troop> wave1 = new List<Troop>
             {
-                Troop.Blue(new Vector2Int(2, 3)),
-                Troop.Red(new Vector2Int(6, 3)),
-                Troop.Blue(new Vector2Int(6, 2)),
+                Troop.Blue(new VectorTwo(2, 3)),
+                Troop.Red(new VectorTwo(6, 3)),
+                Troop.Blue(new VectorTwo(6, 2)),
             };
             List<Troop> wave3 = new List<Troop>
             {
-                Troop.Blue(new Vector2Int(2, 2)),
+                Troop.Blue(new VectorTwo(2, 2)),
             };
 
             var troopsForRound = new Dictionary<int, List<Troop>>

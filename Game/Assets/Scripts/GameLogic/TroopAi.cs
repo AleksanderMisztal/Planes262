@@ -29,14 +29,14 @@ namespace GameServer.GameLogic
 
         public int GetOptimalDirection(Troop troop)
         {
-            Vector2Int target = board.Center;
+            VectorTwo target = board.Center;
 
             int minDist = 1000000;
             int minDir = 0;
             for (int dir = -1; dir <= 1; dir += 2)
             {
                 int direction = (6 + dir + troop.Orientation) % 6;
-                Vector2Int neigh = Hex.GetAdjacentHex(troop.Position, direction);
+                VectorTwo neigh = Hex.GetAdjacentHex(troop.Position, direction);
                 if (troopMap.Get(neigh) != null) continue;
 
                 int dist = (target - neigh).SqrMagnitude;

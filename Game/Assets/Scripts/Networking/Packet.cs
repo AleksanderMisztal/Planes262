@@ -142,7 +142,7 @@ namespace Scripts.Networking
             buffer.AddRange(Encoding.ASCII.GetBytes(_value));
         }
 
-        public void Write(Vector2Int _value)
+        public void Write(VectorTwo _value)
         {
             Write(_value.X);
             Write(_value.Y);
@@ -308,12 +308,12 @@ namespace Scripts.Networking
             }
         }
 
-        public Vector2Int ReadVector2Int()
+        public VectorTwo ReadVector2Int()
         {
             int x = ReadInt();
             int y = ReadInt();
 
-            return new Vector2Int(x, y);
+            return new VectorTwo(x, y);
         }
 
         public Troop ReadTroop()
@@ -322,7 +322,7 @@ namespace Scripts.Networking
             int health = ReadInt();
             int initialMovePoints = ReadInt();
             int orientation = ReadInt();
-            Vector2Int position = ReadVector2Int();
+            VectorTwo position = ReadVector2Int();
 
             return new Troop(side, initialMovePoints, position, orientation, health);
         }

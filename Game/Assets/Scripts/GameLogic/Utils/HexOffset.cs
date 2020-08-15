@@ -6,21 +6,21 @@ namespace GameServer.Utils
 {
     class HexOffset
     {
-        private static readonly Vector2Int[] evenSteps = {
-            new Vector2Int(1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(-1, 1),
-            new Vector2Int(-1, 0),
-            new Vector2Int(-1, -1),
-            new Vector2Int(0, -1)
+        private static readonly VectorTwo[] evenSteps = {
+            new VectorTwo(1, 0),
+            new VectorTwo(0, 1),
+            new VectorTwo(-1, 1),
+            new VectorTwo(-1, 0),
+            new VectorTwo(-1, -1),
+            new VectorTwo(0, -1)
         };
-        private static readonly Vector2Int[] oddSteps = {
-            new Vector2Int(1, 0),
-            new Vector2Int(1, 1),
-            new Vector2Int(0, 1),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, -1),
-            new Vector2Int(1, -1)
+        private static readonly VectorTwo[] oddSteps = {
+            new VectorTwo(1, 0),
+            new VectorTwo(1, 1),
+            new VectorTwo(0, 1),
+            new VectorTwo(-1, 0),
+            new VectorTwo(0, -1),
+            new VectorTwo(1, -1)
         };
 
         private readonly int x;
@@ -33,7 +33,7 @@ namespace GameServer.Utils
             this.y = y;
         }
 
-        public HexOffset(Vector2Int v)
+        public HexOffset(VectorTwo v)
         {
             this.x = v.X;
             this.y = v.Y;
@@ -42,14 +42,14 @@ namespace GameServer.Utils
 
         public HexOffset GetAdjacentHex(int direction)
         {
-            Vector2Int[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
-            Vector2Int step = steps[direction % 6];
+            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
+            VectorTwo step = steps[direction % 6];
             return new HexOffset(x + step.X, y + step.Y);
         }
 
         public HexOffset[] GetNeighbors()
         {
-            Vector2Int[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
+            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
             return steps.Select(s => new HexOffset(x + s.X, y + s.Y)).ToArray();
         }
 
@@ -61,9 +61,9 @@ namespace GameServer.Utils
             return new HexCube(q, r, s);
         }
 
-        public Vector2Int ToVector()
+        public VectorTwo ToVector()
         {
-            return new Vector2Int(x, y);
+            return new VectorTwo(x, y);
         }
 
         public override string ToString()

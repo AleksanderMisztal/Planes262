@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class EffectManager : MonoBehaviour
+public class Effects : MonoBehaviour
 {
-    private static EffectManager instance;
+    private static Effects instance;
 
     [SerializeField]
     private GameObject explosion;
@@ -20,8 +20,11 @@ public class EffectManager : MonoBehaviour
         }
     }
 
-    public static void InstantiateExplosion(Vector3 position)
+    public static void Explode(Vector3 position, int times)
     {
-        Instantiate(instance.explosion, position, Quaternion.identity);
+        while (times --> 0){
+            Vector3 randomlyOffset = position + Random.insideUnitSphere;
+            Instantiate(instance.explosion, randomlyOffset, Quaternion.identity);
+        }
     }
 }

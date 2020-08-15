@@ -5,7 +5,7 @@ namespace GameServer.GameLogic
 {
     public class TroopMap
     {
-        private readonly Dictionary<Vector2Int, Troop> map = new Dictionary<Vector2Int, Troop>();
+        private readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
 
         private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
         private readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
@@ -24,7 +24,7 @@ namespace GameServer.GameLogic
             return player == PlayerSide.Red ? redTroops : blueTroops;
         }
 
-        public Troop Get(Vector2Int position)
+        public Troop Get(VectorTwo position)
         {
             try
             {

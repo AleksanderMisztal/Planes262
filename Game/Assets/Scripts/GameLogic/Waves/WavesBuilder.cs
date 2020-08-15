@@ -13,7 +13,7 @@ namespace GameServer.GameLogic
         public WavesBuilder Add(int round, int x, int y, PlayerSide player)
         {
             SetMaxWave(player, round);
-            AddTroopToRound(round, new Vector2Int(x, y), player);
+            AddTroopToRound(round, new VectorTwo(x, y), player);
             return this;
         }
 
@@ -27,7 +27,7 @@ namespace GameServer.GameLogic
                     maxBlueWave = round;
         }
 
-        private void AddTroopToRound(int round, Vector2Int position, PlayerSide player)
+        private void AddTroopToRound(int round, VectorTwo position, PlayerSide player)
         {
             Troop troop = player == PlayerSide.Red ? Troop.Red(position) : Troop.Blue(position);
 

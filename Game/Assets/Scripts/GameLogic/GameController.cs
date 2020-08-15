@@ -36,7 +36,7 @@ namespace GameServer.GameLogic
             validator.ToggleActivePlayer();
         }
 
-        public void MoveTroop(Vector2Int position, int direction, List<BattleResult> battleResults)
+        public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
             int battleId = 0;
             Troop troop = troopMap.Get(position);

@@ -14,7 +14,7 @@ namespace Scripts.Networking
             }
         }
 
-        public static void MoveTroop(Vector2Int position, int direction)
+        public static void MoveTroop(VectorTwo position, int direction)
         {
             using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
             {

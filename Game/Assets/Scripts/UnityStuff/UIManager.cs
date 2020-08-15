@@ -16,7 +16,6 @@ namespace Scripts.UnityStuff
         [SerializeField] private GameObject particles;
         [SerializeField] private GameObject gameUi;
         [SerializeField] private GameObject board;
-        [SerializeField] private Text timeControllText;
 
         private GameObject mainMenu;
         private GameObject gameEnded;
@@ -61,6 +60,11 @@ namespace Scripts.UnityStuff
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
+        public static void OnConnected()
+        {
+            instance.mainMenu.SetActive(true);
+        }
+
         public void JoinLobby()
         {
             ClientSend.JoinGame(username.text);
@@ -68,29 +72,12 @@ namespace Scripts.UnityStuff
             mainMenu.SetActive(false);
             board.SetActive(true);
             waitingText.SetActive(true);
-        }
 
-        public void BackToMainMenu()
-        {
-            TransitionController.StartTransition();
-
-            gameEnded.SetActive(false);
-            //gameUI.SetActive(false);
-            mainMenu.SetActive(true);
-
-            TransitionController.EndTransition();
-        }
-
-        public static void OnConnected()
-        {
-            instance.mainMenu.SetActive(true);
-            TransitionController.EndTransition();
+            StartTransitionIntoGame(PlayerSide.Blue, "Opponent xd", new Board(8, 5));
         }
 
         public static void StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)
         {
-            TransitionController.StartTransition();
-
             OponentName = oponentName;
             Side = side;
 
@@ -108,7 +95,7 @@ namespace Scripts.UnityStuff
 
         public static void EndTransitionIntoGame()
         {
-            TransitionController.EndTransition();
+            
         }
 
         public static void UpdateScoreDisplay(int redScore, int blueScore)
@@ -143,6 +130,12 @@ namespace Scripts.UnityStuff
             particles.SetActive(true);
 
             resultText.text = message;
+        }
+
+        public void BackToMainMenu()
+        {
+            gameEnded.SetActive(false);
+            mainMenu.SetActive(true);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Scripts.Networking
 
         public static void TroopMoved(Packet packet)
         {
-            Vector2Int position = packet.ReadVector2Int();
+            VectorTwo position = packet.ReadVector2Int();
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 

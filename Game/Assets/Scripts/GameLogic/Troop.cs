@@ -9,14 +9,14 @@ namespace GameServer.GameLogic
         public int InitialMovePoints { get; private set; }
         public int MovePoints { get; private set; }
 
-        public Vector2Int Position { get; private set; }
-        public Vector2Int StartingPosition { get; private set; }
+        public VectorTwo Position { get; private set; }
+        public VectorTwo StartingPosition { get; private set; }
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
 
 
-        public Troop(PlayerSide player, int movePoints, Vector2Int position, int orientation, int health)
+        public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
             Player = player;
             InitialMovePoints = movePoints;
@@ -50,9 +50,9 @@ namespace GameServer.GameLogic
                 MovePoints--;
         }
 
-        public Vector2Int[] ControllZone => Hex.GetControllZone(Position, Orientation);
+        public VectorTwo[] ControllZone => Hex.GetControllZone(Position, Orientation);
 
-        public bool InControlZone(Vector2Int position)
+        public bool InControlZone(VectorTwo position)
         {
             foreach (var cell in ControllZone)
                 if (cell == position)
@@ -75,30 +75,30 @@ namespace GameServer.GameLogic
         // Factories
         public static Troop Red(int x, int y)
         {
-            return new Troop(PlayerSide.Red, 5, new Vector2Int(x, y), 3, 2);
+            return new Troop(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
         }
 
         public static Troop Blue(int x, int y)
         {
-            return new Troop(PlayerSide.Blue, 5, new Vector2Int(x, y), 0, 2);
+            return new Troop(PlayerSide.Blue, 5, new VectorTwo(x, y), 0, 2);
         }
 
-        public static Troop Red(Vector2Int position)
+        public static Troop Red(VectorTwo position)
         {
             return new Troop(PlayerSide.Red, 5, position, 3, 2);
         }
 
-        public static Troop Blue(Vector2Int position)
+        public static Troop Blue(VectorTwo position)
         {
             return new Troop(PlayerSide.Blue, 5, position, 0, 2);
         }
 
-        public static Troop Red(Vector2Int position, int orientation)
+        public static Troop Red(VectorTwo position, int orientation)
         {
             return new Troop(PlayerSide.Red, 5, position, orientation, 2);
         }
 
-        public static Troop Blue(Vector2Int position, int orientation)
+        public static Troop Blue(VectorTwo position, int orientation)
         {
             return new Troop(PlayerSide.Blue, 5, position, orientation, 2);
         }

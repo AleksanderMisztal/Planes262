@@ -1,13 +1,13 @@
-using GameServer.GameLogic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GameServer.GameLogic;
 
 namespace GameTests
 {
     [TestClass]
-    public class UnitTest1
+    public class GameControllerTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Should_NotBeNull_When_Constructed()
         {
             Board board = new Board(5, 5);
             GameController gc = new GameController(board);

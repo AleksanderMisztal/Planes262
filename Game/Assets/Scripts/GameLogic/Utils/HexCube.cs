@@ -2,13 +2,13 @@
 {
     class HexCube
     {
-        private static readonly Vector3Int[] steps = {
-            new Vector3Int(1, -1, 0),
-            new Vector3Int(1, 0, -1),
-            new Vector3Int(0, 1, -1),
-            new Vector3Int(0, -1, 1),
-            new Vector3Int(-1, 1, 0),
-            new Vector3Int(-1, 0, 1)
+        private static readonly VectorThree[] steps = {
+            new VectorThree(1, -1, 0),
+            new VectorThree(1, 0, -1),
+            new VectorThree(0, 1, -1),
+            new VectorThree(0, -1, 1),
+            new VectorThree(-1, 1, 0),
+            new VectorThree(-1, 0, 1)
         };
 
         private readonly int q;
@@ -23,7 +23,7 @@
             this.s = s;
         }
 
-        public HexCube(Vector3Int v)
+        public HexCube(VectorThree v)
         {
             this.q = v.X;
             this.r = v.Y;
@@ -31,9 +31,9 @@
         }
 
 
-        public Vector3Int ToVector()
+        public VectorThree ToVector()
         {
-            return new Vector3Int(q, r, s);
+            return new VectorThree(q, r, s);
         }
 
         public HexOffset ToOffset()
