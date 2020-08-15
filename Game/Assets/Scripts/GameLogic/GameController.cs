@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameServer.Utils;
 
 namespace GameServer.GameLogic
@@ -82,11 +81,6 @@ namespace GameServer.GameLogic
         private void DestroyTroop(Troop troop)
         {
             troopMap.Remove(troop);
-        }
-
-        public void EndGame()
-        {
-            throw new NotImplementedException();
         }
     }
 }

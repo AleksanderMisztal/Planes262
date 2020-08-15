@@ -23,8 +23,14 @@ namespace Assets.Scripts.UnityStuff
             this.position = position;
             this.orientation = orientation;
             body = transform.Find("Body");
+
             spriteRenderer = body.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = sprites[sprites.Length - 1];
+
+            transform.position = MapGrid.CellToWorld(position); 
+            int modifier = side == PlayerSide.Red ? 3 : 0;
+            body.rotation = Quaternion.identity;
+            body.Rotate(Vector3.forward * 60 * (orientation + modifier));
         }
 
         public void Move(int direction)
@@ -44,7 +50,7 @@ namespace Assets.Scripts.UnityStuff
         private void AdjustPosition()
         {
             VectorTwo newPosition = Hex.GetAdjacentHex(position, orientation);
-            transform.position = Grid.CellToWorld(newPosition);
+            transform.position = MapGrid.CellToWorld(newPosition);
         }
 
         public void ApplyDamage()

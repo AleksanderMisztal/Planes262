@@ -1,48 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameServer.GameLogic;
 using GameServer.Utils;
 using Scripts.UnityStuff;
+using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff
 {
-    class GameInstance
+    public class EventHandlers
     {
-        private static GameController gc = null;
-
         public static void OnWelcome()
         {
-            UnityEngine.Debug.Log("Connected to server!");
+            Debug.Log("Connected to server!");
             UIManager.OnConnected();
         }
 
-        public static void OnGameJoined(object opponentName, PlayerSide side, Board board)
+        public static void OnGameJoined(string opponentName, PlayerSide side, Board board)
         {
-            Initialize(board);
-        }
-
-        private static void Initialize(Board board)
-        {
-            if (gc == null)
-                gc = new GameController(board);
-            throw new Exception("Game instance has already been initialized!");
+            Debug.Log("Game joined received! Playing against " + opponentName);
+            GCWrapper.InitializeGameController(board);
+            UIManager.StartTransitionIntoGame(side, opponentName, board);
         }
 
         public static void OnTroopsSpawned(IEnumerable<Troop> troops)
         {
-            gc.BeginNextRound(troops);
+            GCWrapper.BeginNextRound(troops);
             GameDisplay.BeginNextRound(troops);
         }
 
         public static void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            gc.MoveTroop(position, direction, battleResults);
+            GCWrapper.MoveTroop(position, direction, battleResults);
         }
 
         public static void OnGameEnded(int redScore, int blueScore)
         {
-            gc.EndGame();
-            gc = null;
+            GCWrapper.GameEnded();
+            // TODO: UIManager end game blah blah
         }
 
         public static void OnMessageSent(string message)
@@ -53,7 +46,7 @@ namespace Assets.Scripts.UnityStuff
         public static void OnOpponentDisconnected()
         {
             // TODO: end game and go back to main screen
-            throw new NotImplementedException();
+            UIManager.OpponentDisconnected();
         }
     }
 }

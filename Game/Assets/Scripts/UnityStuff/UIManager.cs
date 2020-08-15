@@ -73,7 +73,6 @@ namespace Scripts.UnityStuff
             board.SetActive(true);
             waitingText.SetActive(true);
 
-            StartTransitionIntoGame(PlayerSide.Blue, "Opponent xd", new Board(8, 5));
         }
 
         public static void StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)

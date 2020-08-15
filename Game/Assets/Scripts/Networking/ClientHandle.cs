@@ -34,7 +34,7 @@ namespace Scripts.Networking
 
         public static void Welcome(Packet packet)
         {
-            GameInstance.OnWelcome();
+            EventHandlers.OnWelcome();
         }
 
         public static void GameJoined(Packet packet)
@@ -43,14 +43,14 @@ namespace Scripts.Networking
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
 
-            GameInstance.OnGameJoined(opponentName, side, board);
+            EventHandlers.OnGameJoined(opponentName, side, board);
         }
 
         public static void TroopSpawned(Packet packet)
         {
             List<Troop> troops = packet.ReadTroops();
 
-            GameInstance.OnTroopsSpawned(troops);
+            EventHandlers.OnTroopsSpawned(troops);
         }
 
         public static void TroopMoved(Packet packet)
@@ -59,7 +59,7 @@ namespace Scripts.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            GameInstance.OnTroopMoved(position, direction, battleResults);
+            EventHandlers.OnTroopMoved(position, direction, battleResults);
         }
 
         public static void GameEnded(Packet packet)
@@ -67,19 +67,19 @@ namespace Scripts.Networking
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            GameInstance.OnGameEnded(redScore, blueScore);
+            EventHandlers.OnGameEnded(redScore, blueScore);
         }
 
         public static void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            GameInstance.OnMessageSent(message);
+            EventHandlers.OnMessageSent(message);
         }
 
         public static void OpponentDisconnected(Packet packet)
         {
-            GameInstance.OnOpponentDisconnected();
+            EventHandlers.OnOpponentDisconnected();
             //UIManager.OpponentDisconnected();
         }
     }

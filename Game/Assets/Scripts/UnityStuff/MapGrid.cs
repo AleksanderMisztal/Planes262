@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff
 {
-    class Grid : MonoBehaviour
+    class MapGrid : MonoBehaviour
     {
-        private static Grid instance;
+        private static MapGrid instance;
 
         private GridLayout gridLayout;
 
@@ -36,7 +36,7 @@ namespace Assets.Scripts.UnityStuff
         public static VectorTwo WorldToCell(Vector3 v)
         {
             var cell = instance.gridLayout.WorldToCell(v);
-            return new GameServer.Utils.VectorTwo(cell.x, cell.y);
+            return new VectorTwo(cell.x, cell.y);
         }
     }
 }
