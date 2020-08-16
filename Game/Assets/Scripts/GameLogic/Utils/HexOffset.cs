@@ -55,14 +55,6 @@ namespace GameServer.Utils
             return steps.Select(s => new HexOffset(x + s.X, y + s.Y)).ToArray();
         }
 
-        public HexCube ToCube()
-        {
-            var q = x - (y - (y & 1)) / 2;
-            var r = y;
-            var s = -q - r;
-            return new HexCube(q, r, s);
-        }
-
         public VectorTwo ToVector()
         {
             return new VectorTwo(x, y);
