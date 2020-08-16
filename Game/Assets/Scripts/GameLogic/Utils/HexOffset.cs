@@ -42,6 +42,8 @@ namespace GameServer.Utils
 
         public HexOffset GetAdjacentHex(int direction)
         {
+            direction %= 6;
+            while (direction < 0) direction += 6;
             VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
             VectorTwo step = steps[direction % 6];
             return new HexOffset(x + step.X, y + step.Y);

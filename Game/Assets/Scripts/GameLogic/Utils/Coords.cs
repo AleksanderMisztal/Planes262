@@ -1,23 +1,22 @@
 ﻿using Assets.Scripts.GameLogic;
 using GameServer.Utils;
-using System;
 
 namespace GameServer.GameLogic
 {
-    public class Coord
+    public class OrientedCell
     {
         public VectorTwo Position { get; }
         public int Orientation { get; }
 
-        public Coord(VectorTwo position, int orientation)
+        public OrientedCell(VectorTwo position, int orientation)
         {
             Position = position;
             Orientation = orientation;
         }
 
-        public Coord[] GetControllZone()
+        public OrientedCell[] GetControllZone()
         {
-            var cs = new Coord[3];
+            var cs = new OrientedCell[3];
             for (int i = -1; i < 2; i++)
             {
                 cs[i + 1] = GetAdjacent(i);
@@ -25,13 +24,13 @@ namespace GameServer.GameLogic
             return cs;
         }
 
-        private Coord GetAdjacent(int direction)
+        private OrientedCell GetAdjacent(int direction)
         {
             VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
-            return new Coord(position, Orientation + direction);
+            return new OrientedCell(position, Orientation + direction);
         }
 
-        public int GetDirection(Coord coords)
+        public int GetDirection(OrientedCell coords)
         {
             for (int i = -1; i <= 2; i++)
             {
@@ -49,7 +48,7 @@ namespace GameServer.GameLogic
         public override bool Equals(object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            Coord c = (Coord)obj;
+            OrientedCell c = (OrientedCell)obj;
             return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
         }
     }

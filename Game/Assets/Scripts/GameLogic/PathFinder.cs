@@ -9,8 +9,8 @@ namespace Assets.Scripts.GameLogic
     {
         private readonly TroopMap map;
 
-        private readonly Dictionary<Coord, Coord> parent = new Dictionary<Coord, Coord>();
-        private readonly Dictionary<VectorTwo, Coord> orient = new Dictionary<VectorTwo, Coord>();
+        private readonly Dictionary<OrientedCell, OrientedCell> parent = new Dictionary<OrientedCell, OrientedCell>();
+        private readonly Dictionary<VectorTwo, OrientedCell> orient = new Dictionary<VectorTwo, OrientedCell>();
 
         public PathFinder(TroopMap map)
         {
@@ -27,43 +27,47 @@ namespace Assets.Scripts.GameLogic
 
         private HashSet<VectorTwo> GetReachableCells(Troop troop)
         {
-            HashSet<Coord> coords = new HashSet<Coord>();
-            Coord initialPosition = new Coord(troop.Position, troop.Orientation);
-            coords.Add(initialPosition);
-            for (int i = 0; i < troop.MovePoints; i++)
+            OrientedCell initialPosition = new OrientedCell(troop.Position, troop.Orientation);
+            HashSet<OrientedCell> coords = new HashSet<OrientedCell>();
+            foreach (var c in initialPosition.GetControllZone())
+            {
+                coords.Add(c);
+                orient[c.Position] = c;
+                parent[c] = initialPosition;
+            }
+            for (int i = 1; i < troop.MovePoints; i++)
                 coords = GetNextLayer(troop.Player, coords);
-            coords.Remove(initialPosition);
             return new HashSet<VectorTwo>(coords.Select(c => c.Position));
         }
 
-        private HashSet<Coord> GetNextLayer(PlayerSide side, HashSet<Coord> coords)
+        private HashSet<OrientedCell> GetNextLayer(PlayerSide side, HashSet<OrientedCell> cells)
         {
-            HashSet<Coord> acm = new HashSet<Coord>();
-            foreach (var coord in coords)
+            HashSet<OrientedCell> nextLayerCells = new HashSet<OrientedCell>();
+            foreach (var cell in cells)
             {
-                acm.Add(coord);
-                if (map.Get(coord.Position) != null) continue;
-                foreach (var cell in coord.GetControllZone())
+                nextLayerCells.Add(cell);
+                if (map.Get(cell.Position) != null) continue;
+                foreach (var controllerCell in cell.GetControllZone())
                 {
-                    Troop encounter = map.Get(cell.Position);
+                    Troop encounter = map.Get(controllerCell.Position);
                     if (encounter == null || encounter.Player != side)
                     {
-                        acm.Add(cell);
-                        orient[cell.Position] = cell;
+                        nextLayerCells.Add(controllerCell);
+                        orient[controllerCell.Position] = controllerCell;
+                        parent[controllerCell] = controllerCell;
                     }
                 }
             }
-            return acm;
+            return nextLayerCells;
         }
-
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
             List<int> directions = new List<int>();
-            Coord coords = orient[end];
+            OrientedCell coords = orient[end];
             while (coords.Position != start)
             {
-                Coord prevCoords = parent[coords];
+                OrientedCell prevCoords = parent[coords];
                 int direction = prevCoords.GetDirection(coords);
                 directions.Add(direction);
                 coords = prevCoords;
