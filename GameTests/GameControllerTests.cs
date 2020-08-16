@@ -10,7 +10,7 @@ namespace GameTests
         public void Should_NotBeNull_When_Constructed()
         {
             Board board = new Board(5, 5);
-            GameController gc = new GameController(board);
+            GameState gc = new GameState(board);
 
             Assert.IsNotNull(gc);
         }

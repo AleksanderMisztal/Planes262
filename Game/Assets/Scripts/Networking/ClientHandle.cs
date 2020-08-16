@@ -43,6 +43,7 @@ namespace Scripts.Networking
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
 
+            GameState.instance = new GameState(board);
             EventHandlers.OnGameJoined(opponentName, side, board);
         }
 
@@ -50,6 +51,7 @@ namespace Scripts.Networking
         {
             List<Troop> troops = packet.ReadTroops();
 
+            GameState.instance.BeginNextRound(troops);
             EventHandlers.OnTroopsSpawned(troops);
         }
 
@@ -59,6 +61,7 @@ namespace Scripts.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
+            GameState.instance.MoveTroop(position, direction, battleResults);
             EventHandlers.OnTroopMoved(position, direction, battleResults);
         }
 

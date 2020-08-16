@@ -4,8 +4,10 @@ using GameServer.Utils;
 
 namespace GameServer.GameLogic
 {
-    public class GameController
+    public class GameState
     {
+        public static GameState instance = null;
+
         private PlayerSide activePlayer = PlayerSide.Red;
         private readonly Score score = new Score();
 
@@ -13,7 +15,7 @@ namespace GameServer.GameLogic
         private readonly MoveValidator validator;
         private readonly PathFinder pathFinder;
 
-        public GameController(Board board)
+        public GameState(Board board)
         {
             troopMap = new TroopMap();
             validator = new MoveValidator(troopMap, board, activePlayer);
@@ -85,19 +87,20 @@ namespace GameServer.GameLogic
         }
 
 
-        public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
+        //Getters
+        public static HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
-            return pathFinder.GetReachableCells(position);
+            return instance.pathFinder.GetReachableCells(position);
         }
 
-        public List<int> GetDirections(VectorTwo start, VectorTwo end)
+        public static List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
-            return pathFinder.GetDirections(start, end);
+            return instance.pathFinder.GetDirections(start, end);
         }
 
-        public TroopDto GetTroopSide(VectorTwo position)
+        public static TroopDto GetTroopSide(VectorTwo position)
         {
-            Troop troop = troopMap.Get(position);
+            Troop troop = instance.troopMap.Get(position);
             if (troop is null) return null;
             return new TroopDto(troop.Player, troop.Orientation);
         }

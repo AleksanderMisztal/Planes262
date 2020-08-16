@@ -565,7 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359ea91b49e5ba94596e8cb4b29333df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridLayout: {fileID: 2138627995}
   redTroopPrefab: {fileID: 8010123504070118737, guid: a5d064d81f9b50c43b66f17fb9fddc6b,
     type: 3}
   blueTroopPrefab: {fileID: 5767427577334968885, guid: 81ad609f2d666094f925414cb164336d,
@@ -1366,7 +1365,7 @@ Camera:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -13793,7 +13792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &2138627995
 Grid:
   m_ObjectHideFlags: 0

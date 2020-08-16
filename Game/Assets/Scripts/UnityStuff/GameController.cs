@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameServer.GameLogic;
 using GameServer.Utils;
 using Scripts.Networking;
 
 namespace Assets.Scripts.UnityStuff
 {
-    public static class GCWrapper
+    public static class GameController
     {
-        private static GameController gc = null;
         public static PlayerSide Side { get; private set; }
 
         private static VectorTwo troopPosition = null;
@@ -29,17 +27,17 @@ namespace Assets.Scripts.UnityStuff
                 else
                 {
                     targetPosition = cell;
-                    directions = gc.GetDirections(troopPosition, targetPosition);
+                    directions = GameState.GetDirections(troopPosition, targetPosition);
                     HighlightPath(troopPosition, troopDto.orientation, directions);
                 }
             }
             else
             {
-                troopDto = gc.GetTroopSide(cell);
+                troopDto = GameState.GetTroopSide(cell);
                 if (troopDto != null && troopDto.side == Side)
                 {
                     troopPosition = cell;
-                    reachableCells = gc.GetReachableCells(cell);
+                    reachableCells = GameState.GetReachableCells(cell);
                 }
             }
         }
@@ -64,31 +62,6 @@ namespace Assets.Scripts.UnityStuff
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
             }
-        }
-
-
-        public static void InitializeGame(Board board, PlayerSide side)
-        {
-            Side = side;
-            if (gc == null)
-                gc = new GameController(board);
-            else
-                throw new Exception("Game instance has already been initialized!");
-        }
-
-        public static void BeginNextRound(IEnumerable<Troop> troops)
-        {
-            gc.BeginNextRound(troops);
-        }
-
-        public static void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
-        {
-            gc.MoveTroop(position, direction, battleResults);
-        }
-
-        public static void GameEnded()
-        {
-            gc = null;
         }
     }
 }
