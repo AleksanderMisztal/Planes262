@@ -13,7 +13,6 @@ namespace Scripts.UnityStuff
         {
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = MapGrid.WorldToCell(mousePosition);
-            Debug.Log(cell);
 
             GameController.OnCellClicked(cell);
         }

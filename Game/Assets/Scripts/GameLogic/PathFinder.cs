@@ -9,49 +9,61 @@ namespace Assets.Scripts.GameLogic
     {
         private readonly TroopMap map;
 
-        private readonly Dictionary<Coords, Coords> parent = new Dictionary<Coords, Coords>();
-        private readonly Dictionary<VectorTwo, Coords> orient = new Dictionary<VectorTwo, Coords>();
+        private readonly Dictionary<Coord, Coord> parent = new Dictionary<Coord, Coord>();
+        private readonly Dictionary<VectorTwo, Coord> orient = new Dictionary<VectorTwo, Coord>();
 
         public PathFinder(TroopMap map)
         {
             this.map = map;
         }
 
+
         public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             Troop troop = map.Get(position);
             if (troop == null) throw new PathFindingException("No troop on this hex!");
+            return GetReachableCells(troop);
+        }
 
-            HashSet<Coords> coords = new HashSet<Coords>
-            {
-                new Coords(troop.Position, troop.Orientation)
-            };
-            for (int i = 0; i <= troop.MovePoints; i++)
-            {
-                var acm = new HashSet<Coords>();
-                foreach (var c in coords)
-                {
-                    acm.Add(c);
-                    if (map.Get(c.Position) != null) continue;
-                    foreach (var cell in c.GetControllZone())
-                    {
-                        Troop encounter = map.Get(cell.Position);
-                        if (encounter == null || encounter.Player != troop.Player)
-                            acm.Add(cell);
-                    }
-                }
-                coords = acm;
-            }
+        private HashSet<VectorTwo> GetReachableCells(Troop troop)
+        {
+            HashSet<Coord> coords = new HashSet<Coord>();
+            Coord initialPosition = new Coord(troop.Position, troop.Orientation);
+            coords.Add(initialPosition);
+            for (int i = 0; i < troop.MovePoints; i++)
+                coords = GetNextLayer(troop.Player, coords);
+            coords.Remove(initialPosition);
             return new HashSet<VectorTwo>(coords.Select(c => c.Position));
         }
+
+        private HashSet<Coord> GetNextLayer(PlayerSide side, HashSet<Coord> coords)
+        {
+            HashSet<Coord> acm = new HashSet<Coord>();
+            foreach (var coord in coords)
+            {
+                acm.Add(coord);
+                if (map.Get(coord.Position) != null) continue;
+                foreach (var cell in coord.GetControllZone())
+                {
+                    Troop encounter = map.Get(cell.Position);
+                    if (encounter == null || encounter.Player != side)
+                    {
+                        acm.Add(cell);
+                        orient[cell.Position] = cell;
+                    }
+                }
+            }
+            return acm;
+        }
+
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
             List<int> directions = new List<int>();
-            Coords coords = orient[end];
+            Coord coords = orient[end];
             while (coords.Position != start)
             {
-                Coords prevCoords = parent[coords];
+                Coord prevCoords = parent[coords];
                 int direction = prevCoords.GetDirection(coords);
                 directions.Add(direction);
                 coords = prevCoords;

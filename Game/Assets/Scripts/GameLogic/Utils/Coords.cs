@@ -4,20 +4,20 @@ using System;
 
 namespace GameServer.GameLogic
 {
-    public class Coords
+    public class Coord
     {
         public VectorTwo Position { get; }
         public int Orientation { get; }
 
-        public Coords(VectorTwo position, int orientation)
+        public Coord(VectorTwo position, int orientation)
         {
             Position = position;
             Orientation = orientation;
         }
 
-        public Coords[] GetControllZone()
+        public Coord[] GetControllZone()
         {
-            var cs = new Coords[3];
+            var cs = new Coord[3];
             for (int i = -1; i < 2; i++)
             {
                 cs[i + 1] = GetAdjacent(i);
@@ -25,13 +25,13 @@ namespace GameServer.GameLogic
             return cs;
         }
 
-        private Coords GetAdjacent(int direction)
+        private Coord GetAdjacent(int direction)
         {
             VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
-            return new Coords(position, Orientation + direction);
+            return new Coord(position, Orientation + direction);
         }
 
-        public int GetDirection(Coords coords)
+        public int GetDirection(Coord coords)
         {
             for (int i = -1; i <= 2; i++)
             {
@@ -49,7 +49,7 @@ namespace GameServer.GameLogic
         public override bool Equals(object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            Coords c = (Coords)obj;
+            Coord c = (Coord)obj;
             return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
         }
     }
