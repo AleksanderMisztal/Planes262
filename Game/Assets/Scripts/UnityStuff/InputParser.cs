@@ -15,7 +15,7 @@ namespace Scripts.UnityStuff
             VectorTwo cell = MapGrid.WorldToCell(mousePosition);
             Debug.Log(cell);
 
-            GameDisplay.OnCellClicked(cell);
+            GCWrapper.OnCellClicked(cell);
         }
     }
 }

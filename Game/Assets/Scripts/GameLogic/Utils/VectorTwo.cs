@@ -40,7 +40,7 @@ namespace GameServer.Utils
         }
 
         public static explicit operator Vector3(VectorTwo v) => new Vector3(v.X, v.Y, 0);
-        public static explicit operator UnityEngine.Vector3Int(VectorTwo v) => new UnityEngine.Vector3Int(v.X, v.Y, 0);
+        public static explicit operator Vector3Int(VectorTwo v) => new Vector3Int(v.X, v.Y, 0);
 
         public static VectorTwo operator + (VectorTwo a, VectorTwo b)
             => new VectorTwo(a.X + b.X, a.Y + b.Y);
@@ -50,9 +50,15 @@ namespace GameServer.Utils
 
 
         public static bool operator == (VectorTwo a, VectorTwo b)
-            => a.X == b.X && a.Y == b.Y;
+        {
+            if (a is null && b is null) return true;
+            if (a is null || b is null) return false;
+            return a.X == b.X && a.Y == b.Y;
+        }
 
         public static bool operator != (VectorTwo a, VectorTwo b)
-            => a.X != b.X || a.Y != b.Y;
+        {
+            return !(a == b);
+        }
     }
 }

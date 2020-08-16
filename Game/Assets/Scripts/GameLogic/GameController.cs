@@ -7,7 +7,6 @@ namespace GameServer.GameLogic
     public class GameController
     {
         private PlayerSide activePlayer = PlayerSide.Red;
-
         private readonly Score score = new Score();
 
         private readonly TroopMap troopMap;
@@ -85,7 +84,8 @@ namespace GameServer.GameLogic
             troopMap.Remove(troop);
         }
 
-        public IEnumerable<VectorTwo> GetReachableCells(VectorTwo position)
+
+        public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             return pathFinder.GetReachableCells(position);
         }
@@ -93,6 +93,13 @@ namespace GameServer.GameLogic
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
             return pathFinder.GetDirections(start, end);
+        }
+
+        public TroopDto GetTroopSide(VectorTwo position)
+        {
+            Troop troop = troopMap.Get(position);
+            if (troop is null) return null;
+            return new TroopDto(troop.Player, troop.Orientation);
         }
     }
 }

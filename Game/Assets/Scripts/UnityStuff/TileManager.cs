@@ -1,4 +1,5 @@
 ﻿using GameServer.GameLogic;
+using GameServer.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,24 +8,18 @@ public class TileManager : MonoBehaviour
 {
     private static TileManager instance;
 
-    [SerializeField]
-    private Tile boardTile;
-    [SerializeField]
-    private Tile rangeTile;
-    [SerializeField]
-    private Tile clickTile;
+    [SerializeField] private Tile boardTile;
+    [SerializeField] private Tile rangeTile;
+    [SerializeField] private Tile clickTile;
 
-    [SerializeField]
-    private Tilemap boardTilemap;
-    [SerializeField]
-    private Tilemap rangeTilemap;
-    [SerializeField]
-    private Tilemap clickTilemap;
+    [SerializeField] private Tilemap boardTilemap;
+    [SerializeField] private Tilemap rangeTilemap;
+    [SerializeField] private Tilemap clickTilemap;
 
     private static bool isGridActive = false;
 
-    private IEnumerable<Vector2Int> positions = new List<Vector2Int>();
-    private IEnumerable<Vector2Int> path = new List<Vector2Int>();
+    private IEnumerable<VectorTwo> positions = new List<VectorTwo>();
+    private IEnumerable<VectorTwo> path = new List<VectorTwo>();
 
     private static Color transparent = new Color(255, 255, 255, 0);
     private static Color active = new Color(0, 0, 255, 255);
@@ -73,7 +68,7 @@ public class TileManager : MonoBehaviour
         boardTilemap.gameObject.SetActive(isGridActive);
     }
 
-    public static void ActivateTiles(IEnumerable<Vector2Int> positions)
+    public static void ActivateTiles(IEnumerable<VectorTwo> positions)
     {
         DeactivateTiles();
 
@@ -84,7 +79,7 @@ public class TileManager : MonoBehaviour
         instance.positions = positions;
     }
 
-    internal static void ActivateTilesBlocked(HashSet<Vector2Int> positions)
+    public static void ActivateTilesBlocked(HashSet<VectorTwo> positions)
     {
         DeactivateTiles();
 
@@ -95,7 +90,7 @@ public class TileManager : MonoBehaviour
         instance.positions = positions;
     }
 
-    public static void HighlightPath(IEnumerable<Vector2Int> positions)
+    public static void HighlightPath(IEnumerable<VectorTwo> positions)
     {
         foreach (var pos in instance.path)
         {
@@ -119,7 +114,7 @@ public class TileManager : MonoBehaviour
         {
             instance.rangeTilemap.SetColor((Vector3Int)pos, transparent);
         }
-        instance.positions = new List<Vector2Int>();
-        instance.path = new List<Vector2Int>();
+        instance.positions = new List<VectorTwo>();
+        instance.path = new List<VectorTwo>();
     }
 }

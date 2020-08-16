@@ -1,18 +1,15 @@
-﻿using GameServer.GameLogic;
-using GameServer.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using GameServer.GameLogic;
 
 namespace Assets.Scripts.UnityStuff
 {
-    class GameDisplay : MonoBehaviour
+    class TroopInstantiator : MonoBehaviour
     {
-        private static GameDisplay instance;
+        private static TroopInstantiator instance;
 
-        [SerializeField] private GridLayout gridLayout;
         [SerializeField] private GDTroop redTroopPrefab;
         [SerializeField] private GDTroop blueTroopPrefab;
-
 
         private void Awake()
         {
@@ -26,12 +23,6 @@ namespace Assets.Scripts.UnityStuff
                 Destroy(this);
             }
         }
-
-        public static void OnCellClicked(VectorTwo cell)
-        {
-            
-        }
-
 
         public static void BeginNextRound(IEnumerable<Troop> troops)
         {

@@ -9,15 +9,15 @@ namespace Assets.Scripts.GameLogic
     {
         private readonly TroopMap map;
 
-        private Dictionary<Coords, Coords> parent = new Dictionary<Coords, Coords>();
-        private Dictionary<VectorTwo, Coords> orient = new Dictionary<VectorTwo, Coords>();
+        private readonly Dictionary<Coords, Coords> parent = new Dictionary<Coords, Coords>();
+        private readonly Dictionary<VectorTwo, Coords> orient = new Dictionary<VectorTwo, Coords>();
 
         public PathFinder(TroopMap map)
         {
             this.map = map;
         }
 
-        public IEnumerable<VectorTwo> GetReachableCells(VectorTwo position)
+        public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             Troop troop = map.Get(position);
             if (troop == null) throw new PathFindingException("No troop on this hex!");
@@ -42,7 +42,7 @@ namespace Assets.Scripts.GameLogic
                 }
                 coords = acm;
             }
-            return coords.Select(c => c.Position);
+            return new HashSet<VectorTwo>(coords.Select(c => c.Position));
         }
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
