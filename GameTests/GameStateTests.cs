@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GameServer.GameLogic;
 
 namespace GameTests
 {
     [TestClass]
-    public class GameControllerTests
+    public class GameStateTests
     {
         [TestMethod]
         public void Should_NotBeNull_When_Constructed()

@@ -32,7 +32,7 @@ namespace GameServer.GameLogic
 
         public int GetDirection(OrientedCell coords)
         {
-            for (int i = -1; i <= 2; i++)
+            for (int i = -1; i < 2; i++)
             {
                 var c = GetAdjacent(i);
                 if (c == coords) return i;
@@ -50,6 +50,16 @@ namespace GameServer.GameLogic
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
             OrientedCell c = (OrientedCell)obj;
             return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
+        }
+        public static bool operator ==(OrientedCell a, OrientedCell b)
+        {
+            if (a is null && b is null) return true;
+            if (a is null || b is null) return false;
+            return a.Equals(b);
+        }
+        public static bool operator !=(OrientedCell a, OrientedCell b)
+        {
+            return !(a == b);
         }
     }
 }

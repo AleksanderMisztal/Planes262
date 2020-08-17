@@ -44,22 +44,22 @@ public class TileManager : MonoBehaviour
     {
         Debug.Log("Creating the board");
         for (int x = 0; x <= board.xMax; x++)
-        {
             for (int y = 0; y <= board.yMax; y++)
-            {
-                var pos = new Vector3Int(x, y, 0);
-
-                instance.boardTilemap.SetTile(pos, instance.boardTile);
-
-                instance.rangeTilemap.SetTile(pos, instance.rangeTile);
-                instance.rangeTilemap.SetTileFlags(pos, TileFlags.None);
-                instance.rangeTilemap.SetColor(pos, transparent);
-
-
-                instance.clickTilemap.SetTile(pos, instance.clickTile);
-            }
-        }
+                CreateTile(x, y);
         instance.boardTilemap.gameObject.SetActive(false);
+    }
+
+    private static void CreateTile(int x, int y)
+    {
+        var pos = new Vector3Int(x, y, 0);
+
+        instance.boardTilemap.SetTile(pos, instance.boardTile);
+
+        instance.rangeTilemap.SetTile(pos, instance.rangeTile);
+        instance.rangeTilemap.SetTileFlags(pos, TileFlags.None);
+        instance.rangeTilemap.SetColor(pos, transparent);
+
+        instance.clickTilemap.SetTile(pos, instance.clickTile);
     }
 
     public void ShowHideGrid()
@@ -71,49 +71,34 @@ public class TileManager : MonoBehaviour
     public static void ActivateTiles(IEnumerable<VectorTwo> positions)
     {
         DeactivateTiles();
-
         foreach(var pos in positions)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, active);
-        }
         instance.positions = positions;
     }
 
     public static void ActivateTilesBlocked(HashSet<VectorTwo> positions)
     {
         DeactivateTiles();
-
         foreach (var pos in positions)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, activeBlocked);
-        }
         instance.positions = positions;
     }
 
     public static void HighlightPath(IEnumerable<VectorTwo> positions)
     {
         foreach (var pos in instance.path)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, active);
-        }
-
         foreach (var pos in positions)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, onPath);
-        }
         instance.path = positions;
     }
 
     public static void DeactivateTiles()
     {
         foreach (var pos in instance.positions)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, transparent);
-        }
         foreach (var pos in instance.path)
-        {
             instance.rangeTilemap.SetColor((Vector3Int)pos, transparent);
-        }
         instance.positions = new List<VectorTwo>();
         instance.path = new List<VectorTwo>();
     }

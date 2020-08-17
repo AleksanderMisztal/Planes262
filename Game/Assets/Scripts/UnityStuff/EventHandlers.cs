@@ -22,12 +22,12 @@ namespace Assets.Scripts.UnityStuff
 
         public static void OnTroopsSpawned(IEnumerable<Troop> troops)
         {
-            TroopInstantiator.BeginNextRound(troops);
+            TroopController.BeginNextRound(troops);
         }
 
         public static void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-
+            TroopController.MoveTroop(position, direction, battleResults);
         }
 
         public static void OnGameEnded(int redScore, int blueScore)

@@ -3,6 +3,7 @@ using GameServer.GameLogic;
 using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
 using GameServer.Utils;
+using System.Diagnostics;
 
 namespace GameTests
 {
@@ -21,9 +22,12 @@ namespace GameTests
 
         private void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
         {
+            Trace.WriteLine($"Counts: {actual.Count} : {expected.Count}");
+            foreach (var item in actual)
+                Trace.WriteLine(item);
             Assert.IsTrue(actual.Count == expected.Count);
-            foreach (var troop in expected)
-                Assert.IsTrue(actual.Contains(troop));
+            foreach (var item in expected)
+                Assert.IsTrue(actual.Contains(item));
         }
 
 
@@ -63,7 +67,7 @@ namespace GameTests
             List<VectorTwo> expected = new List<VectorTwo>
             {
                 new VectorTwo(3, 2),
-                new VectorTwo(4, 3),
+                new VectorTwo(3, 3),
                 new VectorTwo(4, 2),
                 new VectorTwo(3, 1),
                 new VectorTwo(2, 1),
@@ -72,7 +76,5 @@ namespace GameTests
             };
             AssertSetEquality(cells, expected);
         }
-
-
     }
 }

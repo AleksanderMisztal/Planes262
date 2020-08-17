@@ -9,9 +9,10 @@ namespace Assets.Scripts.UnityStuff
         private const int NO_EXPLOSIONS = 2;
 
         private PlayerSide side;
-        private VectorTwo position;
+        public VectorTwo Position { get; private set; }
         private int orientation;
-        private int health;
+        public int health;
+        public bool Destroyed => health <= 0;
 
         [SerializeField] private Sprite[] sprites;
         private Transform body;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.UnityStuff
         public void Initialize(VectorTwo position, int orientation, PlayerSide side)
         {
             this.side = side;
-            this.position = position;
+            this.Position = position;
             this.orientation = orientation;
             body = transform.Find("Body");
 
@@ -33,24 +34,22 @@ namespace Assets.Scripts.UnityStuff
             body.Rotate(Vector3.forward * 60 * (orientation + modifier));
         }
 
-        public void Move(int direction)
-        {
-            AdjustOrientation(direction);
-            AdjustPosition();
-        }
+        public VectorTwo CellInFront => Hex.GetAdjacentHex(Position, orientation);
 
-        private void AdjustOrientation(int direction)
+        public void AdjustOrientation(int direction)
         {
+            if (health <= 0) return;
             orientation += direction;
             int modifier = side == PlayerSide.Red ? 3 : 0;
             body.rotation = Quaternion.identity;
             body.Rotate(Vector3.forward * 60 * (orientation + modifier));
         }
 
-        private void AdjustPosition()
+        public void MoveForward()
         {
-            VectorTwo newPosition = Hex.GetAdjacentHex(position, orientation);
-            transform.position = MapGrid.CellToWorld(newPosition);
+            if (health <= 0) return;
+            Position = CellInFront;
+            transform.position = MapGrid.CellToWorld(Position);
         }
 
         public void ApplyDamage()

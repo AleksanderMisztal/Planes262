@@ -10,7 +10,7 @@ namespace Assets.Scripts.UnityStuff
     {
         public static PlayerSide Side { get; private set; }
 
-        private static VectorTwo troopPosition = null;
+        private static VectorTwo selectedPosition = null;
         private static TroopDto troopDto = null;
         private static HashSet<VectorTwo> reachableCells = null;
         private static VectorTwo targetPosition = null;
@@ -19,7 +19,8 @@ namespace Assets.Scripts.UnityStuff
 
         public static void OnCellClicked(VectorTwo cell)
         {
-            bool troopIsSelectedAndCanReachCell = troopPosition != null && reachableCells.Contains(cell);
+            if (cell == selectedPosition) return;
+            bool troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
             if (troopIsSelectedAndCanReachCell)
                 ChangePathOrSend(cell);
             else SelectTroop(cell);
@@ -28,7 +29,7 @@ namespace Assets.Scripts.UnityStuff
         private static void ChangePathOrSend(VectorTwo cell)
         {
             if (targetPosition == cell)
-                SendMoves(troopPosition, troopDto.orientation, directions);
+                SendMoves(selectedPosition, troopDto.orientation, directions);
             else SetAsTarget(cell);
         }
 
@@ -45,21 +46,21 @@ namespace Assets.Scripts.UnityStuff
         private static void SetAsTarget(VectorTwo cell)
         {
             targetPosition = cell;
-            directions = GameState.GetDirections(troopPosition, targetPosition);
-            HighlightPath(troopPosition, troopDto.orientation, directions);
+            directions = GameState.GetDirections(selectedPosition, targetPosition);
+            HighlightPath(selectedPosition, troopDto.orientation, directions);
         }
 
         private static void SelectTroop(VectorTwo cell)
         {
+            DeactivateTroops();
             troopDto = GameState.GetTroopSide(cell);
             if (troopDto != null && troopDto.side == Side)
                 ActivateTroopAt(cell);
-            else DeactivateTroops();
         }
 
         private static void ActivateTroopAt(VectorTwo cell)
         {
-            troopPosition = cell;
+            selectedPosition = cell;
             reachableCells = GameState.GetReachableCells(cell);
             Debug.Log($"Can reach {reachableCells.Count} cells...");
             TileManager.ActivateTiles(reachableCells);
@@ -68,8 +69,12 @@ namespace Assets.Scripts.UnityStuff
         private static void DeactivateTroops()
         {
             TileManager.DeactivateTiles();
-            troopPosition = null;
-        }
+            selectedPosition = null;
+            troopDto = null;
+            reachableCells = null;
+            targetPosition = null;
+            directions = null;
+    }
 
         private static void HighlightPath(VectorTwo position, int orientation, List<int> directions)
         {
