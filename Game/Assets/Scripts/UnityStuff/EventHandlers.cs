@@ -17,6 +17,7 @@ namespace Assets.Scripts.UnityStuff
         public static void OnGameJoined(string opponentName, PlayerSide side, Board board)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
+            TroopController.ResetForNewGame();
             UIManager.StartTransitionIntoGame(side, opponentName, board);
         }
 

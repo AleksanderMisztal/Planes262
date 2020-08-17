@@ -35,6 +35,7 @@ namespace Assets.Scripts.UnityStuff
 
         private static void SendMoves(VectorTwo position, int orientation, List<int> directions)
         {
+            DeactivateTroops();
             foreach (var dir in directions)
             {
                 ClientSend.MoveTroop(position, dir);
