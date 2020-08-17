@@ -12,21 +12,20 @@ namespace Assets.Scripts.UnityStuff
         [SerializeField] private GDTroop redTroopPrefab;
         [SerializeField] private GDTroop blueTroopPrefab;
 
-        private static Dictionary<VectorTwo, GDTroop> map;
+        private static Dictionary<VectorTwo, GDTroop> map = new Dictionary<VectorTwo, GDTroop>();
 
         private void Awake()
         {
             if (instance == null)
                 instance = this;
             else if (instance != this)
-            {
-                Debug.Log("Instance already exists, destroying this...");
                 Destroy(this);
-            }
         }
 
         public static void ResetForNewGame()
         {
+            foreach (var troop in map.Values)
+                Destroy(troop);
             map = new Dictionary<VectorTwo, GDTroop>();
         }
 
@@ -43,7 +42,6 @@ namespace Assets.Scripts.UnityStuff
 
         public static void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            Debug.Log($"Moving troop at {position}");
             var troop = map[position];
             troop.AdjustOrientation(direction);
             foreach (var result in battleResults)
@@ -58,7 +56,6 @@ namespace Assets.Scripts.UnityStuff
                 troop.MoveForward();
                 map.Remove(position);
                 map.Add(troop.Position, troop);
-                Debug.Log($"Removed a troop from {position} and added at {troop.Position}");
             }
         }
     }

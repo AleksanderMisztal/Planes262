@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff
 {
-    public static class GameController
+    public static class MapController
     {
         public static PlayerSide Side { get; private set; }
 
@@ -16,6 +16,11 @@ namespace Assets.Scripts.UnityStuff
         private static VectorTwo targetPosition = null;
         private static List<int> directions = null;
 
+        public static void Initialize(PlayerSide side)
+        {
+            DeactivateTroops();
+            Side = side;
+        }
 
         public static void OnCellClicked(VectorTwo cell)
         {
@@ -63,7 +68,6 @@ namespace Assets.Scripts.UnityStuff
         {
             selectedPosition = cell;
             reachableCells = GameState.GetReachableCells(cell);
-            Debug.Log($"Can reach {reachableCells.Count} cells...");
             TileManager.ActivateTiles(reachableCells);
         }
 

@@ -14,7 +14,7 @@ namespace Scripts.UnityStuff
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = MapGrid.WorldToCell(mousePosition);
 
-            GameController.OnCellClicked(cell);
+            MapController.OnCellClicked(cell);
         }
     }
 }

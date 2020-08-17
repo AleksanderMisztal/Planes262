@@ -11,6 +11,7 @@ namespace Assets.Scripts.UnityStuff
         private int orientation;
         private int health;
         public bool Destroyed => health <= 0;
+        public VectorTwo CellInFront => Hex.GetAdjacentHex(Position, orientation);
 
         [SerializeField] private Sprite[] sprites;
         private Transform body;
@@ -30,8 +31,6 @@ namespace Assets.Scripts.UnityStuff
             body.rotation = Quaternion.identity;
             body.Rotate(Vector3.forward * 60 * orientation);
         }
-
-        public VectorTwo CellInFront => Hex.GetAdjacentHex(Position, orientation);
 
         public void AdjustOrientation(int direction)
         {

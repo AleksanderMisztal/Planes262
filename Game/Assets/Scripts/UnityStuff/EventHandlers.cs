@@ -18,6 +18,7 @@ namespace Assets.Scripts.UnityStuff
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
             TroopController.ResetForNewGame();
+            MapController.Initialize(side);
             UIManager.StartTransitionIntoGame(side, opponentName, board);
         }
 
