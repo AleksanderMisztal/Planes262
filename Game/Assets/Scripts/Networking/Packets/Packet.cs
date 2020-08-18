@@ -2,28 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using Planes262.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
 
-namespace Scripts.Networking
+namespace Planes262.Networking.Packets
 {
-    public enum ServerPackets
-    {
-        Welcome = 1,
-        GameJoined = 2,
-        TroopSpawned = 3,
-        TroopMoved = 4,
-        GameEnded = 5,
-        OpponentDisconnected = 6,
-        MessageSent = 7,
-    }
-
-    public enum ClientPackets
-    {
-        JoinGame = 1,
-        MoveTroop = 2,
-        SendMessage = 3,
-    }
-
     public class Packet : IDisposable
     {
         private List<byte> buffer;

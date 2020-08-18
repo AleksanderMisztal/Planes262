@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Assets.Scripts.GameLogic;
 using Planes262.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
 using UnityEngine;
 
 namespace Tests

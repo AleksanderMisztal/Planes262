@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
+using Planes262.UnityLayer;
 
 namespace Planes262.GameLogic
 {

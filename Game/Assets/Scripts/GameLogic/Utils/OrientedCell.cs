@@ -1,7 +1,6 @@
-﻿using Assets.Scripts.GameLogic;
-using Planes262.Utils;
+﻿using Planes262.GameLogic.Exceptions;
 
-namespace Planes262.GameLogic
+namespace Planes262.GameLogic.Utils
 {
     public class OrientedCell
     {

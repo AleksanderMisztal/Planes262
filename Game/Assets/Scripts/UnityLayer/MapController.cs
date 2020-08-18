@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Planes262.GameLogic;
-using Planes262.Utils;
-using Scripts.Networking;
+using Planes262.GameLogic.Utils;
+using Planes262.Networking;
 
-namespace Assets.Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     public static class MapController
     {

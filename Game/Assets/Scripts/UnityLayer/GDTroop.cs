@@ -1,7 +1,8 @@
-﻿using Planes262.Utils;
+﻿using Planes262.GameLogic.Utils;
+using Planes262.UnityLayer;
 using UnityEngine;
 
-namespace Assets.Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     class GDTroop : MonoBehaviour
     {

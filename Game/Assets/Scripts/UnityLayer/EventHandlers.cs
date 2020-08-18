@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Planes262.GameLogic;
-using Planes262.Utils;
-using Scripts.UnityStuff;
+using Planes262.GameLogic.Utils;
 using UnityEngine;
 
-namespace Assets.Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     public class EventHandlers
     {

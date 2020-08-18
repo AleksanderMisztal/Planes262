@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scripts.Utils
+namespace Planes262.Networking
 {
     public class ThreadManager : MonoBehaviour
     {
@@ -16,8 +16,6 @@ namespace Scripts.Utils
             UpdateMain();
         }
 
-        /// <summary>Sets an action to be executed on the main thread.</summary>
-        /// <param name="_action">The action to be executed on the main thread.</param>
         public static void ExecuteOnMainThread(Action _action)
         {
             if (_action == null)
@@ -33,7 +31,6 @@ namespace Scripts.Utils
             }
         }
 
-        /// <summary>Executes all code meant to run on the main thread. NOTE: Call this ONLY from the main thread.</summary>
         public static void UpdateMain()
         {
             if (actionToExecuteOnMainThread)

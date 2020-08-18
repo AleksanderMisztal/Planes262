@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Scripts.Utils
+namespace Planes262.Networking
 {
     public static class Serializer
     {

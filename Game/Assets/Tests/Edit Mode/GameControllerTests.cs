@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.UnityStuff;
 using NUnit.Framework;
 using Planes262.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
+using Planes262.UnityLayer;
 
 namespace GameTests
 {

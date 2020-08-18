@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Planes262.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
 
-namespace Assets.Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     class TroopController : MonoBehaviour
     {

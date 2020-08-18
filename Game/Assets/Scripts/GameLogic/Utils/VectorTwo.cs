@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Planes262.Utils
+﻿namespace Planes262.GameLogic.Utils
 {
     public class VectorTwo
     {
@@ -38,9 +36,6 @@ namespace Planes262.Utils
         {
             return $"({X}, {Y})";
         }
-
-        public static explicit operator Vector3(VectorTwo v) => new Vector3(v.X, v.Y, 0);
-        public static explicit operator Vector3Int(VectorTwo v) => new Vector3Int(v.X, v.Y, 0);
 
         public static VectorTwo operator + (VectorTwo a, VectorTwo b)
             => new VectorTwo(a.X + b.X, a.Y + b.Y);

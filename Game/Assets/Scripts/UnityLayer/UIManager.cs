@@ -1,9 +1,9 @@
 ﻿using Planes262.GameLogic;
-using Scripts.Networking;
+using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     public class UIManager : MonoBehaviour
     {

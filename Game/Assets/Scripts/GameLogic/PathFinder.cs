@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Planes262.GameLogic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
+using Planes262.GameLogic.Exceptions;
 using System.Diagnostics;
 
-namespace Assets.Scripts.GameLogic
+namespace Planes262.GameLogic
 {
     public class PathFinder
     {

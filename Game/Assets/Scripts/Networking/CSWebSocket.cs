@@ -7,13 +7,13 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using Scripts.Utils;
+using Planes262.Networking.Packets;
 
-namespace Scripts.Networking
+namespace Planes262.Networking
 {
-    public class WebSocket
+    public class CSWebSocket
     {
-        public static WebSocket instance;
+        public static CSWebSocket instance;
 
         //private readonly static string host = "wwsserver.azurewebsites.net";
         private readonly static string host = "localhost";

@@ -1,8 +1,7 @@
-﻿using Assets.Scripts.UnityStuff;
-using Planes262.Utils;
+﻿using Planes262.GameLogic.Utils;
 using UnityEngine;
 
-namespace Scripts.UnityStuff
+namespace Planes262.UnityLayer
 {
     public class InputParser : MonoBehaviour
     {

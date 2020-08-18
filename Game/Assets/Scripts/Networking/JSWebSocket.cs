@@ -1,25 +1,25 @@
-﻿#if UNITY_WEBGL && !UNITY_EDITOR
-using Scripts.Networking;
-using Scripts.Utils;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using Planes262.Networking.Packets;
 
-public class WebSocket
+namespace Planes262.Networking
 {
-    [DllImport("__Internal")]
-    public static extern void InitializeConnectionJS();
-
-    public void InitializeConnection()
+    public class JSWebSocket
     {
-        InitializeConnectionJS();
-    }
+        [DllImport("__Internal")]
+        public static extern void InitializeConnectionJS();
 
-    [DllImport("__Internal")]
-    public static extern void SendDataJS(string data);
+        public void InitializeConnection()
+        {
+            InitializeConnectionJS();
+        }
 
-    public void SendData(Packet packet)
-    {
-        string data = Serializer.Serialize(packet.ToArray());
-        SendDataJS(data);
+        [DllImport("__Internal")]
+        public static extern void SendDataJS(string data);
+
+        public void SendData(Packet packet)
+        {
+            string data = Serializer.Serialize(packet.ToArray());
+            SendDataJS(data);
+        }
     }
 }
-#endif

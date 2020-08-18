@@ -1,4 +1,5 @@
-﻿using Planes262.Utils;
+﻿using Planes262.GameLogic.Utils;
+using Planes262.GameLogic.Exceptions;
 using System.Diagnostics;
 
 namespace Planes262.GameLogic

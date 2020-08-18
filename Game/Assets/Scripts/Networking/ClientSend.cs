@@ -1,6 +1,7 @@
-﻿using Planes262.Utils;
+﻿using Planes262.GameLogic.Utils;
+using Planes262.Networking.Packets;
 
-namespace Scripts.Networking
+namespace Planes262.Networking
 {
     public static class ClientSend
     {

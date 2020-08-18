@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Planes262.Utils
+namespace Planes262.GameLogic.Utils
 {
     public class Hex
     {

@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using Planes262.Networking.Packets;
+using UnityEngine;
 
-namespace Scripts.Networking
+namespace Planes262.Networking
 {
     class Client : MonoBehaviour
     {
         private static Client instance;
-        private WebSocket socket;
+        private CSWebSocket socket;
 
         private void Awake()
         {
@@ -24,7 +25,7 @@ namespace Scripts.Networking
         {
             Application.runInBackground = true;
 
-            socket = new WebSocket();
+            socket = new CSWebSocket();
 #if UNITY_EDITOR || !UNITY_WEBGL 
             await 
 #endif

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.UnityStuff;
 using Planes262.GameLogic;
-using Planes262.Utils;
-using Scripts.Utils;
+using Planes262.GameLogic.Utils;
+using Planes262.Networking.Packets;
+using Planes262.UnityLayer;
 
-namespace Scripts.Networking
+namespace Planes262.Networking
 {
     public static class ClientHandle
     {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Planes262.Utils;
+using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {
