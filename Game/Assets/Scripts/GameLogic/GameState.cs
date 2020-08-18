@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
-using GameServer.Utils;
+using Planes262.Utils;
 
-namespace GameServer.GameLogic
+namespace Planes262.GameLogic
 {
     public class GameState
     {
@@ -98,7 +98,7 @@ namespace GameServer.GameLogic
             return instance.pathFinder.GetDirections(start, end);
         }
 
-        public static TroopDto GetTroopSide(VectorTwo position)
+        public static TroopDto GetTroopDto(VectorTwo position)
         {
             Troop troop = instance.troopMap.Get(position);
             if (troop is null) return null;

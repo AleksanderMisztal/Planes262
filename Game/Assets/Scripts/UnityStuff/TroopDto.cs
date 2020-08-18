@@ -1,4 +1,4 @@
-﻿namespace GameServer.GameLogic
+﻿namespace Planes262.GameLogic
 {
     public class TroopDto
     {

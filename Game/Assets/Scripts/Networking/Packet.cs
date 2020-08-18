@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameServer.GameLogic;
-using GameServer.Utils;
+using Planes262.GameLogic;
+using Planes262.Utils;
 
 namespace Scripts.Networking
 {

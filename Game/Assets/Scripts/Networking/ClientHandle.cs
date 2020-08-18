@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.UnityStuff;
-using GameServer.GameLogic;
-using GameServer.Utils;
+using Planes262.GameLogic;
+using Planes262.Utils;
 using Scripts.Utils;
 
 namespace Scripts.Networking

@@ -1,4 +1,4 @@
-﻿using GameServer.GameLogic;
+﻿using Planes262.GameLogic;
 using Scripts.Networking;
 using UnityEngine;
 using UnityEngine.UI;

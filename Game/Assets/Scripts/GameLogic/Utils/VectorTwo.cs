@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameServer.Utils
+namespace Planes262.Utils
 {
     public class VectorTwo
     {

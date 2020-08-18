@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.UnityStuff;
-using GameServer.Utils;
+using Planes262.Utils;
 using UnityEngine;
 
 namespace Scripts.UnityStuff

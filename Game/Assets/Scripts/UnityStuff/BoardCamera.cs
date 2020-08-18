@@ -1,4 +1,4 @@
-﻿using GameServer.GameLogic;
+﻿using Planes262.GameLogic;
 using UnityEngine;
 
 public class BoardCamera : MonoBehaviour

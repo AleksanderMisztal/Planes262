@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using GameServer.GameLogic;
-using GameServer.Utils;
+using Planes262.GameLogic;
+using Planes262.Utils;
 using Scripts.UnityStuff;
 using UnityEngine;
 
@@ -34,7 +34,7 @@ namespace Assets.Scripts.UnityStuff
 
         public static void OnGameEnded(int redScore, int blueScore)
         {
-            // TODO: UIManager end game blah blah
+            UIManager.EndGame(blueScore, redScore);
         }
 
         public static void OnMessageSent(string message)

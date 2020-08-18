@@ -1,4 +1,4 @@
-﻿using GameServer.Utils;
+﻿using Planes262.Utils;
 using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff
@@ -34,31 +34,21 @@ namespace Assets.Scripts.UnityStuff
 
         public void AdjustOrientation(int direction)
         {
-            if (health <= 0) return;
             orientation += direction;
-            body.Rotate(Vector3.forward * 60 * (direction));
+            body.Rotate(Vector3.forward * 60 * direction);
         }
 
         public void MoveForward()
         {
-            if (health <= 0) return;
             Position = CellInFront;
             transform.position = MapGrid.CellToWorld(Position);
         }
 
         public void ApplyDamage()
         {
-            health--;
             Effects.Explode(transform.position, NO_EXPLOSIONS);
-            MatchSpriteToHealth();
-        }
-
-        private void MatchSpriteToHealth()
-        {
-            if (health --> 0)
-                spriteRenderer.sprite = sprites[health - 1];
-            else
-                Destroy(this);
+            if (--health > 0) spriteRenderer.sprite = sprites[health - 1];
+            else Destroy(this);
         }
     }
 }

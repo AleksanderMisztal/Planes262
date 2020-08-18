@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using GameServer.GameLogic;
-using GameServer.Utils;
+using Planes262.GameLogic;
+using Planes262.Utils;
 using Scripts.Networking;
-using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff
 {
@@ -59,7 +58,7 @@ namespace Assets.Scripts.UnityStuff
         private static void SelectTroop(VectorTwo cell)
         {
             DeactivateTroops();
-            troopDto = GameState.GetTroopSide(cell);
+            troopDto = GameState.GetTroopDto(cell);
             if (troopDto != null && troopDto.side == Side)
                 ActivateTroopAt(cell);
         }

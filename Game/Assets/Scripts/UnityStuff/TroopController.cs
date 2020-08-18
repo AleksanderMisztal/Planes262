@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using GameServer.GameLogic;
-using GameServer.Utils;
+using Planes262.GameLogic;
+using Planes262.Utils;
 
 namespace Assets.Scripts.UnityStuff
 {
@@ -44,13 +44,31 @@ namespace Assets.Scripts.UnityStuff
         {
             var troop = map[position];
             troop.AdjustOrientation(direction);
+            ConductBattles(battleResults, troop);
+            FinalizeMoveIfNotDestroyed(position, troop);
+        }
+
+        private static void ConductBattles(List<BattleResult> battleResults, GDTroop troop)
+        {
             foreach (var result in battleResults)
             {
+                Debug.Log($"Position is {troop.Position}, in front {troop.CellInFront}");
                 var encounter = map[troop.CellInFront];
                 troop.MoveForward();
-                if (result.AttackerDamaged) troop.ApplyDamage();
-                if (result.DefenderDamaged) encounter.ApplyDamage();
+                if (result.AttackerDamaged) ApplyDamage(troop);
+                if (result.DefenderDamaged) ApplyDamage(encounter);
             }
+        }
+
+        private static void ApplyDamage(GDTroop troop)
+        {
+            troop.ApplyDamage();
+            if (troop.Destroyed)
+                map.Remove(troop.Position);
+        }
+
+        private static void FinalizeMoveIfNotDestroyed(VectorTwo position, GDTroop troop)
+        {
             if (!troop.Destroyed)
             {
                 troop.MoveForward();

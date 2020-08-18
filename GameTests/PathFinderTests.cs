@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GameServer.GameLogic;
+using Planes262.GameLogic;
 using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
-using GameServer.Utils;
+using Planes262.Utils;
 using System.Diagnostics;
 
 namespace GameTests

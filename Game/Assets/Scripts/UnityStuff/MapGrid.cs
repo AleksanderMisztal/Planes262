@@ -1,4 +1,4 @@
-﻿using GameServer.Utils;
+﻿using Planes262.Utils;
 using UnityEngine;
 
 namespace Assets.Scripts.UnityStuff

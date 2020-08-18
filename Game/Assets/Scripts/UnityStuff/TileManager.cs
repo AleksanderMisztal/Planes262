@@ -1,5 +1,5 @@
-﻿using GameServer.GameLogic;
-using GameServer.Utils;
+﻿using Planes262.GameLogic;
+using Planes262.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;

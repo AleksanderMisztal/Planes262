@@ -1,7 +1,7 @@
-﻿using GameServer.Utils;
+﻿using Planes262.Utils;
 using System.Diagnostics;
 
-namespace GameServer.GameLogic
+namespace Planes262.GameLogic
 {
     public class MoveValidator
     {

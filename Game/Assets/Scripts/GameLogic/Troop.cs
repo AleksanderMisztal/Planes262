@@ -1,6 +1,6 @@
-﻿using GameServer.Utils;
+﻿using Planes262.Utils;
 
-namespace GameServer.GameLogic
+namespace Planes262.GameLogic
 {
     public class Troop
     {

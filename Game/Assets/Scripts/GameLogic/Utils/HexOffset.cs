@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using GameServer.Utils;
+using Planes262.Utils;
 
-namespace GameServer.Utils
+namespace Planes262.Utils
 {
     class HexOffset
     {

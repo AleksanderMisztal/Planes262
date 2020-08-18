@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameServer.GameLogic
+namespace Planes262.GameLogic
 {
     [Serializable]
     public class IllegalMoveException : Exception 
