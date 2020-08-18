@@ -7,7 +7,7 @@ namespace Planes262.Networking
     {
         public static void JoinGame(string name)
         {
-            using (Packet packet = new Packet((int)ClientPackets.JoinGame))
+            using (var packet = new Packet((int)ClientPackets.JoinGame))
             {
                 packet.Write(name);
 
@@ -17,7 +17,7 @@ namespace Planes262.Networking
 
         public static void MoveTroop(VectorTwo position, int direction)
         {
-            using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
+            using (var packet = new Packet((int)ClientPackets.MoveTroop))
             {
                 packet.Write(position);
                 packet.Write(direction);
@@ -28,7 +28,7 @@ namespace Planes262.Networking
 
         public static void SendMessage(string message)
         {
-            using (Packet packet = new Packet((int)ClientPackets.SendMessage))
+            using (var packet = new Packet((int)ClientPackets.SendMessage))
             {
                 packet.Write(message);
 

@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer
         public static void OnCellClicked(VectorTwo cell)
         {
             if (cell == selectedPosition) return;
-            bool troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
+            var troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
             if (troopIsSelectedAndCanReachCell)
                 ChangePathOrSend(cell);
             else SelectTroop(cell);

@@ -34,7 +34,7 @@ namespace Planes262.UnityLayer
             foreach (var troop in troops)
             {
                 var troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;
-                GDTroop gdTroop = Instantiate(troopPrefab);
+                var gdTroop = Instantiate(troopPrefab);
                 gdTroop.Initialize(troop.Position, troop.Orientation, troop.Health);
                 map.Add(troop.Position, gdTroop);
             }

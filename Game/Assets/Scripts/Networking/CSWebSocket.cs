@@ -29,7 +29,7 @@ namespace Planes262.Networking
 
         public void SendData(Packet packet)
         {
-            Packet perm = new Packet(packet.ToArray());
+            var perm = new Packet(packet.ToArray());
             wsClient.AddToQueue(perm);
         }
 
@@ -48,7 +48,7 @@ namespace Planes262.Networking
                 {
                     while (sendQueue.Count != 0)
                     {
-                        Packet packet = sendQueue.Dequeue();
+                        var packet = sendQueue.Dequeue();
                         await SendData(packet);
                     }
                     await Task.Delay(100);
@@ -60,7 +60,7 @@ namespace Planes262.Networking
 
             public async Task Connect()
             {
-                Uri serverUri = new Uri($"wss://{host}:{port}");
+                var serverUri = new Uri($"wss://{host}:{port}");
                 socket = new ClientWebSocket();
                 Debug.Log("Attempting to connect to " + serverUri.ToString());
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
@@ -72,7 +72,7 @@ namespace Planes262.Networking
 
             private async Task<string> Receive()
             {
-                ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
+                var buffer = new ArraySegment<byte>(new byte[4 * 1024]);
                 var memoryStream = new MemoryStream();
                 WebSocketReceiveResult result;
 
@@ -87,7 +87,7 @@ namespace Planes262.Networking
                 {
                     using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
                     {
-                        string bytes = reader.ReadToEnd();
+                        var bytes = reader.ReadToEnd();
                         try
                         {
                             return bytes;
@@ -103,7 +103,7 @@ namespace Planes262.Networking
 
             private async Task BeginListen()
             {
-                string data = await Receive();
+                var data = await Receive();
 
                 ClientHandle.HandlePacket(data);
 

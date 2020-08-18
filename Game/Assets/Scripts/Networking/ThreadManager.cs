@@ -16,37 +16,30 @@ namespace Planes262.Networking
             UpdateMain();
         }
 
-        public static void ExecuteOnMainThread(Action _action)
+        public static void ExecuteOnMainThread(Action action)
         {
-            if (_action == null)
-            {
-                Debug.Log("No action to execute on main thread!");
-                return;
-            }
-
+            if (action == null) return;
             lock (executeOnMainThread)
             {
-                executeOnMainThread.Add(_action);
+                executeOnMainThread.Add(action);
                 actionToExecuteOnMainThread = true;
             }
         }
 
-        public static void UpdateMain()
+        private static void UpdateMain()
         {
-            if (actionToExecuteOnMainThread)
+            if (!actionToExecuteOnMainThread) return;
+            executeCopiedOnMainThread.Clear();
+            lock (executeOnMainThread)
             {
-                executeCopiedOnMainThread.Clear();
-                lock (executeOnMainThread)
-                {
-                    executeCopiedOnMainThread.AddRange(executeOnMainThread);
-                    executeOnMainThread.Clear();
-                    actionToExecuteOnMainThread = false;
-                }
+                executeCopiedOnMainThread.AddRange(executeOnMainThread);
+                executeOnMainThread.Clear();
+                actionToExecuteOnMainThread = false;
+            }
 
-                for (int i = 0; i < executeCopiedOnMainThread.Count; i++)
-                {
-                    executeCopiedOnMainThread[i]();
-                }
+            foreach (var action in executeCopiedOnMainThread)
+            {
+                action();
             }
         }
     }

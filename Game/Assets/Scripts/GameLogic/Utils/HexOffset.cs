@@ -43,14 +43,14 @@ namespace Planes262.GameLogic.Utils
         {
             direction %= 6;
             while (direction < 0) direction += 6;
-            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
-            VectorTwo step = steps[direction % 6];
+            var steps = (y & 1) == 1 ? oddSteps : evenSteps;
+            var step = steps[direction % 6];
             return new HexOffset(x + step.X, y + step.Y);
         }
 
         public HexOffset[] GetNeighbors()
         {
-            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
+            var steps = (y & 1) == 1 ? oddSteps : evenSteps;
             return steps.Select(s => new HexOffset(x + s.X, y + s.Y)).ToArray();
         }
 
@@ -67,7 +67,7 @@ namespace Planes262.GameLogic.Utils
         public override bool Equals(Object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            HexOffset offset = (HexOffset)obj;
+            var offset = (HexOffset)obj;
             return (x == offset.x) && (y == offset.y);
         }
 

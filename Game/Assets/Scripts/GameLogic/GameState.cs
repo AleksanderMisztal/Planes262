@@ -6,7 +6,7 @@ namespace Planes262.GameLogic
 {
     public class GameState
     {
-        public static GameState instance = null;
+        public static GameState Instance = null;
 
         private PlayerSide activePlayer = PlayerSide.Red;
         private readonly Score score = new Score();
@@ -30,7 +30,7 @@ namespace Planes262.GameLogic
 
         private void ChangeActivePlayer()
         {
-            HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
+            var beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (var troop in beginningTroops)
                 troop.ResetMovePoints();
 
@@ -40,11 +40,11 @@ namespace Planes262.GameLogic
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            int battleId = 0;
-            Troop troop = troopMap.Get(position);
+            var battleId = 0;
+            var troop = troopMap.Get(position);
             troop.MoveInDirection(direction);
 
-            Troop encounter = troopMap.Get(troop.Position);
+            var encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop);
@@ -73,7 +73,7 @@ namespace Planes262.GameLogic
 
         private void ApplyDamage(Troop troop)
         {
-            PlayerSide opponent = troop.Player.Opponent();
+            var opponent = troop.Player.Opponent();
             score.Increment(opponent);
 
             troop.ApplyDamage();
@@ -90,19 +90,18 @@ namespace Planes262.GameLogic
         //Getters
         public static HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
-            return instance.pathFinder.GetReachableCells(position);
+            return Instance.pathFinder.GetReachableCells(position);
         }
 
         public static List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
-            return instance.pathFinder.GetDirections(start, end);
+            return Instance.pathFinder.GetDirections(start, end);
         }
 
         public static TroopDto GetTroopDto(VectorTwo position)
         {
-            Troop troop = instance.troopMap.Get(position);
-            if (troop is null) return null;
-            return new TroopDto(troop.Player, troop.Orientation);
+            var troop = Instance.troopMap.Get(position);
+            return troop is null ? null : new TroopDto(troop.Player, troop.Orientation);
         }
     }
 }

@@ -9,15 +9,14 @@ namespace Planes262.GameLogic
         private readonly TroopMap map;
         private readonly Board board;
         private PlayerSide activePlayer;
-
-        public string Message { get; private set; } = null;
+        private string message = null;
 
 
         public MoveValidator(TroopMap map, Board board, PlayerSide player0)
         {
             this.map = map;
             this.board = board;
-            this.activePlayer = player0;
+            activePlayer = player0;
         }
 
         public void ToggleActivePlayer()
@@ -31,18 +30,18 @@ namespace Planes262.GameLogic
             {
                 IsPlayersTurn(player);
                 PositionContainsTroop(position);
-                Troop troop = map.Get(position);
+                var troop = map.Get(position);
                 PlayerControllsTroop(player, troop);
                 TroopHasMovePoints(troop);
                 NotEnteringFriendOrBlocked(troop, direction);
 
-                Message = "Move is valid.";
+                message = "Move is valid.";
                 return true;
             }
             catch (IllegalMoveException ex)
             {
-                Message = ex.Message;
-                Trace.WriteLine(Message);
+                message = ex.Message;
+                Trace.WriteLine(message);
                 return false;
             }
         }
@@ -74,8 +73,8 @@ namespace Planes262.GameLogic
 
         private void NotEnteringFriendOrBlocked(Troop troop, int direction)
         {
-            VectorTwo targetPosition = Hex.GetAdjacentHex(troop.Position, direction);
-            Troop encounter = map.Get(targetPosition);
+            var targetPosition = Hex.GetAdjacentHex(troop.Position, direction);
+            var encounter = map.Get(targetPosition);
 
             if (encounter == null || encounter.Player != troop.Player) return;
 
@@ -90,11 +89,9 @@ namespace Planes262.GameLogic
         {
             if (board.IsOutside(cell)) return;
 
-            Troop encounter = map.Get(cell);
+            var encounter = map.Get(cell);
             if (encounter == null || encounter.Player != troop.Player)
-            {
                 throw new IllegalMoveException("Attempting to enter a cell with friendly troop!");
-            }
         }
     }
 }

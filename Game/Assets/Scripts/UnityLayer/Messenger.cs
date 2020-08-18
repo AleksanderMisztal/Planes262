@@ -35,7 +35,7 @@ namespace Planes262.UnityLayer
 
         public void SendAMessage()
         {
-            string message = UIManager.Username + ": " + input.text;
+            var message = UIManager.Username + ": " + input.text;
             input.text = "";
 
             ClientSend.SendMessage(message);
@@ -50,7 +50,7 @@ namespace Planes262.UnityLayer
 
         private void Display(string message)
         {
-            Text messageObject = Instantiate(messagePrefab);
+            var messageObject = Instantiate(messagePrefab);
             messageObject.text = message;
             messageObject.transform.SetParent(textParent.transform);
             messageObject.transform.localScale = new Vector3(.95f, 1, 1);

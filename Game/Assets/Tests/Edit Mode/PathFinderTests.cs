@@ -32,7 +32,7 @@ namespace Tests
         [Test]
         public void Should_ReturnControllZone_When_TroopHasOneMove()
         {
-            List<Troop> troops = new List<Troop>
+            var troops = new List<Troop>
             {
                 Troop.Blue(2, 2, 1)
             };
@@ -40,7 +40,7 @@ namespace Tests
 
             var cells = pathFinder.GetReachableCells(troops[0].Position);
 
-            List<VectorTwo> expected = new List<VectorTwo>
+            var expected = new List<VectorTwo>
             {
                 new VectorTwo(2, 3),
                 new VectorTwo(3, 2),
@@ -53,7 +53,7 @@ namespace Tests
         [Test]
         public void Should_NotReachCell_When_OccupiedByFriend()
         {
-            List<Troop> troops = new List<Troop>
+            var troops = new List<Troop>
             {
                 Troop.Blue(2, 2, 2),
                 Troop.Blue(2, 3)
@@ -62,7 +62,7 @@ namespace Tests
 
             var cells = pathFinder.GetReachableCells(troops[0].Position);
 
-            List<VectorTwo> expected = new List<VectorTwo>
+            var expected = new List<VectorTwo>
             {
                 new VectorTwo(3, 2),
                 new VectorTwo(3, 3),

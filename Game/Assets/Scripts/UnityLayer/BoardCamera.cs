@@ -46,8 +46,8 @@ namespace Planes262.UnityLayer
 
         private static void SetCameraPosition(Board board)
         {
-            Vector3 bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(-1, -1, -10));
-            Vector3 topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.xMax + 1, board.yMax + 1, -10));
+            var bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(-1, -1, -10));
+            var topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.xMax + 1, board.yMax + 1, -10));
 
             center = (bottomLeft + topRight) / 2;
             center.z = -10;
@@ -59,8 +59,8 @@ namespace Planes262.UnityLayer
         {
 
             //TODO: calculate based on screen size
-            float xSize = (float)board.xMax / 3 + 1.5f;
-            float ySize = (float)board.yMax / 2 + 1;
+            var xSize = (float)board.xMax / 3 + 1.5f;
+            var ySize = (float)board.yMax / 2 + 1;
 
             boardCamera = instance.GetComponent<Camera>();
             boardCamera.orthographicSize = maxSize = Mathf.Max(xSize, ySize);
@@ -68,8 +68,8 @@ namespace Planes262.UnityLayer
 
         private static void InitializeBoardBoundaries()
         {
-            Vector3 camBottomLeft = boardCamera.ScreenToWorldPoint(new Vector3(0, 0, 0));
-            Vector3 camTopRight = boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, boardCamera.pixelHeight, 0));
+            var camBottomLeft = boardCamera.ScreenToWorldPoint(new Vector3(0, 0, 0));
+            var camTopRight = boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, boardCamera.pixelHeight, 0));
 
             xMin = camBottomLeft.x;
             yMin = camBottomLeft.y;
@@ -87,7 +87,7 @@ namespace Planes262.UnityLayer
 
         private static void UpdateCameraSize()
         {
-            float deltaSize = -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            var deltaSize = -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
             boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, minSize, maxSize);
         }
 
@@ -105,10 +105,10 @@ namespace Planes262.UnityLayer
 
         private void ClampCameraPosition()
         {
-            float x = Mathf.Clamp(instance.transform.position.x,
+            var x = Mathf.Clamp(instance.transform.position.x,
                                             xMin + CenterXOffset,
                                             xMax - CenterXOffset);
-            float y = Mathf.Clamp(instance.transform.position.y,
+            var y = Mathf.Clamp(instance.transform.position.y,
                                     yMin + CenterYOffset,
                                     yMax - CenterYOffset);
 

@@ -19,7 +19,7 @@ namespace GameTests
         public void Should_BehaveWell_When_DoubleFight()
         {
             EventHandlers.OnGameJoined("Bot", PlayerSide.Blue, new Board(8, 5));
-            List<Troop> troops = new List<Troop>
+            var troops = new List<Troop>
             {
                 Troop.Blue(2, 2, 2),
                 Troop.Blue(1, 3, 2),

@@ -25,7 +25,7 @@ namespace Planes262.GameLogic
         public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             ResetMembers();
-            Troop troop = map.Get(position);
+            var troop = map.Get(position);
             if (troop == null) throw new PathFindingException("No troop on this hex!");
             return GetReachableCells(troop);
         }
@@ -40,7 +40,7 @@ namespace Planes262.GameLogic
         private HashSet<VectorTwo> GetReachableCells(Troop troop)
         {
             side = troop.Player;
-            OrientedCell initialPosition = new OrientedCell(troop.Position, troop.Orientation);
+            var initialPosition = new OrientedCell(troop.Position, troop.Orientation);
             AddReachableCells(initialPosition, troop.MovePoints);
             return new HashSet<VectorTwo>(reachableCells.Select(c => c.Position));
         }
@@ -49,7 +49,7 @@ namespace Planes262.GameLogic
         {
             if (movePoints <= 0) return;
             Trace.WriteLine($"Source: {sourceCell.Position}, {sourceCell.Orientation}, mp: {movePoints}");
-            foreach (OrientedCell cell in sourceCell.GetControllZone())
+            foreach (var cell in sourceCell.GetControllZone())
             {
                 Trace.WriteLine($"Cell: {cell.Position}, {cell.Orientation}");
                 if (reachableCells.Contains(cell)) continue;
@@ -59,7 +59,7 @@ namespace Planes262.GameLogic
 
         private void AddCell(OrientedCell sourceCell, int movePoints, OrientedCell cell)
         {
-            Troop encounter = map.Get(cell.Position);
+            var encounter = map.Get(cell.Position);
             if (encounter == null || encounter.Player != side)
             {
                 reachableCells.Add(cell);
@@ -72,12 +72,12 @@ namespace Planes262.GameLogic
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
-            List<int> directions = new List<int>();
-            OrientedCell coords = orient[end];
+            var directions = new List<int>();
+            var coords = orient[end];
             while (coords.Position != start)
             {
-                OrientedCell prevCoords = parent[coords];
-                int direction = prevCoords.GetDirection(coords);
+                var prevCoords = parent[coords];
+                var direction = prevCoords.GetDirection(coords);
                 directions.Add(direction);
                 coords = prevCoords;
             }

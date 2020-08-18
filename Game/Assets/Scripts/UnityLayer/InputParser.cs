@@ -10,8 +10,8 @@ namespace Planes262.UnityLayer
 
         private void OnMouseDown()
         {
-            Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
-            VectorTwo cell = MapGrid.WorldToCell(mousePosition);
+            var mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
+            var cell = MapGrid.WorldToCell(mousePosition);
 
             MapController.OnCellClicked(cell);
         }

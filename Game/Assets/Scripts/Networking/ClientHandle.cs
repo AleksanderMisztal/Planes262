@@ -23,10 +23,10 @@ namespace Planes262.Networking
         // TODO: Move string to byte conversion into Client class
         public static void HandlePacket(string byteArray)
         {
-            byte[] bytes = Serializer.Deserialize(byteArray);
-            using (Packet packet = new Packet(bytes))
+            var bytes = Serializer.Deserialize(byteArray);
+            using (var packet = new Packet(bytes))
             {
-                int packetType = packet.ReadInt();
+                var packetType = packet.ReadInt();
                 packetHandlers[packetType](packet);
             }
         }
@@ -39,43 +39,43 @@ namespace Planes262.Networking
 
         public static void GameJoined(Packet packet)
         {
-            string opponentName = packet.ReadString();
-            PlayerSide side = (PlayerSide)packet.ReadInt();
-            Board board = packet.ReadBoard();
+            var opponentName = packet.ReadString();
+            var side = (PlayerSide)packet.ReadInt();
+            var board = packet.ReadBoard();
 
-            GameState.instance = new GameState(board);
+            GameState.Instance = new GameState(board);
             EventHandlers.OnGameJoined(opponentName, side, board);
         }
 
         public static void TroopSpawned(Packet packet)
         {
-            List<Troop> troops = packet.ReadTroops();
+            var troops = packet.ReadTroops();
 
-            GameState.instance.BeginNextRound(troops);
+            GameState.Instance.BeginNextRound(troops);
             EventHandlers.OnTroopsSpawned(troops);
         }
 
         public static void TroopMoved(Packet packet)
         {
-            VectorTwo position = packet.ReadVector2Int();
-            int direction = packet.ReadInt();
-            List<BattleResult> battleResults = packet.ReadBattleResults();
+            var position = packet.ReadVector2Int();
+            var direction = packet.ReadInt();
+            var battleResults = packet.ReadBattleResults();
 
-            GameState.instance.MoveTroop(position, direction, battleResults);
+            GameState.Instance.MoveTroop(position, direction, battleResults);
             EventHandlers.OnTroopMoved(position, direction, battleResults);
         }
 
         public static void GameEnded(Packet packet)
         {
-            int redScore = packet.ReadInt();
-            int blueScore = packet.ReadInt();
+            var redScore = packet.ReadInt();
+            var blueScore = packet.ReadInt();
 
             EventHandlers.OnGameEnded(redScore, blueScore);
         }
 
         public static void MessageSent(Packet packet)
         {
-            string message = packet.ReadString();
+            var message = packet.ReadString();
 
             EventHandlers.OnMessageSent(message);
         }

@@ -106,7 +106,7 @@ namespace Planes262.UnityLayer
 
         public static void OpponentDisconnected()
         { 
-            string message = "Opponent has disconnected :(";
+            var message = "Opponent has disconnected :(";
             instance.EndGame(message);
         }
 
@@ -114,7 +114,7 @@ namespace Planes262.UnityLayer
         {
             // TODO: Wait for 1-2 seconds
 
-            string message = $"Final score: red: {redScore}, blue: {blueScore}";
+            var message = $"Final score: red: {redScore}, blue: {blueScore}";
             instance.EndGame(message);
         }
 

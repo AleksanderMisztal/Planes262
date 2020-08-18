@@ -16,10 +16,10 @@ namespace Planes262.GameLogic.Utils
 
         public static VectorTwo[] GetControllZone(VectorTwo cell, int orientation)
         {
-            VectorTwo[] cells = new VectorTwo[3];
-            for (int i = -1; i < 2; i++)
+            var cells = new VectorTwo[3];
+            for (var i = -1; i < 2; i++)
             {
-                int direction = (orientation + i + 6) % 6;
+                var direction = (orientation + i + 6) % 6;
                 cells[i + 1] = GetAdjacentHex(cell, direction);
             }
             return cells;

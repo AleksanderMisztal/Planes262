@@ -45,8 +45,8 @@ namespace Planes262.UnityLayer
         public static void CreateBoard(Board board)
         {
             Debug.Log("Creating the board");
-            for (int x = 0; x <= board.xMax; x++)
-                for (int y = 0; y <= board.yMax; y++)
+            for (var x = 0; x <= board.xMax; x++)
+                for (var y = 0; y <= board.yMax; y++)
                     CreateTile(x, y);
             instance.boardTilemap.gameObject.SetActive(false);
         }

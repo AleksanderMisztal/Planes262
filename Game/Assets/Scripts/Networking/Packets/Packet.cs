@@ -157,7 +157,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                byte _value = readableBuffer[readPos];
+                var _value = readableBuffer[readPos];
                 if (_moveReadPos)
                 {
                     readPos += 1;
@@ -174,7 +174,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                byte[] _value = buffer.GetRange(readPos, _length).ToArray();
+                var _value = buffer.GetRange(readPos, _length).ToArray();
                 if (_moveReadPos)
                 {
                     readPos += _length;
@@ -191,7 +191,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                short _value = BitConverter.ToInt16(readableBuffer, readPos);
+                var _value = BitConverter.ToInt16(readableBuffer, readPos);
                 if (_moveReadPos)
                 {
                     readPos += 2;
@@ -208,7 +208,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                int _value = BitConverter.ToInt32(readableBuffer, readPos);
+                var _value = BitConverter.ToInt32(readableBuffer, readPos);
                 if (_moveReadPos)
                 {
                     readPos += 4;
@@ -225,7 +225,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                long _value = BitConverter.ToInt64(readableBuffer, readPos);
+                var _value = BitConverter.ToInt64(readableBuffer, readPos);
                 if (_moveReadPos)
                 {
                     readPos += 8;
@@ -242,7 +242,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                float _value = BitConverter.ToSingle(readableBuffer, readPos);
+                var _value = BitConverter.ToSingle(readableBuffer, readPos);
                 if (_moveReadPos)
                 {
                     readPos += 4;
@@ -259,7 +259,7 @@ namespace Planes262.Networking.Packets
         {
             if (buffer.Count > readPos)
             {
-                bool _value = BitConverter.ToBoolean(readableBuffer, readPos);
+                var _value = BitConverter.ToBoolean(readableBuffer, readPos);
                 if (_moveReadPos)
                 {
                     readPos += 1;
@@ -276,8 +276,8 @@ namespace Planes262.Networking.Packets
         {
             try
             {
-                int _length = ReadInt();
-                string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length);
+                var _length = ReadInt();
+                var _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length);
                 if (_moveReadPos && _value.Length > 0)
                 {
                     readPos += _length;
@@ -292,30 +292,30 @@ namespace Planes262.Networking.Packets
 
         public VectorTwo ReadVector2Int()
         {
-            int x = ReadInt();
-            int y = ReadInt();
+            var x = ReadInt();
+            var y = ReadInt();
 
             return new VectorTwo(x, y);
         }
 
         public Troop ReadTroop()
         {
-            PlayerSide side = (PlayerSide)ReadInt();
-            int health = ReadInt();
-            int initialMovePoints = ReadInt();
-            int orientation = ReadInt();
-            VectorTwo position = ReadVector2Int();
+            var side = (PlayerSide)ReadInt();
+            var health = ReadInt();
+            var initialMovePoints = ReadInt();
+            var orientation = ReadInt();
+            var position = ReadVector2Int();
 
             return new Troop(side, initialMovePoints, position, orientation, health);
         }
 
         public List<Troop> ReadTroops()
         {
-            int length = ReadInt();
-            List<Troop> troops = new List<Troop>();
-            for (int i = 0; i < length; i++)
+            var length = ReadInt();
+            var troops = new List<Troop>();
+            for (var i = 0; i < length; i++)
             {
-                Troop troop = ReadTroop();
+                var troop = ReadTroop();
                 troops.Add(troop);
             }
             return troops;
@@ -323,19 +323,19 @@ namespace Planes262.Networking.Packets
 
         public BattleResult ReadBattleResult()
         {
-            bool attackerDamaged = ReadBool();
-            bool defenderDamaged = ReadBool();
+            var attackerDamaged = ReadBool();
+            var defenderDamaged = ReadBool();
 
             return new BattleResult(defenderDamaged, attackerDamaged);
         }
 
         public List<BattleResult> ReadBattleResults()
         {
-            int length = ReadInt();
-            List<BattleResult> battleResults = new List<BattleResult>();
-            for (int i = 0; i < length; i++)
+            var length = ReadInt();
+            var battleResults = new List<BattleResult>();
+            for (var i = 0; i < length; i++)
             {
-                BattleResult battleResult = ReadBattleResult();
+                var battleResult = ReadBattleResult();
                 battleResults.Add(battleResult);
             }
             return battleResults;
@@ -343,8 +343,8 @@ namespace Planes262.Networking.Packets
 
         public Board ReadBoard()
         {
-            int xMax = ReadInt();
-            int yMax = ReadInt();
+            var xMax = ReadInt();
+            var yMax = ReadInt();
 
             return new Board(xMax, yMax);
         }
