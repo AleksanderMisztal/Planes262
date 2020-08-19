@@ -8,7 +8,7 @@ namespace Planes262.UnityLayer
         {
             // TODO: wait for animation end
 
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }

@@ -18,15 +18,15 @@ namespace Planes262.UnityLayer
         [SerializeField] private Tilemap rangeTilemap;
         [SerializeField] private Tilemap clickTilemap;
 
-        private static bool isGridActive = false;
+        private static bool isGridActive;
 
         private IEnumerable<VectorTwo> positions = new List<VectorTwo>();
         private IEnumerable<VectorTwo> path = new List<VectorTwo>();
 
-        private static Color transparent = new Color(255, 255, 255, 0);
-        private static Color active = new Color(0, 0, 255, 255);
-        private static Color activeBlocked = new Color(0, 0, 0, 127);
-        private static Color onPath = new Color(255, 0, 0, 127);
+        private static readonly Color transparent = new Color(255, 255, 255, 0);
+        private static readonly Color active = new Color(0, 0, 255, 255);
+        private static readonly Color activeBlocked = new Color(0, 0, 0, 127);
+        private static readonly Color onPath = new Color(255, 0, 0, 127);
 
 
         private void Awake()
@@ -45,8 +45,8 @@ namespace Planes262.UnityLayer
         public static void CreateBoard(Board board)
         {
             Debug.Log("Creating the board");
-            for (var x = 0; x <= board.xMax; x++)
-                for (var y = 0; y <= board.yMax; y++)
+            for (var x = 0; x <= board.XMax; x++)
+                for (var y = 0; y <= board.YMax; y++)
                     CreateTile(x, y);
             instance.boardTilemap.gameObject.SetActive(false);
         }

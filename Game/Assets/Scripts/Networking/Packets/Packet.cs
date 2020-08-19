@@ -18,26 +18,26 @@ namespace Planes262.Networking.Packets
             readPos = 0;
         }
 
-        public Packet(int _id)
+        public Packet(int id)
         {
             buffer = new List<byte>();
             readPos = 0;
 
-            Write(_id);
+            Write(id);
         }
 
-        public Packet(byte[] _data)
+        public Packet(byte[] data)
         {
             buffer = new List<byte>();
             readPos = 0;
 
-            SetBytes(_data);
+            SetBytes(data);
         }
 
         #region Functions
-        public void SetBytes(byte[] _data)
+        public void SetBytes(byte[] data)
         {
-            Write(_data);
+            Write(data);
             readableBuffer = buffer.ToArray();
         }
 
@@ -46,9 +46,9 @@ namespace Planes262.Networking.Packets
             buffer.InsertRange(0, BitConverter.GetBytes(buffer.Count));
         }
 
-        public void InsertInt(int _value)
+        public void InsertInt(int value)
         {
-            buffer.InsertRange(0, BitConverter.GetBytes(_value));
+            buffer.InsertRange(0, BitConverter.GetBytes(value));
         }
 
         public byte[] ToArray()
@@ -67,9 +67,9 @@ namespace Planes262.Networking.Packets
             return Length() - readPos;
         }
 
-        public void Reset(bool _shouldReset = true)
+        public void Reset(bool shouldReset = true)
         {
-            if (_shouldReset)
+            if (shouldReset)
             {
                 buffer.Clear();
                 readableBuffer = null;
@@ -83,206 +83,140 @@ namespace Planes262.Networking.Packets
         #endregion
 
         #region Write Data
-        public void Write(byte _value)
+        public void Write(byte value)
         {
-            buffer.Add(_value);
+            buffer.Add(value);
         }
 
-        public void Write(byte[] _value)
+        public void Write(byte[] value)
         {
-            buffer.AddRange(_value);
+            buffer.AddRange(value);
         }
 
-        public void Write(short _value)
+        public void Write(short value)
         {
-            buffer.AddRange(BitConverter.GetBytes(_value));
+            buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(int _value)
+        public void Write(int value)
         {
-            buffer.AddRange(BitConverter.GetBytes(_value));
+            buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(long _value)
+        public void Write(long value)
         {
-            buffer.AddRange(BitConverter.GetBytes(_value));
+            buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(float _value)
+        public void Write(float value)
         {
-            buffer.AddRange(BitConverter.GetBytes(_value));
+            buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(bool _value)
+        public void Write(bool value)
         {
-            buffer.AddRange(BitConverter.GetBytes(_value));
+            buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(string _value)
+        public void Write(string value)
         {
-            Write(_value.Length);
-            buffer.AddRange(Encoding.ASCII.GetBytes(_value));
+            Write(value.Length);
+            buffer.AddRange(Encoding.ASCII.GetBytes(value));
         }
 
-        public void Write(VectorTwo _value)
+        public void Write(VectorTwo value)
         {
-            Write(_value.X);
-            Write(_value.Y);
+            Write(value.X);
+            Write(value.Y);
         }
 
-        public void Write(Troop _value)
+        public void Write(Troop value)
         {
-            Write((int)_value.Player);
-            Write(_value.Health);
-            Write(_value.InitialMovePoints);
-            Write(_value.Orientation);
-            Write(_value.Position);
+            Write((int)value.Player);
+            Write(value.Health);
+            Write(value.InitialMovePoints);
+            Write(value.Orientation);
+            Write(value.Position);
         }
 
-        public void Write(BattleResult _value)
+        public void Write(BattleResult value)
         {
-            Write(_value.AttackerDamaged);
-            Write(_value.DefenderDamaged);
+            Write(value.AttackerDamaged);
+            Write(value.DefenderDamaged);
         }
 
-        public void Write(Board _value)
+        public void Write(Board value)
         {
-            Write(_value.xMax);
-            Write(_value.yMax);
+            Write(value.XMax);
+            Write(value.YMax);
         }
         #endregion
 
         #region Read Data
-        public byte ReadByte(bool _moveReadPos = true)
+        public byte ReadByte(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = readableBuffer[readPos];
-                if (_moveReadPos)
-                {
-                    readPos += 1;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'byte'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte'!");
+            var value = readableBuffer[readPos];
+            if (moveReadPos) readPos += 1;
+            return value;
         }
 
-        public byte[] ReadBytes(int _length, bool _moveReadPos = true)
+        public byte[] ReadBytes(int length, bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = buffer.GetRange(readPos, _length).ToArray();
-                if (_moveReadPos)
-                {
-                    readPos += _length;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'byte[]'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte[]'!");
+            var value = buffer.GetRange(readPos, length).ToArray();
+            if (moveReadPos) readPos += length;
+            return value;
         }
 
-        public short ReadShort(bool _moveReadPos = true)
+        public short ReadShort(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = BitConverter.ToInt16(readableBuffer, readPos);
-                if (_moveReadPos)
-                {
-                    readPos += 2;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'short'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'short'!");
+            var value = BitConverter.ToInt16(readableBuffer, readPos);
+            if (moveReadPos) readPos += 2;
+            return value;
         }
 
-        public int ReadInt(bool _moveReadPos = true)
+        public int ReadInt(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = BitConverter.ToInt32(readableBuffer, readPos);
-                if (_moveReadPos)
-                {
-                    readPos += 4;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'int'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'int'!");
+            var value = BitConverter.ToInt32(readableBuffer, readPos);
+            if (moveReadPos) readPos += 4;
+            return value;
         }
 
-        public long ReadLong(bool _moveReadPos = true)
+        public long ReadLong(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = BitConverter.ToInt64(readableBuffer, readPos);
-                if (_moveReadPos)
-                {
-                    readPos += 8;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'long'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'long'!");
+            var value = BitConverter.ToInt64(readableBuffer, readPos);
+            if (moveReadPos) readPos += 8;
+            return value;
         }
 
-        public float ReadFloat(bool _moveReadPos = true)
+        public float ReadFloat(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = BitConverter.ToSingle(readableBuffer, readPos);
-                if (_moveReadPos)
-                {
-                    readPos += 4;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'float'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'float'!");
+            var value = BitConverter.ToSingle(readableBuffer, readPos);
+            if (moveReadPos) readPos += 4;
+            return value;
         }
 
-        public bool ReadBool(bool _moveReadPos = true)
+        public bool ReadBool(bool moveReadPos = true)
         {
-            if (buffer.Count > readPos)
-            {
-                var _value = BitConverter.ToBoolean(readableBuffer, readPos);
-                if (_moveReadPos)
-                {
-                    readPos += 1;
-                }
-                return _value;
-            }
-            else
-            {
-                throw new Exception("Could not read value of type 'bool'!");
-            }
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'bool'!");
+            var value = BitConverter.ToBoolean(readableBuffer, readPos);
+            if (moveReadPos) readPos += 1;
+            return value;
         }
 
-        public string ReadString(bool _moveReadPos = true)
+        public string ReadString(bool moveReadPos = true)
         {
             try
             {
-                var _length = ReadInt();
-                var _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length);
-                if (_moveReadPos && _value.Length > 0)
-                {
-                    readPos += _length;
-                }
-                return _value;
+                var length = ReadInt();
+                var value = Encoding.ASCII.GetString(readableBuffer, readPos, length);
+                if (moveReadPos && value.Length > 0) readPos += length;
+                return value;
             }
             catch
             {
@@ -350,21 +284,19 @@ namespace Planes262.Networking.Packets
         }
         #endregion
 
-        private bool disposed = false;
+        private bool disposed;
 
-        protected virtual void Dispose(bool _disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed) return;
+            if (disposing)
             {
-                if (_disposing)
-                {
-                    buffer = null;
-                    readableBuffer = null;
-                    readPos = 0;
-                }
-
-                disposed = true;
+                buffer = null;
+                readableBuffer = null;
+                readPos = 0;
             }
+
+            disposed = true;
         }
 
         public void Dispose()

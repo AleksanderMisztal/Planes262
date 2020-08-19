@@ -11,8 +11,8 @@ namespace Planes262.UnityLayer
         [SerializeField]
         private GridLayout gridLayout;
 
-        private const float sensitivity = 5;
-        private const float mobility = .2f;
+        private const float Sensitivity = 5;
+        private const float Mobility = .2f;
 
         private static float xMin;
         private static float xMax;
@@ -47,7 +47,7 @@ namespace Planes262.UnityLayer
         private static void SetCameraPosition(Board board)
         {
             var bottomLeft = instance.gridLayout.CellToWorld(new Vector3Int(-1, -1, -10));
-            var topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.xMax + 1, board.yMax + 1, -10));
+            var topRight = instance.gridLayout.CellToWorld(new Vector3Int(board.XMax + 1, board.YMax + 1, -10));
 
             center = (bottomLeft + topRight) / 2;
             center.z = -10;
@@ -59,8 +59,8 @@ namespace Planes262.UnityLayer
         {
 
             //TODO: calculate based on screen size
-            var xSize = (float)board.xMax / 3 + 1.5f;
-            var ySize = (float)board.yMax / 2 + 1;
+            var xSize = (float)board.XMax / 3 + 1.5f;
+            var ySize = (float)board.YMax / 2 + 1;
 
             boardCamera = instance.GetComponent<Camera>();
             boardCamera.orthographicSize = maxSize = Mathf.Max(xSize, ySize);
@@ -87,20 +87,20 @@ namespace Planes262.UnityLayer
 
         private static void UpdateCameraSize()
         {
-            var deltaSize = -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            var deltaSize = -Input.GetAxis("Mouse ScrollWheel") * Sensitivity;
             boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, minSize, maxSize);
         }
 
         private static void UpdateCameraPosition()
         {
             if (Input.GetKey(KeyCode.UpArrow))
-                instance.transform.position += Vector3.up * mobility;
+                instance.transform.position += Vector3.up * Mobility;
             if (Input.GetKey(KeyCode.DownArrow))
-                instance.transform.position += Vector3.down * mobility;
+                instance.transform.position += Vector3.down * Mobility;
             if (Input.GetKey(KeyCode.RightArrow))
-                instance.transform.position += Vector3.right * mobility;
+                instance.transform.position += Vector3.right * Mobility;
             if (Input.GetKey(KeyCode.LeftArrow))
-                instance.transform.position += Vector3.left * mobility;
+                instance.transform.position += Vector3.left * Mobility;
         }
 
         private void ClampCameraPosition()

@@ -5,14 +5,14 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.UnityLayer
 {
-    class TroopController : MonoBehaviour
+    public class TroopController : MonoBehaviour
     {
         private static TroopController instance;
 
-        [SerializeField] private GDTroop redTroopPrefab;
-        [SerializeField] private GDTroop blueTroopPrefab;
+        [SerializeField] private GdTroop redTroopPrefab;
+        [SerializeField] private GdTroop blueTroopPrefab;
 
-        private static Dictionary<VectorTwo, GDTroop> map = new Dictionary<VectorTwo, GDTroop>();
+        private static Dictionary<VectorTwo, GdTroop> map = new Dictionary<VectorTwo, GdTroop>();
 
         private void Awake()
         {
@@ -26,7 +26,7 @@ namespace Planes262.UnityLayer
         {
             foreach (var troop in map.Values)
                 Destroy(troop);
-            map = new Dictionary<VectorTwo, GDTroop>();
+            map = new Dictionary<VectorTwo, GdTroop>();
         }
 
         public static void BeginNextRound(IEnumerable<Troop> troops)
@@ -48,7 +48,7 @@ namespace Planes262.UnityLayer
             FinalizeMoveIfNotDestroyed(position, troop);
         }
 
-        private static void ConductBattles(List<BattleResult> battleResults, GDTroop troop)
+        private static void ConductBattles(List<BattleResult> battleResults, GdTroop troop)
         {
             foreach (var result in battleResults)
             {
@@ -60,21 +60,19 @@ namespace Planes262.UnityLayer
             }
         }
 
-        private static void ApplyDamage(GDTroop troop)
+        private static void ApplyDamage(GdTroop troop)
         {
             troop.ApplyDamage();
             if (troop.Destroyed)
                 map.Remove(troop.Position);
         }
 
-        private static void FinalizeMoveIfNotDestroyed(VectorTwo position, GDTroop troop)
+        private static void FinalizeMoveIfNotDestroyed(VectorTwo position, GdTroop troop)
         {
-            if (!troop.Destroyed)
-            {
-                troop.MoveForward();
-                map.Remove(position);
-                map.Add(troop.Position, troop);
-            }
+            if (troop.Destroyed) return;
+            troop.MoveForward();
+            map.Remove(position);
+            map.Add(troop.Position, troop);
         }
     }
 }

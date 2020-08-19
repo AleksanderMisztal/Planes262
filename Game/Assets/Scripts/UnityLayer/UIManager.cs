@@ -22,12 +22,10 @@ namespace Planes262.UnityLayer
         private GameObject background;
         private GameObject boardCamera;
 
-        public static bool GameStarted { get;  private set; }
-
         public static string Username => instance.username.text;
-        public static string OponentName { get; private set; }
+        private static string OpponentsName { get; set; }
 
-        public static PlayerSide Side { get; private set; }
+        private static PlayerSide Side { get; set; }
 
 
         private void Awake()
@@ -75,9 +73,9 @@ namespace Planes262.UnityLayer
 
         }
 
-        public static void StartTransitionIntoGame(PlayerSide side, string oponentName, Board board)
+        public static void StartTransitionIntoGame(PlayerSide side, string opponentsName, Board board)
         {
-            OponentName = oponentName;
+            OpponentsName = opponentsName;
             Side = side;
 
             instance.waitingText.SetActive(false);
@@ -92,16 +90,11 @@ namespace Planes262.UnityLayer
             BoardCamera.Initialize(board);
         }
 
-        public static void EndTransitionIntoGame()
-        {
-            
-        }
-
-        public static void UpdateScoreDisplay(int redScore, int blueScore)
+        private static void UpdateScoreDisplay(int redScore, int blueScore)
         {
             instance.participantsText.text = Side == PlayerSide.Red ?
-                $"{OponentName} {blueScore} : {redScore} {Username}" :
-                $"{Username} {blueScore} : {redScore} {OponentName}";
+                $"{OpponentsName} {blueScore} : {redScore} {Username}" :
+                $"{Username} {blueScore} : {redScore} {OpponentsName}";
         }
 
         public static void OpponentDisconnected()

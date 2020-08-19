@@ -1,12 +1,11 @@
 ﻿using Planes262.GameLogic.Utils;
-using Planes262.UnityLayer;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    class GDTroop : MonoBehaviour
+    class GdTroop : MonoBehaviour
     {
-        private const int NO_EXPLOSIONS = 2;
+        private const int NoExplosions = 2;
 
         public VectorTwo Position { get; private set; }
         private int orientation;
@@ -47,7 +46,7 @@ namespace Planes262.UnityLayer
 
         public void ApplyDamage()
         {
-            Effects.Explode(transform.position, NO_EXPLOSIONS);
+            Effects.Explode(transform.position, NoExplosions);
             if (--health > 0) spriteRenderer.sprite = sprites[health - 1];
             else Destroy(this);
         }

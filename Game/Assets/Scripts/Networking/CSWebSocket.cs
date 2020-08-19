@@ -11,15 +11,12 @@ using Planes262.Networking.Packets;
 
 namespace Planes262.Networking
 {
-    public class CSWebSocket
+    public class CsWebSocket
     {
-        public static CSWebSocket instance;
-
         //private readonly static string host = "wwsserver.azurewebsites.net";
-        private readonly static string host = "localhost";
-        private readonly static int port = 5001;
-        public int myId;
-        public WsClient wsClient;
+        private const string host = "localhost";
+        private const int port = 5001;
+        private WsClient wsClient;
 
         public async Task InitializeConnection()
         {
@@ -33,16 +30,16 @@ namespace Planes262.Networking
             wsClient.AddToQueue(perm);
         }
 
-        public class WsClient
+        private class WsClient
         {
-            public Queue<Packet> sendQueue = new Queue<Packet>();
+            private readonly Queue<Packet> sendQueue = new Queue<Packet>();
 
             public void AddToQueue(Packet packet)
             {
                 sendQueue.Enqueue(packet);
             }
 
-            public async Task SendPackets()
+            private async Task SendPackets()
             {
                 while (true)
                 {
@@ -56,13 +53,13 @@ namespace Planes262.Networking
             }
 
 
-            public ClientWebSocket socket;
+            private ClientWebSocket socket;
 
             public async Task Connect()
             {
                 var serverUri = new Uri($"wss://{host}:{port}");
                 socket = new ClientWebSocket();
-                Debug.Log("Attempting to connect to " + serverUri.ToString());
+                Debug.Log("Attempting to connect to " + serverUri);
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
 
                 //TODO: Fix this dangerous thingy
@@ -83,19 +80,18 @@ namespace Planes262.Networking
 
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
-                if (result.MessageType != WebSocketMessageType.Close)
+                if (result.MessageType == WebSocketMessageType.Close)
+                    throw new Exception("Something went wrong while reading the message.");
+                using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
                 {
-                    using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
+                    var bytes = reader.ReadToEnd();
+                    try
                     {
-                        var bytes = reader.ReadToEnd();
-                        try
-                        {
-                            return bytes;
-                        }
-                        catch
-                        {
-                            Debug.Log("Couldn't convert to bytes");
-                        }
+                        return bytes;
+                    }
+                    catch
+                    {
+                        Debug.Log("Couldn't convert to bytes");
                     }
                 }
                 throw new Exception("Something went wrong while reading the message.");

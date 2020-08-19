@@ -37,10 +37,7 @@ namespace Planes262.Networking
                 actionToExecuteOnMainThread = false;
             }
 
-            foreach (var action in executeCopiedOnMainThread)
-            {
-                action();
-            }
+            foreach (var action in executeCopiedOnMainThread) action();
         }
     }
 }

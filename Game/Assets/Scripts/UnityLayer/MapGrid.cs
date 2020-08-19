@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    class MapGrid : MonoBehaviour
+    public class MapGrid : MonoBehaviour
     {
         private static MapGrid instance;
 

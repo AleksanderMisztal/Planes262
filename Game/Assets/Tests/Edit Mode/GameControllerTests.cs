@@ -4,7 +4,7 @@ using Planes262.GameLogic;
 using Planes262.GameLogic.Utils;
 using Planes262.UnityLayer;
 
-namespace GameTests
+namespace Planes262.Tests.Edit_Mode
 {
     public class GameControllerTests
     {

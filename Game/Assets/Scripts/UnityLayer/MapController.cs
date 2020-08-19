@@ -7,13 +7,13 @@ namespace Planes262.UnityLayer
 {
     public static class MapController
     {
-        public static PlayerSide Side { get; private set; }
+        private static PlayerSide Side { get; set; }
 
-        private static VectorTwo selectedPosition = null;
-        private static TroopDto troopDto = null;
-        private static HashSet<VectorTwo> reachableCells = null;
-        private static VectorTwo targetPosition = null;
-        private static List<int> directions = null;
+        private static VectorTwo selectedPosition;
+        private static TroopDto troopDto;
+        private static HashSet<VectorTwo> reachableCells;
+        private static VectorTwo targetPosition;
+        private static List<int> directions;
 
         public static void Initialize(PlayerSide side)
         {

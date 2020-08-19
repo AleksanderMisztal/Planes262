@@ -9,7 +9,7 @@ namespace Planes262.GameLogic
         private readonly TroopMap map;
         private readonly Board board;
         private PlayerSide activePlayer;
-        private string message = null;
+        private string message;
 
 
         public MoveValidator(TroopMap map, Board board, PlayerSide player0)
@@ -45,12 +45,12 @@ namespace Planes262.GameLogic
                 return false;
             }
         }
-
-
+        
+        
         private void IsPlayersTurn(PlayerSide player)
         {
             if (player != activePlayer)
-                throw new IllegalMoveException("Attempting to make a move in oponent's turn!");
+                throw new IllegalMoveException("Attempting to make a move in opponent's turn!");
         }
 
         private void PositionContainsTroop(VectorTwo position)
@@ -65,7 +65,7 @@ namespace Planes262.GameLogic
                 throw new IllegalMoveException("Attempting to move enemy troop!");
         }
 
-        private void TroopHasMovePoints(Troop troop)
+        private static void TroopHasMovePoints(Troop troop)
         {
             if (troop.MovePoints <= 0)
                 throw new IllegalMoveException("Attempting to move a troop with no move points!");
@@ -79,10 +79,8 @@ namespace Planes262.GameLogic
             if (encounter == null || encounter.Player != troop.Player) return;
 
             // Tries to enter a friend so throw if has some other legal move
-            foreach (var cell in troop.ControllZone)
-            {
+            foreach (var cell in troop.ControlZone) 
                 ThrowIfNotBlocked(troop, cell);
-            }
         }
 
         private void ThrowIfNotBlocked(Troop troop, VectorTwo cell)

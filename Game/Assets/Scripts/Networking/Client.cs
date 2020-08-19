@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Planes262.Networking
 {
-    class Client : MonoBehaviour
+    public class Client : MonoBehaviour
     {
         private static Client instance;
-        private CSWebSocket socket;
+        private CsWebSocket socket;
 
         private void Awake()
         {
@@ -25,7 +25,7 @@ namespace Planes262.Networking
         {
             Application.runInBackground = true;
 
-            socket = new CSWebSocket();
+            socket = new CsWebSocket();
 #if UNITY_EDITOR || !UNITY_WEBGL 
             await 
 #endif

@@ -2,9 +2,8 @@
 {
     public class BattleResult
     {
-        public bool DefenderDamaged { get; set; }
-        public bool AttackerDamaged { get; set; }
-        public static BattleResult FriendlyCollision => new BattleResult(true, true);
+        public bool DefenderDamaged { get; }
+        public bool AttackerDamaged { get; }
 
         public BattleResult(bool defenderDamaged, bool attackerDamaged)
         {

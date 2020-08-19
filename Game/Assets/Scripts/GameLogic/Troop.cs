@@ -15,6 +15,7 @@ namespace Planes262.GameLogic
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
+        public VectorTwo[] ControlZone => Hex.GetControllZone(Position, Orientation);
 
 
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
@@ -51,17 +52,6 @@ namespace Planes262.GameLogic
                 MovePoints--;
         }
 
-        public VectorTwo[] ControllZone => Hex.GetControllZone(Position, Orientation);
-
-        public bool InControlZone(VectorTwo position)
-        {
-            foreach (var cell in ControllZone)
-                if (cell == position)
-                    return true;
-
-            return false;
-        }
-
         public void ResetMovePoints()
         {
             MovePoints = InitialMovePoints;
@@ -73,7 +63,7 @@ namespace Planes262.GameLogic
         }
 
 
-        // Factories
+        #region Factories
         public static Troop Red(int x, int y)
         {
             return new Troop(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
@@ -108,5 +98,6 @@ namespace Planes262.GameLogic
         {
             return new Troop(PlayerSide.Blue, 5, position, orientation, 2);
         }
+        #endregion
     }
 }

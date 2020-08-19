@@ -9,14 +9,9 @@ namespace Planes262.UnityLayer
     {
         private static Messenger instance;
 
-        [SerializeField]
-        private InputField input;
-
-        [SerializeField]
-        private Text messagePrefab;
-
-        [SerializeField]
-        private GameObject textParent;
+        [SerializeField] private InputField input;
+        [SerializeField] private Text messagePrefab;
+        [SerializeField] private GameObject textParent;
 
         private List<GameObject> messages = new List<GameObject>();
 
@@ -50,9 +45,8 @@ namespace Planes262.UnityLayer
 
         private void Display(string message)
         {
-            var messageObject = Instantiate(messagePrefab);
+            var messageObject = Instantiate(messagePrefab, textParent.transform, true);
             messageObject.text = message;
-            messageObject.transform.SetParent(textParent.transform);
             messageObject.transform.localScale = new Vector3(.95f, 1, 1);
 
             messages.Add(messageObject.gameObject);
@@ -60,10 +54,7 @@ namespace Planes262.UnityLayer
 
         public static void ResetMessages()
         {
-            foreach (var message in instance.messages)
-            {
-                Destroy(message);
-            }
+            foreach (var message in instance.messages) Destroy(message);
             instance.messages = new List<GameObject>();
         }
     }

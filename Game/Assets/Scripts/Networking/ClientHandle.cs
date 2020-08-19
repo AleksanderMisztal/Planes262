@@ -8,7 +8,7 @@ namespace Planes262.Networking
 {
     public static class ClientHandle
     {
-        private delegate void PacketHandler(Packet _packet);
+        private delegate void PacketHandler(Packet packet);
         private static readonly Dictionary<int, PacketHandler> packetHandlers = new Dictionary<int, PacketHandler>
         {
             {(int) ServerPackets.Welcome, Welcome },
@@ -32,12 +32,12 @@ namespace Planes262.Networking
         }
 
 
-        public static void Welcome(Packet packet)
+        private static void Welcome(Packet packet)
         {
             EventHandlers.OnWelcome();
         }
 
-        public static void GameJoined(Packet packet)
+        private static void GameJoined(Packet packet)
         {
             var opponentName = packet.ReadString();
             var side = (PlayerSide)packet.ReadInt();
@@ -47,7 +47,7 @@ namespace Planes262.Networking
             EventHandlers.OnGameJoined(opponentName, side, board);
         }
 
-        public static void TroopSpawned(Packet packet)
+        private static void TroopSpawned(Packet packet)
         {
             var troops = packet.ReadTroops();
 
@@ -55,7 +55,7 @@ namespace Planes262.Networking
             EventHandlers.OnTroopsSpawned(troops);
         }
 
-        public static void TroopMoved(Packet packet)
+        private static void TroopMoved(Packet packet)
         {
             var position = packet.ReadVector2Int();
             var direction = packet.ReadInt();
@@ -65,7 +65,7 @@ namespace Planes262.Networking
             EventHandlers.OnTroopMoved(position, direction, battleResults);
         }
 
-        public static void GameEnded(Packet packet)
+        private static void GameEnded(Packet packet)
         {
             var redScore = packet.ReadInt();
             var blueScore = packet.ReadInt();
@@ -73,14 +73,14 @@ namespace Planes262.Networking
             EventHandlers.OnGameEnded(redScore, blueScore);
         }
 
-        public static void MessageSent(Packet packet)
+        private static void MessageSent(Packet packet)
         {
             var message = packet.ReadString();
 
             EventHandlers.OnMessageSent(message);
         }
 
-        public static void OpponentDisconnected(Packet packet)
+        private static void OpponentDisconnected(Packet packet)
         {
             EventHandlers.OnOpponentDisconnected();
             //UIManager.OpponentDisconnected();

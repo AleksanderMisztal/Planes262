@@ -518,8 +518,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 213170041}
-  - component: {fileID: 213170040}
   - component: {fileID: 213170042}
+  - component: {fileID: 213170040}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged

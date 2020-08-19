@@ -4,30 +4,23 @@ namespace Planes262.GameLogic
 {
     public class Board
     {
-        public readonly int xMax;
-        public readonly int yMax;
-
-        public VectorTwo Center { get; private set; }
+        public readonly int XMax;
+        public readonly int YMax;
 
         public Board(int xMax, int yMax)
         {
-            this.xMax = xMax;
-            this.yMax = yMax;
-
-            Center = new VectorTwo(xMax / 2, yMax / 2);
+            XMax = xMax;
+            YMax = yMax;
         }
 
         public bool IsOutside(VectorTwo p)
         {
-            return p.X < 0 || p.X > xMax || p.Y < 0 || p.Y > yMax;
+            return p.X < 0 || p.X > XMax || p.Y < 0 || p.Y > YMax;
         }
 
         public bool IsInside(VectorTwo p)
         {
             return !IsOutside(p);
         }
-
-        public static readonly Board standard = new Board(20, 12);
-        public static readonly Board test = new Board(8, 5);
     }
 }

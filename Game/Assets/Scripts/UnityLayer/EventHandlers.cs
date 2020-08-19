@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class EventHandlers
+    public static class EventHandlers
     {
         public static void OnWelcome()
         {

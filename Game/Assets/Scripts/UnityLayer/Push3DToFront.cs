@@ -4,8 +4,9 @@ namespace Planes262.UnityLayer
 {
     public class Push3DToFront : MonoBehaviour
     {
-        [SerializeField] string layerToPushTo;
-        void Start()
+        [SerializeField] private string layerToPushTo;
+
+        private void Start()
         {
             GetComponent<Renderer>().sortingLayerName = layerToPushTo;
         }
