@@ -28,7 +28,7 @@
         public override bool Equals(object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            var v = (VectorTwo)obj;
+            VectorTwo v = (VectorTwo)obj;
             return (X == v.X) && (Y == v.Y);
         }
 

@@ -156,7 +156,7 @@ namespace Planes262.Networking.Packets
         public byte ReadByte(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte'!");
-            var value = readableBuffer[readPos];
+            byte value = readableBuffer[readPos];
             if (moveReadPos) readPos += 1;
             return value;
         }
@@ -164,7 +164,7 @@ namespace Planes262.Networking.Packets
         public byte[] ReadBytes(int length, bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte[]'!");
-            var value = buffer.GetRange(readPos, length).ToArray();
+            byte[] value = buffer.GetRange(readPos, length).ToArray();
             if (moveReadPos) readPos += length;
             return value;
         }
@@ -172,7 +172,7 @@ namespace Planes262.Networking.Packets
         public short ReadShort(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'short'!");
-            var value = BitConverter.ToInt16(readableBuffer, readPos);
+            short value = BitConverter.ToInt16(readableBuffer, readPos);
             if (moveReadPos) readPos += 2;
             return value;
         }
@@ -180,7 +180,7 @@ namespace Planes262.Networking.Packets
         public int ReadInt(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'int'!");
-            var value = BitConverter.ToInt32(readableBuffer, readPos);
+            int value = BitConverter.ToInt32(readableBuffer, readPos);
             if (moveReadPos) readPos += 4;
             return value;
         }
@@ -188,7 +188,7 @@ namespace Planes262.Networking.Packets
         public long ReadLong(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'long'!");
-            var value = BitConverter.ToInt64(readableBuffer, readPos);
+            long value = BitConverter.ToInt64(readableBuffer, readPos);
             if (moveReadPos) readPos += 8;
             return value;
         }
@@ -196,7 +196,7 @@ namespace Planes262.Networking.Packets
         public float ReadFloat(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'float'!");
-            var value = BitConverter.ToSingle(readableBuffer, readPos);
+            float value = BitConverter.ToSingle(readableBuffer, readPos);
             if (moveReadPos) readPos += 4;
             return value;
         }
@@ -204,7 +204,7 @@ namespace Planes262.Networking.Packets
         public bool ReadBool(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'bool'!");
-            var value = BitConverter.ToBoolean(readableBuffer, readPos);
+            bool value = BitConverter.ToBoolean(readableBuffer, readPos);
             if (moveReadPos) readPos += 1;
             return value;
         }
@@ -213,8 +213,8 @@ namespace Planes262.Networking.Packets
         {
             try
             {
-                var length = ReadInt();
-                var value = Encoding.ASCII.GetString(readableBuffer, readPos, length);
+                int length = ReadInt();
+                string value = Encoding.ASCII.GetString(readableBuffer, readPos, length);
                 if (moveReadPos && value.Length > 0) readPos += length;
                 return value;
             }
@@ -226,30 +226,30 @@ namespace Planes262.Networking.Packets
 
         public VectorTwo ReadVector2Int()
         {
-            var x = ReadInt();
-            var y = ReadInt();
+            int x = ReadInt();
+            int y = ReadInt();
 
             return new VectorTwo(x, y);
         }
 
         public Troop ReadTroop()
         {
-            var side = (PlayerSide)ReadInt();
-            var health = ReadInt();
-            var initialMovePoints = ReadInt();
-            var orientation = ReadInt();
-            var position = ReadVector2Int();
+            PlayerSide side = (PlayerSide)ReadInt();
+            int health = ReadInt();
+            int initialMovePoints = ReadInt();
+            int orientation = ReadInt();
+            VectorTwo position = ReadVector2Int();
 
             return new Troop(side, initialMovePoints, position, orientation, health);
         }
 
         public List<Troop> ReadTroops()
         {
-            var length = ReadInt();
-            var troops = new List<Troop>();
-            for (var i = 0; i < length; i++)
+            int length = ReadInt();
+            List<Troop> troops = new List<Troop>();
+            for (int i = 0; i < length; i++)
             {
-                var troop = ReadTroop();
+                Troop troop = ReadTroop();
                 troops.Add(troop);
             }
             return troops;
@@ -257,19 +257,19 @@ namespace Planes262.Networking.Packets
 
         public BattleResult ReadBattleResult()
         {
-            var attackerDamaged = ReadBool();
-            var defenderDamaged = ReadBool();
+            bool attackerDamaged = ReadBool();
+            bool defenderDamaged = ReadBool();
 
             return new BattleResult(defenderDamaged, attackerDamaged);
         }
 
         public List<BattleResult> ReadBattleResults()
         {
-            var length = ReadInt();
-            var battleResults = new List<BattleResult>();
-            for (var i = 0; i < length; i++)
+            int length = ReadInt();
+            List<BattleResult> battleResults = new List<BattleResult>();
+            for (int i = 0; i < length; i++)
             {
-                var battleResult = ReadBattleResult();
+                BattleResult battleResult = ReadBattleResult();
                 battleResults.Add(battleResult);
             }
             return battleResults;
@@ -277,8 +277,8 @@ namespace Planes262.Networking.Packets
 
         public Board ReadBoard()
         {
-            var xMax = ReadInt();
-            var yMax = ReadInt();
+            int xMax = ReadInt();
+            int yMax = ReadInt();
 
             return new Board(xMax, yMax);
         }

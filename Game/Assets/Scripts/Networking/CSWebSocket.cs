@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR || !UNITY_WEBGL
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -13,12 +12,16 @@ namespace Planes262.Networking
 {
     public class CsWebSocket
     {
-        //private readonly static string host = "wwsserver.azurewebsites.net";
-        private const string host = "localhost";
-        private const int port = 5001;
+        private const string Host = "localhost:5001";
+        
         private WsClient wsClient;
 
-        public async Task InitializeConnection()
+        public CsWebSocket()
+        {
+            InitializeConnection();
+        }
+
+        private async Task InitializeConnection()
         {
             wsClient = new WsClient();
             await wsClient.Connect();
@@ -26,7 +29,7 @@ namespace Planes262.Networking
 
         public void SendData(Packet packet)
         {
-            var perm = new Packet(packet.ToArray());
+            Packet perm = new Packet(packet.ToArray());
             wsClient.AddToQueue(perm);
         }
 
@@ -45,7 +48,7 @@ namespace Planes262.Networking
                 {
                     while (sendQueue.Count != 0)
                     {
-                        var packet = sendQueue.Dequeue();
+                        Packet packet = sendQueue.Dequeue();
                         await SendData(packet);
                     }
                     await Task.Delay(100);
@@ -57,7 +60,7 @@ namespace Planes262.Networking
 
             public async Task Connect()
             {
-                var serverUri = new Uri($"wss://{host}:{port}");
+                Uri serverUri = new Uri($"wss://{Host}");
                 socket = new ClientWebSocket();
                 Debug.Log("Attempting to connect to " + serverUri);
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
@@ -69,8 +72,8 @@ namespace Planes262.Networking
 
             private async Task<string> Receive()
             {
-                var buffer = new ArraySegment<byte>(new byte[4 * 1024]);
-                var memoryStream = new MemoryStream();
+                ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
+                MemoryStream memoryStream = new MemoryStream();
                 WebSocketReceiveResult result;
 
                 do {
@@ -82,9 +85,9 @@ namespace Planes262.Networking
 
                 if (result.MessageType == WebSocketMessageType.Close)
                     throw new Exception("Something went wrong while reading the message.");
-                using (var reader = new StreamReader(memoryStream, Encoding.UTF8))
+                using (StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8))
                 {
-                    var bytes = reader.ReadToEnd();
+                    string bytes = reader.ReadToEnd();
                     try
                     {
                         return bytes;
@@ -99,19 +102,18 @@ namespace Planes262.Networking
 
             private async Task BeginListen()
             {
-                var data = await Receive();
-
-                ClientHandle.HandlePacket(data);
-
-                await BeginListen();
+                while (true)
+                {
+                    string data = await Receive();
+                    ClientHandle.HandlePacket(data);
+                }
             }
 
             private async Task SendData(Packet packet)
             {
-                var buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
+                ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
                 await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
             }
         }
     }
 }
-#endif

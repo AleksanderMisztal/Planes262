@@ -44,7 +44,7 @@ namespace Planes262.GameLogic
 
         public void SpawnWave(IEnumerable<Troop> wave)
         {
-            foreach (var troop in wave)
+            foreach (Troop troop in wave)
                 Add(troop);
         }
 

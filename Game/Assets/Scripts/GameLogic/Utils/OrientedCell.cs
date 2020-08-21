@@ -15,8 +15,8 @@ namespace Planes262.GameLogic.Utils
 
         public OrientedCell[] GetControllZone()
         {
-            var cs = new OrientedCell[3];
-            for (var i = -1; i < 2; i++)
+            OrientedCell[] cs = new OrientedCell[3];
+            for (int i = -1; i < 2; i++)
             {
                 cs[i + 1] = GetAdjacent(i);
             }
@@ -25,15 +25,15 @@ namespace Planes262.GameLogic.Utils
 
         private OrientedCell GetAdjacent(int direction)
         {
-            var position = Hex.GetAdjacentHex(Position, Orientation + direction);
+            VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
             return new OrientedCell(position, Orientation + direction);
         }
 
         public int GetDirection(OrientedCell coords)
         {
-            for (var i = -1; i < 2; i++)
+            for (int i = -1; i < 2; i++)
             {
-                var c = GetAdjacent(i);
+                OrientedCell c = GetAdjacent(i);
                 if (c == coords) return i;
             }
             throw new PathFindingException("Can't get there!");
@@ -47,7 +47,7 @@ namespace Planes262.GameLogic.Utils
         public override bool Equals(object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            var c = (OrientedCell)obj;
+            OrientedCell c = (OrientedCell)obj;
             return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
         }
         public static bool operator ==(OrientedCell a, OrientedCell b)

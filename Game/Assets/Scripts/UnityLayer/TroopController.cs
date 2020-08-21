@@ -24,17 +24,17 @@ namespace Planes262.UnityLayer
 
         public static void ResetForNewGame()
         {
-            foreach (var troop in map.Values)
+            foreach (GdTroop troop in map.Values)
                 Destroy(troop);
             map = new Dictionary<VectorTwo, GdTroop>();
         }
 
         public static void BeginNextRound(IEnumerable<Troop> troops)
         {
-            foreach (var troop in troops)
+            foreach (Troop troop in troops)
             {
-                var troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;
-                var gdTroop = Instantiate(troopPrefab);
+                GdTroop troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;
+                GdTroop gdTroop = Instantiate(troopPrefab);
                 gdTroop.Initialize(troop.Position, troop.Orientation, troop.Health);
                 map.Add(troop.Position, gdTroop);
             }
@@ -42,7 +42,7 @@ namespace Planes262.UnityLayer
 
         public static void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            var troop = map[position];
+            GdTroop troop = map[position];
             troop.AdjustOrientation(direction);
             ConductBattles(battleResults, troop);
             FinalizeMoveIfNotDestroyed(position, troop);
@@ -50,10 +50,10 @@ namespace Planes262.UnityLayer
 
         private static void ConductBattles(List<BattleResult> battleResults, GdTroop troop)
         {
-            foreach (var result in battleResults)
+            foreach (BattleResult result in battleResults)
             {
                 Debug.Log($"Position is {troop.Position}, in front {troop.CellInFront}");
-                var encounter = map[troop.CellInFront];
+                GdTroop encounter = map[troop.CellInFront];
                 troop.MoveForward();
                 if (result.AttackerDamaged) ApplyDamage(troop);
                 if (result.DefenderDamaged) ApplyDamage(encounter);

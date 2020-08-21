@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Planes262.GameLogic.Utils;
-using Planes262.UnityLayer;
 
 namespace Planes262.GameLogic
 {
@@ -30,8 +29,8 @@ namespace Planes262.GameLogic
 
         private void ChangeActivePlayer()
         {
-            var beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
-            foreach (var troop in beginningTroops)
+            HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
+            foreach (Troop troop in beginningTroops)
                 troop.ResetMovePoints();
 
             activePlayer = activePlayer.Opponent();
@@ -40,17 +39,17 @@ namespace Planes262.GameLogic
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            var battleId = 0;
-            var troop = troopMap.Get(position);
+            int battleId = 0;
+            Troop troop = troopMap.Get(position);
             troop.MoveInDirection(direction);
 
-            var encounter = troopMap.Get(troop.Position);
+            Troop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop);
                 return;
             }
-            var result = battleResults[battleId++];
+            BattleResult result = battleResults[battleId++];
 
             if (result.AttackerDamaged) ApplyDamage(troop);
             if (result.DefenderDamaged) ApplyDamage(encounter);
@@ -73,7 +72,7 @@ namespace Planes262.GameLogic
 
         private void ApplyDamage(Troop troop)
         {
-            var opponent = troop.Player.Opponent();
+            PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
 
             troop.ApplyDamage();
@@ -100,7 +99,7 @@ namespace Planes262.GameLogic
 
         public static TroopDto GetTroopDto(VectorTwo position)
         {
-            var troop = Instance.troopMap.Get(position);
+            Troop troop = Instance.troopMap.Get(position);
             return troop is null ? null : new TroopDto(troop.Player, troop.Orientation);
         }
     }

@@ -3,36 +3,43 @@ using Planes262.Networking.Packets;
 
 namespace Planes262.Networking
 {
-    public static class ClientSend
+    public class ClientSend
     {
-        public static void JoinGame(string name)
+        private readonly CsWebSocket socket;
+
+        public ClientSend(CsWebSocket socket)
         {
-            using (var packet = new Packet((int)ClientPackets.JoinGame))
+            this.socket = socket;
+        }
+
+        public void JoinGame(string name)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.JoinGame))
             {
                 packet.Write(name);
 
-                Client.SendData(packet);
+                socket.SendData(packet);
             }
         }
 
-        public static void MoveTroop(VectorTwo position, int direction)
+        public void MoveTroop(VectorTwo position, int direction)
         {
-            using (var packet = new Packet((int)ClientPackets.MoveTroop))
+            using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
             {
                 packet.Write(position);
                 packet.Write(direction);
 
-                Client.SendData(packet);
+                socket.SendData(packet);
             }
         }
 
-        public static void SendMessage(string message)
+        public void SendMessage(string message)
         {
-            using (var packet = new Packet((int)ClientPackets.SendMessage))
+            using (Packet packet = new Packet((int)ClientPackets.SendMessage))
             {
                 packet.Write(message);
 
-                Client.SendData(packet);
+                socket.SendData(packet);
             }
         }
     }

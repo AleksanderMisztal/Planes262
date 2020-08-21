@@ -9,13 +9,15 @@ namespace Planes262.UnityLayer
     {
         private static UIManager instance;
 
+        private ClientSend sender;
+
         [SerializeField] private InputField username;
         [SerializeField] private Text resultText;
         [SerializeField] private Text participantsText;
         [SerializeField] private GameObject waitingText;
-        [SerializeField] private GameObject particles;
         [SerializeField] private GameObject gameUi;
         [SerializeField] private GameObject board;
+        [SerializeField] private GameObject particles;
 
         private GameObject mainMenu;
         private GameObject gameEnded;
@@ -30,15 +32,8 @@ namespace Planes262.UnityLayer
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else if (instance != this)
-            {
-                Debug.Log("Instance already exists, destroying this...");
-                Destroy(this);
-            }
+            if (instance == null) instance = this;
+            else if (instance != this) Destroy(this);
         }
 
         private void Start()
@@ -63,9 +58,9 @@ namespace Planes262.UnityLayer
             instance.mainMenu.SetActive(true);
         }
 
-        public void JoinLobby()
+        public void JoinGame()
         {
-            ClientSend.JoinGame(username.text);
+            sender.JoinGame(username.text);
 
             mainMenu.SetActive(false);
             board.SetActive(true);
@@ -99,7 +94,7 @@ namespace Planes262.UnityLayer
 
         public static void OpponentDisconnected()
         { 
-            var message = "Opponent has disconnected :(";
+            string message = "Opponent has disconnected :(";
             instance.EndGame(message);
         }
 
@@ -107,7 +102,7 @@ namespace Planes262.UnityLayer
         {
             // TODO: Wait for 1-2 seconds
 
-            var message = $"Final score: red: {redScore}, blue: {blueScore}";
+            string message = $"Final score: red: {redScore}, blue: {blueScore}";
             instance.EndGame(message);
         }
 
@@ -128,6 +123,11 @@ namespace Planes262.UnityLayer
         {
             gameEnded.SetActive(false);
             mainMenu.SetActive(true);
+        }
+
+        public static void SetSender(ClientSend sender)
+        {
+            instance.sender = sender;
         }
     }
 }

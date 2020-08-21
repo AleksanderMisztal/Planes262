@@ -30,7 +30,7 @@ namespace Planes262.GameLogic
             {
                 IsPlayersTurn(player);
                 PositionContainsTroop(position);
-                var troop = map.Get(position);
+                Troop troop = map.Get(position);
                 PlayerControllsTroop(player, troop);
                 TroopHasMovePoints(troop);
                 NotEnteringFriendOrBlocked(troop, direction);
@@ -73,13 +73,13 @@ namespace Planes262.GameLogic
 
         private void NotEnteringFriendOrBlocked(Troop troop, int direction)
         {
-            var targetPosition = Hex.GetAdjacentHex(troop.Position, direction);
-            var encounter = map.Get(targetPosition);
+            VectorTwo targetPosition = Hex.GetAdjacentHex(troop.Position, direction);
+            Troop encounter = map.Get(targetPosition);
 
             if (encounter == null || encounter.Player != troop.Player) return;
 
             // Tries to enter a friend so throw if has some other legal move
-            foreach (var cell in troop.ControlZone) 
+            foreach (VectorTwo cell in troop.ControlZone) 
                 ThrowIfNotBlocked(troop, cell);
         }
 
@@ -87,7 +87,7 @@ namespace Planes262.GameLogic
         {
             if (board.IsOutside(cell)) return;
 
-            var encounter = map.Get(cell);
+            Troop encounter = map.Get(cell);
             if (encounter == null || encounter.Player != troop.Player)
                 throw new IllegalMoveException("Attempting to enter a cell with friendly troop!");
         }

@@ -21,10 +21,10 @@ namespace Tests
         private void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
         {
             Debug.Log($"Counts: {actual.Count} : {expected.Count}");
-            foreach (var item in actual)
+            foreach (T item in actual)
                 Debug.Log(item);
             Assert.IsTrue(actual.Count == expected.Count);
-            foreach (var item in expected)
+            foreach (T item in expected)
                 Assert.IsTrue(actual.Contains(item));
         }
 
@@ -32,15 +32,15 @@ namespace Tests
         [Test]
         public void Should_ReturnControllZone_When_TroopHasOneMove()
         {
-            var troops = new List<Troop>
+            List<Troop> troops = new List<Troop>
             {
                 Troop.Blue(2, 2, 1)
             };
             CreatePathFinder(troops);
 
-            var cells = pathFinder.GetReachableCells(troops[0].Position);
+            HashSet<VectorTwo> cells = pathFinder.GetReachableCells(troops[0].Position);
 
-            var expected = new List<VectorTwo>
+            List<VectorTwo> expected = new List<VectorTwo>
             {
                 new VectorTwo(2, 3),
                 new VectorTwo(3, 2),
@@ -53,16 +53,16 @@ namespace Tests
         [Test]
         public void Should_NotReachCell_When_OccupiedByFriend()
         {
-            var troops = new List<Troop>
+            List<Troop> troops = new List<Troop>
             {
                 Troop.Blue(2, 2, 2),
                 Troop.Blue(2, 3)
             };
             CreatePathFinder(troops);
 
-            var cells = pathFinder.GetReachableCells(troops[0].Position);
+            HashSet<VectorTwo> cells = pathFinder.GetReachableCells(troops[0].Position);
 
-            var expected = new List<VectorTwo>
+            List<VectorTwo> expected = new List<VectorTwo>
             {
                 new VectorTwo(3, 2),
                 new VectorTwo(3, 3),

@@ -18,7 +18,7 @@ namespace Planes262.Networking
 
         public void SendData(Packet packet)
         {
-            var data = Serializer.Serialize(packet.ToArray());
+            string data = Serializer.Serialize(packet.ToArray());
             SendDataJS(data);
         }
     }

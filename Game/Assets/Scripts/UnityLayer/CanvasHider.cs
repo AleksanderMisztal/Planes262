@@ -12,7 +12,7 @@ namespace Planes262.UnityLayer
 
         private void Start()
         {
-            var myCanvas = GetComponent<Canvas>();
+            Canvas myCanvas = GetComponent<Canvas>();
             myCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             myCanvas.worldCamera = Camera.main;
 

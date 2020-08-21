@@ -29,13 +29,13 @@ namespace Planes262.UnityLayer
 
         public static Vector3 CellToWorld(VectorTwo v)
         {
-            var cell = new Vector3Int(v.X, v.Y, 0);
+            Vector3Int cell = new Vector3Int(v.X, v.Y, 0);
             return instance.gridLayout.CellToWorld(cell);
         }
 
         public static VectorTwo WorldToCell(Vector3 v)
         {
-            var cell = instance.gridLayout.WorldToCell(v);
+            Vector3Int cell = instance.gridLayout.WorldToCell(v);
             return new VectorTwo(cell.x, cell.y);
         }
     }

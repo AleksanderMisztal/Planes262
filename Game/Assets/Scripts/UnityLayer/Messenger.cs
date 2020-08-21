@@ -14,6 +14,7 @@ namespace Planes262.UnityLayer
         [SerializeField] private GameObject textParent;
 
         private List<GameObject> messages = new List<GameObject>();
+        private ClientSend sender;
 
         private void Awake()
         {
@@ -30,10 +31,10 @@ namespace Planes262.UnityLayer
 
         public void SendAMessage()
         {
-            var message = UIManager.Username + ": " + input.text;
+            string message = UIManager.Username + ": " + input.text;
             input.text = "";
 
-            ClientSend.SendMessage(message);
+            sender.SendMessage(message);
 
             Display(message);
         }
@@ -45,7 +46,7 @@ namespace Planes262.UnityLayer
 
         private void Display(string message)
         {
-            var messageObject = Instantiate(messagePrefab, textParent.transform, true);
+            Text messageObject = Instantiate(messagePrefab, textParent.transform, true);
             messageObject.text = message;
             messageObject.transform.localScale = new Vector3(.95f, 1, 1);
 
@@ -54,8 +55,13 @@ namespace Planes262.UnityLayer
 
         public static void ResetMessages()
         {
-            foreach (var message in instance.messages) Destroy(message);
+            foreach (GameObject message in instance.messages) Destroy(message);
             instance.messages = new List<GameObject>();
+        }
+
+        public static void SetSender(ClientSend sender)
+        {
+            instance.sender = sender;
         }
     }
 }

@@ -431,7 +431,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8810190914911140256}
-        m_MethodName: JoinLobby
+        m_MethodName: JoinGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 213170039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be2db2ba53cffa44da55708bd54f63e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dd41517156647478dce1209174abd2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &213170041
@@ -14169,9 +14169,9 @@ MonoBehaviour:
   resultText: {fileID: 512807540}
   participantsText: {fileID: 599782841}
   waitingText: {fileID: 865342951}
-  particles: {fileID: 10452025}
   gameUi: {fileID: 20982150}
   board: {fileID: 2138627994}
+  particles: {fileID: 10452025}
 --- !u!114 &8911573178040251026
 MonoBehaviour:
   m_ObjectHideFlags: 0

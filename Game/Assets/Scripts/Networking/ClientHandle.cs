@@ -23,10 +23,10 @@ namespace Planes262.Networking
         // TODO: Move string to byte conversion into Client class
         public static void HandlePacket(string byteArray)
         {
-            var bytes = Serializer.Deserialize(byteArray);
-            using (var packet = new Packet(bytes))
+            byte[] bytes = Serializer.Deserialize(byteArray);
+            using (Packet packet = new Packet(bytes))
             {
-                var packetType = packet.ReadInt();
+                int packetType = packet.ReadInt();
                 packetHandlers[packetType](packet);
             }
         }
@@ -39,9 +39,9 @@ namespace Planes262.Networking
 
         private static void GameJoined(Packet packet)
         {
-            var opponentName = packet.ReadString();
-            var side = (PlayerSide)packet.ReadInt();
-            var board = packet.ReadBoard();
+            string opponentName = packet.ReadString();
+            PlayerSide side = (PlayerSide)packet.ReadInt();
+            Board board = packet.ReadBoard();
 
             GameState.Instance = new GameState(board);
             EventHandlers.OnGameJoined(opponentName, side, board);
@@ -49,7 +49,7 @@ namespace Planes262.Networking
 
         private static void TroopSpawned(Packet packet)
         {
-            var troops = packet.ReadTroops();
+            List<Troop> troops = packet.ReadTroops();
 
             GameState.Instance.BeginNextRound(troops);
             EventHandlers.OnTroopsSpawned(troops);
@@ -57,9 +57,9 @@ namespace Planes262.Networking
 
         private static void TroopMoved(Packet packet)
         {
-            var position = packet.ReadVector2Int();
-            var direction = packet.ReadInt();
-            var battleResults = packet.ReadBattleResults();
+            VectorTwo position = packet.ReadVector2Int();
+            int direction = packet.ReadInt();
+            List<BattleResult> battleResults = packet.ReadBattleResults();
 
             GameState.Instance.MoveTroop(position, direction, battleResults);
             EventHandlers.OnTroopMoved(position, direction, battleResults);
@@ -67,15 +67,15 @@ namespace Planes262.Networking
 
         private static void GameEnded(Packet packet)
         {
-            var redScore = packet.ReadInt();
-            var blueScore = packet.ReadInt();
+            int redScore = packet.ReadInt();
+            int blueScore = packet.ReadInt();
 
             EventHandlers.OnGameEnded(redScore, blueScore);
         }
 
         private static void MessageSent(Packet packet)
         {
-            var message = packet.ReadString();
+            string message = packet.ReadString();
 
             EventHandlers.OnMessageSent(message);
         }

@@ -26,7 +26,7 @@ namespace Planes262.UnityLayer
         {
             while (times-- > 0)
             {
-                var randomlyOffset = position + Random.insideUnitSphere;
+                Vector3 randomlyOffset = position + Random.insideUnitSphere;
                 Instantiate(instance.explosion, randomlyOffset, Quaternion.identity);
             }
         }

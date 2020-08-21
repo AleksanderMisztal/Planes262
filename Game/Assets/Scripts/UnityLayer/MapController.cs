@@ -14,6 +14,7 @@ namespace Planes262.UnityLayer
         private static HashSet<VectorTwo> reachableCells;
         private static VectorTwo targetPosition;
         private static List<int> directions;
+        private static ClientSend sender;
 
         public static void Initialize(PlayerSide side)
         {
@@ -24,7 +25,7 @@ namespace Planes262.UnityLayer
         public static void OnCellClicked(VectorTwo cell)
         {
             if (cell == selectedPosition) return;
-            var troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
+            bool troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
             if (troopIsSelectedAndCanReachCell)
                 ChangePathOrSend(cell);
             else SelectTroop(cell);
@@ -40,9 +41,9 @@ namespace Planes262.UnityLayer
         private static void SendMoves(VectorTwo position, int orientation, List<int> directions)
         {
             DeactivateTroops();
-            foreach (var dir in directions)
+            foreach (int dir in directions)
             {
-                ClientSend.MoveTroop(position, dir);
+                sender.MoveTroop(position, dir);
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
             }
@@ -82,14 +83,19 @@ namespace Planes262.UnityLayer
 
         private static void HighlightPath(VectorTwo position, int orientation, List<int> directions)
         {
-            var cells = new List<VectorTwo>();
-            foreach (var dir in directions)
+            List<VectorTwo> cells = new List<VectorTwo>();
+            foreach (int dir in directions)
             {
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
                 cells.Add(position);
             }
             TileManager.HighlightPath(cells);
+        }
+
+        public static void SetSender(ClientSend _sender)
+        {
+            sender = _sender;
         }
     }
 }

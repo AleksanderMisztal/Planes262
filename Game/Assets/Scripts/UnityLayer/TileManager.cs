@@ -45,15 +45,15 @@ namespace Planes262.UnityLayer
         public static void CreateBoard(Board board)
         {
             Debug.Log("Creating the board");
-            for (var x = 0; x <= board.XMax; x++)
-                for (var y = 0; y <= board.YMax; y++)
+            for (int x = 0; x <= board.XMax; x++)
+                for (int y = 0; y <= board.YMax; y++)
                     CreateTile(x, y);
             instance.boardTilemap.gameObject.SetActive(false);
         }
 
         private static void CreateTile(int x, int y)
         {
-            var pos = new Vector3Int(x, y, 0);
+            Vector3Int pos = new Vector3Int(x, y, 0);
 
             instance.boardTilemap.SetTile(pos, instance.boardTile);
 
@@ -73,7 +73,7 @@ namespace Planes262.UnityLayer
         public static void ActivateTiles(IEnumerable<VectorTwo> positions)
         {
             DeactivateTiles();
-            foreach (var pos in positions)
+            foreach (VectorTwo pos in positions)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), active);
             instance.positions = positions;
         }
@@ -81,25 +81,25 @@ namespace Planes262.UnityLayer
         public static void ActivateTilesBlocked(HashSet<VectorTwo> positions)
         {
             DeactivateTiles();
-            foreach (var pos in positions)
+            foreach (VectorTwo pos in positions)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), activeBlocked);
             instance.positions = positions;
         }
 
         public static void HighlightPath(IEnumerable<VectorTwo> positions)
         {
-            foreach (var pos in instance.path)
+            foreach (VectorTwo pos in instance.path)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), active);
-            foreach (var pos in positions)
+            foreach (VectorTwo pos in positions)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), onPath);
             instance.path = positions;
         }
 
         public static void DeactivateTiles()
         {
-            foreach (var pos in instance.positions)
+            foreach (VectorTwo pos in instance.positions)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), transparent);
-            foreach (var pos in instance.path)
+            foreach (VectorTwo pos in instance.path)
                 instance.rangeTilemap.SetColor(pos.ToVector3Int(), transparent);
             instance.positions = new List<VectorTwo>();
             instance.path = new List<VectorTwo>();
