@@ -3,6 +3,7 @@ using Planes262.GameLogic;
 using Planes262.GameLogic.Utils;
 using Planes262.Networking.Packets;
 using Planes262.UnityLayer;
+using UnityEngine;
 
 namespace Planes262.Networking
 {
@@ -49,6 +50,7 @@ namespace Planes262.Networking
 
         private static void TroopSpawned(Packet packet)
         {
+            Debug.Log("Received troops spawned");
             List<Troop> troops = packet.ReadTroops();
 
             GameState.Instance.BeginNextRound(troops);

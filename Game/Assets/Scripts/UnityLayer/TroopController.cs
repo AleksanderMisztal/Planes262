@@ -31,6 +31,7 @@ namespace Planes262.UnityLayer
 
         public static void BeginNextRound(IEnumerable<Troop> troops)
         {
+            Debug.Log("Spawning troops", instance);
             foreach (Troop troop in troops)
             {
                 GdTroop troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;

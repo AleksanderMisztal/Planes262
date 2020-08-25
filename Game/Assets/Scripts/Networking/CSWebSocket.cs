@@ -16,46 +16,14 @@ namespace Planes262.Networking
         
         private WsClient wsClient;
 
-        public CsWebSocket()
-        {
-            InitializeConnection();
-        }
-
-        private async Task InitializeConnection()
+        public async Task InitializeConnection()
         {
             wsClient = new WsClient();
             await wsClient.Connect();
         }
 
-        public void SendData(Packet packet)
-        {
-            Packet perm = new Packet(packet.ToArray());
-            wsClient.AddToQueue(perm);
-        }
-
         private class WsClient
         {
-            private readonly Queue<Packet> sendQueue = new Queue<Packet>();
-
-            public void AddToQueue(Packet packet)
-            {
-                sendQueue.Enqueue(packet);
-            }
-
-            private async Task SendPackets()
-            {
-                while (true)
-                {
-                    while (sendQueue.Count != 0)
-                    {
-                        Packet packet = sendQueue.Dequeue();
-                        await SendData(packet);
-                    }
-                    await Task.Delay(100);
-                }
-            }
-
-
             private ClientWebSocket socket;
 
             public async Task Connect()
@@ -66,7 +34,6 @@ namespace Planes262.Networking
                 await socket.ConnectAsync(serverUri, CancellationToken.None);
 
                 //TODO: Fix this dangerous thingy
-                SendPackets();
                 await BeginListen();
             }
 
@@ -104,6 +71,7 @@ namespace Planes262.Networking
             {
                 while (true)
                 {
+                    Debug.Log("Received sth");
                     string data = await Receive();
                     ClientHandle.HandlePacket(data);
                 }
