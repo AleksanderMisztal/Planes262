@@ -6,7 +6,8 @@ namespace Planes262.UnityLayer
     public class GameManager : MonoBehaviour
     {
         private ClientSend sender;
-        private async void Start()
+            
+        private async void Awake()
         {
             CsWebSocket socket = new CsWebSocket();
             await socket.InitializeConnection();
@@ -15,6 +16,8 @@ namespace Planes262.UnityLayer
             UIManager.SetSender(sender);
             MapController.SetSender(sender);
             Messenger.SetSender(sender);
+
+            await socket.BeginListenAsync();
         }
     }
 }

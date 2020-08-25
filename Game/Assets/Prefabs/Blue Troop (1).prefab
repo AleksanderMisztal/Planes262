@@ -314,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5280687893969046586}
   - component: {fileID: 5280687893969046585}
-  - component: {fileID: 5767427577334968885}
+  - component: {fileID: 891695190564888900}
   m_Layer: 8
   m_Name: Blue Troop (1)
   m_TagString: Untagged
@@ -358,7 +358,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5767427577334968885
+--- !u!114 &891695190564888900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

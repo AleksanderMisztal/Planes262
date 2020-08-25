@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    class GdTroop : MonoBehaviour
+    public class GdTroop : MonoBehaviour
     {
         private const int NoExplosions = 2;
 
