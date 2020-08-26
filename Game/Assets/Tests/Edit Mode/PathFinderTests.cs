@@ -11,14 +11,14 @@ namespace Tests
         private TroopMap map;
         private PathFinder pathFinder;
 
-        private void CreatePathFinder(List<Troop> troops)
+        private void CreatePathFinder(IEnumerable<Troop> troops)
         {
             map = new TroopMap();
             map.SpawnWave(troops);
             pathFinder = new PathFinder(map);
         }
 
-        private void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
+        private static void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
         {
             Debug.Log($"Counts: {actual.Count} : {expected.Count}");
             foreach (T item in actual)
@@ -30,7 +30,7 @@ namespace Tests
 
 
         [Test]
-        public void Should_ReturnControllZone_When_TroopHasOneMove()
+        public void Should_ReturnControlZone_When_TroopHasOneMove()
         {
             List<Troop> troops = new List<Troop>
             {
@@ -73,6 +73,20 @@ namespace Tests
                 new VectorTwo(2, 0),
             };
             AssertSetEquality(cells, expected);
+        }
+
+        [Test]
+        public void Should_ReachReachableCells_When_DfsButNotBfsDoes()
+        {
+            List<Troop> troops = new List<Troop>
+            {
+                Troop.Blue(2, 2, 5)
+            };
+            CreatePathFinder(troops);
+
+            HashSet<VectorTwo> cells = pathFinder.GetReachableCells(troops[0].Position);
+
+            Assert.IsTrue(cells.Contains(new VectorTwo(7, 2)));
         }
     }
 }

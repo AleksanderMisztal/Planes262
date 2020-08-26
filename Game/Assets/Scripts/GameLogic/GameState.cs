@@ -59,7 +59,6 @@ namespace Planes262.GameLogic
             while ((encounter = troopMap.Get(troop.Position)) != null && troop.Health > 0)
             {
                 result = battleResults[battleId++];
-                battleResults.Add(result);
                 if (result.AttackerDamaged) ApplyDamage(troop);
                 if (result.DefenderDamaged) ApplyDamage(encounter);
 

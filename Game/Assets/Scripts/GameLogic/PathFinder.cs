@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Planes262.GameLogic.Utils;
 using Planes262.GameLogic.Exceptions;
@@ -15,6 +16,7 @@ namespace Planes262.GameLogic
         private HashSet<OrientedCell> reachableCells = new HashSet<OrientedCell>();
         private Dictionary<OrientedCell, OrientedCell> parent = new Dictionary<OrientedCell, OrientedCell>();
         private Dictionary<VectorTwo, OrientedCell> orient = new Dictionary<VectorTwo, OrientedCell>();
+        private readonly Queue<Action> q = new Queue<Action>();
 
         public PathFinder(TroopMap map)
         {
@@ -41,7 +43,8 @@ namespace Planes262.GameLogic
         {
             side = troop.Player;
             OrientedCell initialPosition = new OrientedCell(troop.Position, troop.Orientation);
-            AddReachableCells(initialPosition, troop.MovePoints);
+            q.Enqueue(() => AddReachableCells(initialPosition, troop.MovePoints));
+            while (q.Count > 0) q.Dequeue()();
             return new HashSet<VectorTwo>(reachableCells.Select(c => c.Position));
         }
 
@@ -67,7 +70,7 @@ namespace Planes262.GameLogic
                 orient[cell.Position] = cell;
             }
             if (encounter == null)
-                AddReachableCells(cell, movePoints);
+                q.Enqueue(() => AddReachableCells(cell, movePoints));
         }
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)

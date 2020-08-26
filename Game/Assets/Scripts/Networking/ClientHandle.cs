@@ -21,7 +21,6 @@ namespace Planes262.Networking
             {(int) ServerPackets.MessageSent, MessageSent },
         };
 
-        // TODO: Move string to byte conversion into Client class
         public static void HandlePacket(string byteArray)
         {
             byte[] bytes = Serializer.Deserialize(byteArray);

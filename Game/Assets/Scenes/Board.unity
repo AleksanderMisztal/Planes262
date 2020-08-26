@@ -567,7 +567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redTroopPrefab: {fileID: 8010123504070118737, guid: a5d064d81f9b50c43b66f17fb9fddc6b,
     type: 3}
-  blueTroopPrefab: {fileID: 5767427577334968885, guid: 81ad609f2d666094f925414cb164336d,
+  blueTroopPrefab: {fileID: 891695190564888900, guid: 81ad609f2d666094f925414cb164336d,
     type: 3}
 --- !u!1 &236142460
 GameObject:
@@ -2619,7 +2619,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2.3561945
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3550,7 +3550,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: 3f8d5fc707c314942a27c287da77afee, type: 3}
+    - sprite: {fileID: 21300000, guid: 02b4185b11cd3ea4085cf5d2a260189b, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -8379,7 +8379,7 @@ ParticleSystemRenderer:
   m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
-  m_AllowRoll: 1
+  m_AllowRoll: 0
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -8903,7 +8903,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 3.1415925
       minScalar: 0
       maxCurve:
         serializedVersion: 2

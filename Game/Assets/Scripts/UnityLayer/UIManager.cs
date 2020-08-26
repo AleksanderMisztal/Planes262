@@ -50,6 +50,7 @@ namespace Planes262.UnityLayer
             mainMenu.SetActive(false);
             boardCamera.SetActive(false);
 
+            if (Camera.main is null) return;
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
@@ -100,8 +101,6 @@ namespace Planes262.UnityLayer
 
         public static void EndGame(int blueScore, int redScore)
         {
-            // TODO: Wait for 1-2 seconds
-
             string message = $"Final score: red: {redScore}, blue: {blueScore}";
             instance.EndGame(message);
         }
@@ -110,6 +109,7 @@ namespace Planes262.UnityLayer
         {
             Debug.Log("UI manager ending the game");
             TileManager.DeactivateTiles();
+            TroopController.ResetForNewGame();
 
             instance.background.SetActive(true);
             board.SetActive(false);

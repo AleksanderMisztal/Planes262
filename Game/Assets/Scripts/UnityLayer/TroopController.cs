@@ -16,22 +16,18 @@ namespace Planes262.UnityLayer
 
         private void Awake()
         {
-            if (instance == null)
-                instance = this;
-            else if (instance != this)
-                Destroy(this);
+            if (instance == null) instance = this;
+            else if (instance != this) Destroy(this);
         }
 
         public static void ResetForNewGame()
         {
-            foreach (GdTroop troop in map.Values)
-                Destroy(troop);
+            foreach (GdTroop troop in map.Values) Destroy(troop.gameObject);
             map = new Dictionary<VectorTwo, GdTroop>();
         }
 
         public static void BeginNextRound(IEnumerable<Troop> troops)
         {
-            Debug.Log("Spawning troops", instance);
             foreach (Troop troop in troops)
             {
                 GdTroop troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;
@@ -41,38 +37,37 @@ namespace Planes262.UnityLayer
             }
         }
 
-        public static void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
+        public static void MoveTroop(VectorTwo position, int direction, IEnumerable<BattleResult> battleResults)
         {
             GdTroop troop = map[position];
             troop.AdjustOrientation(direction);
             ConductBattles(battleResults, troop);
-            FinalizeMoveIfNotDestroyed(position, troop);
+            FinalizeMove(position, troop);
         }
 
-        private static void ConductBattles(List<BattleResult> battleResults, GdTroop troop)
+        private static void ConductBattles(IEnumerable<BattleResult> battleResults, GdTroop troop)
         {
             foreach (BattleResult result in battleResults)
             {
-                Debug.Log($"Position is {troop.Position}, in front {troop.CellInFront}");
                 GdTroop encounter = map[troop.CellInFront];
                 troop.MoveForward();
-                if (result.AttackerDamaged) ApplyDamage(troop);
-                if (result.DefenderDamaged) ApplyDamage(encounter);
+                if (result.AttackerDamaged) troop.ApplyDamage();
+                if (result.DefenderDamaged) DamageDefender(encounter);
             }
         }
 
-        private static void ApplyDamage(GdTroop troop)
+        private static void DamageDefender(GdTroop encounter)
         {
-            troop.ApplyDamage();
-            if (troop.Destroyed)
-                map.Remove(troop.Position);
+            encounter.ApplyDamage();
+            if (encounter.Destroyed)
+                map.Remove(encounter.Position);
         }
 
-        private static void FinalizeMoveIfNotDestroyed(VectorTwo position, GdTroop troop)
+        private static void FinalizeMove(VectorTwo position, GdTroop troop)
         {
+            map.Remove(position);
             if (troop.Destroyed) return;
             troop.MoveForward();
-            map.Remove(position);
             map.Add(troop.Position, troop);
         }
     }

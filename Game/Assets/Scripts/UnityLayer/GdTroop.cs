@@ -6,6 +6,16 @@ namespace Planes262.UnityLayer
     public class GdTroop : MonoBehaviour
     {
         private const int NoExplosions = 2;
+        [SerializeField] private GameObject explosion;
+
+        private void Explode(Vector3 position, int times)
+        {
+            while (times-- > 0)
+            {
+                Vector3 randomOffset = position + Random.insideUnitSphere;
+                Instantiate(explosion, randomOffset, Quaternion.identity);
+            }
+        }
 
         public VectorTwo Position { get; private set; }
         private int orientation;
@@ -46,9 +56,9 @@ namespace Planes262.UnityLayer
 
         public void ApplyDamage()
         {
-            Effects.Explode(transform.position, NoExplosions);
+            Explode(transform.position, NoExplosions);
             if (--health > 0) spriteRenderer.sprite = sprites[health - 1];
-            else Destroy(this);
+            else Destroy(this.gameObject);
         }
     }
 }
