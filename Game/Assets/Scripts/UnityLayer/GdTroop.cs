@@ -1,22 +1,13 @@
 ﻿using Planes262.GameLogic.Utils;
+using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
     public class GdTroop : MonoBehaviour
     {
-        private const int NoExplosions = 2;
-        [SerializeField] private GameObject explosion;
-
-        private void Explode(Vector3 position, int times)
-        {
-            while (times-- > 0)
-            {
-                Vector3 randomOffset = position + Random.insideUnitSphere;
-                Instantiate(explosion, randomOffset, Quaternion.identity);
-            }
-        }
-
+        private Effects effects;
+        
         public VectorTwo Position { get; private set; }
         private int orientation;
         private int health;
@@ -29,6 +20,8 @@ namespace Planes262.UnityLayer
 
         public void Initialize(VectorTwo position, int orientation, int health)
         {
+            effects = FindObjectOfType<Effects>();
+            
             this.Position = position;
             this.orientation = orientation;
             this.health = health;
@@ -51,12 +44,12 @@ namespace Planes262.UnityLayer
         public void MoveForward()
         {
             Position = CellInFront;
-            transform.position = MapGrid.CellToWorld(Position);
+            transform.position = Utils.MapGrid.CellToWorld(Position);
         }
 
         public void ApplyDamage()
         {
-            Explode(transform.position, NoExplosions);
+            effects.Explode(transform.position, 2);
             if (--health > 0) spriteRenderer.sprite = sprites[health - 1];
             else Destroy(this.gameObject);
         }

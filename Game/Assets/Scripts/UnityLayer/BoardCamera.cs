@@ -76,8 +76,7 @@ namespace Planes262.UnityLayer
             xMax = camTopRight.x;
             yMax = camTopRight.y;
         }
-
-
+        
         private void Update()
         {
             UpdateCameraSize();
@@ -103,7 +102,7 @@ namespace Planes262.UnityLayer
                 instance.transform.position += Vector3.left * Mobility;
         }
 
-        private void ClampCameraPosition()
+        private static void ClampCameraPosition()
         {
             float x = Mathf.Clamp(instance.transform.position.x,
                                             xMin + CenterXOffset,
@@ -115,12 +114,12 @@ namespace Planes262.UnityLayer
             instance.transform.position = new Vector3(x, y, -10);
         }
 
-        private float CenterXOffset => -.1f
-            + boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, 0, 0)).x
-            - boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth / 2, 0, 0)).x;
+        private static float CenterXOffset => -.1f
+                                              + boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, 0, 0)).x
+                                              - boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth / 2, 0, 0)).x;
 
-        private float CenterYOffset => -.1f
-            + boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight, 0)).y
-            - boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight / 2, 0)).y;
+        private static float CenterYOffset => -.1f
+                                              + boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight, 0)).y
+                                              - boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight / 2, 0)).y;
     }
 }

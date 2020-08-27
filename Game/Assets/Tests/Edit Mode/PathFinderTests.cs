@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Utils;
-using UnityEngine;
 
 namespace Tests
 {
@@ -20,9 +19,6 @@ namespace Tests
 
         private static void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
         {
-            Debug.Log($"Counts: {actual.Count} : {expected.Count}");
-            foreach (T item in actual)
-                Debug.Log(item);
             Assert.IsTrue(actual.Count == expected.Count);
             foreach (T item in expected)
                 Assert.IsTrue(actual.Contains(item));

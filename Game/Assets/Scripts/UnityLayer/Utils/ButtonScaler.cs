@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Utils
 {
     public class ButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

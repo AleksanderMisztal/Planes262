@@ -9,6 +9,8 @@ namespace Planes262.UnityLayer
     {
         private static PlayerSide Side { get; set; }
 
+        private static GameState gameState;
+        
         private static VectorTwo selectedPosition;
         private static TroopDto troopDto;
         private static HashSet<VectorTwo> reachableCells;
@@ -16,10 +18,17 @@ namespace Planes262.UnityLayer
         private static List<int> directions;
         private static ClientSend sender;
 
-        public static void Initialize(PlayerSide side)
+
+        public static void SetSender(ClientSend sender)
+        {
+            MapController.sender = sender;
+        }
+        
+        public static void Initialize(PlayerSide side, GameState _gameState)
         {
             DeactivateTroops();
             Side = side;
+            gameState = _gameState;
         }
 
         public static void OnCellClicked(VectorTwo cell)
@@ -52,14 +61,14 @@ namespace Planes262.UnityLayer
         private static void SetAsTarget(VectorTwo cell)
         {
             targetPosition = cell;
-            directions = GameState.GetDirections(selectedPosition, targetPosition);
+            directions = gameState.GetDirections(selectedPosition, targetPosition);
             HighlightPath(selectedPosition, troopDto.orientation, directions);
         }
 
         private static void SelectTroop(VectorTwo cell)
         {
             DeactivateTroops();
-            troopDto = GameState.GetTroopDto(cell);
+            troopDto = gameState.GetTroopDto(cell);
             if (troopDto != null && troopDto.side == Side)
                 ActivateTroopAt(cell);
         }
@@ -67,7 +76,7 @@ namespace Planes262.UnityLayer
         private static void ActivateTroopAt(VectorTwo cell)
         {
             selectedPosition = cell;
-            reachableCells = GameState.GetReachableCells(cell);
+            reachableCells = gameState.GetReachableCells(cell);
             TileManager.ActivateTiles(reachableCells);
         }
 
@@ -91,11 +100,6 @@ namespace Planes262.UnityLayer
                 cells.Add(position);
             }
             TileManager.HighlightPath(cells);
-        }
-
-        public static void SetSender(ClientSend _sender)
-        {
-            sender = _sender;
         }
     }
 }

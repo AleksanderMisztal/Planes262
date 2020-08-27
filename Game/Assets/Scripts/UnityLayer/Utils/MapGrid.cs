@@ -1,7 +1,7 @@
 ﻿using Planes262.GameLogic.Utils;
 using UnityEngine;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Utils
 {
     public class MapGrid : MonoBehaviour
     {

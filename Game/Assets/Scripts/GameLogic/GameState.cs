@@ -5,8 +5,6 @@ namespace Planes262.GameLogic
 {
     public class GameState
     {
-        public static GameState Instance = null;
-
         private PlayerSide activePlayer = PlayerSide.Red;
         private readonly Score score = new Score();
 
@@ -86,19 +84,19 @@ namespace Planes262.GameLogic
 
 
         //Getters
-        public static HashSet<VectorTwo> GetReachableCells(VectorTwo position)
+        public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
-            return Instance.pathFinder.GetReachableCells(position);
+            return pathFinder.GetReachableCells(position);
         }
 
-        public static List<int> GetDirections(VectorTwo start, VectorTwo end)
+        public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
-            return Instance.pathFinder.GetDirections(start, end);
+            return pathFinder.GetDirections(start, end);
         }
 
-        public static TroopDto GetTroopDto(VectorTwo position)
+        public TroopDto GetTroopDto(VectorTwo position)
         {
-            Troop troop = Instance.troopMap.Get(position);
+            Troop troop = troopMap.Get(position);
             return troop is null ? null : new TroopDto(troop.Player, troop.Orientation);
         }
     }

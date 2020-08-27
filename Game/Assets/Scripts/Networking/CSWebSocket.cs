@@ -15,8 +15,14 @@ namespace Planes262.Networking
         private const string Host = "wss://localhost:5001";
         private readonly Queue<Packet> sendQueue = new Queue<Packet>();
         private ClientWebSocket socket;
+        private readonly ClientHandle clientHandle;
 
-        
+        public CsWebSocket(ClientHandle clientHandle)
+        {
+            this.clientHandle = clientHandle;
+        }
+
+
         public async Task InitializeConnection()
         {
             Uri serverUri = new Uri(Host);
@@ -30,7 +36,7 @@ namespace Planes262.Networking
             while (true)
             {
                 string data = await Receive();
-                ClientHandle.HandlePacket(data);
+                clientHandle.HandlePacket(data);
             }
         }
 
@@ -70,7 +76,7 @@ namespace Planes262.Networking
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
         
-
+        
         public void AddToQueue(Packet packet)
         {
             Packet perm = new Packet(packet.ToArray());

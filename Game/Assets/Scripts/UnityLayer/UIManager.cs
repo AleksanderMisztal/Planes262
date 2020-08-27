@@ -7,42 +7,37 @@ namespace Planes262.UnityLayer
 {
     public class UIManager : MonoBehaviour
     {
-        private static UIManager instance;
+        public static UIManager Instance;
 
         private ClientSend sender;
 
+        [SerializeField] private GameObject particles;
+        
         [SerializeField] private InputField username;
-        [SerializeField] private Text resultText;
+        [SerializeField] private GameObject mainMenu;
         [SerializeField] private Text participantsText;
         [SerializeField] private GameObject waitingText;
-        [SerializeField] private GameObject gameUi;
+        [SerializeField] private GameObject mainBackground;
+        
+        [SerializeField] private GameObject boardCamera;
         [SerializeField] private GameObject board;
-        [SerializeField] private GameObject particles;
+        [SerializeField] private GameObject gameUi;
+        
+        [SerializeField] private GameObject gameEnded;
+        [SerializeField] private Text resultText;
 
-        private GameObject mainMenu;
-        private GameObject gameEnded;
-        private GameObject background;
-        private GameObject boardCamera;
-
-        public static string Username => instance.username.text;
-        private static string OpponentsName { get; set; }
-
+        private string Username => username.text;
+        private string OpponentsName { get; set; }
         private static PlayerSide Side { get; set; }
-
 
         private void Awake()
         {
-            if (instance == null) instance = this;
-            else if (instance != this) Destroy(this);
+            if (Instance == null) Instance = this;
+            else if (Instance != this) Destroy(this);
         }
 
         private void Start()
         {
-            gameEnded = GameObject.FindWithTag("Game Ended");
-            mainMenu = GameObject.FindWithTag("Main Menu");
-            background = GameObject.FindWithTag("Background");
-            boardCamera = GameObject.FindWithTag("Board Camera");
-
             gameUi.SetActive(false);
             board.SetActive(false);
             waitingText.SetActive(false);
@@ -50,17 +45,18 @@ namespace Planes262.UnityLayer
             mainMenu.SetActive(false);
             boardCamera.SetActive(false);
 
-            if (Camera.main is null) return;
+            // ReSharper disable once PossibleNullReferenceException
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
-        public static void OnConnected()
+        public void OnConnected()
         {
-            instance.mainMenu.SetActive(true);
+            mainMenu.SetActive(true);
         }
 
         public void JoinGame()
         {
+            Messenger.SetUsername(username.text);
             sender.JoinGame(username.text);
 
             mainMenu.SetActive(false);
@@ -69,40 +65,40 @@ namespace Planes262.UnityLayer
 
         }
 
-        public static void StartTransitionIntoGame(PlayerSide side, string opponentsName, Board board)
+        public void StartTransitionIntoGame(PlayerSide side, string opponentsName, Board boardDims)
         {
             OpponentsName = opponentsName;
             Side = side;
 
-            instance.waitingText.SetActive(false);
-            instance.particles.SetActive(false);
-            instance.gameUi.SetActive(true);
-            instance.background.SetActive(false);
-            instance.boardCamera.SetActive(true);
+            waitingText.SetActive(false);
+            particles.SetActive(false);
+            gameUi.SetActive(true);
+            mainBackground.SetActive(false);
+            boardCamera.SetActive(true);
 
             UpdateScoreDisplay(0, 0);
 
-            TileManager.CreateBoard(board);
-            BoardCamera.Initialize(board);
+            TileManager.CreateBoard(boardDims);
+            BoardCamera.Initialize(boardDims);
         }
 
-        private static void UpdateScoreDisplay(int redScore, int blueScore)
+        private void UpdateScoreDisplay(int redScore, int blueScore)
         {
-            instance.participantsText.text = Side == PlayerSide.Red ?
+            participantsText.text = Side == PlayerSide.Red ?
                 $"{OpponentsName} {blueScore} : {redScore} {Username}" :
                 $"{Username} {blueScore} : {redScore} {OpponentsName}";
         }
 
-        public static void OpponentDisconnected()
-        { 
-            string message = "Opponent has disconnected :(";
-            instance.EndGame(message);
+        public void OpponentDisconnected()
+        {
+            const string message = "Opponent has disconnected :(";
+            EndGame(message);
         }
 
-        public static void EndGame(int blueScore, int redScore)
+        public void EndGame(int blueScore, int redScore)
         {
             string message = $"Final score: red: {redScore}, blue: {blueScore}";
-            instance.EndGame(message);
+            EndGame(message);
         }
 
         private void EndGame(string message)
@@ -111,7 +107,7 @@ namespace Planes262.UnityLayer
             TileManager.DeactivateTiles();
             TroopController.ResetForNewGame();
 
-            instance.background.SetActive(true);
+            Instance.mainBackground.SetActive(true);
             board.SetActive(false);
             gameEnded.SetActive(true);
             particles.SetActive(true);
@@ -125,9 +121,9 @@ namespace Planes262.UnityLayer
             mainMenu.SetActive(true);
         }
 
-        public static void SetSender(ClientSend sender)
+        public void SetSender(ClientSend sender)
         {
-            instance.sender = sender;
+            this.sender = sender;
         }
     }
 }

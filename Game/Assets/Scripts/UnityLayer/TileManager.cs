@@ -104,4 +104,9 @@ namespace Planes262.UnityLayer
             instance.path = new List<VectorTwo>();
         }
     }
+
+    public static class VectorTwoConversion
+    {
+        public static Vector3Int ToVector3Int(this VectorTwo v) => new Vector3Int(v.X, v.Y, 0);
+    }
 }

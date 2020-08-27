@@ -15,6 +15,7 @@ namespace Planes262.UnityLayer
 
         private List<GameObject> messages = new List<GameObject>();
         private ClientSend sender;
+        private string username;
 
         private void Awake()
         {
@@ -29,13 +30,21 @@ namespace Planes262.UnityLayer
             }
         }
 
+        public static void SetUsername(string username)
+        {
+            instance.username = username;
+        }
+        
+        public static void SetSender(ClientSend sender)
+        {
+            instance.sender = sender;
+        }
+
         public void SendAMessage()
         {
-            string message = UIManager.Username + ": " + input.text;
+            string message = username + ": " + input.text;
             input.text = "";
-
             sender.SendMessage(message);
-
             Display(message);
         }
 
@@ -57,11 +66,6 @@ namespace Planes262.UnityLayer
         {
             foreach (GameObject message in instance.messages) Destroy(message);
             instance.messages = new List<GameObject>();
-        }
-
-        public static void SetSender(ClientSend sender)
-        {
-            instance.sender = sender;
         }
     }
 }
