@@ -19,7 +19,7 @@ namespace Planes262.UnityLayer
 
         private PlayerSide Side { get; set; }
 
-        private TroopController troopController;
+        private TroopManager troopManager;
         
         private VectorTwo selectedPosition;
         private TroopDto troopDto;
@@ -30,11 +30,11 @@ namespace Planes262.UnityLayer
         private ClientSend sender;
         private readonly TileManager tileManager;
         
-        public void StartNewGame(PlayerSide side, TroopController troopController)
+        public void StartNewGame(PlayerSide side, TroopManager troopManager)
         {
             DeactivateTroops();
             Side = side;
-            this.troopController = troopController;
+            this.troopManager = troopManager;
         }
 
         public void OnCellClicked(VectorTwo cell)
@@ -67,14 +67,14 @@ namespace Planes262.UnityLayer
         private void SetAsTarget(VectorTwo cell)
         {
             targetPosition = cell;
-            directions = troopController.GetDirections(selectedPosition, targetPosition);
+            directions = troopManager.GetDirections(selectedPosition, targetPosition);
             HighlightPath(selectedPosition, troopDto.orientation, directions);
         }
 
         private void SelectTroop(VectorTwo cell)
         {
             DeactivateTroops();
-            troopDto = troopController.GetTroopDto(cell);
+            troopDto = troopManager.GetTroopDto(cell);
             if (troopDto != null && troopDto.side == Side)
                 ActivateTroopAt(cell);
         }
@@ -82,7 +82,7 @@ namespace Planes262.UnityLayer
         private void ActivateTroopAt(VectorTwo cell)
         {
             selectedPosition = cell;
-            reachableCells = troopController.GetReachableCells(cell);
+            reachableCells = troopManager.GetReachableCells(cell);
             tileManager.ActivateTiles(reachableCells);
         }
 

@@ -3,10 +3,9 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {
-    public partial class TroopMap
+    public class TroopMap
     {
         private readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
-
         private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
         private readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
 
@@ -15,7 +14,6 @@ namespace Planes262.GameLogic
         {
             map.Remove(troop.StartingPosition);
             map.Add(troop.Position, troop);
-
             troop.ResetStartingPosition();
         }
 
@@ -45,13 +43,10 @@ namespace Planes262.GameLogic
         public void SpawnWave(IEnumerable<Troop> wave)
         {
             foreach (Troop troop in wave)
-                Add(troop);
-        }
-
-        private void Add(Troop troop)
-        {
-            map.Add(troop.Position, troop);
-            GetTroops(troop.Player).Add(troop);
+            {
+                map.Add(troop.Position, troop);
+                GetTroops(troop.Player).Add(troop);
+            }
         }
     }
 }

@@ -3,16 +3,16 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {
-    public class TroopController
+    public class TroopManager
     {
-        private PlayerSide activePlayer = PlayerSide.Red;
         private readonly Score score = new Score();
+        private PlayerSide activePlayer = PlayerSide.Red;
 
         private readonly TroopMap troopMap;
         private readonly MoveValidator validator;
         private readonly PathFinder pathFinder;
 
-        public TroopController(Board board)
+        public TroopManager(Board board)
         {
             troopMap = new TroopMap();
             validator = new MoveValidator(troopMap, board, activePlayer);
@@ -21,7 +21,7 @@ namespace Planes262.GameLogic
 
         public void BeginNextRound(IEnumerable<Troop> troops)
         {
-            troopMap.SpawnWave(troops);
+            troopMap.SpawnWave(troops); // HERE
             ChangeActivePlayer();
         }
 
@@ -29,7 +29,7 @@ namespace Planes262.GameLogic
         {
             HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (Troop troop in beginningTroops)
-                troop.ResetMovePoints();
+                troop.ResetMovePoints(); // HERE
 
             activePlayer = activePlayer.Opponent();
             validator.ToggleActivePlayer();
@@ -39,7 +39,7 @@ namespace Planes262.GameLogic
         {
             int battleId = 0;
             Troop troop = troopMap.Get(position);
-            troop.MoveInDirection(direction);
+            troop.MoveInDirection(direction); // HERE
 
             Troop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
@@ -52,7 +52,7 @@ namespace Planes262.GameLogic
             if (result.AttackerDamaged) ApplyDamage(troop);
             if (result.DefenderDamaged) ApplyDamage(encounter);
 
-            troop.FlyOverOtherTroop();
+            troop.FlyOverOtherTroop(); // HERE
             
             while ((encounter = troopMap.Get(troop.Position)) != null && troop.Health > 0)
             {
@@ -60,7 +60,7 @@ namespace Planes262.GameLogic
                 if (result.AttackerDamaged) ApplyDamage(troop);
                 if (result.DefenderDamaged) ApplyDamage(encounter);
 
-                troop.FlyOverOtherTroop();
+                troop.FlyOverOtherTroop(); // HERE
             }
 
             if (troop.Health > 0)
@@ -72,9 +72,9 @@ namespace Planes262.GameLogic
             PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
 
-            troop.ApplyDamage();
+            troop.ApplyDamage(); // HERE
             if (troop.Health <= 0)
-                DestroyTroop(troop);
+                DestroyTroop(troop); // HERE
         }
 
         private void DestroyTroop(Troop troop)

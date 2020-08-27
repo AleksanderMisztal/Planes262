@@ -16,6 +16,7 @@ namespace Planes262.UnityLayer
         private async void Awake()
         {
             GetObjectsFromScene();
+            
             MapController mapController = new MapController(tileManager);
             Game game = new Game(new UnityTroopController(troopInstantiator), mapController);
             GameManager gameManager = new GameManager(messenger, uiManager, game);

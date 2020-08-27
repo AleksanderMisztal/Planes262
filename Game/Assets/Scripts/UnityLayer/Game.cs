@@ -7,7 +7,7 @@ namespace Planes262.UnityLayer
     public class Game
     {
         private readonly MapController mapController;
-        private TroopController troopController;
+        private TroopManager troopManager;
         private readonly UnityTroopController unityTroopController;
         
         public Game(UnityTroopController unityTroopController, MapController mapController)
@@ -16,22 +16,23 @@ namespace Planes262.UnityLayer
             this.mapController = mapController;
         }
 
+        
         public void StartNewGame(Board board, PlayerSide side)
         {
-            troopController = new TroopController(board);
-            mapController.StartNewGame(side, troopController);
+            troopManager = new TroopManager(board);
+            mapController.StartNewGame(side, troopManager);
             unityTroopController.ResetForNewGame();
         }
 
         public void BeginNextRound(List<Troop> troops)
         {
-            troopController.BeginNextRound(troops);
+            troopManager.BeginNextRound(troops);
             unityTroopController.BeginNextRound(troops);
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
-            troopController.MoveTroop(position, direction, battleResults);
+            troopManager.MoveTroop(position, direction, battleResults);
             unityTroopController.MoveTroop(position, direction, battleResults);
         }
     }
