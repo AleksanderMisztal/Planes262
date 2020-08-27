@@ -106,7 +106,6 @@ namespace Planes262.UnityLayer
         {
             Debug.Log("UI manager ending the game");
             tileManager.DeactivateTiles();
-            TroopController.ResetForNewGame();
 
             mainBackground.SetActive(true);
             board.SetActive(false);

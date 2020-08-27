@@ -7,37 +7,30 @@ namespace Planes262.UnityLayer
 {
     public class TroopController : MonoBehaviour
     {
-        private static TroopController instance;
-
         [SerializeField] private GdTroop redTroopPrefab;
         [SerializeField] private GdTroop blueTroopPrefab;
 
-        private static Dictionary<VectorTwo, GdTroop> map = new Dictionary<VectorTwo, GdTroop>();
+        private Dictionary<VectorTwo, GdTroop> map = new Dictionary<VectorTwo, GdTroop>();
 
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-            else if (instance != this) Destroy(this);
-        }
 
-        public static void ResetForNewGame()
+        public void ResetForNewGame()
         {
             foreach (GdTroop troop in map.Values) Destroy(troop.gameObject);
             map = new Dictionary<VectorTwo, GdTroop>();
         }
 
-        public static void BeginNextRound(IEnumerable<Troop> troops)
+        public void BeginNextRound(IEnumerable<Troop> troops)
         {
             foreach (Troop troop in troops)
             {
-                GdTroop troopPrefab = troop.Player == PlayerSide.Red ? instance.redTroopPrefab : instance.blueTroopPrefab;
+                GdTroop troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
                 GdTroop gdTroop = Instantiate(troopPrefab);
                 gdTroop.Initialize(troop.Position, troop.Orientation, troop.Health);
                 map.Add(troop.Position, gdTroop);
             }
         }
 
-        public static void MoveTroop(VectorTwo position, int direction, IEnumerable<BattleResult> battleResults)
+        public void MoveTroop(VectorTwo position, int direction, IEnumerable<BattleResult> battleResults)
         {
             GdTroop troop = map[position];
             troop.AdjustOrientation(direction);
@@ -45,7 +38,7 @@ namespace Planes262.UnityLayer
             FinalizeMove(position, troop);
         }
 
-        private static void ConductBattles(IEnumerable<BattleResult> battleResults, GdTroop troop)
+        private void ConductBattles(IEnumerable<BattleResult> battleResults, GdTroop troop)
         {
             foreach (BattleResult result in battleResults)
             {
@@ -56,14 +49,14 @@ namespace Planes262.UnityLayer
             }
         }
 
-        private static void DamageDefender(GdTroop encounter)
+        private void DamageDefender(GdTroop encounter)
         {
             encounter.ApplyDamage();
             if (encounter.Destroyed)
                 map.Remove(encounter.Position);
         }
 
-        private static void FinalizeMove(VectorTwo position, GdTroop troop)
+        private void FinalizeMove(VectorTwo position, GdTroop troop)
         {
             map.Remove(position);
             if (troop.Destroyed) return;

@@ -11,6 +11,7 @@ namespace Planes262.UnityLayer
         private Messenger messenger;
         private UIManager uiManager;
         private TileManager tileManager;
+        private TroopController troopController;
 
         private async void Awake()
         {
@@ -18,7 +19,8 @@ namespace Planes262.UnityLayer
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
             tileManager = FindObjectOfType<TileManager>();
-            game = new Game(mapController, messenger, uiManager);
+            troopController = FindObjectOfType<TroopController>();
+            game = new Game(mapController, messenger, uiManager, troopController);
             ClientHandle clientHandle = new ClientHandle(game);
             CsWebSocket socket = new CsWebSocket(clientHandle);
             sender = new ClientSend(socket);
