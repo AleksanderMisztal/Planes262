@@ -17,11 +17,13 @@ namespace Planes262.UnityLayer
         private VectorTwo targetPosition;
         private List<int> directions;
         private ClientSend sender;
+        private TileManager tileManager;
 
 
-        public void SetSender(ClientSend sender)
+        public void Inject(ClientSend sender, TileManager tileManager)
         {
             this.sender = sender;
+            this.tileManager = tileManager;
         }
         
         public void Initialize(PlayerSide side, GameState _gameState)
@@ -77,12 +79,12 @@ namespace Planes262.UnityLayer
         {
             selectedPosition = cell;
             reachableCells = gameState.GetReachableCells(cell);
-            TileManager.ActivateTiles(reachableCells);
+            tileManager.ActivateTiles(reachableCells);
         }
 
         private void DeactivateTroops()
         {
-            TileManager.DeactivateTiles();
+            tileManager.DeactivateTiles();
             selectedPosition = null;
             troopDto = null;
             reachableCells = null;
@@ -99,7 +101,7 @@ namespace Planes262.UnityLayer
                 position = Hex.GetAdjacentHex(position, orientation);
                 cells.Add(position);
             }
-            TileManager.HighlightPath(cells);
+            tileManager.HighlightPath(cells);
         }
     }
 }

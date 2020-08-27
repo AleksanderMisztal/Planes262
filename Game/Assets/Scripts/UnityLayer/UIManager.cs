@@ -9,6 +9,7 @@ namespace Planes262.UnityLayer
     {
         private ClientSend sender;
         private Messenger messenger;
+        private TileManager tileManager;
 
         [SerializeField] private GameObject particles;
         
@@ -42,14 +43,11 @@ namespace Planes262.UnityLayer
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
-        public void SetSender(ClientSend sender)
+        public void Inject(ClientSend sender, Messenger messenger, TileManager tileManager)
         {
             this.sender = sender;
-        }
-
-        public void SetMessenger(Messenger messenger)
-        {
             this.messenger = messenger;
+            this.tileManager = tileManager;
         }
 
         public void OnConnected()
@@ -81,7 +79,7 @@ namespace Planes262.UnityLayer
 
             UpdateScoreDisplay(0, 0);
 
-            TileManager.CreateBoard(boardDims);
+            tileManager.CreateBoard(boardDims);
             boardCamera.GetComponent<BoardCamera>().Initialize(boardDims);
         }
 
@@ -107,7 +105,7 @@ namespace Planes262.UnityLayer
         private void EndGame(string message)
         {
             Debug.Log("UI manager ending the game");
-            TileManager.DeactivateTiles();
+            tileManager.DeactivateTiles();
             TroopController.ResetForNewGame();
 
             mainBackground.SetActive(true);

@@ -10,12 +10,14 @@ namespace Planes262.UnityLayer
         private MapController mapController;
         private Messenger messenger;
         private UIManager uiManager;
+        private TileManager tileManager;
 
         private async void Awake()
         {
             mapController = new MapController();
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
+            tileManager = FindObjectOfType<TileManager>();
             game = new Game(mapController, messenger, uiManager);
             ClientHandle clientHandle = new ClientHandle(game);
             CsWebSocket socket = new CsWebSocket(clientHandle);
@@ -29,9 +31,8 @@ namespace Planes262.UnityLayer
 
         private void Start()
         {
-            mapController.SetSender(sender);
-            uiManager.SetSender(sender);
-            uiManager.SetMessenger(messenger);
+            mapController.Inject(sender, tileManager);
+            uiManager.Inject(sender, messenger, tileManager);
             messenger.SetSender(sender);
         }
     }
