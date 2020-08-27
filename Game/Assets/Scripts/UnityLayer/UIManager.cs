@@ -82,7 +82,7 @@ namespace Planes262.UnityLayer
             UpdateScoreDisplay(0, 0);
 
             TileManager.CreateBoard(boardDims);
-            BoardCamera.Initialize(boardDims);
+            boardCamera.GetComponent<BoardCamera>().Initialize(boardDims);
         }
 
         private void UpdateScoreDisplay(int redScore, int blueScore)
