@@ -7,8 +7,6 @@ namespace Planes262.UnityLayer
 {
     public class Messenger : MonoBehaviour
     {
-        private static Messenger instance;
-
         [SerializeField] private InputField input;
         [SerializeField] private Text messagePrefab;
         [SerializeField] private GameObject textParent;
@@ -17,27 +15,14 @@ namespace Planes262.UnityLayer
         private ClientSend sender;
         private string username;
 
-        private void Awake()
+        public void SetUsername(string username)
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else if (instance != this)
-            {
-                Debug.Log("Instance already exists, destroying this...");
-                Destroy(this);
-            }
-        }
-
-        public static void SetUsername(string username)
-        {
-            instance.username = username;
+            this.username = username;
         }
         
-        public static void SetSender(ClientSend sender)
+        public void SetSender(ClientSend sender)
         {
-            instance.sender = sender;
+            this.sender = sender;
         }
 
         public void SendAMessage()
@@ -48,9 +33,9 @@ namespace Planes262.UnityLayer
             Display(message);
         }
 
-        public static void MessageReceived(string message)
+        public void MessageReceived(string message)
         {
-            instance.Display(message);
+            Display(message);
         }
 
         private void Display(string message)
@@ -62,10 +47,10 @@ namespace Planes262.UnityLayer
             messages.Add(messageObject.gameObject);
         }
 
-        public static void ResetMessages()
+        public void ResetMessages()
         {
-            foreach (GameObject message in instance.messages) Destroy(message);
-            instance.messages = new List<GameObject>();
+            foreach (GameObject message in messages) Destroy(message);
+            messages = new List<GameObject>();
         }
     }
 }

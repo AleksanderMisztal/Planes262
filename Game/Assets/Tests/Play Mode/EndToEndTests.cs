@@ -13,7 +13,7 @@ namespace Planes262.Tests.Play_Mode
         private void Click(int x, int y)
         {
             VectorTwo cell = new VectorTwo(x, y);
-            MapController.OnCellClicked(cell);
+            //MapController.OnCellClicked(cell);
         }
         
         [UnityTest]

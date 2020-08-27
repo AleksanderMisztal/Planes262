@@ -31,15 +31,8 @@ namespace Planes262.UnityLayer
 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else if (instance != this)
-            {
-                Debug.Log("Instance already exists, destroying this...");
-                Destroy(this);
-            }
+            if (instance == null) instance = this;
+            else if (instance != this) Destroy(this);
         }
 
         public static void CreateBoard(Board board)

@@ -10,6 +10,7 @@ namespace Planes262.UnityLayer
         public static UIManager Instance;
 
         private ClientSend sender;
+        private Messenger messenger;
 
         [SerializeField] private GameObject particles;
         
@@ -49,6 +50,16 @@ namespace Planes262.UnityLayer
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
+        public void SetSender(ClientSend sender)
+        {
+            this.sender = sender;
+        }
+
+        public void SetMessenger(Messenger messenger)
+        {
+            this.messenger = messenger;
+        }
+
         public void OnConnected()
         {
             mainMenu.SetActive(true);
@@ -56,7 +67,7 @@ namespace Planes262.UnityLayer
 
         public void JoinGame()
         {
-            Messenger.SetUsername(username.text);
+            messenger.SetUsername(username.text);
             sender.JoinGame(username.text);
 
             mainMenu.SetActive(false);
@@ -119,11 +130,6 @@ namespace Planes262.UnityLayer
         {
             gameEnded.SetActive(false);
             mainMenu.SetActive(true);
-        }
-
-        public void SetSender(ClientSend sender)
-        {
-            this.sender = sender;
         }
     }
 }

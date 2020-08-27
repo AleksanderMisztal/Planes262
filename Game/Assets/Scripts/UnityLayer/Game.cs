@@ -8,7 +8,15 @@ namespace Planes262.UnityLayer
     public class Game
     {
         private GameState gameState;
-        
+        private readonly MapController mapController;
+        private readonly Messenger messenger;
+
+        public Game(MapController mapController, Messenger messenger)
+        {
+            this.mapController = mapController;
+            this.messenger = messenger;
+        }
+
         public void OnWelcome()
         {
             Debug.Log("Connected to server!");
@@ -19,8 +27,8 @@ namespace Planes262.UnityLayer
         {
             gameState = new GameState(board);
             Debug.Log("Game joined received! Playing against " + opponentName);
-            MapController.Initialize(side, gameState);
-            Messenger.ResetMessages();
+            mapController.Initialize(side, gameState);
+            messenger.ResetMessages();
             TroopController.ResetForNewGame();
             UIManager.Instance.StartTransitionIntoGame(side, opponentName, board);
         }
@@ -44,7 +52,7 @@ namespace Planes262.UnityLayer
 
         public void OnMessageSent(string message)
         {
-            Messenger.MessageReceived(message);
+            messenger.MessageReceived(message);
         }
 
         public void OnOpponentDisconnected()

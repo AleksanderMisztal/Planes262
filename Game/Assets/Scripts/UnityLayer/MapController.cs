@@ -5,33 +5,33 @@ using Planes262.Networking;
 
 namespace Planes262.UnityLayer
 {
-    public static class MapController
+    public class MapController
     {
-        private static PlayerSide Side { get; set; }
+        private PlayerSide Side { get; set; }
 
-        private static GameState gameState;
+        private GameState gameState;
         
-        private static VectorTwo selectedPosition;
-        private static TroopDto troopDto;
-        private static HashSet<VectorTwo> reachableCells;
-        private static VectorTwo targetPosition;
-        private static List<int> directions;
-        private static ClientSend sender;
+        private VectorTwo selectedPosition;
+        private TroopDto troopDto;
+        private HashSet<VectorTwo> reachableCells;
+        private VectorTwo targetPosition;
+        private List<int> directions;
+        private ClientSend sender;
 
 
-        public static void SetSender(ClientSend sender)
+        public void SetSender(ClientSend sender)
         {
-            MapController.sender = sender;
+            this.sender = sender;
         }
         
-        public static void Initialize(PlayerSide side, GameState _gameState)
+        public void Initialize(PlayerSide side, GameState _gameState)
         {
             DeactivateTroops();
             Side = side;
             gameState = _gameState;
         }
 
-        public static void OnCellClicked(VectorTwo cell)
+        public void OnCellClicked(VectorTwo cell)
         {
             if (cell == selectedPosition) return;
             bool troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
@@ -40,14 +40,14 @@ namespace Planes262.UnityLayer
             else SelectTroop(cell);
         }
 
-        private static void ChangePathOrSend(VectorTwo cell)
+        private void ChangePathOrSend(VectorTwo cell)
         {
             if (targetPosition == cell)
                 SendMoves(selectedPosition, troopDto.orientation, directions);
             else SetAsTarget(cell);
         }
 
-        private static void SendMoves(VectorTwo position, int orientation, List<int> directions)
+        private void SendMoves(VectorTwo position, int orientation, List<int> directions)
         {
             DeactivateTroops();
             foreach (int dir in directions)
@@ -58,14 +58,14 @@ namespace Planes262.UnityLayer
             }
         }
 
-        private static void SetAsTarget(VectorTwo cell)
+        private void SetAsTarget(VectorTwo cell)
         {
             targetPosition = cell;
             directions = gameState.GetDirections(selectedPosition, targetPosition);
             HighlightPath(selectedPosition, troopDto.orientation, directions);
         }
 
-        private static void SelectTroop(VectorTwo cell)
+        private void SelectTroop(VectorTwo cell)
         {
             DeactivateTroops();
             troopDto = gameState.GetTroopDto(cell);
@@ -73,14 +73,14 @@ namespace Planes262.UnityLayer
                 ActivateTroopAt(cell);
         }
 
-        private static void ActivateTroopAt(VectorTwo cell)
+        private void ActivateTroopAt(VectorTwo cell)
         {
             selectedPosition = cell;
             reachableCells = gameState.GetReachableCells(cell);
             TileManager.ActivateTiles(reachableCells);
         }
 
-        private static void DeactivateTroops()
+        private void DeactivateTroops()
         {
             TileManager.DeactivateTiles();
             selectedPosition = null;
@@ -90,7 +90,7 @@ namespace Planes262.UnityLayer
             directions = null;
     }
 
-        private static void HighlightPath(VectorTwo position, int orientation, List<int> directions)
+        private void HighlightPath(VectorTwo position, int orientation, List<int> directions)
         {
             List<VectorTwo> cells = new List<VectorTwo>();
             foreach (int dir in directions)
