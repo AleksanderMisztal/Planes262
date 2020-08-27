@@ -3,7 +3,7 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {
-    public class GameState
+    public class TroopController
     {
         private PlayerSide activePlayer = PlayerSide.Red;
         private readonly Score score = new Score();
@@ -12,7 +12,7 @@ namespace Planes262.GameLogic
         private readonly MoveValidator validator;
         private readonly PathFinder pathFinder;
 
-        public GameState(Board board)
+        public TroopController(Board board)
         {
             troopMap = new TroopMap();
             validator = new MoveValidator(troopMap, board, activePlayer);

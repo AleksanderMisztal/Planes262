@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class GdTroop : MonoBehaviour
+    public class UnityTroop : MonoBehaviour
     {
         private static MapGrid mapGrid;
+        private Effects effects;
 
         public static void Inject(MapGrid mapGrid)
         {
-            GdTroop.mapGrid = mapGrid;
+            UnityTroop.mapGrid = mapGrid;
         }
-        private Effects effects;
         
         public VectorTwo Position { get; private set; }
         private int orientation;

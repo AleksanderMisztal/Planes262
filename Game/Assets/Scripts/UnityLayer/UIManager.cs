@@ -50,7 +50,7 @@ namespace Planes262.UnityLayer
             this.tileManager = tileManager;
         }
 
-        public void OnConnected()
+        public void ActivateMainMenu()
         {
             mainMenu.SetActive(true);
         }
@@ -63,7 +63,6 @@ namespace Planes262.UnityLayer
             mainMenu.SetActive(false);
             board.SetActive(true);
             waitingText.SetActive(true);
-
         }
 
         public void StartTransitionIntoGame(PlayerSide side, string opponentsName, Board boardDims)
@@ -104,7 +103,6 @@ namespace Planes262.UnityLayer
 
         private void EndGame(string message)
         {
-            Debug.Log("UI manager ending the game");
             tileManager.DeactivateTiles();
 
             mainBackground.SetActive(true);

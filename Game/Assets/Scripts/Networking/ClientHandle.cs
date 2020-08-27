@@ -11,11 +11,11 @@ namespace Planes262.Networking
     {
         private delegate void PacketHandler(Packet packet);
         private readonly Dictionary<int, PacketHandler> packetHandlers;
-        private readonly Game game;
+        private readonly GameManager gameManager;
 
-        public ClientHandle(Game game)
+        public ClientHandle(GameManager gameManager)
         {
-            this.game = game;
+            this.gameManager = gameManager;
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int) ServerPackets.Welcome, Welcome },
@@ -42,7 +42,7 @@ namespace Planes262.Networking
 
         private void Welcome(Packet packet)
         {
-            game.OnWelcome();
+            gameManager.OnWelcome();
         }
 
         private void GameJoined(Packet packet)
@@ -51,7 +51,7 @@ namespace Planes262.Networking
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
 
-            game.OnGameJoined(opponentName, side, board);
+            gameManager.OnGameJoined(opponentName, side, board);
         }
 
         private void TroopSpawned(Packet packet)
@@ -59,7 +59,7 @@ namespace Planes262.Networking
             Debug.Log("Received troops spawned");
             List<Troop> troops = packet.ReadTroops();
 
-            game.OnTroopSpawned(troops);
+            gameManager.OnTroopSpawned(troops);
         }
 
         private void TroopMoved(Packet packet)
@@ -68,7 +68,7 @@ namespace Planes262.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            game.OnTroopMoved(position, direction, battleResults);
+            gameManager.OnTroopMoved(position, direction, battleResults);
         }
 
         private void GameEnded(Packet packet)
@@ -76,19 +76,19 @@ namespace Planes262.Networking
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            game.OnGameEnded(redScore, blueScore);
+            gameManager.OnGameEnded(redScore, blueScore);
         }
 
         private void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            game.OnMessageSent(message);
+            gameManager.OnMessageSent(message);
         }
 
         private void OpponentDisconnected(Packet packet)
         {
-            game.OnOpponentDisconnected();
+            gameManager.OnOpponentDisconnected();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Planes262.UnityLayer
             this.username = username;
         }
         
-        public void SetSender(ClientSend sender)
+        public void Inject(ClientSend sender)
         {
             this.sender = sender;
         }

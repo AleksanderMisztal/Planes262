@@ -1,45 +1,63 @@
-﻿using Planes262.Networking;
-using Planes262.UnityLayer.Utils;
+﻿using System.Collections.Generic;
+using Planes262.GameLogic;
+using Planes262.GameLogic.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager
     {
-        private ClientSend sender;
-        private Game game;
-        private MapController mapController;
-        private Messenger messenger;
-        private UIManager uiManager;
-        private TileManager tileManager;
-        private TroopController troopController;
-        private MapGrid mapGrid;
+        private readonly UIManager uiManager;
+        private readonly Messenger messenger;
+        private readonly Game game;
 
-        private async void Awake()
+        public GameManager(Messenger messenger, UIManager uiManager, Game game)
         {
-            mapController = new MapController();
-            uiManager = FindObjectOfType<UIManager>();
-            messenger = FindObjectOfType<Messenger>();
-            tileManager = FindObjectOfType<TileManager>();
-            troopController = FindObjectOfType<TroopController>();
-            mapGrid = FindObjectOfType<MapGrid>();
-            game = new Game(mapController, messenger, uiManager, troopController);
-            ClientHandle clientHandle = new ClientHandle(game);
-            CsWebSocket socket = new CsWebSocket(clientHandle);
-            sender = new ClientSend(socket);
-
-
-            await socket.InitializeConnection();
-            await socket.BeginListenAsync();
+            this.messenger = messenger;
+            this.uiManager = uiManager;
+            this.game = game;
         }
 
-        private void Start()
+        
+        public void OnWelcome()
         {
-            mapController.Inject(sender, tileManager);
-            uiManager.Inject(sender, messenger, tileManager);
-            messenger.SetSender(sender);
-            FindObjectOfType<InputParser>().Inject(mapController, mapGrid);
-            GdTroop.Inject(mapGrid);
+            Debug.Log("Connected to server!");
+            uiManager.ActivateMainMenu();
+        }
+
+        public void OnGameEnded(int redScore, int blueScore)
+        {
+            uiManager.EndGame(blueScore, redScore);
+        }
+
+        public void OnOpponentDisconnected()
+        {
+            uiManager.OpponentDisconnected();
+        }
+
+        
+        public void OnGameJoined(string opponentName, PlayerSide side, Board board)
+        {
+            Debug.Log("Game joined received! Playing against " + opponentName);
+            game.StartNewGame(board, side);
+            messenger.ResetMessages();
+            uiManager.StartTransitionIntoGame(side, opponentName, board);
+        }
+
+        public void OnTroopSpawned(List<Troop> troops)
+        {
+            game.BeginNextRound(troops);
+        }
+
+        public void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults)
+        {
+            game.MoveTroop(position, direction, battleResults);
+        }
+
+        
+        public void OnMessageSent(string message)
+        {
+            messenger.MessageReceived(message);
         }
     }
 }
