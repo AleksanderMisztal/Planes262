@@ -5,16 +5,18 @@ namespace Planes262.UnityLayer
 {
     public class GameManager : MonoBehaviour
     {
-        private MapController mapController;
         private ClientSend sender;
         private Game game;
+        private MapController mapController;
         private Messenger messenger;
+        private UIManager uiManager;
 
         private async void Awake()
         {
             mapController = new MapController();
+            uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
-            game = new Game(mapController, messenger);
+            game = new Game(mapController, messenger, uiManager);
             ClientHandle clientHandle = new ClientHandle(game);
             CsWebSocket socket = new CsWebSocket(clientHandle);
             sender = new ClientSend(socket);
@@ -28,8 +30,8 @@ namespace Planes262.UnityLayer
         private void Start()
         {
             mapController.SetSender(sender);
-            UIManager.Instance.SetSender(sender);
-            UIManager.Instance.SetMessenger(messenger);
+            uiManager.SetSender(sender);
+            uiManager.SetMessenger(messenger);
             messenger.SetSender(sender);
         }
     }

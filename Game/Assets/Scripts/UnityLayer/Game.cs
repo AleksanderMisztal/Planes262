@@ -10,17 +10,19 @@ namespace Planes262.UnityLayer
         private GameState gameState;
         private readonly MapController mapController;
         private readonly Messenger messenger;
+        private readonly UIManager uiManager;
 
-        public Game(MapController mapController, Messenger messenger)
+        public Game(MapController mapController, Messenger messenger, UIManager uiManager)
         {
             this.mapController = mapController;
             this.messenger = messenger;
+            this.uiManager = uiManager;
         }
 
         public void OnWelcome()
         {
             Debug.Log("Connected to server!");
-            UIManager.Instance.OnConnected();
+            uiManager.OnConnected();
         }
 
         public void OnGameJoined(string opponentName, PlayerSide side, Board board)
@@ -30,7 +32,7 @@ namespace Planes262.UnityLayer
             mapController.Initialize(side, gameState);
             messenger.ResetMessages();
             TroopController.ResetForNewGame();
-            UIManager.Instance.StartTransitionIntoGame(side, opponentName, board);
+            uiManager.StartTransitionIntoGame(side, opponentName, board);
         }
 
         public void OnTroopSpawned(List<Troop> troops)
@@ -47,7 +49,7 @@ namespace Planes262.UnityLayer
 
         public void OnGameEnded(int redScore, int blueScore)
         {
-            UIManager.Instance.EndGame(blueScore, redScore);
+            uiManager.EndGame(blueScore, redScore);
         }
 
         public void OnMessageSent(string message)
@@ -57,7 +59,7 @@ namespace Planes262.UnityLayer
 
         public void OnOpponentDisconnected()
         {
-            UIManager.Instance.OpponentDisconnected();
+            uiManager.OpponentDisconnected();
         }
     }
 }

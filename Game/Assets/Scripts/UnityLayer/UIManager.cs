@@ -7,8 +7,6 @@ namespace Planes262.UnityLayer
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager Instance;
-
         private ClientSend sender;
         private Messenger messenger;
 
@@ -30,13 +28,7 @@ namespace Planes262.UnityLayer
         private string Username => username.text;
         private string OpponentsName { get; set; }
         private static PlayerSide Side { get; set; }
-
-        private void Awake()
-        {
-            if (Instance == null) Instance = this;
-            else if (Instance != this) Destroy(this);
-        }
-
+        
         private void Start()
         {
             gameUi.SetActive(false);
@@ -118,7 +110,7 @@ namespace Planes262.UnityLayer
             TileManager.DeactivateTiles();
             TroopController.ResetForNewGame();
 
-            Instance.mainBackground.SetActive(true);
+            mainBackground.SetActive(true);
             board.SetActive(false);
             gameEnded.SetActive(true);
             particles.SetActive(true);
