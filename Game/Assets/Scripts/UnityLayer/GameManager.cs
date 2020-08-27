@@ -1,4 +1,5 @@
 ﻿using Planes262.Networking;
+using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
@@ -12,6 +13,7 @@ namespace Planes262.UnityLayer
         private UIManager uiManager;
         private TileManager tileManager;
         private TroopController troopController;
+        private MapGrid mapGrid;
 
         private async void Awake()
         {
@@ -20,12 +22,12 @@ namespace Planes262.UnityLayer
             messenger = FindObjectOfType<Messenger>();
             tileManager = FindObjectOfType<TileManager>();
             troopController = FindObjectOfType<TroopController>();
+            mapGrid = FindObjectOfType<MapGrid>();
             game = new Game(mapController, messenger, uiManager, troopController);
             ClientHandle clientHandle = new ClientHandle(game);
             CsWebSocket socket = new CsWebSocket(clientHandle);
             sender = new ClientSend(socket);
 
-            FindObjectOfType<InputParser>().SetMapController(mapController);
 
             await socket.InitializeConnection();
             await socket.BeginListenAsync();
@@ -36,6 +38,8 @@ namespace Planes262.UnityLayer
             mapController.Inject(sender, tileManager);
             uiManager.Inject(sender, messenger, tileManager);
             messenger.SetSender(sender);
+            FindObjectOfType<InputParser>().Inject(mapController, mapGrid);
+            GdTroop.Inject(mapGrid);
         }
     }
 }

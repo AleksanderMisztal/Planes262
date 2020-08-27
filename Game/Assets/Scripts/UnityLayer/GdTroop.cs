@@ -6,6 +6,12 @@ namespace Planes262.UnityLayer
 {
     public class GdTroop : MonoBehaviour
     {
+        private static MapGrid mapGrid;
+
+        public static void Inject(MapGrid mapGrid)
+        {
+            GdTroop.mapGrid = mapGrid;
+        }
         private Effects effects;
         
         public VectorTwo Position { get; private set; }
@@ -30,7 +36,7 @@ namespace Planes262.UnityLayer
             spriteRenderer = body.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = sprites[sprites.Length - 1];
 
-            transform.position = MapGrid.CellToWorld(position);
+            transform.position = mapGrid.CellToWorld(position);
             body.rotation = Quaternion.identity;
             body.Rotate(Vector3.forward * 60 * orientation);
         }
@@ -44,7 +50,7 @@ namespace Planes262.UnityLayer
         public void MoveForward()
         {
             Position = CellInFront;
-            transform.position = Utils.MapGrid.CellToWorld(Position);
+            transform.position = mapGrid.CellToWorld(Position);
         }
 
         public void ApplyDamage()

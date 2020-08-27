@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Planes262.GameLogic.Utils;
 using Planes262.GameLogic.Exceptions;
-using System.Diagnostics;
 
 namespace Planes262.GameLogic
 {
@@ -51,26 +50,27 @@ namespace Planes262.GameLogic
         private void AddReachableCells(OrientedCell sourceCell, int movePoints)
         {
             if (movePoints <= 0) return;
-            Trace.WriteLine($"Source: {sourceCell.Position}, {sourceCell.Orientation}, mp: {movePoints}");
-            foreach (OrientedCell cell in sourceCell.GetControllZone())
+            foreach (OrientedCell oCell in sourceCell.GetControllZone())
             {
-                Trace.WriteLine($"Cell: {cell.Position}, {cell.Orientation}");
-                if (reachableCells.Contains(cell)) continue;
-                AddCell(sourceCell, movePoints - 1, cell);
+                if (reachableCells.Contains(oCell)) continue;
+                AddCell(sourceCell, movePoints - 1, oCell);
             }
         }
 
-        private void AddCell(OrientedCell sourceCell, int movePoints, OrientedCell cell)
+        private void AddCell(OrientedCell sourceCell, int movePoints, OrientedCell oCell)
         {
-            Troop encounter = map.Get(cell.Position);
+            Troop encounter = map.Get(oCell.Position);
             if (encounter == null || encounter.Player != side)
             {
-                reachableCells.Add(cell);
-                parent[cell] = sourceCell;
-                orient[cell.Position] = cell;
+                reachableCells.Add(oCell);
+                if (!orient.TryGetValue(oCell.Position, out _))
+                {
+                    parent[oCell] = sourceCell;
+                    orient[oCell.Position] = oCell;
+                }
             }
             if (encounter == null)
-                q.Enqueue(() => AddReachableCells(cell, movePoints));
+                q.Enqueue(() => AddReachableCells(oCell, movePoints));
         }
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)

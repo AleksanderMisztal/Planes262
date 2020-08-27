@@ -9,16 +9,18 @@ namespace Planes262.UnityLayer
         [SerializeField] private Camera boardCamera;
 
         private MapController mapController;
+        private MapGrid mapGrid;
 
-        public void SetMapController(MapController mapController)
+        public void Inject(MapController mapController, MapGrid mapGrid)
         {
             this.mapController = mapController;
+            this.mapGrid = mapGrid;
         }
 
         private void OnMouseDown()
         {
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
-            VectorTwo cell = MapGrid.WorldToCell(mousePosition);
+            VectorTwo cell = mapGrid.WorldToCell(mousePosition);
 
             mapController.OnCellClicked(cell);
         }
