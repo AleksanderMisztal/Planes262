@@ -17,8 +17,6 @@ namespace Planes262.UnityLayer
             this.sender = sender;
         }
 
-        private PlayerSide Side { get; set; }
-
         private TroopManager troopManager;
         
         private VectorTwo selectedPosition;
@@ -29,11 +27,12 @@ namespace Planes262.UnityLayer
         
         private ClientSend sender;
         private readonly TileManager tileManager;
-        
+        private PlayerSide side;
+
         public void StartNewGame(PlayerSide side, TroopManager troopManager)
         {
             DeactivateTroops();
-            Side = side;
+            this.side = side;
             this.troopManager = troopManager;
         }
 
@@ -75,7 +74,7 @@ namespace Planes262.UnityLayer
         {
             DeactivateTroops();
             troopDto = troopManager.GetTroopDto(cell);
-            if (troopDto != null && troopDto.side == Side)
+            if (troopDto != null && troopDto.side == side)
                 ActivateTroopAt(cell);
         }
 

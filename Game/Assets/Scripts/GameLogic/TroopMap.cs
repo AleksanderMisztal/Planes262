@@ -17,6 +17,7 @@ namespace Planes262.GameLogic
             troop.ResetStartingPosition();
         }
 
+        public IEnumerable<Troop> Troops => map.Values;
         public HashSet<Troop> GetTroops(PlayerSide player)
         {
             return player == PlayerSide.Red ? redTroops : blueTroops;

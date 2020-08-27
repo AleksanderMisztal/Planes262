@@ -12,13 +12,14 @@ namespace Planes262.UnityLayer
         private TroopInstantiator troopInstantiator;
         private UIManager uiManager;
         private Messenger messenger;
+        private Effects effects;
 
         private async void Awake()
         {
             GetObjectsFromScene();
             
             MapController mapController = new MapController(tileManager);
-            Game game = new Game(new UnityTroopController(troopInstantiator), mapController);
+            Game game = new Game(new UnityTroopManager(troopInstantiator), mapController);
             GameManager gameManager = new GameManager(messenger, uiManager, game);
             
             ClientHandle clientHandle = new ClientHandle(gameManager);
@@ -29,7 +30,8 @@ namespace Planes262.UnityLayer
             uiManager.Inject(sender, messenger, tileManager);
             messenger.Inject(sender);
             inputParser.Inject(mapController, mapGrid);
-            UnityTroop.Inject(mapGrid);
+            UnityTroop.Inject(effects);
+            TroopGO.Inject(mapGrid);
 
             await socket.InitializeConnection();
             await socket.BeginListenAsync();
@@ -43,6 +45,7 @@ namespace Planes262.UnityLayer
             mapGrid = FindObjectOfType<MapGrid>();
             inputParser = FindObjectOfType<InputParser>();
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
+            effects = FindObjectOfType<Effects>();
         }
     }
 }

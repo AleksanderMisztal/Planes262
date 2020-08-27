@@ -518,8 +518,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 213170041}
-  - component: {fileID: 213170042}
   - component: {fileID: 213170040}
+  - component: {fileID: 213170042}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 213170039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359ea91b49e5ba94596e8cb4b29333df, type: 3}
+  m_Script: {fileID: 11500000, guid: 733b431019fe4083af7b94d5a9f4505a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   redTroopPrefab: {fileID: 8010123504070118737, guid: a5d064d81f9b50c43b66f17fb9fddc6b,

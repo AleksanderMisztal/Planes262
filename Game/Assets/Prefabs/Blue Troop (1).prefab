@@ -245,11 +245,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5280687893969046532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50e79387119486642994c6143b142cff, type: 3}
+  m_Script: {fileID: 11500000, guid: 150b7ae525454253a970afd1e7bad47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 6351433400103120235, guid: 4bf55cc4efd12d1488de08b33b395c12,
-    type: 3}
   sprites:
   - {fileID: 21300000, guid: 39304056ae6336d429f024532608b54c, type: 3}
   - {fileID: 21300000, guid: 02b4185b11cd3ea4085cf5d2a260189b, type: 3}

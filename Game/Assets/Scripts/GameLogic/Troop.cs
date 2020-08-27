@@ -29,7 +29,9 @@ namespace Planes262.GameLogic
             Health = health;
         }
 
-        public void MoveInDirection(int direction)
+        protected Troop(Troop t) : this(t.Player, t.MovePoints, t.Position, t.Orientation, t.Health) { }
+        
+        public virtual void MoveInDirection(int direction)
         {
             if (MovePoints <= 0)
                 throw new IllegalMoveException("I have no move points!");
@@ -39,12 +41,12 @@ namespace Planes262.GameLogic
             Position = Hex.GetAdjacentHex(Position, Orientation);
         }
 
-        public void FlyOverOtherTroop()
+        public virtual void FlyOverOtherTroop()
         {
             Position = Hex.GetAdjacentHex(Position, Orientation);
         }
 
-        public void ApplyDamage()
+        public virtual void ApplyDamage()
         {
             Health--;
             InitialMovePoints--;
@@ -61,6 +63,8 @@ namespace Planes262.GameLogic
         {
             StartingPosition = Position;
         }
+
+        public virtual void CleanUpSelf() { }
 
 
         #region Factories
