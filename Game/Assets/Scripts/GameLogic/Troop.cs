@@ -15,7 +15,7 @@ namespace Planes262.GameLogic
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
-        public VectorTwo[] ControlZone => Hex.GetControllZone(Position, Orientation);
+        public VectorTwo[] ControlZone => Hex.GetControlZone(Position, Orientation);
 
 
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)

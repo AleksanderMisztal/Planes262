@@ -50,7 +50,7 @@ namespace Planes262.GameLogic
         private void AddReachableCells(OrientedCell sourceCell, int movePoints)
         {
             if (movePoints <= 0) return;
-            foreach (OrientedCell oCell in sourceCell.GetControllZone())
+            foreach (OrientedCell oCell in sourceCell.GetControlZone())
             {
                 if (reachableCells.Contains(oCell)) continue;
                 AddCell(sourceCell, movePoints - 1, oCell);

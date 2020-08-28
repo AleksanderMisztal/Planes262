@@ -5,10 +5,18 @@ namespace Planes262.GameLogic
 {
     public class TroopMap
     {
-        private readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
-        private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
-        private readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
+        private Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
+        private HashSet<Troop> redTroops = new HashSet<Troop>();
+        private HashSet<Troop> blueTroops = new HashSet<Troop>();
+        public IEnumerable<Troop> Troops => map.Values;
 
+
+        public void ResetForNewGame()
+        {
+            map = new Dictionary<VectorTwo, Troop>();
+            redTroops = new HashSet<Troop>();
+            blueTroops = new HashSet<Troop>();
+        }
 
         public void AdjustPosition(Troop troop)
         {
@@ -17,7 +25,6 @@ namespace Planes262.GameLogic
             troop.ResetStartingPosition();
         }
 
-        public IEnumerable<Troop> Troops => map.Values;
         public HashSet<Troop> GetTroops(PlayerSide player)
         {
             return player == PlayerSide.Red ? redTroops : blueTroops;

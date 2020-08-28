@@ -1,4 +1,5 @@
-﻿using Planes262.Networking;
+﻿using Planes262.GameLogic;
+using Planes262.Networking;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
@@ -18,8 +19,11 @@ namespace Planes262.UnityLayer
         {
             GetObjectsFromScene();
             
-            MapController mapController = new MapController(tileManager);
-            Game game = new Game(new UnityTroopManager(troopInstantiator), mapController);
+            TroopMap troopMap = new TroopMap();
+            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator);
+            MapController mapController = new MapController(tileManager, troopMap);
+            Game game = new Game(unityTroopManager, mapController);
+            
             GameManager gameManager = new GameManager(messenger, uiManager, game);
             
             ClientHandle clientHandle = new ClientHandle(gameManager);
@@ -27,9 +31,9 @@ namespace Planes262.UnityLayer
             ClientSend sender = new ClientSend(socket);
 
             mapController.Inject(sender);
+            inputParser.Inject(mapController, mapGrid);
             uiManager.Inject(sender, messenger, tileManager);
             messenger.Inject(sender);
-            inputParser.Inject(mapController, mapGrid);
             UnityTroop.Inject(effects);
             TroopGO.Inject(mapGrid);
 

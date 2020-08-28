@@ -8,7 +8,8 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void GameTestsSimplePasses()
         {
-            TroopManager troopManager = new TroopManager();
+            TroopMap troopMap = new TroopMap();
+            TroopManager troopManager = new TroopManager(troopMap);
             
         }
     }

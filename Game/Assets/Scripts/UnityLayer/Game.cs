@@ -8,7 +8,7 @@ namespace Planes262.UnityLayer
     {
         private readonly UnityTroopManager unityTroopManager;
         private readonly MapController mapController;
-        
+
         public Game(UnityTroopManager unityTroopManager, MapController mapController)
         {
             this.unityTroopManager = unityTroopManager;
@@ -18,8 +18,8 @@ namespace Planes262.UnityLayer
         
         public void StartNewGame(Board board, PlayerSide side)
         {
-            unityTroopManager.ResetForNewGame(board);
-            mapController.StartNewGame(side, unityTroopManager);
+            unityTroopManager.ResetForNewGame();
+            mapController.ResetForNewGame(side);
         }
 
         public void BeginNextRound(IEnumerable<Troop> troops)
