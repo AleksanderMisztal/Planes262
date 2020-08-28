@@ -6,7 +6,7 @@ namespace Planes262.GameLogic
     public class TroopManager
     {
         private readonly Score score = new Score();
-        private TroopMap troopMap;
+        private readonly TroopMap troopMap;
         private PlayerSide activePlayer = PlayerSide.Red;
 
 
@@ -25,15 +25,9 @@ namespace Planes262.GameLogic
         public virtual void BeginNextRound(IEnumerable<Troop> troops)
         {
             troopMap.SpawnWave(troops);
-            ChangeActivePlayer();
-        }
-
-        private void ChangeActivePlayer()
-        {
             HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (Troop troop in beginningTroops)
                 troop.ResetMovePoints();
-
             activePlayer = activePlayer.Opponent();
         }
 
@@ -76,12 +70,7 @@ namespace Planes262.GameLogic
 
             troop.ApplyDamage();
             if (troop.Health <= 0)
-                DestroyTroop(troop);
-        }
-
-        private void DestroyTroop(Troop troop)
-        {
-            troopMap.Remove(troop);
+                troopMap.Remove(troop);
         }
     }
 }
