@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 
 namespace Planes262.GameLogic.Utils
 {
-    class HexOffset
+    public class HexOffset
     {
         private static readonly VectorTwo[] evenSteps = {
             new VectorTwo(1, 0),
@@ -26,7 +25,7 @@ namespace Planes262.GameLogic.Utils
         private readonly int y;
 
 
-        public HexOffset(int x, int y)
+        private HexOffset(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -34,8 +33,8 @@ namespace Planes262.GameLogic.Utils
 
         public HexOffset(VectorTwo v)
         {
-            this.x = v.X;
-            this.y = v.Y;
+            x = v.X;
+            y = v.Y;
         }
 
 
@@ -46,12 +45,6 @@ namespace Planes262.GameLogic.Utils
             VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
             VectorTwo step = steps[direction % 6];
             return new HexOffset(x + step.X, y + step.Y);
-        }
-
-        public HexOffset[] GetNeighbors()
-        {
-            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
-            return steps.Select(s => new HexOffset(x + s.X, y + s.Y)).ToArray();
         }
 
         public VectorTwo ToVector()

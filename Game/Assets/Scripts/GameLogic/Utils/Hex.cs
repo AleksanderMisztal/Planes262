@@ -1,20 +1,13 @@
-﻿using System.Linq;
-
-namespace Planes262.GameLogic.Utils
+﻿namespace Planes262.GameLogic.Utils
 {
-    public class Hex
+    public static class Hex
     {
         public static VectorTwo GetAdjacentHex(VectorTwo cell, int direction)
         {
             return new HexOffset(cell).GetAdjacentHex(direction).ToVector();
         }
 
-        public static VectorTwo[] GetNeighbours(VectorTwo cell)
-        {
-            return new HexOffset(cell).GetNeighbors().Select(c => c.ToVector()).ToArray();
-        }
-
-        public static VectorTwo[] GetControllZone(VectorTwo cell, int orientation)
+        public static VectorTwo[] GetControlZone(VectorTwo cell, int orientation)
         {
             VectorTwo[] cells = new VectorTwo[3];
             for (int i = -1; i < 2; i++)

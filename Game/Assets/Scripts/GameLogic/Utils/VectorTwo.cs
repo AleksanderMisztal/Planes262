@@ -5,19 +5,11 @@
         public int X { get; }
         public int Y { get; }
 
-        public int SqrMagnitude => X * X + Y * Y;
-
 
         public VectorTwo(int x, int y)
         {
             X = x;
             Y = y;
-        }
-
-        public VectorTwo()
-        {
-            X = 0;
-            Y = 0;
         }
 
         public override int GetHashCode()

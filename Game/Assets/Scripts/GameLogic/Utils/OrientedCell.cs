@@ -5,15 +5,15 @@ namespace Planes262.GameLogic.Utils
     public class OrientedCell
     {
         public VectorTwo Position { get; }
-        public int Orientation { get; }
+        private readonly int orientation;
 
         public OrientedCell(VectorTwo position, int orientation)
         {
             Position = position;
-            Orientation = orientation;
+            this.orientation = orientation;
         }
 
-        public OrientedCell[] GetControllZone()
+        public OrientedCell[] GetControlZone()
         {
             OrientedCell[] cs = new OrientedCell[3];
             for (int i = -1; i < 2; i++)
@@ -25,8 +25,8 @@ namespace Planes262.GameLogic.Utils
 
         private OrientedCell GetAdjacent(int direction)
         {
-            VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
-            return new OrientedCell(position, Orientation + direction);
+            VectorTwo position = Hex.GetAdjacentHex(Position, orientation + direction);
+            return new OrientedCell(position, orientation + direction);
         }
 
         public int GetDirection(OrientedCell coords)
@@ -41,14 +41,14 @@ namespace Planes262.GameLogic.Utils
 
         public override int GetHashCode()
         {
-            return Orientation + 7 * (Position.X + 101 * Position.Y);
+            return orientation + 7 * (Position.X + 101 * Position.Y);
         }
 
         public override bool Equals(object obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
             OrientedCell c = (OrientedCell)obj;
-            return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
+            return Position.X == c.Position.X && Position.Y == c.Position.Y && orientation == c.orientation;
         }
         public static bool operator ==(OrientedCell a, OrientedCell b)
         {
