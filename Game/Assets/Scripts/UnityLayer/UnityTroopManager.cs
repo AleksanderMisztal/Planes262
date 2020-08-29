@@ -8,7 +8,7 @@ namespace Planes262.UnityLayer
     {
         private readonly TroopInstantiator troopInstantiator;
 
-        public UnityTroopManager(TroopMap troopMap, TroopInstantiator troopInstantiator) : base(troopMap)
+        public UnityTroopManager(TroopMap troopMap, TroopInstantiator troopInstantiator, Score score) : base(troopMap, score)
         {
             this.troopInstantiator = troopInstantiator;
         }

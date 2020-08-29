@@ -5,14 +5,15 @@ namespace Planes262.GameLogic
 {
     public class TroopManager
     {
-        private readonly Score score = new Score();
+        private readonly Score score;
         private readonly TroopMap troopMap;
         private PlayerSide activePlayer = PlayerSide.Red;
 
 
-        public TroopManager(TroopMap troopMap)
+        public TroopManager(TroopMap troopMap, Score score)
         {
             this.troopMap = troopMap;
+            this.score = score;
         }
 
         public void ResetForNewGame()
@@ -20,6 +21,7 @@ namespace Planes262.GameLogic
             foreach (Troop troop in troopMap.Troops) 
                 troop.CleanUpSelf();
             troopMap.ResetForNewGame();
+            score.Reset();
         }
         
         public virtual void BeginNextRound(IEnumerable<Troop> troops)

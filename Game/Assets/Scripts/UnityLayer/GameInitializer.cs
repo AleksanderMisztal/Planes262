@@ -2,6 +2,7 @@
 using Planes262.Networking;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Planes262.UnityLayer
 {
@@ -14,13 +15,14 @@ namespace Planes262.UnityLayer
         private UIManager uiManager;
         private Messenger messenger;
         private Effects effects;
+        private Text scoreText;
 
         private async void Awake()
         {
             GetObjectsFromScene();
-            
+            Score score = new UnityScore(scoreText);
             TroopMap troopMap = new TroopMap();
-            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator);
+            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
             MapController mapController = new MapController(tileManager, troopMap);
             Game game = new Game(unityTroopManager, mapController);
             
@@ -50,6 +52,7 @@ namespace Planes262.UnityLayer
             inputParser = FindObjectOfType<InputParser>();
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
             effects = FindObjectOfType<Effects>();
+            scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
         }
     }
 }

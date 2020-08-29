@@ -19,10 +19,9 @@ namespace Planes262.Tests.Edit_Mode
         }
         
         [Test]
-        public void GameTestsSimplePasses()
+        public void Should_HaveCorrectPositionAndHealth_When_AfterFight()
         {
-            TroopMap troopMap = new TroopMap();
-            troopManager = new TroopManager(troopMap);
+            troopManager = new TroopManager(new TroopMap(), new Score());
             troops = new List<Troop>
             {
                 Troop.Blue(1,1),
@@ -40,6 +39,7 @@ namespace Planes262.Tests.Edit_Mode
             Move(3, 1, 0, 1);
             
             Assert.IsTrue(troops[0].Position == new VectorTwo(5, 1));
+            Assert.IsTrue(troops[0].Health == 1);
         }
     }
 }
