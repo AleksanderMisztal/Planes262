@@ -41,7 +41,7 @@ namespace Planes262.UnityLayer
             Debug.Log("Game joined received! Playing against " + opponentName);
             game.StartNewGame(board, side);
             messenger.ResetMessages();
-            uiManager.StartTransitionIntoGame(side, opponentName, board);
+            uiManager.StartTransitionIntoGame(board);
         }
 
         public void OnTroopSpawned(List<Troop> troops)
