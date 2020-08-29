@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using Planes262.GameLogic.Utils;
-using Planes262.GameLogic.Exceptions;
 
 namespace Planes262.GameLogic
 {
@@ -27,7 +26,6 @@ namespace Planes262.GameLogic
         {
             ResetMembers();
             Troop troop = map.Get(position);
-            if (troop == null) throw new PathFindingException("No troop on this hex!");
             return GetReachableCells(troop);
         }
 

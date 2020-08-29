@@ -1,4 +1,4 @@
-﻿using Planes262.GameLogic.Exceptions;
+﻿using System;
 
 namespace Planes262.GameLogic.Utils
 {
@@ -36,7 +36,7 @@ namespace Planes262.GameLogic.Utils
                 OrientedCell c = GetAdjacent(i);
                 if (c == coords) return i;
             }
-            throw new PathFindingException("Can't get there!");
+            throw new Exception("Can't get there!");
         }
 
         public override int GetHashCode()

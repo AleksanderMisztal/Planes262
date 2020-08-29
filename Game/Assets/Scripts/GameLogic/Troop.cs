@@ -1,5 +1,5 @@
-﻿using Planes262.GameLogic.Utils;
-using Planes262.GameLogic.Exceptions;
+﻿using System;
+using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {
@@ -34,7 +34,7 @@ namespace Planes262.GameLogic
         public virtual void MoveInDirection(int direction)
         {
             if (MovePoints <= 0)
-                throw new IllegalMoveException("I have no move points!");
+                throw new Exception("I have no move points!");
 
             MovePoints--;
             Orientation = (6 + Orientation + direction) % 6;
