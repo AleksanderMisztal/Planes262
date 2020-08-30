@@ -1,4 +1,5 @@
-﻿using Planes262.GameLogic;
+﻿using System.Threading.Tasks;
+using Planes262.GameLogic;
 using Planes262.Networking;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
@@ -8,51 +9,75 @@ namespace Planes262.UnityLayer
 {
     public class GameInitializer : MonoBehaviour
     {
-        private TileManager tileManager;
-        private MapGrid mapGrid;
-        private InputParser inputParser;
-        private TroopInstantiator troopInstantiator;
         private UIManager uiManager;
         private Messenger messenger;
-        private Effects effects;
-        private Text scoreText;
+        
+        private GameManager gameManager;
+        private MapController mapController;
+        
+        private ClientSend sender;
+        private CsWebSocket socket;
 
         private async void Awake()
         {
             GetObjectsFromScene();
-            Score score = new UnityScore(scoreText);
-            TroopMap troopMap = new TroopMap();
-            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
-            MapController mapController = new MapController(tileManager, troopMap);
-            Game game = new Game(unityTroopManager, mapController);
-            
-            GameManager gameManager = new GameManager(messenger, uiManager, game, tileManager);
-            
-            ClientHandle clientHandle = new ClientHandle(gameManager);
-            CsWebSocket socket = new CsWebSocket(clientHandle);
-            ClientSend sender = new ClientSend(socket);
-
-            mapController.Inject(sender);
-            inputParser.Inject(mapController, mapGrid);
-            uiManager.Inject(sender);
-            messenger.Inject(sender);
-            UnityTroop.effects = effects;
-            UnityTroop.mapGrid = mapGrid;
-
-            await socket.InitializeConnection();
-            await socket.BeginListenAsync();
+            InitializeGame();
+            InitializeNetworking();
+            InjectSender();
+            InjectRest();
+            await ConnectAsync();
         }
 
         private void GetObjectsFromScene()
         {
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
-            tileManager = FindObjectOfType<TileManager>();
-            mapGrid = FindObjectOfType<MapGrid>();
-            inputParser = FindObjectOfType<InputParser>();
-            troopInstantiator = FindObjectOfType<TroopInstantiator>();
-            effects = FindObjectOfType<Effects>();
-            scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
+        }
+
+        private void InitializeGame()
+        {
+            TileManager tileManager = FindObjectOfType<TileManager>();
+            TroopInstantiator troopInstantiator = FindObjectOfType<TroopInstantiator>();
+            Text scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
+
+            Score score = new UnityScore(scoreText);
+            TroopMap troopMap = new TroopMap();
+            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
+            mapController = new MapController(tileManager, troopMap);
+            Game game = new Game(unityTroopManager, mapController);
+
+            gameManager = new GameManager(messenger, uiManager, game, tileManager);
+        }
+
+        private void InitializeNetworking()
+        {
+            ClientHandle clientHandle = new ClientHandle(gameManager);
+            socket = new CsWebSocket(clientHandle);
+            sender = new ClientSend(socket);
+        }
+
+        private void InjectSender()
+        {
+            mapController.Inject(sender);
+            uiManager.Inject(sender);
+            messenger.Inject(sender);
+        }
+
+        private void InjectRest()
+        {
+            MapGrid mapGrid = FindObjectOfType<MapGrid>();
+            InputParser inputParser = FindObjectOfType<InputParser>();
+            Effects effects = FindObjectOfType<Effects>();
+
+            inputParser.Inject(mapController, mapGrid);
+            UnityTroop.effects = effects;
+            UnityTroop.mapGrid = mapGrid;
+        }
+
+        private async Task ConnectAsync()
+        {
+            await socket.InitializeConnection();
+            await socket.BeginListenAsync();
         }
     }
 }

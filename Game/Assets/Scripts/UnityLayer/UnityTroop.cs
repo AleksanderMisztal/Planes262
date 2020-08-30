@@ -18,14 +18,15 @@ namespace Planes262.UnityLayer
         public UnityTroop(Troop troop, SpriteHolder spriteHolder) : base(troop)
         {
             this.spriteHolder = spriteHolder;
-            spriteRenderer = body.GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];
             
             go = spriteHolder.transform;
             go.position = mapGrid.CellToWorld(Position);
             
             body = go.Find("Body");
             body.Rotate(Vector3.forward * 60 * Orientation);
+            
+            spriteRenderer = body.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];
         }
 
         public override void MoveInDirection(int direction)
@@ -46,12 +47,12 @@ namespace Planes262.UnityLayer
             base.ApplyDamage();
             effects.Explode(go.position, 2);
             if (Health > 0) spriteRenderer.sprite = spriteHolder.sprites[Health - 1];
-            else Object.Destroy(go);
+            else Object.Destroy(go.gameObject);
         }
 
         public override void CleanUpSelf()
         {
-            Object.Destroy(go);
+            Object.Destroy(go.gameObject);
         }
     }
 }

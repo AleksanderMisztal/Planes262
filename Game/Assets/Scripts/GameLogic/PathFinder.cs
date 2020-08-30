@@ -8,6 +8,7 @@ namespace Planes262.GameLogic
     public class PathFinder
     {
         private readonly TroopMap map;
+        private readonly Board board;
 
         private PlayerSide side;
 
@@ -16,9 +17,10 @@ namespace Planes262.GameLogic
         private Dictionary<VectorTwo, OrientedCell> orient = new Dictionary<VectorTwo, OrientedCell>();
         private readonly Queue<Action> q = new Queue<Action>();
 
-        public PathFinder(TroopMap map)
+        public PathFinder(TroopMap map, Board board)
         {
             this.map = map;
+            this.board = board;
         }
 
 
@@ -51,7 +53,7 @@ namespace Planes262.GameLogic
             if (movePoints <= 0) return;
             foreach (OrientedCell oCell in sourceCell.GetControlZone())
             {
-                if (reachableCells.Contains(oCell)) continue;
+                if (reachableCells.Contains(oCell) || board.IsOutside(oCell.Position)) continue;
                 AddCell(sourceCell, movePoints - 1, oCell);
             }
         }

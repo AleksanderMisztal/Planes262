@@ -19,7 +19,7 @@ namespace Planes262.UnityLayer
         public void StartNewGame(Board board, PlayerSide side)
         {
             unityTroopManager.ResetForNewGame();
-            mapController.ResetForNewGame(side);
+            mapController.ResetForNewGame(side, board);
         }
 
         public void BeginNextRound(IEnumerable<Troop> troops)

@@ -3,18 +3,20 @@ using NUnit.Framework;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Utils;
 
-namespace Tests
+namespace Planes262.Tests.Edit_Mode
 {
     public class PathFinderTests
     {
         private TroopMap map;
         private PathFinder pathFinder;
+        private Board board;
 
         private void CreatePathFinder(IEnumerable<Troop> troops)
         {
+            board = new Board(10, 10);
             map = new TroopMap();
             map.SpawnWave(troops);
-            pathFinder = new PathFinder(map);
+            pathFinder = new PathFinder(map, board);
         }
 
         private static void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)

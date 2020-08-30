@@ -31,11 +31,11 @@ namespace Planes262.UnityLayer
         private List<int> directions;
         
 
-        public void ResetForNewGame(PlayerSide side)
+        public void ResetForNewGame(PlayerSide side, Board board)
         {
             DeactivateTroops();
             this.side = side;
-            pathFinder = new PathFinder(troopMap);
+            pathFinder = new PathFinder(troopMap, board);
         }
 
         public void OnCellClicked(VectorTwo cell)
