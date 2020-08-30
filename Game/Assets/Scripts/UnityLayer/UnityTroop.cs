@@ -1,51 +1,57 @@
 ﻿using Planes262.GameLogic;
 using Planes262.UnityLayer.Utils;
+using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
     public class UnityTroop : Troop
     {
-        private static Effects effects;
+        public static Effects effects;
+        public static MapGrid mapGrid;
+        
+        private readonly Transform go;
+        private readonly Transform body;
+        
+        private readonly SpriteHolder spriteHolder;
+        private readonly SpriteRenderer spriteRenderer;
 
-        public static void Inject(Effects effects)
+        public UnityTroop(Troop troop, SpriteHolder spriteHolder) : base(troop)
         {
-            UnityTroop.effects = effects;
-        }
-
-        private readonly TroopGO troopGO;
-
-        public UnityTroop(Troop troop, TroopGO troopGO) : base(troop)
-        {
-            troopGO.Initialize();
-            troopGO.SetPosition(Position);
-            troopGO.Rotate(Orientation);
-            this.troopGO = troopGO;
+            this.spriteHolder = spriteHolder;
+            spriteRenderer = body.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];
+            
+            go = spriteHolder.transform;
+            go.position = mapGrid.CellToWorld(Position);
+            
+            body = go.Find("Body");
+            body.Rotate(Vector3.forward * 60 * Orientation);
         }
 
         public override void MoveInDirection(int direction)
         {
             base.MoveInDirection(direction);
-            troopGO.Rotate(direction);
-            troopGO.SetPosition(Position);
+            body.Rotate(Vector3.forward * 60 * direction);
+            go.position = mapGrid.CellToWorld(Position);
         }
 
         public override void FlyOverOtherTroop()
         {
             base.FlyOverOtherTroop();
-            troopGO.SetPosition(Position);
+            go.position = mapGrid.CellToWorld(Position);
         }
 
         public override void ApplyDamage()
         {
             base.ApplyDamage();
-            effects.Explode(troopGO.transform.position, 2);
-            if (Health > 0) troopGO.SetSprite(Health);
-            else troopGO.DestroySelf();
+            effects.Explode(go.position, 2);
+            if (Health > 0) spriteRenderer.sprite = spriteHolder.sprites[Health - 1];
+            else Object.Destroy(go);
         }
 
         public override void CleanUpSelf()
         {
-            troopGO.DestroySelf();
+            Object.Destroy(go);
         }
     }
 }

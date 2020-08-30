@@ -5,15 +5,15 @@ namespace Planes262.UnityLayer
 {
     public class TroopInstantiator : MonoBehaviour
     {
-        [SerializeField] private TroopGO redTroopPrefab;
-        [SerializeField] private TroopGO blueTroopPrefab;
+        [SerializeField] private SpriteHolder redTroopPrefab;
+        [SerializeField] private SpriteHolder blueTroopPrefab;
 
 
         public UnityTroop InstantiateTroop(Troop troop)
         {
-            TroopGO troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
-            TroopGO troopGO = Instantiate(troopPrefab);
-            UnityTroop uTroop = new UnityTroop(troop, troopGO);
+            SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
+            SpriteHolder spriteHolder = Instantiate(troopPrefab);
+            UnityTroop uTroop = new UnityTroop(troop, spriteHolder);
             return uTroop;
         }
     }

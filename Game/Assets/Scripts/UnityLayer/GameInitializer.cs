@@ -36,8 +36,8 @@ namespace Planes262.UnityLayer
             inputParser.Inject(mapController, mapGrid);
             uiManager.Inject(sender);
             messenger.Inject(sender);
-            UnityTroop.Inject(effects);
-            TroopGO.Inject(mapGrid);
+            UnityTroop.effects = effects;
+            UnityTroop.mapGrid = mapGrid;
 
             await socket.InitializeConnection();
             await socket.BeginListenAsync();
