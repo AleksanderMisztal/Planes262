@@ -26,6 +26,7 @@ namespace Planes262.GameLogic
         {
             ResetMembers();
             Troop troop = map.Get(position);
+            if (troop == null) throw new Exception("Troops was null!!!111!");
             return GetReachableCells(troop);
         }
 
@@ -61,7 +62,7 @@ namespace Planes262.GameLogic
             if (encounter == null || encounter.Player != side)
             {
                 reachableCells.Add(oCell);
-                if (!orient.TryGetValue(oCell.Position, out _))
+                if (!orient.ContainsKey(oCell.Position))
                 {
                     parent[oCell] = sourceCell;
                     orient[oCell.Position] = oCell;

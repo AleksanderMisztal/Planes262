@@ -41,8 +41,7 @@ namespace Planes262.UnityLayer
         public void OnCellClicked(VectorTwo cell)
         {
             if (cell == selectedPosition) return;
-            bool troopIsSelectedAndCanReachCell = selectedPosition != null && reachableCells.Contains(cell);
-            if (troopIsSelectedAndCanReachCell)
+            if (selectedPosition != null && reachableCells.Contains(cell))
                 ChangePathOrSend(cell);
             else SelectTroop(cell);
         }
@@ -89,12 +88,12 @@ namespace Planes262.UnityLayer
 
         private void DeactivateTroops()
         {
-            tileManager.DeactivateTiles();
             selectedPosition = null;
             selectedTroop = null;
             reachableCells = null;
             targetPosition = null;
             directions = null;
+            tileManager.DeactivateTiles();
     }
 
         private void HighlightPath(VectorTwo position, int orientation, List<int> directions)

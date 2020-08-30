@@ -10,12 +10,14 @@ namespace Planes262.UnityLayer
         private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly Game game;
+        private readonly TileManager tileManager;
 
-        public GameManager(Messenger messenger, UIManager uiManager, Game game)
+        public GameManager(Messenger messenger, UIManager uiManager, Game game, TileManager tileManager)
         {
             this.messenger = messenger;
             this.uiManager = uiManager;
             this.game = game;
+            this.tileManager = tileManager;
         }
 
         
@@ -27,12 +29,15 @@ namespace Planes262.UnityLayer
 
         public void OnGameEnded(int redScore, int blueScore)
         {
-            uiManager.EndGame(blueScore, redScore);
+            string message = $"Final score: red: {redScore}, blue: {blueScore}";
+            uiManager.EndGame(message, 1.5f);
+            tileManager.DeactivateTiles();
         }
 
         public void OnOpponentDisconnected()
         {
-            uiManager.OpponentDisconnected();
+            uiManager.EndGame("Opponent has disconnected :(", 0);
+            tileManager.DeactivateTiles();
         }
 
         
@@ -42,6 +47,7 @@ namespace Planes262.UnityLayer
             game.StartNewGame(board, side);
             messenger.ResetMessages();
             uiManager.StartTransitionIntoGame(board);
+            tileManager.CreateBoard(board);
         }
 
         public void OnTroopSpawned(List<Troop> troops)

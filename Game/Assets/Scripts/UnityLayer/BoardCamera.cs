@@ -18,7 +18,7 @@ namespace Planes262.UnityLayer
         private float yMin;
         private float yMax;
 
-        private static readonly float minSize = 2;
+        private const float MinSize = 2;
         private float maxSize = 5;
         private Vector3 center;
 
@@ -73,7 +73,7 @@ namespace Planes262.UnityLayer
         private void UpdateCameraSize()
         {
             float deltaSize = -Input.GetAxis("Mouse ScrollWheel") * Sensitivity;
-            boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, minSize, maxSize);
+            boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, MinSize, maxSize);
         }
 
         private void UpdateCameraPosition()

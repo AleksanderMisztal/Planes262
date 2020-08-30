@@ -26,7 +26,7 @@ namespace Planes262.UnityLayer
             MapController mapController = new MapController(tileManager, troopMap);
             Game game = new Game(unityTroopManager, mapController);
             
-            GameManager gameManager = new GameManager(messenger, uiManager, game);
+            GameManager gameManager = new GameManager(messenger, uiManager, game, tileManager);
             
             ClientHandle clientHandle = new ClientHandle(gameManager);
             CsWebSocket socket = new CsWebSocket(clientHandle);
@@ -34,7 +34,7 @@ namespace Planes262.UnityLayer
 
             mapController.Inject(sender);
             inputParser.Inject(mapController, mapGrid);
-            uiManager.Inject(sender, messenger, tileManager);
+            uiManager.Inject(sender);
             messenger.Inject(sender);
             UnityTroop.Inject(effects);
             TroopGO.Inject(mapGrid);
