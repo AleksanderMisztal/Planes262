@@ -2,7 +2,7 @@
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Troops
 {
     public class UnityTroop : Troop
     {

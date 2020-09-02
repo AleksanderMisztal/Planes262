@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Utils
 {
     public class SpriteHolder : MonoBehaviour
     {
