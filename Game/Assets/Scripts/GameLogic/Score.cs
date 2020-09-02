@@ -2,24 +2,29 @@
 {
     public class Score
     {
-        private int red;
-        private int blue;
+        public int Red { get; private set; }
+        public int Blue { get; private set; }
+
+        public virtual void Increment(PlayerSide player, int amount)
+        {
+            if (player == PlayerSide.Red) Red += amount;
+            if (player == PlayerSide.Blue) Blue += amount;
+        }
 
         public virtual void Increment(PlayerSide player)
         {
-            if (player == PlayerSide.Red) red++;
-            if (player == PlayerSide.Blue) blue++;
+            Increment(player, 1);
         }
 
         public virtual void Reset()
         {
-            red = 0;
-            blue = 0;
+            Red = 0;
+            Blue = 0;
         }
 
         public override string ToString()
         {
-            return $"{red} : {blue}";
+            return $"{Red} : {Blue}";
         }
     }
 }

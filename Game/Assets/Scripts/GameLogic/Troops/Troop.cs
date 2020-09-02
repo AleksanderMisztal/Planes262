@@ -3,36 +3,42 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic.Troops
 {
-    public class Troop
+    public interface ITroop
     {
-        private Score score;
+        PlayerSide Player { get; }
+        int MovePoints { get; }
+        VectorTwo Position { get; }
+        int Orientation { get; }
+        bool Destroyed { get; }
+        void MoveInDirection(int direction);
+        void FlyOverOtherTroop();
+        void ApplyDamage();
+        void ResetMovePoints();
+        void CleanUpSelf();
+    }
 
-        public void Inject(Score score)
-        {
-            this.score = score;
-        }
-        
+    public class Troop : ITroop
+    {
         public PlayerSide Player { get; }
 
-        public int InitialMovePoints { get; private set; }
+        private int initialMovePoints;
         public int MovePoints { get; private set; }
 
         public VectorTwo Position { get; private set; }
-        public VectorTwo StartingPosition { get; private set; }
         public int Orientation { get; private set; }
 
-        public int Health { get; private set; }
+        protected int Health;
+        public bool Destroyed => Health <= 0;
 
 
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
             Player = player;
-            InitialMovePoints = movePoints;
+            initialMovePoints = movePoints;
             MovePoints = movePoints;
             Position = position;
-            StartingPosition = position;
             Orientation = orientation;
-            Health = health;
+            this.Health = health;
         }
 
         protected Troop(Troop t) : this(t.Player, t.MovePoints, t.Position, t.Orientation, t.Health) { }
@@ -55,59 +61,16 @@ namespace Planes262.GameLogic.Troops
         public virtual void ApplyDamage()
         {
             Health--;
-            InitialMovePoints--;
+            initialMovePoints--;
             if (MovePoints > 0)
                 MovePoints--;
         }
 
         public void ResetMovePoints()
         {
-            MovePoints = InitialMovePoints;
-        }
-
-        public void ResetStartingPosition()
-        {
-            StartingPosition = Position;
+            MovePoints = initialMovePoints;
         }
 
         public virtual void CleanUpSelf() { }
-
-
-        #region Factories
-        public static Troop Red(int x, int y)
-        {
-            return new Troop(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
-        }
-
-        public static Troop Blue(int x, int y)
-        {
-            return new Troop(PlayerSide.Blue, 5, new VectorTwo(x, y), 0, 2);
-        }
-
-        public static Troop Blue(int x, int y, int movePoints)
-        {
-            return new Troop(PlayerSide.Blue, movePoints, new VectorTwo(x, y), 0, 2);
-        }
-
-        public static Troop Red(VectorTwo position)
-        {
-            return new Troop(PlayerSide.Red, 5, position, 3, 2);
-        }
-
-        public static Troop Blue(VectorTwo position)
-        {
-            return new Troop(PlayerSide.Blue, 5, position, 0, 2);
-        }
-
-        public static Troop Red(VectorTwo position, int orientation)
-        {
-            return new Troop(PlayerSide.Red, 5, position, orientation, 2);
-        }
-
-        public static Troop Blue(VectorTwo position, int orientation)
-        {
-            return new Troop(PlayerSide.Blue, 5, position, orientation, 2);
-        }
-        #endregion
     }
 }

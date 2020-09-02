@@ -27,7 +27,10 @@ namespace Planes262.GameLogic
         
         public virtual void BeginNextRound(IEnumerable<Troop> troops)
         {
-            foreach (Troop troop in troops) troop.Inject(score);
+            foreach (Troop troop in troops)
+            {
+            }
+
             troopMap.SpawnWave(troops);
             HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (Troop troop in beginningTroops)
@@ -39,42 +42,43 @@ namespace Planes262.GameLogic
         {
             int battleId = 0;
             Troop troop = troopMap.Get(position);
+            VectorTwo startingPosition = troop.Position;
             troop.MoveInDirection(direction);
 
             Troop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
-                troopMap.AdjustPosition(troop);
+                troopMap.AdjustPosition(troop, startingPosition);
                 return;
             }
             BattleResult result = battleResults[battleId++];
 
-            if (result.AttackerDamaged) ApplyDamage(troop);
-            if (result.DefenderDamaged) ApplyDamage(encounter);
+            if (result.AttackerDamaged) ApplyDamage(troop, startingPosition);
+            if (result.DefenderDamaged) ApplyDamage(encounter, encounter.Position);
 
             troop.FlyOverOtherTroop();
             
-            while ((encounter = troopMap.Get(troop.Position)) != null && troop.Health > 0)
+            while ((encounter = troopMap.Get(troop.Position)) != null && !troop.Destroyed)
             {
                 result = battleResults[battleId++];
-                if (result.AttackerDamaged) ApplyDamage(troop);
-                if (result.DefenderDamaged) ApplyDamage(encounter);
+                if (result.AttackerDamaged) ApplyDamage(troop, startingPosition);
+                if (result.DefenderDamaged) ApplyDamage(encounter, encounter.Position);
 
                 troop.FlyOverOtherTroop();
             }
 
-            if (troop.Health > 0)
-                troopMap.AdjustPosition(troop);
+            if (!troop.Destroyed)
+                troopMap.AdjustPosition(troop, startingPosition);
         }
 
-        private void ApplyDamage(Troop troop)
+        private void ApplyDamage(Troop troop, VectorTwo startingPosition)
         {
             PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
 
             troop.ApplyDamage();
-            if (troop.Health <= 0)
-                troopMap.Remove(troop);
+            if (troop.Destroyed)
+                troopMap.Remove(troop, startingPosition);
         }
     }
 }

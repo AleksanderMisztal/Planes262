@@ -1,8 +1,8 @@
 ﻿using Planes262.GameLogic.Utils;
 
-namespace Planes262.GameLogic
+namespace Planes262.GameLogic.Area
 {
-    public class Board
+    public class Board : IArea
     {
         public readonly int XMax;
         public readonly int YMax;

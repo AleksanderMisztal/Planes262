@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Planes262.GameLogic;
+using Planes262.GameLogic.Area;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
@@ -131,26 +132,6 @@ namespace Planes262.Networking.Packets
             Write(value.Y);
         }
 
-        public void Write(Troop value)
-        {
-            Write((int)value.Player);
-            Write(value.Health);
-            Write(value.InitialMovePoints);
-            Write(value.Orientation);
-            Write(value.Position);
-        }
-
-        public void Write(BattleResult value)
-        {
-            Write(value.AttackerDamaged);
-            Write(value.DefenderDamaged);
-        }
-
-        public void Write(Board value)
-        {
-            Write(value.XMax);
-            Write(value.YMax);
-        }
         #endregion
 
         #region Read Data

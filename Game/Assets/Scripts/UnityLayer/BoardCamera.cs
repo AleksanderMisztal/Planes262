@@ -1,4 +1,5 @@
 ﻿using Planes262.GameLogic;
+using Planes262.GameLogic.Area;
 using UnityEngine;
 
 namespace Planes262.UnityLayer

@@ -18,6 +18,12 @@ namespace Planes262.UnityLayer
             scoreText.text = ToString();
         }
 
+        public override void Increment(PlayerSide player, int amount)
+        {
+            base.Increment(player, amount);
+            scoreText.text = ToString();
+        }
+
         public override void Reset()
         {
             base.Reset();

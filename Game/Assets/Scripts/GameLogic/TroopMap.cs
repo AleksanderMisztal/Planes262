@@ -19,11 +19,10 @@ namespace Planes262.GameLogic
             blueTroops = new HashSet<Troop>();
         }
 
-        public void AdjustPosition(Troop troop)
+        public void AdjustPosition(Troop troop, VectorTwo startingPosition)
         {
-            map.Remove(troop.StartingPosition);
+            map.Remove(startingPosition);
             map.Add(troop.Position, troop);
-            troop.ResetStartingPosition();
         }
 
         public HashSet<Troop> GetTroops(PlayerSide player)
@@ -43,9 +42,9 @@ namespace Planes262.GameLogic
             }
         }
 
-        public void Remove(Troop troop)
+        public void Remove(Troop troop, VectorTwo startingPosition)
         {
-            map.Remove(troop.StartingPosition);
+            map.Remove(startingPosition);
             GetTroops(troop.Player).Remove(troop);
         }
 

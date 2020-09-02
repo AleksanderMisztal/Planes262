@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Planes262.GameLogic;
+using Planes262.GameLogic.Area;
 using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.UI;

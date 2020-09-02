@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Planes262.GameLogic;
+using Planes262.GameLogic.Area;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
@@ -33,7 +34,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<Troop> troops = new List<Troop>
             {
-                Troop.Blue(2, 2, 1)
+                TroopFactory.Blue(2, 2, 1)
             };
             CreatePathFinder(troops);
 
@@ -54,8 +55,8 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<Troop> troops = new List<Troop>
             {
-                Troop.Blue(2, 2, 2),
-                Troop.Blue(2, 3)
+                TroopFactory.Blue(2, 2, 2),
+                TroopFactory.Blue(2, 3)
             };
             CreatePathFinder(troops);
 
@@ -79,7 +80,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<Troop> troops = new List<Troop>
             {
-                Troop.Blue(2, 2, 5)
+                TroopFactory.Blue(2, 2, 5)
             };
             CreatePathFinder(troops);
 

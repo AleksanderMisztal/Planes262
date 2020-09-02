@@ -25,12 +25,12 @@ namespace Planes262.Tests.Edit_Mode
             troopManager = new TroopManager(new TroopMap(), new Score());
             troops = new List<Troop>
             {
-                Troop.Blue(1,1),
-                Troop.Blue(1,2),
-                Troop.Blue(1,3),
-                Troop.Red(4, 1),
-                Troop.Red(4, 2),
-                Troop.Red(4, 3),
+                TroopFactory.Blue(1,1),
+                TroopFactory.Blue(1,2),
+                TroopFactory.Blue(1,3),
+                TroopFactory.Red(4, 1),
+                TroopFactory.Red(4, 2),
+                TroopFactory.Red(4, 3),
             };
             
             troopManager.ResetForNewGame();
@@ -40,7 +40,7 @@ namespace Planes262.Tests.Edit_Mode
             Move(3, 1, 0, 1);
             
             Assert.IsTrue(troops[0].Position == new VectorTwo(5, 1));
-            Assert.IsTrue(troops[0].Health == 1);
+            Assert.IsFalse(troops[0].Destroyed);
         }
         
         [Test]
@@ -50,12 +50,12 @@ namespace Planes262.Tests.Edit_Mode
             troopManager = new TroopManager(new TroopMap(), score);
             troops = new List<Troop>
             {
-                Troop.Blue(1,1),
-                Troop.Blue(1,2),
-                Troop.Blue(1,3),
-                Troop.Red(4, 1),
-                Troop.Red(4, 2),
-                Troop.Red(4, 3),
+                TroopFactory.Blue(1,1),
+                TroopFactory.Blue(1,2),
+                TroopFactory.Blue(1,3),
+                TroopFactory.Red(4, 1),
+                TroopFactory.Red(4, 2),
+                TroopFactory.Red(4, 3),
             };
             
             troopManager.ResetForNewGame();
