@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Planes262.GameLogic;
 using Planes262.Networking;
-using Planes262.UnityLayer.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 using UnityEngine.UI;

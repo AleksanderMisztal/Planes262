@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Planes262.GameLogic;
-using Planes262.UnityLayer.Troops;
+using Planes262.GameLogic.Troops;
 
 namespace Planes262.UnityLayer
 {

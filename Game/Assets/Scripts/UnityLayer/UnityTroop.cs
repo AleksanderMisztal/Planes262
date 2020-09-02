@@ -1,8 +1,9 @@
 ﻿using Planes262.GameLogic;
+using Planes262.GameLogic.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
-namespace Planes262.UnityLayer.Troops
+namespace Planes262.UnityLayer
 {
     public class UnityTroop : Troop
     {

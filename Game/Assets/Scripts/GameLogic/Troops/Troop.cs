@@ -1,10 +1,17 @@
 ﻿using System;
 using Planes262.GameLogic.Utils;
 
-namespace Planes262.GameLogic
+namespace Planes262.GameLogic.Troops
 {
     public class Troop
     {
+        private Score score;
+
+        public void Inject(Score score)
+        {
+            this.score = score;
+        }
+        
         public PlayerSide Player { get; }
 
         public int InitialMovePoints { get; private set; }
@@ -15,7 +22,6 @@ namespace Planes262.GameLogic
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
-        public VectorTwo[] ControlZone => Hex.GetControlZone(Position, Orientation);
 
 
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)

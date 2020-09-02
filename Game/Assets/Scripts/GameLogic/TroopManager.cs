@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
@@ -26,6 +27,7 @@ namespace Planes262.GameLogic
         
         public virtual void BeginNextRound(IEnumerable<Troop> troops)
         {
+            foreach (Troop troop in troops) troop.Inject(score);
             troopMap.SpawnWave(troops);
             HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (Troop troop in beginningTroops)

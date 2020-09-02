@@ -1461,8 +1461,8 @@ GameObject:
   - component: {fileID: 599782842}
   - component: {fileID: 599782841}
   m_Layer: 9
-  m_Name: Text
-  m_TagString: Untagged
+  m_Name: Score Text
+  m_TagString: ScoreText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14165,12 +14165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64819700b613bc44be3638c0bbfe8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particles: {fileID: 10452025}
   username: {fileID: 1056408176}
   mainMenu: {fileID: 743645698}
-  participantsText: {fileID: 599782841}
-  waitingText: {fileID: 865342951}
+  particles: {fileID: 10452025}
   mainBackground: {fileID: 403676936}
+  waitingText: {fileID: 865342951}
   boardCamera: {fileID: 1099769202}
   board: {fileID: 2138627994}
   gameUi: {fileID: 20982150}

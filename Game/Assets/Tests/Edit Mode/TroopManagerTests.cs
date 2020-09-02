@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Planes262.GameLogic;
+using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
 namespace Planes262.Tests.Edit_Mode
@@ -40,6 +41,30 @@ namespace Planes262.Tests.Edit_Mode
             
             Assert.IsTrue(troops[0].Position == new VectorTwo(5, 1));
             Assert.IsTrue(troops[0].Health == 1);
+        }
+        
+        [Test]
+        public void Should_ScoreCorrectly_When_FightsOccur()
+        {
+            Score score = new Score();
+            troopManager = new TroopManager(new TroopMap(), score);
+            troops = new List<Troop>
+            {
+                Troop.Blue(1,1),
+                Troop.Blue(1,2),
+                Troop.Blue(1,3),
+                Troop.Red(4, 1),
+                Troop.Red(4, 2),
+                Troop.Red(4, 3),
+            };
+            
+            troopManager.ResetForNewGame();
+            troopManager.BeginNextRound(troops);
+            Move(1, 1, 0, 0);
+            Move(2, 1, 0, 0);
+            Move(3, 1, 0, 1);
+            
+            Assert.IsTrue(score.ToString() == "1 : 1");
         }
     }
 }

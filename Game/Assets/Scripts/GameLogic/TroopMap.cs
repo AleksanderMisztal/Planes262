@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic

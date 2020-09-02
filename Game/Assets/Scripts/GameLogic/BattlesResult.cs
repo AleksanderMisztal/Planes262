@@ -11,15 +11,9 @@
             AttackerDamaged = attackerDamaged;
         }
 
-        public BattleResult() 
-        {
-            DefenderDamaged = false;
-            AttackerDamaged = false;
-        }
-
         public override string ToString()
         {
-            return $"a: {AttackerDamaged} b: {DefenderDamaged}";
+            return $"a: {AttackerDamaged} d: {DefenderDamaged}";
         }
     }
 }

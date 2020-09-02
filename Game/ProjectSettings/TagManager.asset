@@ -12,6 +12,7 @@ TagManager:
   - Background
   - Board Camera
   - Board Background
+  - ScoreText
   layers:
   - Default
   - TransparentFX
