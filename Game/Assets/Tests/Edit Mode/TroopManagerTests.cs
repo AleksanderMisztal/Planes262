@@ -64,7 +64,7 @@ namespace Planes262.Tests.Edit_Mode
             Move(2, 1, 0, 0);
             Move(3, 1, 0, 1);
             
-            Assert.IsTrue(score.ToString() == "1 : 1");
+            Assert.AreEqual("1 : 1", score.ToString());
         }
     }
 }

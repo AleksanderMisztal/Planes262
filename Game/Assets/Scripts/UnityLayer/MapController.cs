@@ -20,14 +20,14 @@ namespace Planes262.UnityLayer
             this.sender = sender;
         }
         
+        private ClientSend sender;
         private readonly TileManager tileManager;
         private readonly TroopMap troopMap;
-        private ClientSend sender;
         private PathFinder pathFinder;
         private PlayerSide side;
         
         private VectorTwo selectedPosition;
-        private Troop selectedTroop;
+        private ITroop selectedTroop;
         private HashSet<VectorTwo> reachableCells;
         private VectorTwo targetPosition;
         private List<int> directions;

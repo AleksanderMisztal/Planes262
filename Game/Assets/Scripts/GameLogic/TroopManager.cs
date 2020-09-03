@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
@@ -19,7 +20,7 @@ namespace Planes262.GameLogic
 
         public void ResetForNewGame()
         {
-            foreach (Troop troop in troopMap.Troops) 
+            foreach (ITroop troop in troopMap.Troops) 
                 troop.CleanUpSelf();
             troopMap.ResetForNewGame();
             score.Reset();
@@ -27,25 +28,24 @@ namespace Planes262.GameLogic
         
         public virtual void BeginNextRound(IEnumerable<Troop> troops)
         {
-            foreach (Troop troop in troops)
-            {
-            }
-
-            troopMap.SpawnWave(troops);
-            HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
-            foreach (Troop troop in beginningTroops)
+            IEnumerable<DamageScoringTroopDecorator> damageScoringTroops = troops.Select(t => new DamageScoringTroopDecorator(t, score));
+            troopMap.SpawnWave(damageScoringTroops);
+            
+            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
+            foreach (ITroop troop in beginningTroops)
                 troop.ResetMovePoints();
+            
             activePlayer = activePlayer.Opponent();
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
             int battleId = 0;
-            Troop troop = troopMap.Get(position);
+            ITroop troop = troopMap.Get(position);
             VectorTwo startingPosition = troop.Position;
             troop.MoveInDirection(direction);
 
-            Troop encounter = troopMap.Get(troop.Position);
+            ITroop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop, startingPosition);
@@ -71,11 +71,8 @@ namespace Planes262.GameLogic
                 troopMap.AdjustPosition(troop, startingPosition);
         }
 
-        private void ApplyDamage(Troop troop, VectorTwo startingPosition)
+        private void ApplyDamage(ITroop troop, VectorTwo startingPosition)
         {
-            PlayerSide opponent = troop.Player.Opponent();
-            score.Increment(opponent);
-
             troop.ApplyDamage();
             if (troop.Destroyed)
                 troopMap.Remove(troop, startingPosition);

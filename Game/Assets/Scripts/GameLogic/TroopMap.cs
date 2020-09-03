@@ -6,31 +6,31 @@ namespace Planes262.GameLogic
 {
     public class TroopMap
     {
-        private Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
-        private HashSet<Troop> redTroops = new HashSet<Troop>();
-        private HashSet<Troop> blueTroops = new HashSet<Troop>();
-        public IEnumerable<Troop> Troops => map.Values;
+        private Dictionary<VectorTwo, ITroop> map = new Dictionary<VectorTwo, ITroop>();
+        private HashSet<ITroop> redTroops = new HashSet<ITroop>();
+        private HashSet<ITroop> blueTroops = new HashSet<ITroop>();
+        public IEnumerable<ITroop> Troops => map.Values;
 
 
         public void ResetForNewGame()
         {
-            map = new Dictionary<VectorTwo, Troop>();
-            redTroops = new HashSet<Troop>();
-            blueTroops = new HashSet<Troop>();
+            map = new Dictionary<VectorTwo, ITroop>();
+            redTroops = new HashSet<ITroop>();
+            blueTroops = new HashSet<ITroop>();
         }
 
-        public void AdjustPosition(Troop troop, VectorTwo startingPosition)
+        public void AdjustPosition(ITroop troop, VectorTwo startingPosition)
         {
             map.Remove(startingPosition);
             map.Add(troop.Position, troop);
         }
 
-        public HashSet<Troop> GetTroops(PlayerSide player)
+        public HashSet<ITroop> GetTroops(PlayerSide player)
         {
             return player == PlayerSide.Red ? redTroops : blueTroops;
         }
 
-        public Troop Get(VectorTwo position)
+        public ITroop Get(VectorTwo position)
         {
             try
             {
@@ -42,15 +42,15 @@ namespace Planes262.GameLogic
             }
         }
 
-        public void Remove(Troop troop, VectorTwo startingPosition)
+        public void Remove(ITroop troop, VectorTwo startingPosition)
         {
             map.Remove(startingPosition);
             GetTroops(troop.Player).Remove(troop);
         }
 
-        public void SpawnWave(IEnumerable<Troop> wave)
+        public void SpawnWave(IEnumerable<ITroop> wave)
         {
-            foreach (Troop troop in wave)
+            foreach (ITroop troop in wave)
             {
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);

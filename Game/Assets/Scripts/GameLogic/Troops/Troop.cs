@@ -3,20 +3,6 @@ using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic.Troops
 {
-    public interface ITroop
-    {
-        PlayerSide Player { get; }
-        int MovePoints { get; }
-        VectorTwo Position { get; }
-        int Orientation { get; }
-        bool Destroyed { get; }
-        void MoveInDirection(int direction);
-        void FlyOverOtherTroop();
-        void ApplyDamage();
-        void ResetMovePoints();
-        void CleanUpSelf();
-    }
-
     public class Troop : ITroop
     {
         public PlayerSide Player { get; }
@@ -38,7 +24,7 @@ namespace Planes262.GameLogic.Troops
             MovePoints = movePoints;
             Position = position;
             Orientation = orientation;
-            this.Health = health;
+            Health = health;
         }
 
         protected Troop(Troop t) : this(t.Player, t.MovePoints, t.Position, t.Orientation, t.Health) { }
