@@ -70,8 +70,8 @@ namespace Planes262.UnityLayer
             Effects effects = FindObjectOfType<Effects>();
 
             inputParser.Inject(mapController, mapGrid);
-            UnityTroop.effects = effects;
-            UnityTroop.mapGrid = mapGrid;
+            UnityTroopDecorator.effects = effects;
+            UnityTroopDecorator.mapGrid = mapGrid;
         }
 
         private async Task ConnectAsync()

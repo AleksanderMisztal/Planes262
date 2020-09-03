@@ -13,7 +13,7 @@ namespace Planes262.GameLogic.Troops
         public VectorTwo Position { get; private set; }
         public int Orientation { get; private set; }
 
-        protected int Health;
+        public int Health { get; private set; }
         public bool Destroyed => Health <= 0;
 
 
@@ -26,8 +26,6 @@ namespace Planes262.GameLogic.Troops
             Orientation = orientation;
             Health = health;
         }
-
-        protected Troop(Troop t) : this(t.Player, t.MovePoints, t.Position, t.Orientation, t.Health) { }
         
         public virtual void MoveInDirection(int direction)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class UnityTroop : Troop
+    public class UnityTroopDecorator : TroopDecorator
     {
         public static Effects effects;
         public static MapGrid mapGrid;
@@ -15,7 +15,7 @@ namespace Planes262.UnityLayer
         private readonly SpriteHolder spriteHolder;
         private readonly SpriteRenderer spriteRenderer;
 
-        public UnityTroop(Troop troop, SpriteHolder spriteHolder) : base(troop)
+        public UnityTroopDecorator(SpriteHolder spriteHolder, ITroop troop) : base(troop)
         {
             this.spriteHolder = spriteHolder;
             

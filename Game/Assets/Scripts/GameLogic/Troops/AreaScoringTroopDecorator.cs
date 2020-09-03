@@ -9,7 +9,7 @@ namespace Planes262.GameLogic.Troops
         private readonly int amount;
         private bool entered = false;
 
-        public AreaScoringTroopDecorator(ITroop troop, Score score, IArea area, int amount) : base(troop)
+        public AreaScoringTroopDecorator(Score score, IArea area, int amount, ITroop troop) : base(troop)
         {
             this.score = score;
             this.area = area;

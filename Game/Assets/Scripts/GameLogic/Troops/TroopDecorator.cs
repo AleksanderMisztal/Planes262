@@ -16,6 +16,8 @@ namespace Planes262.GameLogic.Troops
         public VectorTwo Position => troop.Position;
         public int Orientation => troop.Orientation;
         public bool Destroyed => troop.Destroyed;
+
+        public int Health => troop.Health;
         
         public virtual void MoveInDirection(int direction)
         {

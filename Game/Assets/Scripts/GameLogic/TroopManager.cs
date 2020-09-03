@@ -26,9 +26,9 @@ namespace Planes262.GameLogic
             score.Reset();
         }
         
-        public virtual void BeginNextRound(IEnumerable<Troop> troops)
+        public virtual void BeginNextRound(IEnumerable<ITroop> troops)
         {
-            IEnumerable<DamageScoringTroopDecorator> damageScoringTroops = troops.Select(t => new DamageScoringTroopDecorator(t, score));
+            IEnumerable<ITroop> damageScoringTroops = troops.Select(t => new DamageScoringTroopDecorator(score, t));
             troopMap.SpawnWave(damageScoringTroops);
             
             HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());

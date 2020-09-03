@@ -11,11 +11,11 @@ namespace Planes262.UnityLayer
         [SerializeField] private SpriteHolder blueTroopPrefab;
 
 
-        public UnityTroop InstantiateTroop(Troop troop)
+        public UnityTroopDecorator InstantiateTroop(ITroop troop)
         {
             SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
             SpriteHolder spriteHolder = Instantiate(troopPrefab);
-            UnityTroop uTroop = new UnityTroop(troop, spriteHolder);
+            UnityTroopDecorator uTroop = new UnityTroopDecorator(spriteHolder, troop);
             return uTroop;
         }
     }

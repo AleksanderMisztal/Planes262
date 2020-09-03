@@ -14,9 +14,9 @@ namespace Planes262.UnityLayer
             this.troopInstantiator = troopInstantiator;
         }
 
-        public override void BeginNextRound(IEnumerable<Troop> troops)
+        public override void BeginNextRound(IEnumerable<ITroop> troops)
         {
-            IEnumerable<UnityTroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            IEnumerable<UnityTroopDecorator> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             base.BeginNextRound(uTroops);
         }
     }

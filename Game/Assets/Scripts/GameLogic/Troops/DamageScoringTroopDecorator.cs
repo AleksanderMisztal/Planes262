@@ -4,7 +4,7 @@
     {
         private readonly Score score;
 
-        public DamageScoringTroopDecorator(ITroop troop, Score score) : base(troop)
+        public DamageScoringTroopDecorator(Score score, ITroop troop) : base(troop)
         {
             this.score = score;
         }

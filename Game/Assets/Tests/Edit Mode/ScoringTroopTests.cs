@@ -12,7 +12,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             Score score = new Score();
             Troop troop = TroopFactory.Blue(3, 4);
-            TroopDecorator st = new DamageScoringTroopDecorator(troop, score);
+            TroopDecorator st = new DamageScoringTroopDecorator(score, troop);
             
             st.ApplyDamage();
             st.ApplyDamage();
@@ -27,7 +27,7 @@ namespace Planes262.Tests.Edit_Mode
             Score score = new Score();
             IArea area = new VerticalLineArea(5, false);
             Troop troop = TroopFactory.Blue(4, 4);
-            TroopDecorator st = new AreaScoringTroopDecorator(troop, score, area, 2);
+            TroopDecorator st = new AreaScoringTroopDecorator(score, area, 2, troop);
             
             st.MoveInDirection(0);
             Assert.AreEqual(score.Blue, 0);

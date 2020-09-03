@@ -8,6 +8,7 @@ namespace Planes262.GameLogic.Troops
         int MovePoints { get; }
         VectorTwo Position { get; }
         int Orientation { get; }
+        int Health { get; }
         bool Destroyed { get; }
         void MoveInDirection(int direction);
         void FlyOverOtherTroop();
