@@ -1,4 +1,5 @@
 ﻿using Planes262.GameLogic.Area;
+using Planes262.GameLogic.Data;
 
 namespace Planes262.GameLogic.Troops
 {

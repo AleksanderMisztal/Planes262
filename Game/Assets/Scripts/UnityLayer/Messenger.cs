@@ -1,4 +1,4 @@
-﻿using Planes262.Networking;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,24 +12,20 @@ namespace Planes262.UnityLayer
         [SerializeField] private GameObject textParent;
 
         private List<GameObject> messages = new List<GameObject>();
-        private ClientSend sender;
         private string username;
+
+        public event EventHandler<string> MessageSent;
 
         public void SetUsername(string username)
         {
             this.username = username;
-        }
-        
-        public void Inject(ClientSend sender)
-        {
-            this.sender = sender;
         }
 
         public void SendAMessage()
         {
             string message = username + ": " + input.text;
             input.text = "";
-            sender.SendMessage(message);
+            MessageSent?.Invoke(this, message);
             Display(message);
         }
 

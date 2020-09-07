@@ -1,9 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Planes262.GameLogic;
 using Planes262.Networking;
-using Planes262.UnityLayer.Utils;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Planes262.UnityLayer
 {
@@ -11,73 +8,38 @@ namespace Planes262.UnityLayer
     {
         private UIManager uiManager;
         private Messenger messenger;
+        private Game game;
         
-        private GameManager gameManager;
-        private MapController mapController;
-        
-        private ClientSend sender;
-        private CsWebSocket socket;
+        private ServerInputManager serverInputManager;
 
         private async void Awake()
         {
-            GetObjectsFromScene();
             InitializeGame();
-            InitializeNetworking();
-            InjectSender();
-            InjectRest();
-            await ConnectAsync();
-        }
-
-        private void GetObjectsFromScene()
-        {
-            uiManager = FindObjectOfType<UIManager>();
-            messenger = FindObjectOfType<Messenger>();
+            await InitializeNetworking();
         }
 
         private void InitializeGame()
         {
-            TileManager tileManager = FindObjectOfType<TileManager>();
-            TroopInstantiator troopInstantiator = FindObjectOfType<TroopInstantiator>();
-            Text scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
-
-            Score score = new UnityScore(scoreText);
-            TroopMap troopMap = new TroopMap();
-            UnityTroopManager unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
-            mapController = new MapController(tileManager, troopMap);
-            Game game = new Game(unityTroopManager, mapController);
-
-            gameManager = new GameManager(messenger, uiManager, game, tileManager);
+            uiManager = FindObjectOfType<UIManager>();
+            messenger = FindObjectOfType<Messenger>();
+            game = FindObjectOfType<Game>();
+            
+            serverInputManager = new ServerInputManager(messenger, uiManager, game);
         }
 
-        private void InitializeNetworking()
+        private async Task InitializeNetworking()
         {
-            ClientHandle clientHandle = new ClientHandle(gameManager);
-            socket = new CsWebSocket(clientHandle);
-            sender = new ClientSend(socket);
-        }
-
-        private void InjectSender()
-        {
-            mapController.Inject(sender);
-            uiManager.Inject(sender);
-            messenger.Inject(sender);
-        }
-
-        private void InjectRest()
-        {
-            MapGrid mapGrid = FindObjectOfType<MapGrid>();
-            InputParser inputParser = FindObjectOfType<InputParser>();
-            Effects effects = FindObjectOfType<Effects>();
-
-            inputParser.Inject(mapController, mapGrid);
-            UnityTroopDecorator.effects = effects;
-            UnityTroopDecorator.mapGrid = mapGrid;
-        }
-
-        private async Task ConnectAsync()
-        {
-            await socket.InitializeConnection();
-            await socket.BeginListenAsync();
+            // TODO: judge = new ServerJudge(game); move rest into ServerJudge
+            ClientHandle clientHandle = new ClientHandle(serverInputManager);
+            CsWebSocketClient wsClient = new CsWebSocketClient(clientHandle);
+            Client client = new Client(wsClient);
+            
+            game.MoveAttempted += (sender, args) => client.MoveTroop(args.Position, args.Direction);
+            uiManager.GameJoined += (sender, username) => client.JoinGame(username);
+            messenger.MessageSent += (sender, message) => client.SendMessage(message);
+            
+            await wsClient.InitializeConnection();
+            await wsClient.BeginListenAsync();
         }
     }
 }

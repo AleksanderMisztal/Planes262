@@ -1,4 +1,6 @@
-﻿namespace Planes262.GameLogic.Troops
+﻿using Planes262.GameLogic.Data;
+
+namespace Planes262.GameLogic.Troops
 {
     public class DamageScoringTroopDecorator : TroopDecorator
     {

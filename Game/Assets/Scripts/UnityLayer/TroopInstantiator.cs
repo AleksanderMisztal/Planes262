@@ -1,4 +1,5 @@
 ﻿using Planes262.GameLogic;
+using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
@@ -15,8 +16,7 @@ namespace Planes262.UnityLayer
         {
             SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
             SpriteHolder spriteHolder = Instantiate(troopPrefab);
-            UnityTroopDecorator uTroop = new UnityTroopDecorator(spriteHolder, troop);
-            return uTroop;
+            return new UnityTroopDecorator(spriteHolder, troop);
         }
     }
 }

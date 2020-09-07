@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Planes262.GameLogic;
 using Planes262.GameLogic.Area;
+using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 
@@ -13,12 +13,6 @@ namespace Planes262.Networking.Packets
         private List<byte> buffer;
         private byte[] readableBuffer;
         private int readPos;
-
-        public Packet()
-        {
-            buffer = new List<byte>();
-            readPos = 0;
-        }
 
         public Packet(int id)
         {
@@ -32,25 +26,15 @@ namespace Planes262.Networking.Packets
         {
             buffer = new List<byte>();
             readPos = 0;
-
             SetBytes(data);
         }
 
         #region Functions
-        public void SetBytes(byte[] data)
+
+        private void SetBytes(byte[] data)
         {
             Write(data);
             readableBuffer = buffer.ToArray();
-        }
-
-        public void WriteLength()
-        {
-            buffer.InsertRange(0, BitConverter.GetBytes(buffer.Count));
-        }
-
-        public void InsertInt(int value)
-        {
-            buffer.InsertRange(0, BitConverter.GetBytes(value));
         }
 
         public byte[] ToArray()
@@ -59,58 +43,16 @@ namespace Planes262.Networking.Packets
             return readableBuffer;
         }
 
-        public int Length()
-        {
-            return buffer.Count;
-        }
-
-        public int UnreadLength()
-        {
-            return Length() - readPos;
-        }
-
-        public void Reset(bool shouldReset = true)
-        {
-            if (shouldReset)
-            {
-                buffer.Clear();
-                readableBuffer = null;
-                readPos = 0;
-            }
-            else
-            {
-                readPos -= 4;
-            }
-        }
         #endregion
 
         #region Write Data
-        public void Write(byte value)
-        {
-            buffer.Add(value);
-        }
 
-        public void Write(byte[] value)
+        private void Write(byte[] value)
         {
             buffer.AddRange(value);
         }
 
-        public void Write(short value)
-        {
-            buffer.AddRange(BitConverter.GetBytes(value));
-        }
-
         public void Write(int value)
-        {
-            buffer.AddRange(BitConverter.GetBytes(value));
-        }
-
-        public void Write(long value)
-        {
-            buffer.AddRange(BitConverter.GetBytes(value));
-        }
-
-        public void Write(float value)
         {
             buffer.AddRange(BitConverter.GetBytes(value));
         }
@@ -135,50 +77,11 @@ namespace Planes262.Networking.Packets
         #endregion
 
         #region Read Data
-        public byte ReadByte(bool moveReadPos = true)
-        {
-            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte'!");
-            byte value = readableBuffer[readPos];
-            if (moveReadPos) readPos += 1;
-            return value;
-        }
-
-        public byte[] ReadBytes(int length, bool moveReadPos = true)
-        {
-            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'byte[]'!");
-            byte[] value = buffer.GetRange(readPos, length).ToArray();
-            if (moveReadPos) readPos += length;
-            return value;
-        }
-
-        public short ReadShort(bool moveReadPos = true)
-        {
-            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'short'!");
-            short value = BitConverter.ToInt16(readableBuffer, readPos);
-            if (moveReadPos) readPos += 2;
-            return value;
-        }
 
         public int ReadInt(bool moveReadPos = true)
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'int'!");
             int value = BitConverter.ToInt32(readableBuffer, readPos);
-            if (moveReadPos) readPos += 4;
-            return value;
-        }
-
-        public long ReadLong(bool moveReadPos = true)
-        {
-            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'long'!");
-            long value = BitConverter.ToInt64(readableBuffer, readPos);
-            if (moveReadPos) readPos += 8;
-            return value;
-        }
-
-        public float ReadFloat(bool moveReadPos = true)
-        {
-            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'float'!");
-            float value = BitConverter.ToSingle(readableBuffer, readPos);
             if (moveReadPos) readPos += 4;
             return value;
         }
@@ -214,7 +117,7 @@ namespace Planes262.Networking.Packets
             return new VectorTwo(x, y);
         }
 
-        public Troop ReadTroop()
+        private Troop ReadTroop()
         {
             PlayerSide side = (PlayerSide)ReadInt();
             int health = ReadInt();
@@ -237,7 +140,7 @@ namespace Planes262.Networking.Packets
             return troops;
         }
 
-        public BattleResult ReadBattleResult()
+        private BattleResult ReadBattleResult()
         {
             bool attackerDamaged = ReadBool();
             bool defenderDamaged = ReadBool();
@@ -267,23 +170,15 @@ namespace Planes262.Networking.Packets
         #endregion
 
         private bool disposed;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed) return;
-            if (disposing)
-            {
-                buffer = null;
-                readableBuffer = null;
-                readPos = 0;
-            }
-
-            disposed = true;
-        }
-
+        
         public void Dispose()
         {
-            Dispose(true);
+            if (disposed) return;
+            buffer = null;
+            readableBuffer = null;
+            readPos = 0;
+            disposed = true;
+            
             GC.SuppressFinalize(this);
         }
     }

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using Planes262.GameLogic;
+﻿using System;
+using System.Collections;
 using Planes262.GameLogic.Area;
-using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +8,6 @@ namespace Planes262.UnityLayer
 {
     public class UIManager : MonoBehaviour
     {
-        private ClientSend sender;
-
         // TODO: Group those
         [SerializeField] private InputField username;
         [SerializeField] private GameObject mainMenu;
@@ -27,6 +24,7 @@ namespace Planes262.UnityLayer
         [SerializeField] private GameObject gameEnded;
         [SerializeField] private Text resultText;
 
+        public event EventHandler<string> GameJoined;
         private void Start()
         {
             mainMenu.SetActive(false);
@@ -42,11 +40,6 @@ namespace Planes262.UnityLayer
             Camera.main.rect = new Rect(0, 0, 1, 1);
         }
 
-        public void Inject(ClientSend sender)
-        {
-            this.sender = sender;
-        }
-
         public void ActivateMainMenu()
         {
             mainMenu.SetActive(true);
@@ -54,7 +47,7 @@ namespace Planes262.UnityLayer
 
         public void JoinGame()
         {
-            sender.JoinGame(username.text);
+            GameJoined?.Invoke(this, username.text);
             mainMenu.SetActive(false);
             
             waitingText.SetActive(true);

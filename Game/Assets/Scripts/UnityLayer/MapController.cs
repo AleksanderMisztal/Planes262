@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Area;
+using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
-using Planes262.Networking;
 
 namespace Planes262.UnityLayer
 {
     public class MapController
     {
-        public MapController(TileManager tileManager, TroopMap troopMap)
+        public MapController(TileManager tileManager, TroopMap troopMap, EventHandler<MoveAttemptEventArgs> troopMoveHandler)
         {
             this.tileManager = tileManager;
             this.troopMap = troopMap;
-        }
-
-        public void Inject(ClientSend sender)
-        {
-            this.sender = sender;
+            this.troopMoveHandler = troopMoveHandler;
         }
         
-        private ClientSend sender;
         private readonly TileManager tileManager;
         private readonly TroopMap troopMap;
+        private readonly EventHandler<MoveAttemptEventArgs> troopMoveHandler;
         private PathFinder pathFinder;
         private PlayerSide side;
         
@@ -60,7 +57,7 @@ namespace Planes262.UnityLayer
             DeactivateTroops();
             foreach (int dir in directions)
             {
-                sender.MoveTroop(position, dir);
+                troopMoveHandler?.Invoke(this, new MoveAttemptEventArgs(position, dir));
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
             }
