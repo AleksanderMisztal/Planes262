@@ -22,6 +22,8 @@ namespace Planes262.UnityLayer
         
         private PathFinder pathFinder;
         private PlayerSide side;
+        private PlayerSide activePlayer = PlayerSide.Red;
+        public bool IsLocal = false;
         
         private VectorTwo selectedPosition;
         private ITroop selectedTroop;
@@ -57,7 +59,7 @@ namespace Planes262.UnityLayer
             DeactivateTroops();
             foreach (int dir in directions)
             {
-                troopMoveHandler?.Invoke(this, new MoveAttemptEventArgs(side, position, dir));
+                troopMoveHandler?.Invoke(this, new MoveAttemptEventArgs(activePlayer, position, dir));
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
             }
@@ -74,7 +76,7 @@ namespace Planes262.UnityLayer
         {
             DeactivateTroops();
             selectedTroop = troopMap.Get(cell);
-            if (selectedTroop != null && selectedTroop.Player == side)
+            if (selectedTroop != null && (selectedTroop.Player == side || IsLocal) && selectedTroop.Player == activePlayer)
                 ActivateTroopAt(cell);
         }
 
@@ -105,6 +107,11 @@ namespace Planes262.UnityLayer
                 cells.Add(position);
             }
             tileManager.HighlightPath(cells);
+        }
+
+        public void ToggleActivePlayer()
+        {
+            activePlayer = activePlayer.Opponent();
         }
     }
 }

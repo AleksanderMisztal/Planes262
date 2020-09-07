@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GameJudge;
-using GameJudge.Areas;
-using GameJudge.WavesN;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 using Planes262.Networking;
 using UnityEngine;
 using PlayerSide = GameJudge.PlayerSide;
@@ -18,8 +14,6 @@ namespace Planes262.UnityLayer
         private UIManager uiManager;
         private Messenger messenger;
         private Game game;
-        
-        private ServerJudge serverJudge;
 
         private async void Awake()
         {
@@ -32,15 +26,12 @@ namespace Planes262.UnityLayer
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
             game = FindObjectOfType<Game>();
-            
         }
 
         private async Task InitializeNetworking()
         {
             LocalJudge judge = new LocalJudge(uiManager, game);
-            
-            serverJudge = new ServerJudge(messenger, uiManager, game);
-            
+            ServerJudge serverJudge = new ServerJudge(messenger, uiManager, game);
             
             ClientHandle clientHandle = new ClientHandle(serverJudge);
             CsWebSocketClient wsClient = new CsWebSocketClient(clientHandle);
@@ -55,30 +46,6 @@ namespace Planes262.UnityLayer
         }
     }
 
-    public class LocalJudge
-    {
-        private readonly UIManager uiManager;
-        private readonly Game game;
-        private readonly GameController gameController;
-
-        public LocalJudge(UIManager uiManager, Game game)
-        {
-            this.uiManager = uiManager;
-            this.game = game;
-            
-            gameController = new GameController(Waves.Basic(), Board.Standard);
-
-            game.MoveAttempted += (sender, args) =>
-                gameController.ProcessMove(args.Side.ToJudge(), new VectorTwo(args.Position.X, args.Position.Y), args.Direction);
-            uiManager.LocalPlayed += (sender, args) => gameController.BeginGame();
-            
-            gameController.TroopMoved += (sender, args) =>
-                game.MoveTroop(args.Position.ToUVec(), args.Direction, args.BattleResults);
-            gameController.TroopsSpawned += (sender, args) => game.BeginNextRound(args.Troops.ToUTroops());
-            gameController.GameEnded += (sender, args) => uiManager.EndGame(args.Score.ToString(), 1.5f);
-        }
-    }
-    
     public static class TroopListExtensions
     {
         public static IEnumerable<Troop> ToUTroops(this List<GameJudge.Troops.Troop> troops)

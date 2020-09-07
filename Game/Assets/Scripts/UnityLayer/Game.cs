@@ -38,6 +38,11 @@ namespace Planes262.UnityLayer
             UnityTroopDecorator.mapGrid = FindObjectOfType<MapGrid>();
         }
 
+        public void SetLocal(bool local)
+        {
+            mapController.IsLocal = local;
+        }
+
 
         public void StartNewGame(Board board, PlayerSide side)
         {
@@ -48,6 +53,7 @@ namespace Planes262.UnityLayer
 
         public void BeginNextRound(IEnumerable<Troop> troops)
         {
+            mapController.ToggleActivePlayer();
             unityTroopManager.BeginNextRound(troops);
         }
 

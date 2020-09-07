@@ -6,7 +6,7 @@
         Red = 1
     }
 
-    public static class PlayerSideExtensions
+    public static class UPlayerSideExtensions
     {
         public static PlayerSide Opponent(this PlayerSide player)
         {
