@@ -1,5 +1,4 @@
 ﻿using System;
-using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic.Troops

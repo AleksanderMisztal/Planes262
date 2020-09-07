@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using GameJudge.Battles;
 using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 using Planes262.Networking.Packets;
@@ -12,11 +12,11 @@ namespace Planes262.Networking
     {
         private delegate void PacketHandler(Packet packet);
         private readonly Dictionary<int, PacketHandler> packetHandlers;
-        private readonly ServerInputManager serverInputManager;
+        private readonly ServerJudge serverJudge;
 
-        public ClientHandle(ServerInputManager serverInputManager)
+        public ClientHandle(ServerJudge serverJudge)
         {
-            this.serverInputManager = serverInputManager;
+            this.serverJudge = serverJudge;
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int) ServerPackets.Welcome, Welcome },
@@ -43,7 +43,7 @@ namespace Planes262.Networking
 
         private void Welcome(Packet packet)
         {
-            serverInputManager.OnWelcome();
+            serverJudge.OnWelcome();
         }
 
         private void GameJoined(Packet packet)
@@ -52,14 +52,14 @@ namespace Planes262.Networking
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
 
-            serverInputManager.OnGameJoined(opponentName, side, board);
+            serverJudge.OnGameJoined(opponentName, side, board);
         }
 
         private void TroopSpawned(Packet packet)
         {
             List<Troop> troops = packet.ReadTroops();
 
-            serverInputManager.OnTroopSpawned(troops);
+            serverJudge.OnTroopSpawned(troops);
         }
 
         private void TroopMoved(Packet packet)
@@ -68,7 +68,7 @@ namespace Planes262.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            serverInputManager.OnTroopMoved(position, direction, battleResults);
+            serverJudge.OnTroopMoved(position, direction, battleResults);
         }
 
         private void GameEnded(Packet packet)
@@ -76,19 +76,19 @@ namespace Planes262.Networking
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            serverInputManager.OnGameEnded(redScore, blueScore);
+            serverJudge.OnGameEnded(redScore, blueScore);
         }
 
         private void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            serverInputManager.OnMessageSent(message);
+            serverJudge.OnMessageSent(message);
         }
 
         private void OpponentDisconnected(Packet packet)
         {
-            serverInputManager.OnOpponentDisconnected();
+            serverJudge.OnOpponentDisconnected();
         }
     }
 }

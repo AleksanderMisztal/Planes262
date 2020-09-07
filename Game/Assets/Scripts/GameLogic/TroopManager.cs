@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Planes262.GameLogic.Data;
+using GameJudge.Battles;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 

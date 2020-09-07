@@ -19,7 +19,7 @@ namespace Planes262.Tests.Edit_Mode
             gc.TroopsSpawned += (sender, args) => Debug.Log(args);
             gc.GameEnded += (sender, args) => Debug.Log(args);
             
-            gc.Initialize();
+            gc.BeginGame();
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 5), 0);
         }
     }

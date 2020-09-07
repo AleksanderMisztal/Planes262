@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
+using Planes262.GameLogic.Utils;
 
 namespace Planes262.Tests.Edit_Mode
 {

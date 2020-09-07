@@ -22,5 +22,7 @@ namespace Planes262.GameLogic.Area
         {
             return !IsOutside(p);
         }
+        
+        public static Board Standard => new Board(20, 12);
     }
 }

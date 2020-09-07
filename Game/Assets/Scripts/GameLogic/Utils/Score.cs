@@ -1,4 +1,4 @@
-﻿namespace Planes262.GameLogic.Data
+﻿namespace Planes262.GameLogic.Utils
 {
     public class Score
     {

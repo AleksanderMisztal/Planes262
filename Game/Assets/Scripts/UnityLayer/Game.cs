@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameJudge.Battles;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 using Planes262.UnityLayer.Utils;
@@ -23,12 +23,14 @@ namespace Planes262.UnityLayer
         {
             tileManager = FindObjectOfType<TileManager>();
             TroopInstantiator troopInstantiator = FindObjectOfType<TroopInstantiator>();
-            Text scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
 
+            Text scoreText = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
             Score score = new UnityScore(scoreText);
+            
             TroopMap troopMap = new TroopMap();
             unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
             mapController = new MapController(tileManager, troopMap, MoveAttempted);
+            
             InputParser inputParser = FindObjectOfType<InputParser>();
             inputParser.CellClicked += (sender, cell) => mapController.OnCellClicked(cell);
 

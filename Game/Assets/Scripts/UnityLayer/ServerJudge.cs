@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
+using GameJudge.Battles;
 using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Data;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class ServerInputManager
+    public class ServerJudge
     {
         private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly Game game;
 
-        public ServerInputManager(Messenger messenger, UIManager uiManager, Game game)
+        public ServerJudge(Messenger messenger, UIManager uiManager, Game game)
         {
             this.messenger = messenger;
             this.uiManager = uiManager;
@@ -46,7 +46,7 @@ namespace Planes262.UnityLayer
             Debug.Log("Game joined received! Playing against " + opponentName);
             game.StartNewGame(board, side);
             messenger.ResetMessages();
-            uiManager.StartTransitionIntoGame(board);
+            uiManager.TransitionIntoGame(board);
         }
 
         public void OnTroopSpawned(List<Troop> troops)

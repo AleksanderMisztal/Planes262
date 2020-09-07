@@ -8,7 +8,6 @@ namespace Planes262.UnityLayer
 {
     public class UIManager : MonoBehaviour
     {
-        // TODO: Group those
         [SerializeField] private InputField username;
         [SerializeField] private GameObject mainMenu;
         
@@ -25,6 +24,7 @@ namespace Planes262.UnityLayer
         [SerializeField] private Text resultText;
 
         public event EventHandler<string> GameJoined;
+        public event EventHandler LocalPlayed;
         private void Start()
         {
             mainMenu.SetActive(false);
@@ -53,7 +53,14 @@ namespace Planes262.UnityLayer
             waitingText.SetActive(true);
         }
 
-        public void StartTransitionIntoGame(Board boardDims)
+        public void PlayLocal()
+        {
+            LocalPlayed?.Invoke(this, EventArgs.Empty);
+            mainMenu.SetActive(false);
+            TransitionIntoGame(Board.Standard);
+        }
+
+        public void TransitionIntoGame(Board boardDims)
         {
             particles.SetActive(false);
             mainBackground.SetActive(false);
