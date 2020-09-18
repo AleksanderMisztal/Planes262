@@ -3,7 +3,7 @@ using GameDataStructures;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class TileManager : MonoBehaviour
     {

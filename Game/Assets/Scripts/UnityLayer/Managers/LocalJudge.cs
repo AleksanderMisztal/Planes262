@@ -5,29 +5,28 @@ using GameJudge;
 using GameJudge.WavesN;
 using Planes262.GameLogic.Troops;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class LocalJudge
     {
-        public LocalJudge(UIManager uiManager, Game game)
+        public LocalJudge(UIManager uiManager, GameManager gameManager)
         {
-            uiManager.LocalPlayed += (sender, args) => Initialize(uiManager, game);
+            uiManager.LocalPlayed += (sender, args) => Initialize(uiManager, gameManager);
         }
 
-        private static void Initialize(UIManager uiManager, Game game)
+        private static void Initialize(UIManager uiManager, GameManager gameManager)
         {
             GameController gameController = new GameController(Waves.Test(), Board.Test);
             
-            gameController.TroopMoved += (sender, args) => game.MoveTroop(args.Position, args.Direction, args.BattleResults);
-            gameController.TroopsSpawned += (sender, args) => game.BeginNextRound(args.Troops.ToUTroop());
+            gameController.TroopMoved += (sender, args) => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
+            gameController.TroopsSpawned += (sender, args) => gameManager.BeginNextRound(args.Troops.ToUTroop());
             gameController.GameEnded += (sender, args) => uiManager.EndGame(args.Score.ToString(), 1.5f);
             
-            game.MoveAttempted += (sender, args) =>
-                gameController.ProcessMove(args.Side,
-                    new VectorTwo(args.Position.X, args.Position.Y), args.Direction);
+            gameManager.MoveAttempted += (sender, args) =>
+                gameController.ProcessMove(args.Side, args.Position, args.Direction);
             
-            game.SetLocal(true);
-            game.StartNewGame(Board.Standard, PlayerSide.Blue);
+            gameManager.SetLocal(true);
+            gameManager.StartNewGame(Board.Standard, PlayerSide.Blue);
             gameController.BeginGame();
         }
     }

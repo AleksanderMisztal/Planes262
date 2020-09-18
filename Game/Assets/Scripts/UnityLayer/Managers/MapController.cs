@@ -5,7 +5,7 @@ using Planes262.GameLogic;
 using Planes262.GameLogic.Utils;
 using ITroop = Planes262.GameLogic.Troops.ITroop;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class MapController
     {
@@ -21,7 +21,7 @@ namespace Planes262.UnityLayer
         private readonly EventHandler<MoveAttemptEventArgs> troopMoveHandler;
         
         private PathFinder pathFinder;
-        private PlayerSide side;
+        private PlayerSide playerSide;
         private PlayerSide activePlayer = PlayerSide.Red;
         public bool IsLocal = false;
         
@@ -35,7 +35,7 @@ namespace Planes262.UnityLayer
         public void ResetForNewGame(PlayerSide side, Board board)
         {
             DeactivateTroops();
-            this.side = side;
+            this.playerSide = side;
             pathFinder = new PathFinder(troopMap, board);
         }
 
@@ -54,10 +54,10 @@ namespace Planes262.UnityLayer
             else SetAsTarget(cell);
         }
 
-        private void SendMoves(VectorTwo position, int orientation, List<int> directions)
+        private void SendMoves(VectorTwo position, int orientation, List<int> moveDirections)
         {
             DeactivateTroops();
-            foreach (int dir in directions)
+            foreach (int dir in moveDirections)
             {
                 troopMoveHandler?.Invoke(this, new MoveAttemptEventArgs(activePlayer, position, dir));
                 orientation += dir;
@@ -76,7 +76,7 @@ namespace Planes262.UnityLayer
         {
             DeactivateTroops();
             selectedTroop = troopMap.Get(cell);
-            if (selectedTroop != null && (selectedTroop.Player == side || IsLocal) && selectedTroop.Player == activePlayer)
+            if (selectedTroop != null && (selectedTroop.Player == playerSide || IsLocal) && selectedTroop.Player == activePlayer)
                 ActivateTroopAt(cell);
         }
 
@@ -97,10 +97,10 @@ namespace Planes262.UnityLayer
             tileManager.DeactivateTiles();
     }
 
-        private void HighlightPath(VectorTwo position, int orientation, List<int> directions)
+        private void HighlightPath(VectorTwo position, int orientation, List<int> moveDirections)
         {
             List<VectorTwo> cells = new List<VectorTwo>();
-            foreach (int dir in directions)
+            foreach (int dir in moveDirections)
             {
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);

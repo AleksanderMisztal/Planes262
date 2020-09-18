@@ -52,6 +52,7 @@ namespace Planes262.UnityLayer
 
         public override void CleanUpSelf()
         {
+            base.CleanUpSelf();
             Object.Destroy(go.gameObject);
         }
     }

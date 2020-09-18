@@ -7,9 +7,9 @@ using Planes262.UnityLayer.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
-    public class Game : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         private UnityTroopManager unityTroopManager;
         private MapController mapController;

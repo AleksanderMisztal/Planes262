@@ -2,37 +2,33 @@
 using Planes262.Networking;
 using UnityEngine;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class GameInitializer : MonoBehaviour
     {
         private UIManager uiManager;
         private Messenger messenger;
-        private Game game;
+        private GameManager gameManager;
 
         private async void Awake()
         {
-            InitializeGame();
-            await InitializeNetworking();
-        }
-
-        private void InitializeGame()
-        {
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
-            game = FindObjectOfType<Game>();
+            gameManager = FindObjectOfType<GameManager>();
+            
+            await InitializeNetworking();
         }
 
         private async Task InitializeNetworking()
         {
-            LocalJudge judge = new LocalJudge(uiManager, game);
-            ServerJudge serverJudge = new ServerJudge(messenger, uiManager, game);
+            LocalJudge judge = new LocalJudge(uiManager, gameManager);
+            ServerJudge serverJudge = new ServerJudge(messenger, uiManager, gameManager);
             
             ClientHandle clientHandle = new ClientHandle(serverJudge);
             CsWebSocketClient wsClient = new CsWebSocketClient(clientHandle);
             Client client = new Client(wsClient);
             
-            game.MoveAttempted += (sender, args) => client.MoveTroop(args.Position, args.Direction);
+            gameManager.MoveAttempted += (sender, args) => client.MoveTroop(args.Position, args.Direction);
             uiManager.GameJoined += (sender, username) => client.JoinGame(username);
             messenger.MessageSent += (sender, message) => client.SendMessage(message);
             

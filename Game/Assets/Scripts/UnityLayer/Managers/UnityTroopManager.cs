@@ -4,7 +4,7 @@ using GameDataStructures;
 using Planes262.GameLogic;
 using ITroop = Planes262.GameLogic.Troops.ITroop;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class UnityTroopManager : TroopManager
     {

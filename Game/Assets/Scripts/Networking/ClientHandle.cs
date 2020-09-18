@@ -2,7 +2,7 @@
 using GameDataStructures;
 using Planes262.GameLogic.Troops;
 using Planes262.Networking.Packets;
-using Planes262.UnityLayer;
+using Planes262.UnityLayer.Managers;
 
 namespace Planes262.Networking
 {

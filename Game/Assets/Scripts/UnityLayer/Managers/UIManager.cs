@@ -4,7 +4,7 @@ using GameDataStructures;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Planes262.UnityLayer
+namespace Planes262.UnityLayer.Managers
 {
     public class UIManager : MonoBehaviour
     {
