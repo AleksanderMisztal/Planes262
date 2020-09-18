@@ -1,5 +1,5 @@
 ﻿using System;
-using Planes262.GameLogic.Utils;
+using GameDataStructures;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 

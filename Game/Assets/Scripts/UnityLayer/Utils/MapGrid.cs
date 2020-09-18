@@ -1,4 +1,4 @@
-﻿using Planes262.GameLogic.Utils;
+﻿using GameDataStructures;
 using UnityEngine;
 
 namespace Planes262.UnityLayer.Utils

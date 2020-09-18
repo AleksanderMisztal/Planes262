@@ -1,4 +1,4 @@
-﻿using Planes262.GameLogic.Utils;
+﻿using GameDataStructures;
 using Planes262.Networking.Packets;
 
 namespace Planes262.Networking

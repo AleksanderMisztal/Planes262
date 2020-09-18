@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Troops;
+using GameDataStructures;
 using Planes262.GameLogic.Utils;
+using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.GameLogic
 {
@@ -55,7 +55,7 @@ namespace Planes262.GameLogic
             if (movePoints <= 0) return;
             foreach (OrientedCell oCell in sourceCell.GetControlZone())
             {
-                if (reachableCells.Contains(oCell) || board.IsOutside(oCell.Position)) continue;
+                if (reachableCells.Contains(oCell) || !board.IsInside(oCell.Position)) continue;
                 AddCell(sourceCell, movePoints - 1, oCell);
             }
         }

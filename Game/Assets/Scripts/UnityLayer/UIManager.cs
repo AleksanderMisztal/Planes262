@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Planes262.GameLogic.Area;
+using GameDataStructures;
 using UnityEngine;
 using UnityEngine.UI;
 

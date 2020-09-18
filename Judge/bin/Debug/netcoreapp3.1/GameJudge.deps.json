@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "GameJudge/1.0.0": {
+        "dependencies": {
+          "GameDataStructures": "1.0.0"
+        },
+        "runtime": {
+          "GameJudge.dll": {}
+        }
+      },
+      "GameDataStructures/1.0.0": {
+        "runtime": {
+          "GameDataStructures.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "GameJudge/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GameDataStructures/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

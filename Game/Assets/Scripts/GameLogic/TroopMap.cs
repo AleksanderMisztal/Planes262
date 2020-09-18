@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
+using GameDataStructures;
+using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.GameLogic
 {

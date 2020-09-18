@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameJudge.Battles;
-using Planes262.GameLogic.Area;
+using GameDataStructures;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 
 namespace Planes262.Networking.Packets
 {

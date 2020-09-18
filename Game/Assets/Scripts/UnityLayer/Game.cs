@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameJudge.Battles;
+using GameDataStructures;
 using Planes262.GameLogic;
-using Planes262.GameLogic.Area;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 using UnityEngine.UI;

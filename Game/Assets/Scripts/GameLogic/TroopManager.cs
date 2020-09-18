@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GameJudge.Battles;
+using GameDataStructures;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
+using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.GameLogic
 {

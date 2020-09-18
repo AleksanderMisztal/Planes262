@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Planes262.GameLogic.Troops;
+﻿using System.Threading.Tasks;
 using Planes262.Networking;
 using UnityEngine;
-using PlayerSide = GameJudge.PlayerSide;
-using VectorTwo = GameJudge.Utils.VectorTwo;
 
 namespace Planes262.UnityLayer
 {
@@ -43,24 +38,6 @@ namespace Planes262.UnityLayer
             
             await wsClient.InitializeConnection();
             await wsClient.BeginListenAsync();
-        }
-    }
-
-    public static class TroopListExtensions
-    {
-        public static IEnumerable<Troop> ToUTroops(this List<GameJudge.Troops.Troop> troops)
-        {
-            return troops.Select(t => new Troop(t.Player.ToUps(), t.MovePoints, t.Position.ToUVec(), t.Orientation, t.Health));
-        }
-
-        public static GameLogic.Utils.VectorTwo ToUVec(this VectorTwo v)
-        {
-            return new GameLogic.Utils.VectorTwo(v.X, v.Y);
-        }
-
-        public static GameLogic.Utils.PlayerSide ToUps(this PlayerSide side)
-        {
-            return side == PlayerSide.Red ? GameLogic.Utils.PlayerSide.Red : GameLogic.Utils.PlayerSide.Blue;
         }
     }
 }

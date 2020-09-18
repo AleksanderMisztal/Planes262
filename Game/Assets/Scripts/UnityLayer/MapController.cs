@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameDataStructures;
 using Planes262.GameLogic;
-using Planes262.GameLogic.Area;
-using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
+using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.UnityLayer
 {

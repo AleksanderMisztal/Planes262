@@ -1,4 +1,6 @@
-﻿namespace Planes262.GameLogic.Utils
+﻿using GameDataStructures;
+
+namespace Planes262.GameLogic.Utils
 {
     public static class Hex
     {

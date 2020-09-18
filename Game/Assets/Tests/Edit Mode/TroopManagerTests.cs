@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using GameJudge.Battles;
+using GameDataStructures;
 using NUnit.Framework;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 
 namespace Planes262.Tests.Edit_Mode
 {

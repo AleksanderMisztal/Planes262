@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\aleks\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\aleks\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="C:\Users\aleks\Projects\TS Games\GameServer\Judge" t="IncludeRecursive">
+      <e p="Areas" t="Include">
+        <e p="Board.cs" t="Include" />
+        <e p="IArea.cs" t="Include" />
+      </e>
+      <e p="Battles" t="Include">
+        <e p="AlwaysDamageBattles.cs" t="Include" />
+        <e p="BattlesResult.cs" t="Include" />
+        <e p="IBattleResolver.cs" t="Include" />
+        <e p="StandardBattles.cs" t="Include" />
+      </e>
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="GameController.cs" t="Include" />
+      <e p="GameEvents" t="Include">
+        <e p="GameEndedEventArgs.cs" t="Include" />
+        <e p="TroopMovedEventArgs.cs" t="Include" />
+        <e p="TroopsSpawnedEventArgs.cs" t="Include" />
+      </e>
+      <e p="GameJudge.csproj" t="IncludeRecursive" />
+      <e p="IllegalMoveException.cs" t="Include" />
+      <e p="MoveValidator.cs" t="Include" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="net472" t="Include">
+            <e p="GameJudge.AssemblyInfo.cs" t="Include" />
+          </e>
+          <e p="netcoreapp3.1" t="Include">
+            <e p="GameJudge.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="PlayerSide.cs" t="Include" />
+      <e p="Score.cs" t="Include" />
+      <e p="TroopAi.cs" t="Include" />
+      <e p="TroopMap.cs" t="Include" />
+      <e p="Troops" t="Include">
+        <e p="Troop.cs" t="Include" />
+        <e p="TroopFactory.cs" t="Include" />
+      </e>
+      <e p="Utils" t="Include">
+        <e p="Hex.cs" t="Include" />
+        <e p="HexOffset.cs" t="Include" />
+        <e p="Randomizer.cs" t="Include" />
+        <e p="VectorTwo.cs" t="Include" />
+      </e>
+      <e p="Waves" t="Include">
+        <e p="Waves.cs" t="Include" />
+        <e p="WavesBuilder.cs" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>
