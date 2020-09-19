@@ -18,12 +18,11 @@ namespace Planes262.UnityLayer.Managers
         {
             GameController gameController = new GameController(Waves.Test(), Board.Test);
             
-            gameController.TroopMoved += (sender, args) => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
-            gameController.TroopsSpawned += (sender, args) => gameManager.BeginNextRound(args.Troops.ToUTroop());
-            gameController.GameEnded += (sender, args) => uiManager.EndGame(args.Score.ToString(), 1.5f);
+            gameController.TroopMoved += args => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
+            gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops.ToUTroop());
+            gameController.GameEnded += args => uiManager.EndGame(args.Score.ToString(), 1.5f);
 
-            gameManager.MoveAttempted += (sender, args) =>
-                gameController.ProcessMove(args.Side, args.Position, args.Direction);
+            gameManager.MoveAttempted += args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
             
             gameManager.SetLocal(true);
             gameManager.StartNewGame(Board.Test, PlayerSide.Blue);

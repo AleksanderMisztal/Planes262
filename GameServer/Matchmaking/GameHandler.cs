@@ -61,9 +61,9 @@ namespace GameServer.Matchmaking
         private GameController CreateGameController(User playingRed, User playingBlue, Waves waves, Board board)
         {
             GameController gc = new GameController(waves, board);
-            gc.TroopsSpawned += async (emitter, args) => await sender.TroopsSpawned(playingRed.Id, playingBlue.Id, args);
-            gc.TroopMoved += async (emitter, args) => await sender.TroopMoved(playingRed.Id, playingBlue.Id, args);
-            gc.GameEnded += async (emitter, args) => await sender.GameEnded(playingRed.Id, playingBlue.Id, args);
+            gc.TroopsSpawned += async args => await sender.TroopsSpawned(playingRed.Id, playingBlue.Id, args);
+            gc.TroopMoved += async args => await sender.TroopMoved(playingRed.Id, playingBlue.Id, args);
+            gc.GameEnded += async args => await sender.GameEnded(playingRed.Id, playingBlue.Id, args);
             return gc;
         }
 

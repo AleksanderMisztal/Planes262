@@ -38,26 +38,11 @@ namespace GameJudge
         }
 
 
-        public event EventHandler<TroopsSpawnedEventArgs> TroopsSpawned;
-        public event EventHandler<TroopMovedEventArgs> TroopMoved;
-        public event EventHandler<GameEndedEventArgs> GameEnded;
+        public event Action<TroopsSpawnedEventArgs> TroopsSpawned;
+        public event Action<TroopMovedEventArgs> TroopMoved;
+        public event Action<GameEndedEventArgs> GameEnded;
 
-        private void OnTroopsSpawned(List<Troop> wave)
-        {
-            TroopsSpawned?.Invoke(this, new TroopsSpawnedEventArgs(wave));
-        }
 
-        private void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults)
-        {
-            TroopMoved?.Invoke(this, new TroopMovedEventArgs(position, direction, battleResults));
-        }
-
-        private void OnGameEnded()
-        {
-            GameEnded?.Invoke(this, new GameEndedEventArgs(score));
-        }
-
-        
         public void BeginGame()
         {
             if (roundNumber != 0) throw new Exception("This game controller has already been initialized");
@@ -87,7 +72,7 @@ namespace GameJudge
         {
             List<Troop> wave = waves.GetTroops(roundNumber);
             wave = troopMap.SpawnWave(wave);
-            OnTroopsSpawned(wave);
+            TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
         }
 
         private void SetInitialMovePointsLeft(PlayerSide player)
@@ -112,7 +97,7 @@ namespace GameJudge
                 }
                 else return;
             }
-            OnGameEnded();
+            GameEnded?.Invoke(new GameEndedEventArgs(score));
         }
 
         private bool GameHasEnded()
@@ -136,7 +121,7 @@ namespace GameJudge
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop, startingPosition);
-                OnTroopMoved(position, direction, battleResults);
+                TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults));
                 return;
             }
 
@@ -163,7 +148,7 @@ namespace GameJudge
             if (troop.Health > 0)
                 troopMap.AdjustPosition(troop, startingPosition);
 
-            OnTroopMoved(position, direction, battleResults);
+            TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults));
         }
 
         private void ApplyDamage(Troop troop, VectorTwo startingPosition)

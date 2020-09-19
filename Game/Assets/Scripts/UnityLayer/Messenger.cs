@@ -14,7 +14,7 @@ namespace Planes262.UnityLayer
         private List<GameObject> messages = new List<GameObject>();
         private string username;
 
-        public event EventHandler<string> MessageSent;
+        public event Action<string> MessageSent;
 
         public void SetUsername(string username)
         {
@@ -25,7 +25,7 @@ namespace Planes262.UnityLayer
         {
             string message = username + ": " + input.text;
             input.text = "";
-            MessageSent?.Invoke(this, message);
+            MessageSent?.Invoke(message);
             Display(message);
         }
 

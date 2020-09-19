@@ -23,7 +23,7 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private GameObject gameEnded;
         [SerializeField] private Text resultText;
 
-        public event EventHandler<string> GameJoined;
+        public event Action<string> GameJoined;
         public event Action LocalPlayed;
         private void Start()
         {
@@ -47,7 +47,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void JoinGame()
         {
-            GameJoined?.Invoke(this, username.text);
+            GameJoined?.Invoke(username.text);
             mainMenu.SetActive(false);
             
             waitingText.SetActive(true);

@@ -28,9 +28,9 @@ namespace Planes262.UnityLayer.Managers
             CsWebSocketClient wsClient = new CsWebSocketClient(clientHandle);
             Client client = new Client(wsClient);
             
-            gameManager.MoveAttempted += (sender, args) => client.MoveTroop(args.Position, args.Direction);
-            uiManager.GameJoined += (sender, username) => client.JoinGame(username);
-            messenger.MessageSent += (sender, message) => client.SendMessage(message);
+            gameManager.MoveAttempted += args => client.MoveTroop(args.Position, args.Direction);
+            uiManager.GameJoined += username => client.JoinGame(username);
+            messenger.MessageSent += message => client.SendMessage(message);
             
             await wsClient.InitializeConnection();
             await wsClient.BeginListenAsync();
