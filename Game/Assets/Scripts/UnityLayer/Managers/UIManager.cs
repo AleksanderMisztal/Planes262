@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private Text resultText;
 
         public event EventHandler<string> GameJoined;
-        public event EventHandler LocalPlayed;
+        public event Action LocalPlayed;
         private void Start()
         {
             mainMenu.SetActive(false);
@@ -55,7 +55,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void PlayLocal()
         {
-            LocalPlayed?.Invoke(this, EventArgs.Empty);
+            LocalPlayed?.Invoke();
             mainMenu.SetActive(false);
             TransitionIntoGame(Board.Standard);
         }

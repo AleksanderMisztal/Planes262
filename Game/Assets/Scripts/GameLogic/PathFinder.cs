@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using GameDataStructures;
+using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
-using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.GameLogic
 {
@@ -30,7 +30,7 @@ namespace Planes262.GameLogic
         {
             ResetMembers();
             ITroop troop = map.Get(position);
-            if (troop == null) throw new Exception("Troops was null!!!111!");
+            if (troop == null) throw new Exception("Troops was null!");
             return GetReachableCells(troop);
         }
 

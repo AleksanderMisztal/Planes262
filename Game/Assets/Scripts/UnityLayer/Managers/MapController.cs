@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using GameDataStructures;
 using Planes262.GameLogic;
+using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
-using ITroop = Planes262.GameLogic.Troops.ITroop;
+using UnityEngine;
 
 namespace Planes262.UnityLayer.Managers
 {
     public class MapController
     {
-        public MapController(TileManager tileManager, TroopMap troopMap, EventHandler<MoveAttemptEventArgs> troopMoveHandler)
+        public MapController(TileManager tileManager, TroopMap troopMap, Action<MoveAttemptEventArgs> troopMoveHandler)
         {
             this.tileManager = tileManager;
             this.troopMap = troopMap;
@@ -18,13 +19,15 @@ namespace Planes262.UnityLayer.Managers
         
         private readonly TileManager tileManager;
         private readonly TroopMap troopMap;
-        private readonly EventHandler<MoveAttemptEventArgs> troopMoveHandler;
+        private readonly Action<MoveAttemptEventArgs> troopMoveHandler;
         
         private PathFinder pathFinder;
         private PlayerSide playerSide;
         private PlayerSide activePlayer = PlayerSide.Red;
         public bool IsLocal = false;
-        
+
+        private bool isPositionSelected;
+        private bool isTargetSelected;
         private VectorTwo selectedPosition;
         private ITroop selectedTroop;
         private HashSet<VectorTwo> reachableCells;
@@ -35,31 +38,32 @@ namespace Planes262.UnityLayer.Managers
         public void ResetForNewGame(PlayerSide side, Board board)
         {
             DeactivateTroops();
-            this.playerSide = side;
+            playerSide = side;
             pathFinder = new PathFinder(troopMap, board);
         }
 
         public void OnCellClicked(VectorTwo cell)
         {
-            if (cell == selectedPosition) return;
-            if (selectedPosition != null && reachableCells.Contains(cell))
+            if (isPositionSelected && cell == selectedPosition) return;
+            if (isPositionSelected && reachableCells.Contains(cell))
                 ChangePathOrSend(cell);
             else SelectTroop(cell);
         }
 
         private void ChangePathOrSend(VectorTwo cell)
         {
-            if (targetPosition == cell)
+            if (isTargetSelected && targetPosition == cell)
                 SendMoves(selectedPosition, selectedTroop.Orientation, directions);
             else SetAsTarget(cell);
         }
 
         private void SendMoves(VectorTwo position, int orientation, List<int> moveDirections)
         {
+            Debug.Log("Sending moves");
             DeactivateTroops();
             foreach (int dir in moveDirections)
             {
-                troopMoveHandler?.Invoke(this, new MoveAttemptEventArgs(activePlayer, position, dir));
+                troopMoveHandler(new MoveAttemptEventArgs(activePlayer, position, dir));
                 orientation += dir;
                 position = Hex.GetAdjacentHex(position, orientation);
             }
@@ -67,6 +71,7 @@ namespace Planes262.UnityLayer.Managers
 
         private void SetAsTarget(VectorTwo cell)
         {
+            isTargetSelected = true;
             targetPosition = cell;
             directions = pathFinder.GetDirections(selectedPosition, targetPosition);
             HighlightPath(selectedPosition, selectedTroop.Orientation, directions);
@@ -82,6 +87,7 @@ namespace Planes262.UnityLayer.Managers
 
         private void ActivateTroopAt(VectorTwo cell)
         {
+            isPositionSelected = true;
             selectedPosition = cell;
             reachableCells = pathFinder.GetReachableCells(cell);
             tileManager.ActivateTiles(reachableCells);
@@ -89,10 +95,10 @@ namespace Planes262.UnityLayer.Managers
 
         private void DeactivateTroops()
         {
-            selectedPosition = null;
+            isPositionSelected = false;
             selectedTroop = null;
             reachableCells = null;
-            targetPosition = null;
+            isTargetSelected = false;
             directions = null;
             tileManager.DeactivateTiles();
     }

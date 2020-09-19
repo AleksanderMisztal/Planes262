@@ -2,7 +2,7 @@
 using System.Linq;
 using GameDataStructures;
 using Planes262.GameLogic;
-using ITroop = Planes262.GameLogic.Troops.ITroop;
+using Planes262.GameLogic.Troops;
 
 namespace Planes262.UnityLayer.Managers
 {

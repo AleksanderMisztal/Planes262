@@ -1,6 +1,6 @@
 ﻿namespace GameDataStructures
 {
-    public class VectorTwo
+    public readonly struct VectorTwo
     {
         public readonly int X;
         public readonly int Y;

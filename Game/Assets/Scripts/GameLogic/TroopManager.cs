@@ -2,7 +2,6 @@
 using System.Linq;
 using GameDataStructures;
 using Planes262.GameLogic.Troops;
-using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.GameLogic
 {
@@ -11,7 +10,6 @@ namespace Planes262.GameLogic
         private readonly Score score;
         private readonly TroopMap troopMap;
         private PlayerSide activePlayer = PlayerSide.Red;
-
 
         public TroopManager(TroopMap troopMap, Score score)
         {

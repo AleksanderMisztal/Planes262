@@ -27,7 +27,8 @@ namespace Planes262.UnityLayer.Managers
             
             TroopMap troopMap = new TroopMap();
             unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
-            mapController = new MapController(tileManager, troopMap, MoveAttempted);
+            mapController = new MapController(tileManager, troopMap, args => MoveAttempted?.Invoke(this, args));
+            MoveAttempted += (sender, args) => Debug.Log("Event raised");
             
             InputParser inputParser = FindObjectOfType<InputParser>();
             inputParser.CellClicked += (sender, cell) => mapController.OnCellClicked(cell);

@@ -11,7 +11,7 @@ namespace Planes262.UnityLayer.Managers
     {
         public LocalJudge(UIManager uiManager, GameManager gameManager)
         {
-            uiManager.LocalPlayed += (sender, args) => Initialize(uiManager, gameManager);
+            uiManager.LocalPlayed += () => Initialize(uiManager, gameManager);
         }
 
         private static void Initialize(UIManager uiManager, GameManager gameManager)
@@ -21,12 +21,12 @@ namespace Planes262.UnityLayer.Managers
             gameController.TroopMoved += (sender, args) => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
             gameController.TroopsSpawned += (sender, args) => gameManager.BeginNextRound(args.Troops.ToUTroop());
             gameController.GameEnded += (sender, args) => uiManager.EndGame(args.Score.ToString(), 1.5f);
-            
+
             gameManager.MoveAttempted += (sender, args) =>
                 gameController.ProcessMove(args.Side, args.Position, args.Direction);
             
             gameManager.SetLocal(true);
-            gameManager.StartNewGame(Board.Standard, PlayerSide.Blue);
+            gameManager.StartNewGame(Board.Test, PlayerSide.Blue);
             gameController.BeginGame();
         }
     }

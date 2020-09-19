@@ -7,8 +7,7 @@ namespace Planes262.UnityLayer
     {
         private Camera boardCamera;
 
-        [SerializeField]
-        private GridLayout gridLayout;
+        [SerializeField] private GridLayout gridLayout;
 
         private const float Sensitivity = 5;
         private const float Mobility = .2f;
