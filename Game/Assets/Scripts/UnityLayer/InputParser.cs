@@ -10,14 +10,14 @@ namespace Planes262.UnityLayer
         [SerializeField] private Camera boardCamera;
         [SerializeField] private MapGrid mapGrid;
 
-        public event EventHandler<VectorTwo> CellClicked;
+        public event Action<VectorTwo> CellClicked;
 
         private void OnMouseDown()
         {
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = mapGrid.WorldToCell(mousePosition);
 
-            CellClicked?.Invoke(this, cell);
+            CellClicked?.Invoke(cell);
         }
     }
 }

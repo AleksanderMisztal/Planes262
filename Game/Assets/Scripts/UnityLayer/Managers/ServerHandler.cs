@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer.Managers
 {
-    public class ServerJudge
+    public class ServerHandler
     {
         private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly GameManager gameManager;
 
-        public ServerJudge(Messenger messenger, UIManager uiManager, GameManager gameManager)
+        public ServerHandler(Messenger messenger, UIManager uiManager, GameManager gameManager)
         {
             this.messenger = messenger;
             this.uiManager = uiManager;

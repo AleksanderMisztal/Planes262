@@ -28,9 +28,8 @@ namespace Planes262.UnityLayer.Managers
             TroopMap troopMap = new TroopMap();
             unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
             mapController = new MapController(tileManager, troopMap, args => MoveAttempted?.Invoke(args));
-            
-            InputParser inputParser = FindObjectOfType<InputParser>();
-            inputParser.CellClicked += (sender, cell) => mapController.OnCellClicked(cell);
+
+            FindObjectOfType<InputParser>().CellClicked += cell => mapController.OnCellClicked(cell);
 
             UnityTroopDecorator.effects = FindObjectOfType<Effects>();
             UnityTroopDecorator.mapGrid = FindObjectOfType<MapGrid>();

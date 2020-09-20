@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private Text resultText;
 
         public event Action<string> GameJoined;
-        public event Action LocalPlayed;
+
         private void Start()
         {
             mainMenu.SetActive(false);
@@ -48,16 +48,6 @@ namespace Planes262.UnityLayer.Managers
         public void JoinGame()
         {
             GameJoined?.Invoke(username.text);
-            mainMenu.SetActive(false);
-            
-            waitingText.SetActive(true);
-        }
-
-        public void PlayLocal()
-        {
-            LocalPlayed?.Invoke();
-            mainMenu.SetActive(false);
-            TransitionIntoGame(Board.Standard);
         }
 
         public void TransitionIntoGame(Board boardDims)
@@ -90,12 +80,6 @@ namespace Planes262.UnityLayer.Managers
             
             gameEnded.SetActive(true);
             resultText.text = message;
-        }
-
-        public void BackToMainMenu()
-        {
-            gameEnded.SetActive(false);
-            mainMenu.SetActive(true);
         }
     }
 }

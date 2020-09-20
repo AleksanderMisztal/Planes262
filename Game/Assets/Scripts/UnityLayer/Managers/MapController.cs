@@ -4,7 +4,6 @@ using GameDataStructures;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Troops;
 using Planes262.GameLogic.Utils;
-using UnityEngine;
 
 namespace Planes262.UnityLayer.Managers
 {
@@ -59,7 +58,6 @@ namespace Planes262.UnityLayer.Managers
 
         private void SendMoves(VectorTwo position, int orientation, List<int> moveDirections)
         {
-            Debug.Log("Sending moves");
             DeactivateTroops();
             foreach (int dir in moveDirections)
             {

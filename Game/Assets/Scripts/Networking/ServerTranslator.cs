@@ -6,15 +6,15 @@ using Planes262.UnityLayer.Managers;
 
 namespace Planes262.Networking
 {
-    public class ClientHandle
+    public class ServerTranslator
     {
         private delegate void PacketHandler(Packet packet);
         private readonly Dictionary<int, PacketHandler> packetHandlers;
-        private readonly ServerJudge serverJudge;
+        private readonly ServerHandler serverHandler;
 
-        public ClientHandle(ServerJudge serverJudge)
+        public ServerTranslator(ServerHandler serverHandler)
         {
-            this.serverJudge = serverJudge;
+            this.serverHandler = serverHandler;
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int) ServerPackets.Welcome, Welcome },
@@ -41,7 +41,7 @@ namespace Planes262.Networking
 
         private void Welcome(Packet packet)
         {
-            serverJudge.OnWelcome();
+            serverHandler.OnWelcome();
         }
 
         private void GameJoined(Packet packet)
@@ -50,14 +50,14 @@ namespace Planes262.Networking
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
 
-            serverJudge.OnGameJoined(opponentName, side, board);
+            serverHandler.OnGameJoined(opponentName, side, board);
         }
 
         private void TroopSpawned(Packet packet)
         {
             List<Troop> troops = packet.ReadTroops();
 
-            serverJudge.OnTroopSpawned(troops);
+            serverHandler.OnTroopSpawned(troops);
         }
 
         private void TroopMoved(Packet packet)
@@ -66,7 +66,7 @@ namespace Planes262.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            serverJudge.OnTroopMoved(position, direction, battleResults);
+            serverHandler.OnTroopMoved(position, direction, battleResults);
         }
 
         private void GameEnded(Packet packet)
@@ -74,19 +74,19 @@ namespace Planes262.Networking
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            serverJudge.OnGameEnded(redScore, blueScore);
+            serverHandler.OnGameEnded(redScore, blueScore);
         }
 
         private void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            serverJudge.OnMessageSent(message);
+            serverHandler.OnMessageSent(message);
         }
 
         private void OpponentDisconnected(Packet packet)
         {
-            serverJudge.OnOpponentDisconnected();
+            serverHandler.OnOpponentDisconnected();
         }
     }
 }
