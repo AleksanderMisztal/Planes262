@@ -1,2 +1,1 @@
-# i-like-planes
-Simple game about planes
+# I like planes
