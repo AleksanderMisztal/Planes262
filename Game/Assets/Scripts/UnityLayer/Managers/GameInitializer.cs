@@ -13,6 +13,7 @@ namespace Planes262.UnityLayer.Managers
         private UIManager uiManager;
         private Messenger messenger;
         private GameManager gameManager;
+        private Client client;
 
         private async void Awake()
         {
@@ -29,15 +30,18 @@ namespace Planes262.UnityLayer.Managers
             
             ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
             CsWebSocketClient wsClient = new CsWebSocketClient(serverTranslator);
-            Client client = new Client(wsClient);
-            
-            //TODO: do this on online game started
-            gameManager.MoveAttemptedHandler = args => client.MoveTroop(args.Position, args.Direction);
+            client = new Client(wsClient);
+
             uiManager.GameJoined += username => client.JoinGame(username);
             messenger.MessageSent += message => client.SendMessage(message);
             
             await wsClient.InitializeConnection();
             await wsClient.BeginListenAsync();
+        }
+
+        public void InitializeOnlineGame()
+        {
+            gameManager.MoveAttemptedHandler = args => client.MoveTroop(args.Position, args.Direction);
         }
 
         public void InitializeLocalGame()

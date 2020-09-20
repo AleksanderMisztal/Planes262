@@ -64,7 +64,6 @@ namespace GameJudge
             GetTroops(troop.Player).Add(troop);
         }
 
-        // TODO: Don't return cells outside the board
         private VectorTwo GetEmptyCell(VectorTwo seedPosition)
         {
             if (Get(seedPosition) == null) return seedPosition;
