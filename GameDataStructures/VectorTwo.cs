@@ -16,7 +16,7 @@
 
         public override int GetHashCode()
         {
-            return 1000 * (X + 100) + Y + 100;
+            return 1000 * X + Y;
         }
 
         public override bool Equals(object obj)

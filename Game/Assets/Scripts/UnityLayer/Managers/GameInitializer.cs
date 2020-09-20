@@ -30,12 +30,13 @@ namespace Planes262.UnityLayer.Managers
             ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
             CsWebSocketClient wsClient = new CsWebSocketClient(serverTranslator);
             Client client = new Client(wsClient);
-            await wsClient.InitializeConnection();
             
-            gameManager.MoveAttempted += args => client.MoveTroop(args.Position, args.Direction);
+            //TODO: do this on online game started
+            gameManager.MoveAttemptedHandler = args => client.MoveTroop(args.Position, args.Direction);
             uiManager.GameJoined += username => client.JoinGame(username);
             messenger.MessageSent += message => client.SendMessage(message);
             
+            await wsClient.InitializeConnection();
             await wsClient.BeginListenAsync();
         }
 
@@ -47,7 +48,7 @@ namespace Planes262.UnityLayer.Managers
             gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops.ToUTroop());
             gameController.GameEnded += args => uiManager.EndGame(args.Score.ToString(), 1.5f);
 
-            gameManager.MoveAttempted += args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
+            gameManager.MoveAttemptedHandler = args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
             
             gameManager.SetLocal(true);
             gameManager.StartNewGame(Board.Test, PlayerSide.Blue);

@@ -6,12 +6,12 @@ namespace Planes262.GameLogic.Utils
     public class OrientedCell
     {
         public VectorTwo Position { get; }
-        private readonly int orientation;
+        public int Orientation { get; }
 
         public OrientedCell(VectorTwo position, int orientation)
         {
             Position = position;
-            this.orientation = orientation;
+            Orientation = (orientation%6+6)%6;
         }
 
         public OrientedCell[] GetControlZone()
@@ -26,8 +26,8 @@ namespace Planes262.GameLogic.Utils
 
         private OrientedCell GetAdjacent(int direction)
         {
-            VectorTwo position = Hex.GetAdjacentHex(Position, orientation + direction);
-            return new OrientedCell(position, orientation + direction);
+            VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
+            return new OrientedCell(position, Orientation + direction);
         }
 
         public int GetDirection(OrientedCell coords)
@@ -42,14 +42,14 @@ namespace Planes262.GameLogic.Utils
 
         public override int GetHashCode()
         {
-            return orientation + 7 * (Position.X + 101 * Position.Y);
+            return Orientation + 7 * (Position.X + 101 * Position.Y);
         }
 
         public override bool Equals(object obj)
         {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
+            if ((obj == null) || GetType() != obj.GetType()) return false;
             OrientedCell c = (OrientedCell)obj;
-            return Position.X == c.Position.X && Position.Y == c.Position.Y && orientation == c.orientation;
+            return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
         }
         public static bool operator ==(OrientedCell a, OrientedCell b)
         {
@@ -60,6 +60,11 @@ namespace Planes262.GameLogic.Utils
         public static bool operator !=(OrientedCell a, OrientedCell b)
         {
             return !(a == b);
+        }
+
+        public override string ToString()
+        {
+            return "" + Position + Orientation;
         }
     }
 }
