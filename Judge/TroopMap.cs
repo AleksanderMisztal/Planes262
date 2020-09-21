@@ -53,15 +53,10 @@ namespace GameJudge
             foreach (Troop troop in wave)
             {
                 troop.Position = GetEmptyCell(troop.Position);
-                Add(troop);
+                map.Add(troop.Position, troop);
+                GetTroops(troop.Player).Add(troop);
             }
             return wave;
-        }
-
-        private void Add(Troop troop)
-        {
-            map.Add(troop.Position, troop);
-            GetTroops(troop.Player).Add(troop);
         }
 
         private VectorTwo GetEmptyCell(VectorTwo seedPosition)
