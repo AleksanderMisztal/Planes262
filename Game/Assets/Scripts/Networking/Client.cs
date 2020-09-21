@@ -5,12 +5,11 @@ namespace Planes262.Networking
 {
     public class Client
     {
-        private readonly CsWebSocketClient client;
+        private readonly IPacketSender packetSender;
         
-        public Client(CsWebSocketClient client)
+        public Client(IPacketSender packetSender)
         {
-            this.client = client;
-            client.BeginSendAsync();
+            this.packetSender = packetSender;
         }
 
         
@@ -20,7 +19,7 @@ namespace Planes262.Networking
             {
                 packet.Write(name);
 
-                client.AddToQueue(packet);
+                packetSender.SendData(packet);
             }
         }
 
@@ -31,7 +30,7 @@ namespace Planes262.Networking
                 packet.Write(position);
                 packet.Write(direction);
 
-                client.AddToQueue(packet);
+                packetSender.SendData(packet);
             }
         }
 
@@ -41,7 +40,7 @@ namespace Planes262.Networking
             {
                 packet.Write(message);
 
-                client.AddToQueue(packet);
+                packetSender.SendData(packet);
             }
         }
     }

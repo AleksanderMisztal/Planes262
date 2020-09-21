@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using GameDataStructures;
+﻿using GameDataStructures;
 using GameJudge;
 using GameJudge.WavesN;
 using Planes262.GameLogic.Troops;
@@ -15,28 +14,32 @@ namespace Planes262.UnityLayer.Managers
         private GameManager gameManager;
         private Client client;
 
-        private async void Awake()
+        private void Awake()
         {
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
 
-            await InitializeServerConnection();
+            InitializeServerConnection();
         }
 
-        private async Task InitializeServerConnection()
+        private void InitializeServerConnection()
         {
             ServerHandler serverHandler = new ServerHandler(messenger, uiManager, gameManager);
             
             ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
-            CsWebSocketClient wsClient = new CsWebSocketClient(serverTranslator);
-            client = new Client(wsClient);
+            #if UNITY_EDITOR || !UNITY_WEBGL
+            CsWebSocket ws = new CsWebSocket(serverTranslator);
+            ws.InitializeConnection();
+            #else
+            JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
+            ws.gameObject.name = "JsWebSocket";
+            ws.InitializeConnection();
+            #endif
+            client = new Client(ws);
 
             uiManager.GameJoined += username => client.JoinGame(username);
             messenger.MessageSent += message => client.SendMessage(message);
-            
-            await wsClient.InitializeConnection();
-            await wsClient.BeginListenAsync();
         }
 
         public void InitializeOnlineGame()

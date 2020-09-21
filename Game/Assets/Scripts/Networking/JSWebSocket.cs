@@ -1,20 +1,30 @@
 ﻿using System.Runtime.InteropServices;
 using Planes262.Networking.Packets;
+using UnityEngine;
 
 namespace Planes262.Networking
 {
-    public class JSWebSocket
+    public class JsWebSocket : MonoBehaviour, IPacketSender
     {
-        [DllImport("__Internal")]
-        public static extern void InitializeConnectionJS();
+        private ServerTranslator serverTranslator;
+        
+        [DllImport("__Internal")] private static extern void InitializeConnectionJS();
+        [DllImport("__Internal")] private static extern void SendDataJS(string data);
 
+        public void SetTranslator(ServerTranslator translator)
+        {
+            serverTranslator = translator;
+        }
+
+        public void ReceiveWsMessage(string byteArray)
+        {
+            serverTranslator.HandlePacket(byteArray);
+        }
+        
         public void InitializeConnection()
         {
             InitializeConnectionJS();
         }
-
-        [DllImport("__Internal")]
-        public static extern void SendDataJS(string data);
 
         public void SendData(Packet packet)
         {

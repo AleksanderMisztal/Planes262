@@ -10,28 +10,30 @@ using Planes262.Networking.Packets;
 
 namespace Planes262.Networking
 {
-    public class CsWebSocketClient
+    public class CsWebSocket : IPacketSender
     {
         private const string Host = "wss://localhost:5001";
         private readonly Queue<Packet> sendQueue = new Queue<Packet>();
         private ClientWebSocket socket;
         private readonly ServerTranslator serverTranslator;
 
-        public CsWebSocketClient(ServerTranslator serverTranslator)
+        public CsWebSocket(ServerTranslator serverTranslator)
         {
             this.serverTranslator = serverTranslator;
         }
 
 
-        public async Task InitializeConnection()
+        public async void InitializeConnection()
         {
             Uri serverUri = new Uri(Host);
             socket = new ClientWebSocket();
             Debug.Log("Attempting to connect to " + serverUri);
             await socket.ConnectAsync(serverUri, CancellationToken.None);
+            BeginSendAsync();
+            await BeginListenAsync();
         }
 
-        public async Task BeginListenAsync()
+        private async Task BeginListenAsync()
         {
             while (true)
             {
@@ -70,27 +72,27 @@ namespace Planes262.Networking
             throw new Exception("Something went wrong while reading the message.");
         }
 
-        private async Task SendData(Packet packet)
+        private async Task SendFromQueue(Packet packet)
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
         
         
-        public void AddToQueue(Packet packet)
+        public void SendData(Packet packet)
         {
             Packet perm = new Packet(packet.ToArray());
             sendQueue.Enqueue(perm);
         }
 
-        public async Task BeginSendAsync()
+        private async Task BeginSendAsync()
         {
             while (true)
             {
                 while (sendQueue.Count != 0)
                 {
                     Packet packet = sendQueue.Dequeue();
-                    await SendData(packet);
+                    await SendFromQueue(packet);
                 }
                 await Task.Delay(100);
             }

@@ -3,6 +3,7 @@ using GameDataStructures;
 using Planes262.GameLogic.Troops;
 using Planes262.Networking.Packets;
 using Planes262.UnityLayer.Managers;
+using UnityEngine;
 
 namespace Planes262.Networking
 {
@@ -30,10 +31,12 @@ namespace Planes262.Networking
         
         public void HandlePacket(string byteArray)
         {
+            Debug.Log(byteArray);
             byte[] bytes = Serializer.Deserialize(byteArray);
             using (Packet packet = new Packet(bytes))
             {
                 int packetType = packet.ReadInt();
+                Debug.Log($"Received a packet of type {packetType}");
                 packetHandlers[packetType](packet);
             }
         }
