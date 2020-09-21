@@ -21,13 +21,17 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: 'GameDataStructures/GameDataStructures.csproj'
+    projects: 
+      -'GameDataStructures/GameDataStructures.csproj'
+      -'Judge/GameJudge.csproj'
     feedsToUse: config
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
-    projects: 'GameDataStructures/GameDataStructures.csproj'
+    projects: 
+      -'GameDataStructures/GameDataStructures.csproj'
+      -'Judge/GameJudge.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
