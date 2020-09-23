@@ -26,8 +26,8 @@ namespace Planes262.UnityLayer.Managers
         private void InitializeServerConnection()
         {
             ServerHandler serverHandler = new ServerHandler(messenger, uiManager, gameManager);
-            
             ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
+            
             #if UNITY_EDITOR || !UNITY_WEBGL
             CsWebSocket ws = new CsWebSocket(serverTranslator);
             ws.InitializeConnection();
@@ -35,6 +35,7 @@ namespace Planes262.UnityLayer.Managers
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
             ws.gameObject.name = "JsWebSocket";
             ws.InitializeConnection();
+            ws.SetTranslator(serverTranslator);
             #endif
             client = new Client(ws);
 

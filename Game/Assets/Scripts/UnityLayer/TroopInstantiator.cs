@@ -1,7 +1,7 @@
 ﻿using GameDataStructures;
+using Planes262.GameLogic.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
-using ITroop = Planes262.GameLogic.Troops.ITroop;
 
 namespace Planes262.UnityLayer
 {

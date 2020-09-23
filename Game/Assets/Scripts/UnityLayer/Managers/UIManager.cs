@@ -27,8 +27,6 @@ namespace Planes262.UnityLayer.Managers
 
         private void Start()
         {
-            mainMenu.SetActive(false);
-            
             waitingText.SetActive(false);
             
             gameUi.SetActive(false);
@@ -42,6 +40,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void ActivateMainMenu()
         {
+            Debug.Log("Activating main");
             mainMenu.SetActive(true);
         }
 
