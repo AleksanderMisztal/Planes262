@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Packets;
 using Planes262.GameLogic.Troops;
-using Planes262.Networking.Packets;
 using Planes262.UnityLayer.Managers;
 using UnityEngine;
 
@@ -58,9 +58,9 @@ namespace Planes262.Networking
 
         private void TroopSpawned(Packet packet)
         {
-            List<Troop> troops = packet.ReadTroops();
+            List<TroopDto> troopDtos = packet.ReadTroops();
 
-            serverHandler.OnTroopSpawned(troops);
+            serverHandler.OnTroopSpawned(troopDtos);
         }
 
         private void TroopMoved(Packet packet)

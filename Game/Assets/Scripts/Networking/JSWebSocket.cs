@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using Planes262.Networking.Packets;
+using GameDataStructures.Packets;
 using UnityEngine;
 
 namespace Planes262.Networking

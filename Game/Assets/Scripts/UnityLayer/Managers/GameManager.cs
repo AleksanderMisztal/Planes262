@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Troops;
@@ -47,10 +48,10 @@ namespace Planes262.UnityLayer.Managers
             tileManager.CreateBoard(board);
         }
 
-        public void BeginNextRound(IEnumerable<Troop> troops)
+        public void BeginNextRound(IEnumerable<TroopDto> troops)
         {
             mapController.ToggleActivePlayer();
-            unityTroopManager.BeginNextRound(troops);
+            unityTroopManager.BeginNextRound(troops.Select(t => new Troop(t)));
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)

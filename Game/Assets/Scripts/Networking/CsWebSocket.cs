@@ -5,8 +5,8 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using GameDataStructures.Packets;
 using UnityEngine;
-using Planes262.Networking.Packets;
 
 namespace Planes262.Networking
 {

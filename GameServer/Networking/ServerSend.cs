@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GameDataStructures;
+using GameDataStructures.Packets;
 using GameJudge.GameEvents;
-using GameServer.Matchmaking;
-using GameServer.Networking.Packets;
 
 namespace GameServer.Networking
 {

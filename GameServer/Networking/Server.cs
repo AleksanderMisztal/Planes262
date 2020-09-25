@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using GameDataStructures.Packets;
 using GameServer.Matchmaking;
-using GameServer.Networking.Packets;
 
 namespace GameServer.Networking
 {

@@ -1,5 +1,5 @@
 ﻿using GameDataStructures;
-using Planes262.Networking.Packets;
+using GameDataStructures.Packets;
 
 namespace Planes262.Networking
 {

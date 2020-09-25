@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using GameDataStructures;
 using UnityEngine.TestTools;
 
 namespace Planes262.Tests.Play_Mode
@@ -8,7 +7,7 @@ namespace Planes262.Tests.Play_Mode
     {
         private void Click(int x, int y)
         {
-            VectorTwo cell = new VectorTwo(x, y);
+            //VectorTwo cell = new VectorTwo(x, y);
             //MapController.OnCellClicked(cell);
         }
         

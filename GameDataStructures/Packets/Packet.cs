@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameDataStructures;
-using Planes262.GameLogic.Troops;
 
-namespace Planes262.Networking.Packets
+namespace GameDataStructures.Packets
 {
     public class Packet : IDisposable
     {
@@ -16,7 +14,6 @@ namespace Planes262.Networking.Packets
         {
             buffer = new List<byte>();
             readPos = 0;
-
             Write(id);
         }
 
@@ -55,7 +52,12 @@ namespace Planes262.Networking.Packets
             buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        public void Write(bool value)
+        public void Write(long value)
+        {
+            buffer.AddRange(BitConverter.GetBytes(value));
+        }
+
+        private void Write(bool value)
         {
             buffer.AddRange(BitConverter.GetBytes(value));
         }
@@ -72,33 +74,73 @@ namespace Planes262.Networking.Packets
             Write(value.Y);
         }
 
+        public void Write(TroopDto value)
+        {
+            Write((int)value.Player);
+            Write(value.Health);
+            Write(value.InitialMovePoints);
+            Write(value.Orientation);
+            Write(value.Position);
+        }
+
+        public void Write(ICollection<TroopDto> troops)
+        {
+            Write(troops.Count);
+            foreach (TroopDto troop in troops) Write(troop);
+        }
+
+        public void Write(BattleResult value)
+        {
+            Write(value.AttackerDamaged);
+            Write(value.DefenderDamaged);
+        }
+
+        public void Write(ICollection<BattleResult> battleResults)
+        {
+            Write(battleResults.Count);
+            foreach (BattleResult battleResult in battleResults) Write(battleResult);
+        }
+
+        public void Write(Board value)
+        {
+            Write(value.XMax);
+            Write(value.YMax);
+        }
+
+        public void Write(TimeInfo timeInfo)
+        {
+            Write(timeInfo.RedTimeMs);
+            Write(timeInfo.BlueTimeMs);
+            Write(timeInfo.ChangeTimeMs);
+        }
         #endregion
 
         #region Read Data
 
-        public int ReadInt(bool moveReadPos = true)
+        public int ReadInt()
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'int'!");
             int value = BitConverter.ToInt32(readableBuffer, readPos);
-            if (moveReadPos) readPos += 4;
+            readPos += 4;
             return value;
         }
 
-        public bool ReadBool(bool moveReadPos = true)
+        public bool ReadBool()
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'bool'!");
             bool value = BitConverter.ToBoolean(readableBuffer, readPos);
-            if (moveReadPos) readPos += 1;
+            readPos += 1;
             return value;
+
         }
 
-        public string ReadString(bool moveReadPos = true)
+        public string ReadString()
         {
             try
             {
                 int length = ReadInt();
                 string value = Encoding.ASCII.GetString(readableBuffer, readPos, length);
-                if (moveReadPos && value.Length > 0) readPos += length;
+                if (value.Length > 0) readPos += length;
                 return value;
             }
             catch
@@ -115,7 +157,7 @@ namespace Planes262.Networking.Packets
             return new VectorTwo(x, y);
         }
 
-        private Troop ReadTroop()
+        private TroopDto ReadTroop()
         {
             PlayerSide side = (PlayerSide)ReadInt();
             int health = ReadInt();
@@ -123,16 +165,16 @@ namespace Planes262.Networking.Packets
             int orientation = ReadInt();
             VectorTwo position = ReadVector2Int();
 
-            return new Troop(side, initialMovePoints, position, orientation, health);
+            return new TroopDto(initialMovePoints, side, position, orientation, health);
         }
 
-        public List<Troop> ReadTroops()
+        public List<TroopDto> ReadTroops()
         {
             int length = ReadInt();
-            List<Troop> troops = new List<Troop>();
+            List<TroopDto> troops = new List<TroopDto>();
             for (int i = 0; i < length; i++)
             {
-                Troop troop = ReadTroop();
+                TroopDto troop = ReadTroop();
                 troops.Add(troop);
             }
             return troops;
@@ -168,10 +210,11 @@ namespace Planes262.Networking.Packets
         #endregion
 
         private bool disposed;
-        
+
         public void Dispose()
         {
             if (disposed) return;
+            
             buffer = null;
             readableBuffer = null;
             readPos = 0;

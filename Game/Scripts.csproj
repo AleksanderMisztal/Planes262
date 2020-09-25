@@ -69,7 +69,6 @@
      <Compile Include="Assets\Scripts\GameLogic\Troops\Troop.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\TroopDecorator.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\TroopFactory.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\TroopListExtension.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Utils\Hex.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Utils\HexOffset.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Utils\OrientedCell.cs" />
@@ -77,9 +76,6 @@
      <Compile Include="Assets\Scripts\Networking\CsWebSocket.cs" />
      <Compile Include="Assets\Scripts\Networking\IPacketSender.cs" />
      <Compile Include="Assets\Scripts\Networking\JSWebSocket.cs" />
-     <Compile Include="Assets\Scripts\Networking\Packets\ClientPackets.cs" />
-     <Compile Include="Assets\Scripts\Networking\Packets\Packet.cs" />
-     <Compile Include="Assets\Scripts\Networking\Packets\ServerPackets.cs" />
      <Compile Include="Assets\Scripts\Networking\Serializer.cs" />
      <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />

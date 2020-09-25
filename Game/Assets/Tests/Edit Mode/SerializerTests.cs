@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using GameDataStructures.Packets;
+using NUnit.Framework;
 using Planes262.Networking;
-using Planes262.Networking.Packets;
 
 namespace Planes262.Tests.Edit_Mode
 {

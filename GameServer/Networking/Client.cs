@@ -4,8 +4,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GameDataStructures.Packets;
 using GameServer.Matchmaking;
-using GameServer.Networking.Packets;
 using GameServer.Utils;
 
 namespace GameServer.Networking

@@ -27,7 +27,9 @@ namespace Planes262.GameLogic.Troops
             Orientation = orientation;
             Health = health;
         }
-        
+
+        public Troop(TroopDto t) : this(t.Player, t.InitialMovePoints, t.Position, t.Orientation, t.Health) { }
+
         public virtual void MoveInDirection(int direction)
         {
             if (MovePoints <= 0)

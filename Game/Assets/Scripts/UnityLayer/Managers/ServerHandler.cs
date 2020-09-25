@@ -49,7 +49,7 @@ namespace Planes262.UnityLayer.Managers
             uiManager.TransitionIntoGame(board);
         }
 
-        public void OnTroopSpawned(List<Troop> troops)
+        public void OnTroopSpawned(List<TroopDto> troops)
         {
             clock.ToggleActivePlayer();
             gameManager.BeginNextRound(troops);

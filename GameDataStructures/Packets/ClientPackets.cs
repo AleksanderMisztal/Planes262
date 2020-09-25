@@ -1,4 +1,4 @@
-﻿namespace Planes262.Networking.Packets
+﻿namespace GameDataStructures.Packets
 {
     public enum ClientPackets
     {

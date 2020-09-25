@@ -1,4 +1,4 @@
-﻿namespace GameServer.Networking.Packets
+﻿namespace GameDataStructures.Packets
 {
     public enum ServerPackets
     {

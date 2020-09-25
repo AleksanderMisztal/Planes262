@@ -57,7 +57,7 @@ namespace Planes262.UnityLayer.Managers
             
             gameController.TroopMoved += args => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
             gameController.TroopsSpawned += args => clock.ToggleActivePlayer();
-            gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops.ToUTroop());
+            gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops);
             gameController.GameEnded += args => uiManager.EndGame(args.Score.ToString(), 1.5f);
 
             gameManager.MoveAttemptedHandler = args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
