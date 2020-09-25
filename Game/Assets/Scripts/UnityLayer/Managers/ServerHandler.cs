@@ -10,12 +10,14 @@ namespace Planes262.UnityLayer.Managers
         private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly GameManager gameManager;
+        private readonly Clock clock;
 
-        public ServerHandler(Messenger messenger, UIManager uiManager, GameManager gameManager)
+        public ServerHandler(Messenger messenger, UIManager uiManager, GameManager gameManager, Clock clock)
         {
             this.messenger = messenger;
             this.uiManager = uiManager;
             this.gameManager = gameManager;
+            this.clock = clock;
         }
 
         
@@ -49,6 +51,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void OnTroopSpawned(List<Troop> troops)
         {
+            clock.ToggleActivePlayer();
             gameManager.BeginNextRound(troops);
         }
 

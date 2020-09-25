@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GameDataStructures;
 using GameJudge.GameEvents;
+using GameServer.Matchmaking;
 using GameServer.Networking.Packets;
 
 namespace GameServer.Networking
@@ -46,10 +47,11 @@ namespace GameServer.Networking
         }
 
         
-        public async Task TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args)
+        public async Task TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args, TimeInfo timeInfo)
         {
             using Packet packet = new Packet((int)ServerPackets.TroopSpawned);
             packet.Write(args.Troops);
+            packet.Write(timeInfo);
 
             await server.SendPacket(redId, packet);
             await server.SendPacket(blueId, packet);

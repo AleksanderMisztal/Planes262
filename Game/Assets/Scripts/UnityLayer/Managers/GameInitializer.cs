@@ -12,6 +12,7 @@ namespace Planes262.UnityLayer.Managers
         private UIManager uiManager;
         private Messenger messenger;
         private GameManager gameManager;
+        private Clock clock;
         private Client client;
 
         private void Awake()
@@ -19,13 +20,14 @@ namespace Planes262.UnityLayer.Managers
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
+            clock = FindObjectOfType<Clock>();
 
             InitializeServerConnection();
         }
 
         private void InitializeServerConnection()
         {
-            ServerHandler serverHandler = new ServerHandler(messenger, uiManager, gameManager);
+            ServerHandler serverHandler = new ServerHandler(messenger, uiManager, gameManager, clock);
             ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
             
             #if UNITY_EDITOR || !UNITY_WEBGL
@@ -34,8 +36,8 @@ namespace Planes262.UnityLayer.Managers
             #else
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
             ws.gameObject.name = "JsWebSocket";
-            ws.InitializeConnection();
             ws.SetTranslator(serverTranslator);
+            ws.InitializeConnection();
             #endif
             client = new Client(ws);
 
@@ -46,6 +48,7 @@ namespace Planes262.UnityLayer.Managers
         public void InitializeOnlineGame()
         {
             gameManager.MoveAttemptedHandler = args => client.MoveTroop(args.Position, args.Direction);
+            clock.LostOnTime = side => { };
         }
 
         public void InitializeLocalGame()
@@ -53,15 +56,18 @@ namespace Planes262.UnityLayer.Managers
             GameController gameController = new GameController(Waves.Test(), Board.Test);
             
             gameController.TroopMoved += args => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
+            gameController.TroopsSpawned += args => clock.ToggleActivePlayer();
             gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops.ToUTroop());
             gameController.GameEnded += args => uiManager.EndGame(args.Score.ToString(), 1.5f);
 
             gameManager.MoveAttemptedHandler = args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
+            clock.LostOnTime = side => uiManager.EndGame($"{side} lost on time", 1.5f);
             
             gameManager.SetLocal(true);
             gameManager.StartNewGame(Board.Test, PlayerSide.Blue);
             gameController.BeginGame();
             uiManager.TransitionIntoGame(Board.Test);
+            clock.IsPlaying = true;
         }
     }
 }

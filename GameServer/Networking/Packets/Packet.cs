@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameDataStructures;
+using GameServer.Matchmaking;
 
 namespace GameServer.Networking.Packets
 {
@@ -49,6 +50,11 @@ namespace GameServer.Networking.Packets
         }
 
         public void Write(int value)
+        {
+            buffer.AddRange(BitConverter.GetBytes(value));
+        }
+
+        public void Write(long value)
         {
             buffer.AddRange(BitConverter.GetBytes(value));
         }
@@ -101,6 +107,13 @@ namespace GameServer.Networking.Packets
         {
             Write(value.XMax);
             Write(value.YMax);
+        }
+
+        public void Write(TimeInfo timeInfo)
+        {
+            Write(timeInfo.RedTimeMs);
+            Write(timeInfo.BlueTimeMs);
+            Write(timeInfo.ChangeTimeMs);
         }
         #endregion
 

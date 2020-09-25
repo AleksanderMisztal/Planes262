@@ -42,29 +42,23 @@ namespace GameServer.Matchmaking
         {
             Waves waves = Waves.Test();
             Board board = Board.Test;
-            GameController gc = CreateGameController(playingRed, playingBlue, waves, board);
-            await InitializeGame(playingRed, playingBlue, gc, board);
-            gc.BeginGame();
-        }
-
-        private async Task InitializeGame(User playingRed, User playingBlue, GameController gc, Board board)
-        {
+            GameController gc = new GameController(waves, board);
             Game game = new Game(playingRed, playingBlue, gc);
 
             clientToGame[playingRed.Id] = game;
             clientToGame[playingBlue.Id] = game;
+            
+            gc.TroopsSpawned += async args => {
+                TimeInfo timeInfo = game.ToggleActivePlayer();
+                await sender.TroopsSpawned(playingRed.Id, playingBlue.Id, args, timeInfo);
+            };
+            gc.TroopMoved += async args => await sender.TroopMoved(playingRed.Id, playingBlue.Id, args);
+            gc.GameEnded += async args => await sender.GameEnded(playingRed.Id, playingBlue.Id, args);
 
             await sender.GameJoined(playingRed.Id, playingBlue.Name, PlayerSide.Red, board);
             await sender.GameJoined(playingBlue.Id, playingRed.Name, PlayerSide.Blue, board);
-        }
-
-        private GameController CreateGameController(User playingRed, User playingBlue, Waves waves, Board board)
-        {
-            GameController gc = new GameController(waves, board);
-            gc.TroopsSpawned += async args => await sender.TroopsSpawned(playingRed.Id, playingBlue.Id, args);
-            gc.TroopMoved += async args => await sender.TroopMoved(playingRed.Id, playingBlue.Id, args);
-            gc.GameEnded += async args => await sender.GameEnded(playingRed.Id, playingBlue.Id, args);
-            return gc;
+            
+            gc.BeginGame();
         }
 
         public void MoveTroop(int client, VectorTwo position, int direction)
