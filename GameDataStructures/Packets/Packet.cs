@@ -125,6 +125,14 @@ namespace GameDataStructures.Packets
             return value;
         }
 
+        public long ReadLong()
+        {
+            if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'long'!");
+            long value = BitConverter.ToInt64(readableBuffer, readPos);
+            readPos += 8;
+            return value;
+        }
+
         public bool ReadBool()
         {
             if (buffer.Count <= readPos) throw new Exception("Could not read value of type 'bool'!");
@@ -198,6 +206,15 @@ namespace GameDataStructures.Packets
                 battleResults.Add(battleResult);
             }
             return battleResults;
+        }
+
+        public TimeInfo ReadTimeInfo()
+        {
+            int redTimeMs = ReadInt();
+            int blueTimeMs = ReadInt();
+            long changeTimeMs = ReadLong();
+
+            return new TimeInfo(redTimeMs, blueTimeMs, changeTimeMs);
         }
 
         public Board ReadBoard()

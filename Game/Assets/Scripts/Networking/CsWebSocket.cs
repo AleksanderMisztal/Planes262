@@ -28,9 +28,16 @@ namespace Planes262.Networking
             Uri serverUri = new Uri(Host);
             socket = new ClientWebSocket();
             Debug.Log("Attempting to connect to " + serverUri);
-            await socket.ConnectAsync(serverUri, CancellationToken.None);
-            BeginSendAsync();
-            await BeginListenAsync();
+            try
+            {
+                await socket.ConnectAsync(serverUri, CancellationToken.None);
+                BeginSendAsync();
+                await BeginListenAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.Log("Couldn't connect to server: " + ex.Message);
+            }
         }
 
         private async Task BeginListenAsync()

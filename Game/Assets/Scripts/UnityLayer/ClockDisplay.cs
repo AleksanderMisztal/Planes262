@@ -1,12 +1,11 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using GameDataStructures;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Planes262.UnityLayer
 {
-    public class Clock : MonoBehaviour
+    public class ClockDisplay : MonoBehaviour
     {
         [SerializeField] private Text redTimeText;
         [SerializeField] private Text blueTimeText;
@@ -14,15 +13,25 @@ namespace Planes262.UnityLayer
         [SerializeField] private float initialTime;
         [SerializeField] private float increment;
 
-        public Action<PlayerSide> LostOnTime;
-
         private float redTime;
         private float blueTime;
 
         private PlayerSide activePlayer = PlayerSide.Red;
-        public bool IsPlaying { get; set; }
+        
+        private float ActiveTime {
+            get => activePlayer == PlayerSide.Blue ? blueTime : redTime; 
+            set {
+                if (activePlayer == PlayerSide.Blue) blueTime = value;
+                else redTime = value;
+            }
+        }
 
         private void Start()
+        {
+            ResetTime();
+        }
+
+        public void ResetTime()
         {
             redTime = initialTime - increment;
             blueTime = initialTime;
@@ -38,33 +47,24 @@ namespace Planes262.UnityLayer
 
         private void Update()
         {
-            if (!IsPlaying) return;
-            if (activePlayer == PlayerSide.Red)
-            {
-                redTime -= Time.deltaTime;
-                if (redTime <= 0)
-                {
-                    redTime = 0;
-                    LostOnTime(PlayerSide.Red);
-                }
-            }
-            else
-            {
-                blueTime -= Time.deltaTime;
-                if (blueTime <= 0)
-                {
-                    blueTime = 0;
-                    LostOnTime(PlayerSide.Blue);
-                }
-            }
+            ActiveTime -= Time.unscaledDeltaTime;
+            if (ActiveTime < 0) ActiveTime = 0;
             UpdateDisplay();
         }
 
-        public void ToggleActivePlayer()
+        public void ToggleActivePlayer(TimeInfo timeInfo)
         {
-            if (activePlayer == PlayerSide.Red) redTime += increment;
-            if (activePlayer == PlayerSide.Blue) blueTime += increment;
-
+            float totalTime = blueTime + redTime + increment;
+            if (activePlayer == PlayerSide.Red)
+            {
+                redTime = timeInfo.RedTimeMs / 1000f;
+                blueTime = totalTime - redTime;
+            }
+            else
+            {
+                blueTime = timeInfo.BlueTimeMs / 1000f;
+                redTime = totalTime - blueTime;
+            }
             activePlayer = activePlayer.Opponent();
             UpdateDisplay();
         }

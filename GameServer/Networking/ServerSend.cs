@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Packets;
 using GameJudge.GameEvents;
@@ -43,6 +44,16 @@ namespace GameServer.Networking
         {
             using Packet packet = new Packet((int)ServerPackets.OpponentDisconnected);
             await server.SendPacket(toClient, packet);
+        }
+
+        public async Task LostOnTime(int redId, int blueId, PlayerSide loser)
+        {
+            Console.WriteLine($"Sending {loser} lost on time");
+            using Packet packet = new Packet((int)ServerPackets.LostOnTime);
+            packet.Write((int)loser);
+            
+            await server.SendPacket(redId, packet);
+            await server.SendPacket(blueId, packet);
         }
 
         

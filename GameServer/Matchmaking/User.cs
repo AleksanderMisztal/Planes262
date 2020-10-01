@@ -1,6 +1,6 @@
 ﻿namespace GameServer.Matchmaking
 {
-    public class User
+    public readonly struct User
     {
         public readonly int Id;
         public readonly string Name;

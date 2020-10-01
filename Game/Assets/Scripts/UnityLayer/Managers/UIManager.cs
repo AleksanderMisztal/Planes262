@@ -9,6 +9,7 @@ namespace Planes262.UnityLayer.Managers
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private InputField username;
+        [SerializeField] private GameObject playButton;
         [SerializeField] private GameObject mainMenu;
         
         [SerializeField] private GameObject particles;
@@ -41,7 +42,8 @@ namespace Planes262.UnityLayer.Managers
         public void ActivateMainMenu()
         {
             Debug.Log("Activating main");
-            mainMenu.SetActive(true);
+            username.gameObject.SetActive(true);
+            playButton.SetActive(true);
         }
 
         public void JoinGame()

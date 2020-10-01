@@ -10,14 +10,14 @@ namespace Planes262.UnityLayer.Managers
         private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly GameManager gameManager;
-        private readonly Clock clock;
+        private readonly ClockDisplay clockDisplay;
 
-        public ServerHandler(Messenger messenger, UIManager uiManager, GameManager gameManager, Clock clock)
+        public ServerHandler(Messenger messenger, UIManager uiManager, GameManager gameManager, ClockDisplay clockDisplay)
         {
             this.messenger = messenger;
             this.uiManager = uiManager;
             this.gameManager = gameManager;
-            this.clock = clock;
+            this.clockDisplay = clockDisplay;
         }
 
         
@@ -29,14 +29,19 @@ namespace Planes262.UnityLayer.Managers
 
         public void OnGameEnded(int redScore, int blueScore)
         {
-            string message = $"Final score: red: {redScore}, blue: {blueScore}";
-            uiManager.EndGame(message, 1.5f);
+            uiManager.EndGame($"Final score: red: {redScore}, blue: {blueScore}", 1.5f);
             gameManager.OnGameEnded();
         }
 
         public void OnOpponentDisconnected()
         {
             uiManager.EndGame("Opponent has disconnected :(", 0);
+            gameManager.OnGameEnded();
+        }
+
+        public void OnLostOnTime(PlayerSide loser)
+        {
+            uiManager.EndGame($"Player {loser} lost on time :(", 0);
             gameManager.OnGameEnded();
         }
 
@@ -49,9 +54,9 @@ namespace Planes262.UnityLayer.Managers
             uiManager.TransitionIntoGame(board);
         }
 
-        public void OnTroopSpawned(List<TroopDto> troops)
+        public void OnTroopSpawned(IEnumerable<TroopDto> troops, TimeInfo timeInfo)
         {
-            clock.ToggleActivePlayer();
+            clockDisplay.ToggleActivePlayer(timeInfo);
             gameManager.BeginNextRound(troops);
         }
 

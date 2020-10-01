@@ -79,7 +79,7 @@
      <Compile Include="Assets\Scripts\Networking\Serializer.cs" />
      <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Clock.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameManager.cs" />

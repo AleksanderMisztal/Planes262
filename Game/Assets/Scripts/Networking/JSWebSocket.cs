@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿// ReSharper disable once RedundantUsingDirective
+using System.Runtime.InteropServices;
 using GameDataStructures.Packets;
 using UnityEngine;
 

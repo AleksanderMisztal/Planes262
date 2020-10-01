@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameDataStructures;
-using GameJudge;
 using GameJudge.Utils;
-using GameJudge.WavesN;
 using GameServer.Networking;
 
 namespace GameServer.Matchmaking
@@ -28,8 +25,7 @@ namespace GameServer.Matchmaking
             if (someoneWaiting)
             {
                 someoneWaiting = false;
-                Randomizer.RandomlyAssign(newUser, waitingUser, out User redUser, out User blueUser);
-                await InitializeNewGame(redUser, blueUser);
+                await InitializeNewGame(newUser, waitingUser);
             }
             else
             {
@@ -38,36 +34,19 @@ namespace GameServer.Matchmaking
             }
         }
 
-        private async Task InitializeNewGame(User playingRed, User playingBlue)
+        private async Task InitializeNewGame(User u1, User u2)
         {
-            Waves waves = Waves.Test();
-            Board board = Board.Test;
-            GameController gc = new GameController(waves, board);
-            Game game = new Game(playingRed, playingBlue, gc);
+            Randomizer.RandomlyAssign(u1, u2, out User redUser, out User blueUser);
+            Game game = new Game(redUser, blueUser, sender);
 
-            clientToGame[playingRed.Id] = game;
-            clientToGame[playingBlue.Id] = game;
-            
-            gc.TroopsSpawned += async args => {
-                TimeInfo timeInfo = game.ToggleActivePlayer();
-                await sender.TroopsSpawned(playingRed.Id, playingBlue.Id, args, timeInfo);
-            };
-            gc.TroopMoved += async args => await sender.TroopMoved(playingRed.Id, playingBlue.Id, args);
-            gc.GameEnded += async args => await sender.GameEnded(playingRed.Id, playingBlue.Id, args);
+            clientToGame[redUser.Id] = game;
+            clientToGame[blueUser.Id] = game;
 
-            await sender.GameJoined(playingRed.Id, playingBlue.Name, PlayerSide.Red, board);
-            await sender.GameJoined(playingBlue.Id, playingRed.Name, PlayerSide.Blue, board);
-            
-            gc.BeginGame();
+            await game.Initialize();
         }
 
         public void MoveTroop(int client, VectorTwo position, int direction)
         {
-            if (direction < -1 || direction > 1)
-            {
-                Console.WriteLine($"Client {client} sent a move with illegal direction!");
-                return;
-            }
             Game game = clientToGame[client];
             game.MakeMove(client, position, direction);
         }
@@ -94,8 +73,7 @@ namespace GameServer.Matchmaking
         private int GetOpponent(int client)
         {
             Game game = clientToGame[client];
-            int opponentId = game.BlueUser.Id ^ game.RedUser.Id ^ client;
-            return opponentId;
+            return game.BlueUser.Id ^ game.RedUser.Id ^ client;
         }
     }
 }

@@ -25,18 +25,17 @@ namespace Planes262.Networking
                 {(int) ServerPackets.GameEnded, GameEnded },
                 {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
                 {(int) ServerPackets.MessageSent, MessageSent },
+                {(int) ServerPackets.LostOnTime, LostOnTime },
             };
         }
 
         
         public void HandlePacket(string byteArray)
         {
-            Debug.Log(byteArray);
             byte[] bytes = Serializer.Deserialize(byteArray);
             using (Packet packet = new Packet(bytes))
             {
                 int packetType = packet.ReadInt();
-                Debug.Log($"Received a packet of type {packetType}");
                 packetHandlers[packetType](packet);
             }
         }
@@ -59,8 +58,9 @@ namespace Planes262.Networking
         private void TroopSpawned(Packet packet)
         {
             List<TroopDto> troopDtos = packet.ReadTroops();
+            TimeInfo timeInfo = packet.ReadTimeInfo();
 
-            serverHandler.OnTroopSpawned(troopDtos);
+            serverHandler.OnTroopSpawned(troopDtos, timeInfo);
         }
 
         private void TroopMoved(Packet packet)
@@ -90,6 +90,13 @@ namespace Planes262.Networking
         private void OpponentDisconnected(Packet packet)
         {
             serverHandler.OnOpponentDisconnected();
+        }
+
+        private void LostOnTime(Packet packet)
+        {
+            PlayerSide loser = (PlayerSide)packet.ReadInt();
+
+            serverHandler.OnLostOnTime(loser);
         }
     }
 }

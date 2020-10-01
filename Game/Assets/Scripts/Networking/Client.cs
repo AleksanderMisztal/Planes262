@@ -6,10 +6,19 @@ namespace Planes262.Networking
     public class Client
     {
         private readonly IPacketSender packetSender;
-        
-        public Client(IPacketSender packetSender)
+
+        public Client(ServerTranslator serverTranslator)
         {
-            this.packetSender = packetSender;
+#if UNITY_EDITOR || !UNITY_WEBGL
+            CsWebSocket ws = new CsWebSocket(serverTranslator);
+            ws.InitializeConnection();
+#else
+            JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
+            ws.gameObject.name = "JsWebSocket";
+            ws.SetTranslator(serverTranslator);
+            ws.InitializeConnection();
+#endif
+            packetSender = ws;
         }
 
         
