@@ -12,6 +12,8 @@ namespace Planes262.UnityLayer.Managers
         private Messenger messenger;
         private GameManager gameManager;
         private ClockDisplay clockDisplay;
+        
+        private GameEventsHandler geHandler;
         private Client client;
 
         private void Awake()
@@ -20,15 +22,15 @@ namespace Planes262.UnityLayer.Managers
             messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
             clockDisplay = FindObjectOfType<ClockDisplay>();
+            
+            geHandler = new GameEventsHandler(messenger, uiManager, gameManager, clockDisplay);
 
             InitializeServerConnection();
         }
 
         private void InitializeServerConnection()
         {
-            ServerHandler serverHandler = new ServerHandler(messenger, uiManager, gameManager, clockDisplay);
-            ServerTranslator serverTranslator = new ServerTranslator(serverHandler);
-            client = new Client(serverTranslator);
+            client = new Client(geHandler);
 
             uiManager.GameJoined += username => client.JoinGame(username);
             messenger.MessageSent += message => client.SendMessage(message);
@@ -36,31 +38,29 @@ namespace Planes262.UnityLayer.Managers
 
         public void InitializeOnlineGame()
         {
-            gameManager.MoveAttemptedHandler = args => client.MoveTroop(args.Position, args.Direction);
-            clockDisplay.ResetTime();
+            gameManager.SetLocal(false);
+            gameManager.MoveAttempted = args => client.MoveTroop(args.Position, args.Direction);
         }
 
         public void InitializeLocalGame()
         {
-            GameController gameController = new GameController(Waves.Test(), Board.Test);
-            Clock clock = new Clock(10, 5, loser =>
-            {
-                uiManager.EndGame($"Player {loser} lost on time :(", 0);
-                gameManager.OnGameEnded();
-            });
-            
-            gameController.TroopMoved += args => gameManager.MoveTroop(args.Position, args.Direction, args.BattleResults);
-            //gameController.TroopsSpawned += args => clock.ToggleActivePlayer();
-            gameController.TroopsSpawned += args => gameManager.BeginNextRound(args.Troops);
-            gameController.GameEnded += args => uiManager.EndGame(args.Score.ToString(), 1.5f);
-
-            gameManager.MoveAttemptedHandler = args => gameController.ProcessMove(args.Side, args.Position, args.Direction);
-            
             gameManager.SetLocal(true);
-            clockDisplay.ResetTime();
-            gameManager.StartNewGame(Board.Test, PlayerSide.Blue);
-            gameController.BeginGame();
-            uiManager.TransitionIntoGame(Board.Test);
+            
+            GameController gc = new GameController(Waves.Test(), Board.Test);
+            Clock clock = new Clock(10, 5, geHandler.OnLostOnTime);
+            
+            gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults);
+            gc.TroopsSpawned += args => {
+                TimeInfo ti = clock.ToggleActivePlayer();
+                geHandler.OnTroopSpawned(args.Troops, ti);
+            };
+            gc.GameEnded += args => geHandler.OnGameEnded(args.Score.Red, args.Score.Blue);
+
+            gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
+            
+            ClockInfo clockInfo = clock.Initialize();
+            geHandler.OnGameJoined("local", PlayerSide.Blue, Board.Test, clockInfo);
+            gc.BeginGame();
         }
     }
 }

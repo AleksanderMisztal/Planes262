@@ -113,6 +113,14 @@ namespace GameDataStructures.Packets
             Write(timeInfo.BlueTimeMs);
             Write(timeInfo.ChangeTimeMs);
         }
+
+        public void Write(ClockInfo clockInfo)
+        {
+            Write(clockInfo.InitialTimeS);
+            Write(clockInfo.IncrementS);
+            Write(clockInfo.StartTimestamp);
+        }
+ 
         #endregion
 
         #region Read Data
@@ -215,6 +223,15 @@ namespace GameDataStructures.Packets
             long changeTimeMs = ReadLong();
 
             return new TimeInfo(redTimeMs, blueTimeMs, changeTimeMs);
+        }
+        
+        public ClockInfo ReadClockInfo()
+        {
+            int initialTimeS = ReadInt();
+            int incrementS = ReadInt();
+            long startTimestamp = ReadLong();
+
+            return new ClockInfo(initialTimeS, incrementS, startTimestamp);
         }
 
         public Board ReadBoard()

@@ -38,10 +38,10 @@ namespace GameServer.Matchmaking
             controller.TroopMoved += async args => await sender.TroopMoved(RedUser.Id, BlueUser.Id, args);
             controller.GameEnded += async args => await sender.GameEnded(RedUser.Id, BlueUser.Id, args);
 
-            await sender.GameJoined(RedUser.Id, BlueUser.Name, PlayerSide.Red, board);
-            await sender.GameJoined(BlueUser.Id, RedUser.Name, PlayerSide.Blue, board);
+            ClockInfo clockInfo = clock.Initialize();
+            await sender.GameJoined(RedUser.Id, BlueUser.Name, PlayerSide.Red, board, clockInfo);
+            await sender.GameJoined(BlueUser.Id, RedUser.Name, PlayerSide.Blue, board, clockInfo);
 
-            clock.Initialize();
             controller.BeginGame();
         }
         

@@ -22,13 +22,14 @@ namespace GameServer.Networking
         }
 
         
-        public async Task GameJoined(int toClient, string opponentName, PlayerSide side, Board board)
+        public async Task GameJoined(int toClient, string opponentName, PlayerSide side, Board board, ClockInfo clockInfo)
         {
             using Packet packet = new Packet((int)ServerPackets.GameJoined);
 
             packet.Write(opponentName);
             packet.Write((int)side);
             packet.Write(board);
+            packet.Write(clockInfo);
 
             await server.SendPacket(toClient, packet);
         }

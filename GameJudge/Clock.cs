@@ -12,6 +12,8 @@ namespace GameJudge
         private int blueTimeMs;
         private PlayerSide activePlayer = PlayerSide.Red;
         private long lastChangeTime = -1;
+        private readonly int initialTimeS;
+        private readonly int incrementS;
         private readonly ITimeProvider timeProvider;
         private readonly Action<PlayerSide> lostOnTime;
         private bool lost = false;
@@ -29,6 +31,8 @@ namespace GameJudge
 
         public Clock(int initialTimeS, int incrementS, ITimeProvider timeProvider, Action<PlayerSide> lostOnTime)
         {
+            this.initialTimeS = initialTimeS;
+            this.incrementS = incrementS;
             this.timeProvider = timeProvider;
             this.lostOnTime = lostOnTime;
             incrementMs = incrementS * 1000;
@@ -36,9 +40,10 @@ namespace GameJudge
             blueTimeMs = initialTimeS * 1000;
         }
 
-        public void Initialize()
+        public ClockInfo Initialize()
         {
             lastChangeTime = timeProvider.CurrentTime;
+            return new ClockInfo(initialTimeS, incrementS, lastChangeTime);
         }
         
         public TimeInfo ToggleActivePlayer()

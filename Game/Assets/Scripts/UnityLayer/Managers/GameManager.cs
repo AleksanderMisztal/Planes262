@@ -16,7 +16,7 @@ namespace Planes262.UnityLayer.Managers
         private MapController mapController;
         private TileManager tileManager;
 
-        public Action<MoveAttemptEventArgs> MoveAttemptedHandler { private get; set; }
+        public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
         private void Start()
         {
@@ -28,7 +28,7 @@ namespace Planes262.UnityLayer.Managers
             
             TroopMap troopMap = new TroopMap();
             unityTroopManager = new UnityTroopManager(troopMap, troopInstantiator, score);
-            mapController = new MapController(tileManager, troopMap, args => MoveAttemptedHandler(args));
+            mapController = new MapController(tileManager, troopMap, args => MoveAttempted(args));
 
             FindObjectOfType<InputParser>().CellClicked += cell => mapController.OnCellClicked(cell);
 

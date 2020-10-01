@@ -11,11 +11,11 @@ namespace Planes262.Networking
     {
         private delegate void PacketHandler(Packet packet);
         private readonly Dictionary<int, PacketHandler> packetHandlers;
-        private readonly ServerHandler serverHandler;
+        private readonly GameEventsHandler geHandler;
 
-        public ServerTranslator(ServerHandler serverHandler)
+        public ServerTranslator(GameEventsHandler geHandler)
         {
-            this.serverHandler = serverHandler;
+            this.geHandler = geHandler;
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int) ServerPackets.Welcome, Welcome },
@@ -43,7 +43,7 @@ namespace Planes262.Networking
 
         private void Welcome(Packet packet)
         {
-            serverHandler.OnWelcome();
+            geHandler.OnWelcome();
         }
 
         private void GameJoined(Packet packet)
@@ -51,8 +51,9 @@ namespace Planes262.Networking
             string opponentName = packet.ReadString();
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.ReadBoard();
+            ClockInfo clockInfo = packet.ReadClockInfo();
 
-            serverHandler.OnGameJoined(opponentName, side, board);
+            geHandler.OnGameJoined(opponentName, side, board, clockInfo);
         }
 
         private void TroopSpawned(Packet packet)
@@ -60,7 +61,7 @@ namespace Planes262.Networking
             List<TroopDto> troopDtos = packet.ReadTroops();
             TimeInfo timeInfo = packet.ReadTimeInfo();
 
-            serverHandler.OnTroopSpawned(troopDtos, timeInfo);
+            geHandler.OnTroopSpawned(troopDtos, timeInfo);
         }
 
         private void TroopMoved(Packet packet)
@@ -69,7 +70,7 @@ namespace Planes262.Networking
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
 
-            serverHandler.OnTroopMoved(position, direction, battleResults);
+            geHandler.OnTroopMoved(position, direction, battleResults);
         }
 
         private void GameEnded(Packet packet)
@@ -77,26 +78,26 @@ namespace Planes262.Networking
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            serverHandler.OnGameEnded(redScore, blueScore);
+            geHandler.OnGameEnded(redScore, blueScore);
         }
 
         private void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            serverHandler.OnMessageSent(message);
+            geHandler.OnMessageSent(message);
         }
 
         private void OpponentDisconnected(Packet packet)
         {
-            serverHandler.OnOpponentDisconnected();
+            geHandler.OnOpponentDisconnected();
         }
 
         private void LostOnTime(Packet packet)
         {
             PlayerSide loser = (PlayerSide)packet.ReadInt();
 
-            serverHandler.OnLostOnTime(loser);
+            geHandler.OnLostOnTime(loser);
         }
     }
 }

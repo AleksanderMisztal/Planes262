@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using GameDataStructures;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,8 @@ namespace Planes262.UnityLayer
         [SerializeField] private Text redTimeText;
         [SerializeField] private Text blueTimeText;
 
-        [SerializeField] private float initialTime;
-        [SerializeField] private float increment;
+        private float initialTime;
+        private float increment;
 
         private float redTime;
         private float blueTime;
@@ -26,23 +27,17 @@ namespace Planes262.UnityLayer
             }
         }
 
-        private void Start()
+        public void ResetTime(ClockInfo clockInfo)
         {
-            ResetTime();
-        }
+            initialTime = clockInfo.InitialTimeS;
+            increment = clockInfo.IncrementS;
 
-        public void ResetTime()
-        {
+            int dt = (int)(CurrentTime - clockInfo.StartTimestamp);
+            
             redTime = initialTime - increment;
-            blueTime = initialTime;
+            blueTime = initialTime - dt / 1000f;
             
             UpdateDisplay();
-        }
-
-        private void UpdateDisplay()
-        {
-            redTimeText.text = ((int)redTime).ToString(CultureInfo.CurrentCulture);
-            blueTimeText.text = ((int)blueTime).ToString(CultureInfo.CurrentCulture);
         }
 
         private void Update()
@@ -68,5 +63,13 @@ namespace Planes262.UnityLayer
             activePlayer = activePlayer.Opponent();
             UpdateDisplay();
         }
+        
+        private void UpdateDisplay()
+        {
+            redTimeText.text = ((int)redTime).ToString(CultureInfo.CurrentCulture);
+            blueTimeText.text = ((int)blueTime).ToString(CultureInfo.CurrentCulture);
+        }
+        
+        private long CurrentTime => DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 }

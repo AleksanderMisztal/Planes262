@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJudge", "Judge\GameJudge.csproj", "{8D705890-3AAB-4D69-9E53-DB1D541B3CED}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Game\Scripts.csproj", "{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditMode", "Game\EditMode.csproj", "{0B6E3BBD-0095-AB9C-02D5-AB65608FCE69}"
@@ -18,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudgeTests", "JudgeTests\Ju
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameDataStructures", "GameDataStructures\GameDataStructures.csproj", "{2A701436-8CDE-4596-8477-76D8F0C2393B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJudge", "GameJudge\GameJudge.csproj", "{097C9974-AE2E-48A2-93C4-42DA5BAC5674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,10 +25,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 
-		{8D705890-3AAB-4D69-9E53-DB1D541B3CED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D705890-3AAB-4D69-9E53-DB1D541B3CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D705890-3AAB-4D69-9E53-DB1D541B3CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D705890-3AAB-4D69-9E53-DB1D541B3CED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{2A701436-8CDE-4596-8477-76D8F0C2393B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A701436-8CDE-4596-8477-76D8F0C2393B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A701436-8CDE-4596-8477-76D8F0C2393B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097C9974-AE2E-48A2-93C4-42DA5BAC5674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097C9974-AE2E-48A2-93C4-42DA5BAC5674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097C9974-AE2E-48A2-93C4-42DA5BAC5674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097C9974-AE2E-48A2-93C4-42DA5BAC5674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

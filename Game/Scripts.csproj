@@ -81,10 +81,10 @@
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\MapController.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\ServerHandler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
@@ -295,12 +295,6 @@
  </Reference>
  <Reference Include="UnityEditor.WebGL.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="GameDataStructures">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameDataStructures.dll</HintPath>
- </Reference>
- <Reference Include="GameJudge">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameJudge.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

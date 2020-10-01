@@ -1,5 +1,6 @@
 ﻿using GameDataStructures;
 using GameDataStructures.Packets;
+using Planes262.UnityLayer.Managers;
 
 namespace Planes262.Networking
 {
@@ -7,10 +8,11 @@ namespace Planes262.Networking
     {
         private readonly IPacketSender packetSender;
 
-        public Client(ServerTranslator serverTranslator)
+        public Client(GameEventsHandler geHandler)
         {
+            ServerTranslator translator = new ServerTranslator(geHandler);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            CsWebSocket ws = new CsWebSocket(serverTranslator);
+            CsWebSocket ws = new CsWebSocket(translator);
             ws.InitializeConnection();
 #else
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
