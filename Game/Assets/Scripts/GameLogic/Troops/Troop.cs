@@ -1,6 +1,6 @@
 ﻿using System;
 using GameDataStructures;
-using Planes262.GameLogic.Utils;
+using GameDataStructures.Positioning;
 
 namespace Planes262.GameLogic.Troops
 {

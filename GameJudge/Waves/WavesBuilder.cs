@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using GameJudge.Waves;
 

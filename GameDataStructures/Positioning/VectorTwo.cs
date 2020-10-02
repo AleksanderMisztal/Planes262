@@ -1,4 +1,4 @@
-﻿namespace GameDataStructures
+﻿namespace GameDataStructures.Positioning
 {
     public readonly struct VectorTwo
     {

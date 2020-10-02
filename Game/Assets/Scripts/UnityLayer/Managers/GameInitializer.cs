@@ -1,6 +1,6 @@
 ﻿using GameDataStructures;
 using GameJudge;
-using GameJudge.WavesN;
+using GameJudge.Waves;
 using Planes262.Networking;
 using UnityEngine;
 
@@ -46,7 +46,7 @@ namespace Planes262.UnityLayer.Managers
         {
             gameManager.SetLocal(true);
             
-            GameController gc = new GameController(Waves.Test(), Board.Test);
+            GameController gc = new GameController(WaveProvider.Test(), Board.Test);
             Clock clock = new Clock(10, 5, geHandler.OnLostOnTime);
             
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults);

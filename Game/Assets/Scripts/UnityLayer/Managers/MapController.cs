@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 
 namespace Planes262.UnityLayer.Managers
 {

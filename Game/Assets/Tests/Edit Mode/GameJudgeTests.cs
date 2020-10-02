@@ -1,6 +1,7 @@
 ﻿using GameDataStructures;
+using GameDataStructures.Positioning;
 using GameJudge;
-using GameJudge.WavesN;
+using GameJudge.Waves;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void GameJudgeTestsSimplePasses()
         {
-            GameController gc = new GameController(Waves.Basic(), Board.Standard);
+            GameController gc = new GameController(WaveProvider.Basic(), Board.Standard);
 
             gc.TroopMoved += Debug.Log;
             gc.TroopsSpawned += Debug.Log;

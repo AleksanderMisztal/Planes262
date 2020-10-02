@@ -58,20 +58,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameLogic\Area\IArea.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Area\VerticalLineArea.cs" />
      <Compile Include="Assets\Scripts\GameLogic\PathFinder.cs" />
      <Compile Include="Assets\Scripts\GameLogic\TroopManager.cs" />
      <Compile Include="Assets\Scripts\GameLogic\TroopMap.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\AreaScoringTroopDecorator.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\DamageScoringTroopDecorator.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\ITroop.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\Troop.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\TroopDecorator.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Troops\TroopFactory.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Utils\Hex.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Utils\HexOffset.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Utils\OrientedCell.cs" />
      <Compile Include="Assets\Scripts\Networking\Client.cs" />
      <Compile Include="Assets\Scripts\Networking\CsWebSocket.cs" />
      <Compile Include="Assets\Scripts\Networking\IPacketSender.cs" />

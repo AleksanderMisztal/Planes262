@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using GameJudge.Utils;
+using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge
 {

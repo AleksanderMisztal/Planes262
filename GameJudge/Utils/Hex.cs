@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 
 namespace GameJudge.Utils
 {

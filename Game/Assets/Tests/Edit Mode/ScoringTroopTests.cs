@@ -1,6 +1,5 @@
 ﻿using GameDataStructures;
 using NUnit.Framework;
-using Planes262.GameLogic.Area;
 using Planes262.GameLogic.Troops;
 
 namespace Planes262.Tests.Edit_Mode
@@ -19,24 +18,6 @@ namespace Planes262.Tests.Edit_Mode
             
             Assert.AreEqual(score.Red, 2);
             Assert.AreEqual(score.Blue, 0);
-        }
-        
-        [Test]
-        public void TestAreaScoringTroop()
-        {
-            Score score = new Score();
-            IArea area = new VerticalLineArea(5, false);
-            Troop troop = TroopFactory.Blue(4, 4);
-            TroopDecorator st = new AreaScoringTroopDecorator(score, area, 2, troop);
-            
-            st.MoveInDirection(0);
-            Assert.AreEqual(score.Blue, 0);
-            
-            st.MoveInDirection(0);
-            Assert.AreEqual(score.Blue, 2);
-            
-            st.MoveInDirection(0);
-            Assert.AreEqual(score.Blue, 2);
         }
     }
 }

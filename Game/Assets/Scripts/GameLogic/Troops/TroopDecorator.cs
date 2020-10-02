@@ -1,4 +1,5 @@
 ﻿using GameDataStructures;
+using GameDataStructures.Positioning;
 
 namespace Planes262.GameLogic.Troops
 {
@@ -24,10 +25,7 @@ namespace Planes262.GameLogic.Troops
             troop.MoveInDirection(direction);
         }
 
-        public virtual void FlyOverOtherTroop()
-        {
-            troop.FlyOverOtherTroop();
-        }
+        public virtual void FlyOverOtherTroop() => troop.FlyOverOtherTroop();
 
         public virtual void ApplyDamage()
         {

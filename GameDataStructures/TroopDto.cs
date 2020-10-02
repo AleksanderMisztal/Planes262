@@ -1,4 +1,6 @@
-﻿namespace GameDataStructures
+﻿using GameDataStructures.Positioning;
+
+namespace GameDataStructures
 {
     public class TroopDto
     {

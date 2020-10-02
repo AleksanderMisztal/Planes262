@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using Planes262.GameLogic.Troops;
-using Planes262.GameLogic.Utils;
 
 namespace Planes262.GameLogic
 {

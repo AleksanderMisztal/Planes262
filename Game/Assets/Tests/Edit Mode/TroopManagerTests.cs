@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using NUnit.Framework;
 using Planes262.GameLogic;
 using Planes262.GameLogic.Troops;

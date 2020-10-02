@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Packets;
-using Planes262.GameLogic.Troops;
+using GameDataStructures.Positioning;
 using Planes262.UnityLayer.Managers;
-using UnityEngine;
 
 namespace Planes262.Networking
 {

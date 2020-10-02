@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Packets;
+using GameDataStructures.Positioning;
 using GameServer.Matchmaking;
 
 namespace GameServer.Networking
