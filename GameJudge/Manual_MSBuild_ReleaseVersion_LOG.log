@@ -1,0 +1,134 @@
+Build started 01.10.2020 21:36:13.
+__________________________________________________
+Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" (default targets):
+
+Target DispatchToInnerBuilds:
+    __________________________________________________
+    Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" (Build target(s)):
+
+    Target PrepareForBuild:
+        Tworzenie katalogu „bin\Release\net471\”.
+    Target _GetProjectReferenceTargetFrameworkProperties:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetTargetFrameworks target(s)):
+
+    Target ResolveProjectReferences:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (default targets):
+
+        Target GenerateTargetFrameworkMonikerAttribute:
+          Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CoreGenerateAssemblyInfo:
+          Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CoreCompile:
+          Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CopyFilesToOutputDirectory:
+            GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetNativeManifest target(s)):
+
+    Target GenerateTargetFrameworkMonikerAttribute:
+      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreGenerateAssemblyInfo:
+      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreCompile:
+      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target _CopyFilesMarkedCopyLocal:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net471\GameDataStructures.pdb”.
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net471\GameDataStructures.dll”.
+        Modyfikowanie „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net471\GameJudge.csproj.CopyComplete”.
+    Target GetCopyToOutputDirectoryItems:
+        Target _GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences:
+            __________________________________________________
+            Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetCopyToOutputDirectoryItems target(s)):
+
+    Target CopyFilesToOutputDirectory:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net471\GameJudge.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net471\GameJudge.dll”.
+        GameJudge -> C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net471\GameJudge.dll
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net471\GameJudge.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net471\GameJudge.pdb”.
+    __________________________________________________
+    Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" (Build target(s)):
+
+    Target PrepareForBuild:
+        Tworzenie katalogu „bin\Release\net472\”.
+    Target _GetProjectReferenceTargetFrameworkProperties:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetTargetFrameworks target(s)):
+
+    Target ResolveProjectReferences:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (default targets):
+
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetNativeManifest target(s)):
+
+    Target GenerateTargetFrameworkMonikerAttribute:
+      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreGenerateAssemblyInfo:
+      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreCompile:
+      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target _CopyFilesMarkedCopyLocal:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameDataStructures.dll”.
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameDataStructures.pdb”.
+        Modyfikowanie „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net472\GameJudge.csproj.CopyComplete”.
+    Target GetCopyToOutputDirectoryItems:
+        Target _GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences:
+            __________________________________________________
+            Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetCopyToOutputDirectoryItems target(s)):
+
+    Target CopyFilesToOutputDirectory:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net472\GameJudge.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameJudge.dll”.
+        GameJudge -> C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameJudge.dll
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net472\GameJudge.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameJudge.pdb”.
+    __________________________________________________
+    Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" (Build target(s)):
+
+    Target PrepareForBuild:
+        Tworzenie katalogu „bin\Release\netcoreapp3.1\”.
+    Target _GetProjectReferenceTargetFrameworkProperties:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetTargetFrameworks target(s)):
+
+    Target ResolveProjectReferences:
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (default targets):
+
+        Target GenerateTargetFrameworkMonikerAttribute:
+          Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CoreGenerateAssemblyInfo:
+          Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CoreCompile:
+          Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target GenerateBuildDependencyFile:
+          Pomijanie elementu docelowego „GenerateBuildDependencyFile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+        Target CopyFilesToOutputDirectory:
+            GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll
+        __________________________________________________
+        Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetNativeManifest target(s)):
+
+    Target GenerateTargetFrameworkMonikerAttribute:
+      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreGenerateAssemblyInfo:
+      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreCompile:
+      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target _CopyFilesMarkedCopyLocal:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\netcoreapp3.1\GameDataStructures.pdb”.
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\netcoreapp3.1\GameDataStructures.dll”.
+        Modyfikowanie „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\netcoreapp3.1\GameJudge.csproj.CopyComplete”.
+    Target GetCopyToOutputDirectoryItems:
+        Target _GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences:
+            __________________________________________________
+            Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (GetCopyToOutputDirectoryItems target(s)):
+
+    Target CopyFilesToOutputDirectory:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\netcoreapp3.1\GameJudge.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\netcoreapp3.1\GameJudge.dll”.
+        GameJudge -> C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\netcoreapp3.1\GameJudge.dll
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\netcoreapp3.1\GameJudge.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\netcoreapp3.1\GameJudge.pdb”.
+
+Kompilacja powiod³a siê.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.18

@@ -1,6 +1,7 @@
 using GameDataStructures;
 using GameJudge;
 using GameJudge.Battles;
+using GameJudge.Waves;
 using GameJudge.WavesN;
 using NUnit.Framework;
 
@@ -12,12 +13,12 @@ namespace JudgeTests
 
         private GameController gc;
 
-        private void CreateGameController(Waves waves, int xMax, int yMax)
+        private void CreateGameController(WaveProvider waveProvider, int xMax, int yMax)
         {
             IBattleResolver battles = new AlwaysDamageBattles();
             Board board = new Board(xMax, yMax);
 
-            gc = new GameController(battles, board, waves);
+            gc = new GameController(battles, board, waveProvider);
             gc.BeginGame();
         }
 
@@ -30,13 +31,13 @@ namespace JudgeTests
         [Test]
         public void Should_EndGame_When_OneSideLosesAllTroops()
         {
-            Waves waves = new WavesBuilder()
+            WaveProvider waveProvider = new WavesBuilder()
                 .Add(1, 3, 3, PlayerSide.Blue)
                 .Add(1, 2, 3, PlayerSide.Blue)
                 .Add(1, 5, 3, PlayerSide.Red)
                 .GetWaves();
 
-            CreateGameController(waves, 10, 10);
+            CreateGameController(waveProvider, 10, 10);
 
             Move(PlayerSide.Blue, 3, 3, Forward);
             Move(PlayerSide.Blue, 4, 3, Forward);
@@ -51,14 +52,14 @@ namespace JudgeTests
         [Test]
         public void Should_ContinueGame_When_MoreTroopsWillSpawn()
         {
-            Waves waves = new WavesBuilder()
+            WaveProvider waveProvider = new WavesBuilder()
                 .Add(1, 3, 3, PlayerSide.Blue)
                 .Add(1, 2, 3, PlayerSide.Blue)
                 .Add(1, 5, 3, PlayerSide.Red)
                 .Add(4, 1, 1, PlayerSide.Red)
                 .GetWaves();
 
-            CreateGameController(waves, 10, 10);
+            CreateGameController(waveProvider, 10, 10);
 
             Move(PlayerSide.Blue, 3, 3, Forward);
             Move(PlayerSide.Blue, 4, 3, Forward);
@@ -73,12 +74,12 @@ namespace JudgeTests
         [Test]
         public void Should_ControlTroopWithAI_When_ExitsBoard()
         {
-            Waves waves = new WavesBuilder()
+            WaveProvider waveProvider = new WavesBuilder()
                 .Add(1, 4, 3, PlayerSide.Blue)
                 .Add(1, 5, 3, PlayerSide.Red)
                 .GetWaves();
 
-            CreateGameController(waves, 5, 5);
+            CreateGameController(waveProvider, 5, 5);
 
             Move(PlayerSide.Blue, 4, 3, Forward);
 
@@ -88,7 +89,7 @@ namespace JudgeTests
         [Test]
         public void Should_AllowEnteringFriend_When_Blocked()
         {
-            Waves waves = new WavesBuilder()
+            WaveProvider waveProvider = new WavesBuilder()
                 .Add(1, 0, 3, PlayerSide.Blue)
                 .Add(1, 1, 2, PlayerSide.Blue)
                 .Add(1, 1, 3, PlayerSide.Blue)
@@ -96,7 +97,7 @@ namespace JudgeTests
                 .Add(1, 5, 3, PlayerSide.Red)
                 .GetWaves();
 
-            CreateGameController(waves, 10, 10);
+            CreateGameController(waveProvider, 10, 10);
 
             Move(PlayerSide.Blue, 0, 3, Forward);
 

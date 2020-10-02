@@ -5,7 +5,7 @@ using GameDataStructures;
 using GameJudge.Battles;
 using GameJudge.GameEvents;
 using GameJudge.Troops;
-using GameJudge.WavesN;
+using GameJudge.Waves;
 
 namespace GameJudge
 {
@@ -18,19 +18,19 @@ namespace GameJudge
         private readonly Score score = new Score();
 
         private readonly IBattleResolver battleResolver;
-        private readonly Waves waves;
+        private readonly WaveProvider waveProvider;
         private readonly Board board;
         private readonly TroopMap troopMap;
         private readonly MoveValidator validator;
         private readonly TroopAi troopAi;
         
         
-        public GameController(Waves waves, Board board) : this(new StandardBattles(), board, waves) { }
+        public GameController(WaveProvider waveProvider, Board board) : this(new StandardBattles(), board, waveProvider) { }
 
-        internal GameController(IBattleResolver battleResolver, Board board, Waves waves)
+        internal GameController(IBattleResolver battleResolver, Board board, WaveProvider waveProvider)
         {
             this.battleResolver = battleResolver;
-            this.waves = waves;
+            this.waveProvider = waveProvider;
             this.board = board;
             troopMap = new TroopMap(board);
             validator = new MoveValidator(troopMap, board, activePlayer);
@@ -46,10 +46,10 @@ namespace GameJudge
         public void BeginGame()
         {
             if (roundNumber != 0) throw new Exception("This game controller has already been initialized");
-            ToggleActivePlayer();
+            BeginRound();
         }
 
-        private void ToggleActivePlayer()
+        private void BeginRound()
         {
             roundNumber++;
             AddSpawnsForCurrentRound();
@@ -70,7 +70,7 @@ namespace GameJudge
 
         private void AddSpawnsForCurrentRound()
         {
-            List<Troop> wave = waves.GetTroops(roundNumber);
+            List<Troop> wave = waveProvider.GetTroops(roundNumber);
             wave = troopMap.SpawnWave(wave);
             TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
         }
@@ -92,9 +92,7 @@ namespace GameJudge
             while (!GameHasEnded())
             {
                 if (movePointsLeft == 0)
-                {
-                    ToggleActivePlayer();
-                }
+                    BeginRound();
                 else return;
             }
             GameEnded?.Invoke(new GameEndedEventArgs(score));
@@ -102,8 +100,8 @@ namespace GameJudge
 
         private bool GameHasEnded()
         {
-            bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0 && waves.MaxRedWave <= roundNumber;
-            bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0 && waves.MaxBlueWave <= roundNumber;
+            bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0 && waveProvider.MaxRedWave <= roundNumber;
+            bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0 && waveProvider.MaxBlueWave <= roundNumber;
 
             return redLost || blueLost;
         }

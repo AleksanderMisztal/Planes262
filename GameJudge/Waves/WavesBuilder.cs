@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
 using GameJudge.Troops;
+using GameJudge.Waves;
 
 namespace GameJudge.WavesN
 {
@@ -43,9 +44,9 @@ namespace GameJudge.WavesN
             }
         }
 
-        public Waves GetWaves()
+        public WaveProvider GetWaves()
         {
-            return new Waves(troopsForRound, maxRedWave, maxBlueWave);
+            return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
         }
     }
 }

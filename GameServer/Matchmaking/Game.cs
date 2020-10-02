@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using GameDataStructures;
 using GameJudge;
-using GameJudge.WavesN;
+using GameJudge.Waves;
 using GameServer.Networking;
 
 namespace GameServer.Matchmaking
@@ -22,9 +22,9 @@ namespace GameServer.Matchmaking
             BlueUser = blueUser;
             this.sender = sender;
 
-            Waves waves = Waves.Test();
+            WaveProvider waveProvider = WaveProvider.Test();
             board = Board.Test;
-            controller = new GameController(waves, board);
+            controller = new GameController(waveProvider, board);
             
             clock = new Clock(10, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));
         }

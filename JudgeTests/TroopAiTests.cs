@@ -1,6 +1,7 @@
 ﻿using GameDataStructures;
 using GameJudge;
 using GameJudge.Troops;
+using GameJudge.Waves;
 using GameJudge.WavesN;
 using NUnit.Framework;
 
@@ -28,8 +29,8 @@ namespace JudgeTests
 
         private void DoAddTroops()
         {
-            Waves waves = wb.GetWaves();
-            troopMap.SpawnWave(waves.GetTroops(1));
+            WaveProvider waveProvider = wb.GetWaves();
+            troopMap.SpawnWave(waveProvider.GetTroops(1));
         }
 
         private Troop GetTroop(int x, int y)

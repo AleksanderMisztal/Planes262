@@ -2,16 +2,16 @@
 using GameDataStructures;
 using GameJudge.Troops;
 
-namespace GameJudge.WavesN
+namespace GameJudge.Waves
 {
-    public class Waves
+    public class WaveProvider
     {
         private readonly Dictionary<int, List<Troop>> troopsForRound;
 
         public readonly int MaxRedWave;
         public readonly int MaxBlueWave;
 
-        internal Waves(Dictionary<int, List<Troop>> troopsForRound, int maxRedWave, int maxBlueWave)
+        internal WaveProvider(Dictionary<int, List<Troop>> troopsForRound, int maxRedWave, int maxBlueWave)
         {
             this.troopsForRound = troopsForRound;
             MaxRedWave = maxRedWave;
@@ -31,7 +31,7 @@ namespace GameJudge.WavesN
         }
 
 
-        public static Waves Test()
+        public static WaveProvider Test()
         {
             List<Troop> wave1 = new List<Troop>
             {
@@ -53,10 +53,10 @@ namespace GameJudge.WavesN
             int maxRedWave = 1;
             int maxBlueWave = 3;
 
-            return new Waves(troopsForRound, maxRedWave, maxBlueWave);
+            return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
         }
         
-        public static Waves Basic()
+        public static WaveProvider Basic()
         {
             List<Troop> wave1 = new List<Troop>
             {
@@ -110,7 +110,7 @@ namespace GameJudge.WavesN
             int maxRedWave = 6;
             int maxBlueWave = 5;
 
-            return new Waves(troopsForRound, maxRedWave, maxBlueWave);
+            return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
         }
     }
 }

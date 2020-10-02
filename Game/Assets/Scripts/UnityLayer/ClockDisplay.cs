@@ -31,6 +31,7 @@ namespace Planes262.UnityLayer
         {
             initialTime = clockInfo.InitialTimeS;
             increment = clockInfo.IncrementS;
+            activePlayer = PlayerSide.Red;
 
             int dt = (int)(CurrentTime - clockInfo.StartTimestamp);
             
@@ -66,10 +67,10 @@ namespace Planes262.UnityLayer
         
         private void UpdateDisplay()
         {
-            redTimeText.text = ((int)redTime).ToString(CultureInfo.CurrentCulture);
-            blueTimeText.text = ((int)blueTime).ToString(CultureInfo.CurrentCulture);
+            redTimeText.text = redTime.ToString(CultureInfo.CurrentCulture);
+            blueTimeText.text = blueTime.ToString(CultureInfo.CurrentCulture);
         }
         
-        private long CurrentTime => DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        private static long CurrentTime => DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 }

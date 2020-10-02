@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures;
 using GameJudge.Utils;
 
@@ -29,9 +30,6 @@ namespace GameJudge.Troops
 
         public void MoveInDirection(int direction)
         {
-            if (MovePoints <= 0)
-                throw new IllegalMoveException("I have no move points!");
-
             MovePoints--;
             Orientation = (6 + Orientation + direction) % 6;
             Position = Hex.GetAdjacentHex(Position, Orientation);
@@ -50,12 +48,9 @@ namespace GameJudge.Troops
                 MovePoints--;
         }
 
-        public VectorTwo[] ControlZone => Hex.GetControlZone(Position, Orientation);
+        public IEnumerable<VectorTwo> ControlZone => Hex.GetControlZone(Position, Orientation);
 
-        public bool InControlZone(VectorTwo position)
-        {
-            return ControlZone.Any(cell => cell == position);
-        }
+        public bool InControlZone(VectorTwo position) => ControlZone.Any(cell => cell == position);
 
         public void ResetMovePoints()
         {

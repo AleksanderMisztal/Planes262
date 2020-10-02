@@ -1,0 +1,41 @@
+Build started 01.10.2020 21:36:11.
+__________________________________________________
+Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (default targets):
+
+Target DispatchToInnerBuilds:
+    __________________________________________________
+    Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (Build target(s)):
+
+    Target PrepareForBuild:
+        Tworzenie katalogu „bin\Release\net471\”.
+    Target GenerateTargetFrameworkMonikerAttribute:
+      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreGenerateAssemblyInfo:
+      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreCompile:
+      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CopyFilesToOutputDirectory:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll”.
+        GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb”.
+    __________________________________________________
+    Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (Build target(s)):
+
+    Target PrepareForBuild:
+        Tworzenie katalogu „bin\Release\netcoreapp3.1\”.
+    Target GenerateTargetFrameworkMonikerAttribute:
+      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreGenerateAssemblyInfo:
+      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CoreCompile:
+      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+    Target CopyFilesToOutputDirectory:
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll”.
+        GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.pdb”.
+
+Kompilacja powiod³a siê.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.28
