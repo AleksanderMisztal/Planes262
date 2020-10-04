@@ -1,7 +1,8 @@
-﻿using GameDataStructures;
+﻿using System.Collections.Generic;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 
-namespace Planes262.GameLogic.Troops
+namespace GameJudge.Troops
 {
     public abstract class TroopDecorator : ITroop
     {
@@ -16,9 +17,9 @@ namespace Planes262.GameLogic.Troops
         public int MovePoints => troop.MovePoints;
         public VectorTwo Position => troop.Position;
         public int Orientation => troop.Orientation;
-        public bool Destroyed => troop.Destroyed;
-
         public int Health => troop.Health;
+        public IEnumerable<VectorTwo> ControlZone => troop.ControlZone;
+        public bool Destroyed => troop.Destroyed;
         
         public virtual void MoveInDirection(int direction)
         {

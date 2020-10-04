@@ -1,5 +1,5 @@
 ﻿using GameDataStructures;
-using Planes262.GameLogic.Troops;
+using GameJudge.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 

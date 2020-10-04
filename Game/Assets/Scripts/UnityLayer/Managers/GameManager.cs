@@ -4,10 +4,10 @@ using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using Planes262.GameLogic;
-using Planes262.GameLogic.Troops;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using GameJudge.Troops;
 
 namespace Planes262.UnityLayer.Managers
 {

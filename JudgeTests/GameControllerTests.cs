@@ -3,7 +3,6 @@ using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Battles;
 using GameJudge.Waves;
-using GameJudge.WavesN;
 using NUnit.Framework;
 
 namespace JudgeTests

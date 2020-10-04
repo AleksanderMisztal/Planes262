@@ -3,16 +3,31 @@ using GameDataStructures.Positioning;
 
 namespace GameJudge.Troops
 {
-    internal static class TroopFactory
+    public static class TroopFactory
     {
         public static Troop Red(int x, int y)
         {
             return new Troop(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
         }
+        
+        public static TroopDto RedDto(int x, int y)
+        {
+            return new TroopDto(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
+        }
 
         public static Troop Blue(int x, int y)
         {
             return new Troop(PlayerSide.Blue, 5, new VectorTwo(x, y), 0, 2);
+        }
+
+        public static TroopDto BlueDto(int x, int y)
+        {
+            return new TroopDto(PlayerSide.Blue, 5, new VectorTwo(x, y), 0, 2);
+        }
+        
+        public static Troop Blue(int x, int y, int movePoints)
+        {
+            return new Troop(PlayerSide.Blue, movePoints, new VectorTwo(x, y), 0, 2);
         }
 
         public static Troop Red(VectorTwo position)

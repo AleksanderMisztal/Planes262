@@ -2,9 +2,9 @@
 
 namespace GameDataStructures
 {
-    public class TroopDto
+    public struct TroopDto
     {
-        public TroopDto(int initialMovePoints, PlayerSide player, VectorTwo position, int orientation, int health)
+        public TroopDto(PlayerSide player, int initialMovePoints, VectorTwo position, int orientation, int health)
         {
             InitialMovePoints = initialMovePoints;
             Player = player;
@@ -15,8 +15,13 @@ namespace GameDataStructures
 
         public PlayerSide Player { get; }
         public int InitialMovePoints { get; }
-        public VectorTwo Position { get; }
+        public VectorTwo Position { get; private set; }
         public int Orientation { get; }
         public int Health { get; }
+
+        public void AdjustPosition(VectorTwo newPosition)
+        {
+            Position = newPosition;
+        }
     }
 }

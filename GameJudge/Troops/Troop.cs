@@ -2,11 +2,10 @@
 using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
-using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge.Troops
 {
-    internal class Troop
+    public class Troop : ITroop
     {
         public PlayerSide Player { get; }
 
@@ -17,7 +16,9 @@ namespace GameJudge.Troops
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
+        public bool Destroyed => Health <= 0;
 
+        public Troop(TroopDto t) : this(t.Player, t.InitialMovePoints, t.Position, t.Orientation, t.Health) { }
 
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
@@ -29,7 +30,7 @@ namespace GameJudge.Troops
             Health = health;
         }
 
-        public void MoveInDirection(int direction)
+        public virtual void MoveInDirection(int direction)
         {
             MovePoints--;
             Orientation = (6 + Orientation + direction) % 6;
@@ -57,5 +58,7 @@ namespace GameJudge.Troops
         {
             MovePoints = InitialMovePoints;
         }
+
+        public virtual void CleanUpSelf() { }
     }
 }

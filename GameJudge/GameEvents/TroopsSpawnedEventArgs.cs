@@ -11,9 +11,9 @@ namespace GameJudge.GameEvents
     {
         public readonly ICollection<TroopDto> Troops;
 
-        internal TroopsSpawnedEventArgs(IEnumerable<Troop> troops)
+        internal TroopsSpawnedEventArgs(IEnumerable<TroopDto> troops)
         {
-            Troops = troops.Select(t => new TroopDto(t.InitialMovePoints, t.Player, t.Position, t.Orientation, t.Health)).ToList();
+            Troops = troops.ToList();
         }
 
         public override string ToString()

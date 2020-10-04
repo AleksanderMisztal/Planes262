@@ -60,8 +60,8 @@ namespace GameJudge
 
         private void ChangeActivePlayer()
         {
-            HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
-            foreach (Troop troop in beginningTroops)
+            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
+            foreach (ITroop troop in beginningTroops)
                 troop.ResetMovePoints();
 
             activePlayer = activePlayer.Opponent();
@@ -71,22 +71,22 @@ namespace GameJudge
 
         private void AddSpawnsForCurrentRound()
         {
-            List<Troop> wave = waveProvider.GetTroops(roundNumber);
+            IEnumerable<TroopDto> wave = waveProvider.GetTroops(roundNumber);
             wave = troopMap.SpawnWave(wave);
             TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
         }
 
         private void SetInitialMovePointsLeft(PlayerSide player)
         {
-            HashSet<Troop> troops = troopMap.GetTroops(player);
-            movePointsLeft = troops.Aggregate(0, (acc, t) => acc + t.InitialMovePoints);
+            HashSet<ITroop> troops = troopMap.GetTroops(player);
+            movePointsLeft = troops.Aggregate(0, (acc, t) => acc + t.MovePoints);
         }
 
 
         public void ProcessMove(PlayerSide player, VectorTwo position, int direction)
         {
             if (!validator.IsLegalMove(player, position, direction)) return;
-            Troop troop = troopMap.Get(position);
+            ITroop troop = troopMap.Get(position);
             MoveTroop(position, direction);
             if (!board.IsInside(troop.Position)) ControlWithAi(troop);
 
@@ -111,12 +111,12 @@ namespace GameJudge
         {
             movePointsLeft--;
 
-            Troop troop = troopMap.Get(position);
+            ITroop troop = troopMap.Get(position);
             VectorTwo startingPosition = troop.Position;
             troop.MoveInDirection(direction);
 
             List<BattleResult> battleResults = new List<BattleResult>();
-            Troop encounter = troopMap.Get(troop.Position);
+            ITroop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop, startingPosition);
@@ -150,7 +150,7 @@ namespace GameJudge
             TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults));
         }
 
-        private void ApplyDamage(Troop troop, VectorTwo startingPosition)
+        private void ApplyDamage(ITroop troop, VectorTwo startingPosition)
         {
             PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
@@ -163,7 +163,7 @@ namespace GameJudge
                 DestroyTroop(troop, startingPosition);
         }
 
-        private void DestroyTroop(Troop troop, VectorTwo startingPosition)
+        private void DestroyTroop(ITroop troop, VectorTwo startingPosition)
         {
             troopMap.Remove(troop, startingPosition);
             if (troop.Player == activePlayer)
@@ -172,14 +172,14 @@ namespace GameJudge
 
         private void ExecuteAiMoves()
         {
-            foreach (Troop troop in troopMap.GetTroops(activePlayer))
+            foreach (ITroop troop in troopMap.GetTroops(activePlayer))
             {
                 if (!troopAi.ShouldControl(troop)) continue;
                 ControlWithAi(troop);
             }
         }
 
-        private void ControlWithAi(Troop troop)
+        private void ControlWithAi(ITroop troop)
         {
             while (troopAi.ShouldControl(troop) && troop.MovePoints > 0)
             {

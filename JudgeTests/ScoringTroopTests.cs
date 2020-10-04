@@ -1,8 +1,8 @@
 ﻿using GameDataStructures;
+using GameJudge.Troops;
 using NUnit.Framework;
-using Planes262.GameLogic.Troops;
 
-namespace Planes262.Tests.Edit_Mode
+namespace JudgeTests
 {
     public class ScoringTroopTests
     {

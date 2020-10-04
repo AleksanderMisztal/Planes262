@@ -1,6 +1,6 @@
 ﻿using GameDataStructures;
 
-namespace Planes262.GameLogic.Troops
+namespace GameJudge.Troops
 {
     public class DamageScoringTroopDecorator : TroopDecorator
     {

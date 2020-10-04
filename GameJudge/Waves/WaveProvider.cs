@@ -1,25 +1,24 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
-using GameDataStructures.Positioning;
 using GameJudge.Troops;
 
 namespace GameJudge.Waves
 {
     public class WaveProvider
     {
-        private readonly Dictionary<int, List<Troop>> troopsForRound;
+        private readonly Dictionary<int, List<TroopDto>> troopsForRound;
 
         public readonly int MaxRedWave;
         public readonly int MaxBlueWave;
 
-        internal WaveProvider(Dictionary<int, List<Troop>> troopsForRound, int maxRedWave, int maxBlueWave)
+        internal WaveProvider(Dictionary<int, List<TroopDto>> troopsForRound, int maxRedWave, int maxBlueWave)
         {
             this.troopsForRound = troopsForRound;
             MaxRedWave = maxRedWave;
             MaxBlueWave = maxBlueWave;
         }
 
-        internal List<Troop> GetTroops(int round)
+        internal List<TroopDto> GetTroops(int round)
         {
             try
             {
@@ -27,25 +26,25 @@ namespace GameJudge.Waves
             }
             catch (KeyNotFoundException)
             {
-                return new List<Troop>();
+                return new List<TroopDto>();
             }
         }
 
 
         public static WaveProvider Test()
         {
-            List<Troop> wave1 = new List<Troop>
+            List<TroopDto> wave1 = new List<TroopDto>
             {
-                TroopFactory.Blue(new VectorTwo(2, 3)),
-                TroopFactory.Red(new VectorTwo(6, 2)),
-                TroopFactory.Red(new VectorTwo(6, 3)),
+                TroopFactory.BlueDto(2, 3),
+                TroopFactory.RedDto(6, 2),
+                TroopFactory.RedDto(6, 3),
             };
-            List<Troop> wave3 = new List<Troop>
+            List<TroopDto> wave3 = new List<TroopDto>
             {
-                TroopFactory.Blue(new VectorTwo(2, 2)),
+                TroopFactory.BlueDto(2, 2),
             };
 
-            Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>
+            Dictionary<int, List<TroopDto>> troopsForRound = new Dictionary<int, List<TroopDto>>
             {
                 {1, wave1 },
                 {3, wave3 },
@@ -59,47 +58,47 @@ namespace GameJudge.Waves
         
         public static WaveProvider Basic()
         {
-            List<Troop> wave1 = new List<Troop>
+            List<TroopDto> wave1 = new List<TroopDto>
             {
-                TroopFactory.Blue(2, 5),
-                TroopFactory.Blue(2, 6),
-                TroopFactory.Blue(2, 7),
-                TroopFactory.Blue(2, 8),
-                TroopFactory.Red(16, 4),
-                TroopFactory.Red(16, 5),
-                TroopFactory.Red(16, 6),
-                TroopFactory.Red(16, 7),
-                TroopFactory.Red(16, 8),
+                TroopFactory.BlueDto(2, 5),
+                TroopFactory.BlueDto(2, 6),
+                TroopFactory.BlueDto(2, 7),
+                TroopFactory.BlueDto(2, 8),
+                TroopFactory.RedDto(16, 4),
+                TroopFactory.RedDto(16, 5),
+                TroopFactory.RedDto(16, 6),
+                TroopFactory.RedDto(16, 7),
+                TroopFactory.RedDto(16, 8),
             };
-            List<Troop> wave3 = new List<Troop>
+            List<TroopDto> wave3 = new List<TroopDto>
             {
-                TroopFactory.Blue(2, 5),
-                TroopFactory.Blue(2, 6),
-                TroopFactory.Blue(2, 7),
-                TroopFactory.Blue(2, 8),
+                TroopFactory.BlueDto(2, 5),
+                TroopFactory.BlueDto(2, 6),
+                TroopFactory.BlueDto(2, 7),
+                TroopFactory.BlueDto(2, 8),
             };
-            List<Troop> wave4 = new List<Troop>
+            List<TroopDto> wave4 = new List<TroopDto>
             {
-                TroopFactory.Red(16, 4),
-                TroopFactory.Red(16, 5),
-                TroopFactory.Red(16, 6),
-                TroopFactory.Red(16, 7),
+                TroopFactory.RedDto(16, 4),
+                TroopFactory.RedDto(16, 5),
+                TroopFactory.RedDto(16, 6),
+                TroopFactory.RedDto(16, 7),
             };
-            List<Troop> wave5 = new List<Troop>
+            List<TroopDto> wave5 = new List<TroopDto>
             {
-                TroopFactory.Blue(2, 5),
-                TroopFactory.Blue(2, 6),
-                TroopFactory.Blue(2, 7),
-                TroopFactory.Blue(2, 8),
+                TroopFactory.BlueDto(2, 5),
+                TroopFactory.BlueDto(2, 6),
+                TroopFactory.BlueDto(2, 7),
+                TroopFactory.BlueDto(2, 8),
             };
-            List<Troop> wave6 = new List<Troop>
+            List<TroopDto> wave6 = new List<TroopDto>
             {
-                TroopFactory.Red(16, 5),
-                TroopFactory.Red(16, 6),
-                TroopFactory.Red(16, 7),
+                TroopFactory.RedDto(16, 5),
+                TroopFactory.RedDto(16, 6),
+                TroopFactory.RedDto(16, 7),
             };
 
-            Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>
+            Dictionary<int, List<TroopDto>> troopsForRound = new Dictionary<int, List<TroopDto>>
             {
                 {1, wave1 },
                 {3, wave3 },

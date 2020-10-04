@@ -3,7 +3,6 @@ using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
 using GameJudge.Waves;
-using GameJudge.WavesN;
 using NUnit.Framework;
 
 namespace JudgeTests
@@ -34,7 +33,7 @@ namespace JudgeTests
             troopMap.SpawnWave(waveProvider.GetTroops(1));
         }
 
-        private Troop GetTroop(int x, int y)
+        private ITroop GetTroop(int x, int y)
         {
             return troopMap.Get(new VectorTwo(x, y));
         }
@@ -48,7 +47,7 @@ namespace JudgeTests
             AddTroop(2, 2);
             DoAddTroops();
 
-            Troop troop = GetTroop(2, 2);
+            ITroop troop = GetTroop(2, 2);
 
             Assert.IsFalse(troopAi.ShouldControl(troop));
         }
@@ -63,7 +62,7 @@ namespace JudgeTests
             AddTroop(4, 4);
             DoAddTroops();
 
-            Troop troop = GetTroop(3, 5);
+            ITroop troop = GetTroop(3, 5);
 
             Assert.IsFalse(troopAi.ShouldControl(troop));
         }
@@ -75,7 +74,7 @@ namespace JudgeTests
 
             AddTroop(5, 5);
             DoAddTroops();
-            Troop troop = GetTroop(5, 5);
+            ITroop troop = GetTroop(5, 5);
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }
@@ -88,7 +87,7 @@ namespace JudgeTests
             AddTroop(8, 9);
             DoAddTroops();
 
-            Troop troop = GetTroop(8, 9);
+            ITroop troop = GetTroop(8, 9);
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }
@@ -101,7 +100,7 @@ namespace JudgeTests
             AddTroop(3, 6);
             DoAddTroops();
 
-            Troop troop = GetTroop(3, 6);
+            ITroop troop = GetTroop(3, 6);
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }

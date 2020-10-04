@@ -60,8 +60,6 @@
   <ItemGroup>
      <Compile Include="Assets\Tests\Edit Mode\GameJudgeTests.cs" />
      <Compile Include="Assets\Tests\Edit Mode\PathFinderTests.cs" />
-     <Compile Include="Assets\Tests\Edit Mode\ScoringTroopTests.cs" />
-     <Compile Include="Assets\Tests\Edit Mode\SerializerTests.cs" />
      <Compile Include="Assets\Tests\Edit Mode\TroopManagerTests.cs" />
      <None Include="Assets\Tests\Edit Mode\Edit Mode.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
@@ -264,12 +262,6 @@
  </Reference>
  <Reference Include="UnityEditor.WebGL.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="GameDataStructures">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameDataStructures.dll</HintPath>
- </Reference>
- <Reference Include="GameJudge">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameJudge.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
-using Planes262.GameLogic.Troops;
+using GameJudge.Troops;
 
 namespace Planes262.GameLogic
 {

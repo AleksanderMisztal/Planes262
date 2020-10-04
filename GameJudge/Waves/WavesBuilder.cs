@@ -2,13 +2,12 @@
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using GameJudge.Waves;
 
-namespace GameJudge.WavesN
+namespace GameJudge.Waves
 {
     public class WavesBuilder
     {
-        private readonly Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>();
+        private readonly Dictionary<int, List<TroopDto>> troopsForRound = new Dictionary<int, List<TroopDto>>();
 
         private int maxRedWave;
         private int maxBlueWave;
@@ -30,9 +29,9 @@ namespace GameJudge.WavesN
                     maxBlueWave = round;
         }
 
-        private void AddTroopToRound(int round, VectorTwo position, PlayerSide player)
+        private void AddTroopToRound(int round, VectorTwo p, PlayerSide player)
         {
-            Troop troop = player == PlayerSide.Red ? TroopFactory.Red(position) : TroopFactory.Blue(position);
+            TroopDto troop = player == PlayerSide.Red ? TroopFactory.RedDto(p.X, p.Y) : TroopFactory.BlueDto(p.X, p.Y);
 
             try
             {
@@ -40,8 +39,7 @@ namespace GameJudge.WavesN
             }
             catch (KeyNotFoundException)
             {
-                troopsForRound[round] = new List<Troop>();
-                troopsForRound[round].Add(troop);
+                troopsForRound[round] = new List<TroopDto> {troop};
             }
         }
 

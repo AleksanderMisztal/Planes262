@@ -3,7 +3,6 @@ using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
 using GameJudge.Waves;
-using GameJudge.WavesN;
 using NUnit.Framework;
 
 namespace JudgeTests
@@ -43,13 +42,13 @@ namespace JudgeTests
 
         private void OnTurnBegin(PlayerSide player)
         {
-            foreach (Troop troop in troopMap.GetTroops(player))
+            foreach (ITroop troop in troopMap.GetTroops(player))
             {
                 troop.ResetMovePoints();
             }
         }
 
-        private Troop GetTroop(int x, int y)
+        private ITroop GetTroop(int x, int y)
         {
             return troopMap.Get(new VectorTwo(x, y));
         }
@@ -60,7 +59,7 @@ namespace JudgeTests
             CreateValidator();
             AddTroop(2, 2);
             DoAddTroops();
-            Troop troop = GetTroop(2, 2);
+            ITroop troop = GetTroop(2, 2);
 
             Assert.IsTrue(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
         }
@@ -72,7 +71,7 @@ namespace JudgeTests
             AddTroop(2, 2);
             AddTroop(3, 2);
             DoAddTroops();
-            Troop troop = GetTroop(2, 2);
+            ITroop troop = GetTroop(2, 2);
 
             Assert.IsFalse(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
         }
@@ -88,7 +87,7 @@ namespace JudgeTests
             AddTroop(2, 1);
             DoAddTroops();
 
-            Troop troop = GetTroop(2, 2);
+            ITroop troop = GetTroop(2, 2);
 
             Assert.IsTrue(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
         }

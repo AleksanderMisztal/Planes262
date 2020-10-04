@@ -182,7 +182,7 @@ namespace GameDataStructures.Packets
             int orientation = ReadInt();
             VectorTwo position = ReadVector2Int();
 
-            return new TroopDto(initialMovePoints, side, position, orientation, health);
+            return new TroopDto(side, initialMovePoints, position, orientation, health);
         }
 
         public List<TroopDto> ReadTroops()

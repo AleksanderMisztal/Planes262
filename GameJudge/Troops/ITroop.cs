@@ -1,7 +1,8 @@
-﻿using GameDataStructures;
+﻿using System.Collections.Generic;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 
-namespace Planes262.GameLogic.Troops
+namespace GameJudge.Troops
 {
     public interface ITroop
     {
@@ -11,6 +12,7 @@ namespace Planes262.GameLogic.Troops
         int Orientation { get; }
         int Health { get; }
         bool Destroyed { get; }
+        IEnumerable<VectorTwo> ControlZone { get; }
         void MoveInDirection(int direction);
         void FlyOverOtherTroop();
         void ApplyDamage();

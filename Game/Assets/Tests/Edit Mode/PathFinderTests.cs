@@ -3,7 +3,7 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using NUnit.Framework;
 using Planes262.GameLogic;
-using Planes262.GameLogic.Troops;
+using GameJudge.Troops;
 
 namespace Planes262.Tests.Edit_Mode
 {

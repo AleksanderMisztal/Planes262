@@ -61,16 +61,10 @@
      <Compile Include="Assets\Scripts\GameLogic\PathFinder.cs" />
      <Compile Include="Assets\Scripts\GameLogic\TroopManager.cs" />
      <Compile Include="Assets\Scripts\GameLogic\TroopMap.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\DamageScoringTroopDecorator.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\ITroop.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\Troop.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\TroopDecorator.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\Troops\TroopFactory.cs" />
      <Compile Include="Assets\Scripts\Networking\Client.cs" />
      <Compile Include="Assets\Scripts\Networking\CsWebSocket.cs" />
      <Compile Include="Assets\Scripts\Networking\IPacketSender.cs" />
      <Compile Include="Assets\Scripts\Networking\JSWebSocket.cs" />
-     <Compile Include="Assets\Scripts\Networking\Serializer.cs" />
      <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
@@ -289,12 +283,6 @@
  </Reference>
  <Reference Include="UnityEditor.WebGL.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="GameDataStructures">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameDataStructures.dll</HintPath>
- </Reference>
- <Reference Include="GameJudge">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameJudge.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -641,6 +629,16 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameDataStructures\GameDataStructures.csproj">
+      <Project>{2a701436-8cde-4596-8477-76d8f0c2393b}</Project>
+      <Name>GameDataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameJudge\GameJudge.csproj">
+      <Project>{097c9974-ae2e-48a2-93c4-42da5bac5674}</Project>
+      <Name>GameJudge</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

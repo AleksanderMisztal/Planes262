@@ -7,12 +7,8 @@ using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge
 {
-    internal class TroopMap
+    internal class TroopMap : TroopMapBase
     {
-        private readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
-
-        private readonly HashSet<Troop> redTroops = new HashSet<Troop>();
-        private readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
         private readonly Board board;
 
         public TroopMap(Board board)
@@ -20,40 +16,13 @@ namespace GameJudge
             this.board = board;
         }
 
-        public void AdjustPosition(Troop troop, VectorTwo startingPosition)
+        public IEnumerable<TroopDto> SpawnWave(IEnumerable<TroopDto> wave)
         {
-            map.Remove(startingPosition);
-            map.Add(troop.Position, troop);
-        }
-
-        public HashSet<Troop> GetTroops(PlayerSide player)
-        {
-            return player == PlayerSide.Red ? redTroops : blueTroops;
-        }
-
-        public Troop Get(VectorTwo position)
-        {
-            try
+            foreach (TroopDto t in wave)
             {
-                return map[position];
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
-        }
-
-        public void Remove(Troop troop, VectorTwo startingPosition)
-        {
-            map.Remove(startingPosition);
-            GetTroops(troop.Player).Remove(troop);
-        }
-
-        public List<Troop> SpawnWave(List<Troop> wave)
-        {
-            foreach (Troop troop in wave)
-            {
-                troop.Position = GetEmptyCell(troop.Position);
+                t.AdjustPosition(GetEmptyCell(t.Position));
+                
+                Troop troop = new Troop(t);
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);
             }

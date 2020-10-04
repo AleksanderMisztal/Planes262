@@ -2,7 +2,6 @@
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge
 {
@@ -32,7 +31,7 @@ namespace GameJudge
             {
                 IsPlayersTurn(player);
                 PositionContainsTroop(position);
-                Troop troop = map.Get(position);
+                ITroop troop = map.Get(position);
                 PlayerControlsTroop(player, troop);
                 TroopHasMovePoints(troop);
                 NotEnteringFriendOrBlocked(troop, direction);
@@ -62,22 +61,22 @@ namespace GameJudge
                 throw new IllegalMoveException("No troop at the specified hex!");
         }
 
-        private static void PlayerControlsTroop(PlayerSide player, Troop troop)
+        private static void PlayerControlsTroop(PlayerSide player, ITroop troop)
         {
             if (player != troop.Player)
                 throw new IllegalMoveException("Attempting to move enemy troop!");
         }
 
-        private static void TroopHasMovePoints(Troop troop)
+        private static void TroopHasMovePoints(ITroop troop)
         {
             if (troop.MovePoints <= 0)
                 throw new IllegalMoveException("Attempting to move a troop with no move points!");
         }
 
-        private void NotEnteringFriendOrBlocked(Troop troop, int direction)
+        private void NotEnteringFriendOrBlocked(ITroop troop, int direction)
         {
             VectorTwo targetPosition = Hex.GetAdjacentHex(troop.Position, troop.Orientation + direction);
-            Troop encounter = map.Get(targetPosition);
+            ITroop encounter = map.Get(targetPosition);
 
             if (encounter == null || encounter.Player != troop.Player) return;
 
@@ -88,11 +87,11 @@ namespace GameJudge
             }
         }
 
-        private void ThrowIfNotBlocked(Troop troop, VectorTwo cell)
+        private void ThrowIfNotBlocked(ITroop troop, VectorTwo cell)
         {
             if (!area.IsInside(cell)) return;
 
-            Troop encounter = map.Get(cell);
+            ITroop encounter = map.Get(cell);
             if (encounter == null || encounter.Player != troop.Player)
             {
                 throw new IllegalMoveException("Attempting to enter a cell with friendly troop!");
