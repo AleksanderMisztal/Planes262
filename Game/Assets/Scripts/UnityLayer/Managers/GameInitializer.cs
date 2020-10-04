@@ -11,6 +11,7 @@ namespace Planes262.UnityLayer.Managers
         private UIManager uiManager;
         private Messenger messenger;
         private GameManager gameManager;
+        private ScoreDisplay score;
         private ClockDisplay clockDisplay;
         
         private GameEventsHandler geHandler;
@@ -22,8 +23,9 @@ namespace Planes262.UnityLayer.Managers
             messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
             clockDisplay = FindObjectOfType<ClockDisplay>();
+            score = FindObjectOfType<ScoreDisplay>();
             
-            geHandler = new GameEventsHandler(messenger, uiManager, gameManager, clockDisplay);
+            geHandler = new GameEventsHandler(messenger, uiManager, gameManager, score, clockDisplay);
 
             InitializeServerConnection();
         }
@@ -49,7 +51,7 @@ namespace Planes262.UnityLayer.Managers
             GameController gc = new GameController(WaveProvider.Test(), Board.Test);
             Clock clock = new Clock(10, 5, geHandler.OnLostOnTime);
             
-            gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults);
+            gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults, args.Score);
             gc.TroopsSpawned += args => {
                 TimeInfo ti = clock.ToggleActivePlayer();
                 geHandler.OnTroopSpawned(args.Troops, ti);

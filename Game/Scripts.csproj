@@ -76,11 +76,10 @@
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\UnityTroopManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\MoveAttemptEventArgs.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\UnityScore.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityTroopDecorator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Utils\ButtonScaler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Utils\CanvasHider.cs" />
@@ -283,6 +282,12 @@
  </Reference>
  <Reference Include="UnityEditor.WebGL.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="GameDataStructures">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameDataStructures.dll</HintPath>
+ </Reference>
+ <Reference Include="GameJudge">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameJudge.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -629,16 +634,6 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameDataStructures\GameDataStructures.csproj">
-      <Project>{2a701436-8cde-4596-8477-76d8f0c2393b}</Project>
-      <Name>GameDataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameJudge\GameJudge.csproj">
-      <Project>{097c9974-ae2e-48a2-93c4-42da5bac5674}</Project>
-      <Name>GameJudge</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

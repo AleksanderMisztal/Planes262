@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
+using GameJudge;
 using GameJudge.Troops;
+using Planes262.UnityLayer;
 
 namespace Planes262.GameLogic
 {
     public class TroopManager
     {
-        private readonly Score score;
         private readonly TroopMap troopMap;
+        private readonly ITroopInstantiator troopInstantiator;
         private PlayerSide activePlayer = PlayerSide.Red;
 
-        public TroopManager(TroopMap troopMap, Score score)
+        public TroopManager(TroopMap troopMap, ITroopInstantiator troopInstantiator)
         {
             this.troopMap = troopMap;
-            this.score = score;
+            this.troopInstantiator = troopInstantiator;
         }
 
         public void ResetForNewGame()
@@ -22,12 +25,12 @@ namespace Planes262.GameLogic
             foreach (ITroop troop in troopMap.Troops) 
                 troop.CleanUpSelf();
             troopMap.ResetForNewGame();
-            score.Reset();
         }
         
-        public virtual void BeginNextRound(IEnumerable<ITroop> troops)
+        public void BeginNextRound(IEnumerable<ITroop> troops)
         {
-            troopMap.SpawnWave(troops);
+            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            troopMap.SpawnWave(uTroops);
             
             HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
             foreach (ITroop troop in beginningTroops)
@@ -75,5 +78,10 @@ namespace Planes262.GameLogic
             if (troop.Destroyed)
                 troopMap.Remove(troop, startingPosition);
         }
+    }
+
+    public interface ITroopInstantiator
+    {
+        ITroop InstantiateTroop(ITroop troop);
     }
 }

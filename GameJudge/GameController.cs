@@ -120,7 +120,7 @@ namespace GameJudge
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop, startingPosition);
-                TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults));
+                TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults, score));
                 return;
             }
 
@@ -147,7 +147,7 @@ namespace GameJudge
             if (troop.Health > 0)
                 troopMap.AdjustPosition(troop, startingPosition);
 
-            TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults));
+            TroopMoved?.Invoke(new TroopMovedEventArgs(position, direction, battleResults, score));
         }
 
         private void ApplyDamage(ITroop troop, VectorTwo startingPosition)

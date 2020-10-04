@@ -1,4 +1,4 @@
-﻿using GameDataStructures;
+﻿using GameJudge;
 using GameJudge.Troops;
 using NUnit.Framework;
 

@@ -121,6 +121,12 @@ namespace GameDataStructures.Packets
             Write(clockInfo.IncrementS);
             Write(clockInfo.StartTimestamp);
         }
+
+        public void Write(ScoreInfo scoreInfo)
+        {
+            Write(scoreInfo.Red);
+            Write(scoreInfo.Blue);
+        }
  
         #endregion
 
@@ -241,6 +247,14 @@ namespace GameDataStructures.Packets
             int yMax = ReadInt();
 
             return new Board(xMax, yMax);
+        }
+
+        public ScoreInfo ReadScore()
+        {
+            int red = ReadInt();
+            int blue = ReadInt();
+
+            return new ScoreInfo(red, blue);
         }
         #endregion
 

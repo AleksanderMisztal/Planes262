@@ -68,8 +68,9 @@ namespace Planes262.Networking
             VectorTwo position = packet.ReadVector2Int();
             int direction = packet.ReadInt();
             List<BattleResult> battleResults = packet.ReadBattleResults();
+            ScoreInfo score = packet.ReadScore();
 
-            geHandler.OnTroopMoved(position, direction, battleResults);
+            geHandler.OnTroopMoved(position, direction, battleResults, score);
         }
 
         private void GameEnded(Packet packet)

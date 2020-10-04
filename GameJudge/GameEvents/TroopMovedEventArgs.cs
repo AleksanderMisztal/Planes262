@@ -11,12 +11,14 @@ namespace GameJudge.GameEvents
         public readonly VectorTwo Position;
         public readonly int Direction;
         public readonly List<BattleResult> BattleResults;
+        public readonly ScoreInfo Score;
 
-        public TroopMovedEventArgs(VectorTwo position, int direction, List<BattleResult> battleResults)
+        public TroopMovedEventArgs(VectorTwo position, int direction, List<BattleResult> battleResults, Score score)
         {
             Position = position;
             Direction = direction;
             BattleResults = battleResults;
+            Score = new ScoreInfo(score.Red, score.Blue);
         }
 
         public override string ToString()

@@ -10,8 +10,7 @@ namespace Planes262.UnityLayer.Managers
     {
         [SerializeField] private InputField username;
         [SerializeField] private GameObject playButton;
-        [SerializeField] private GameObject mainMenu;
-        
+
         [SerializeField] private GameObject particles;
         [SerializeField] private GameObject mainBackground;
         

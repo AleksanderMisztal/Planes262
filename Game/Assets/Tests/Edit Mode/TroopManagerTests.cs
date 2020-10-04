@@ -9,6 +9,14 @@ namespace Planes262.Tests.Edit_Mode
 {
     public class TroopManagerTests
     {
+        private class MockTroopInstantiator : ITroopInstantiator
+        {
+            public ITroop InstantiateTroop(ITroop troop)
+            {
+                return troop;
+            }
+        }
+
         private TroopManager troopManager;
         private List<Troop> troops;
 
@@ -23,7 +31,7 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void Should_HaveCorrectPositionAndHealth_When_AfterFight()
         {
-            troopManager = new TroopManager(new TroopMap(), new Score());
+            troopManager = new TroopManager(new TroopMap(), new MockTroopInstantiator());
             troops = new List<Troop>
             {
                 TroopFactory.Blue(1,1),

@@ -5,11 +5,11 @@ namespace GameJudge.GameEvents
 {
     public class GameEndedEventArgs : EventArgs
     {
-        public readonly Score Score;
+        public readonly ScoreInfo Score;
 
-        public GameEndedEventArgs(Score score)
+        internal GameEndedEventArgs(Score score)
         {
-            Score = score;
+            Score = new ScoreInfo(score.Red, score.Blue);
         }
 
         public override string ToString()
