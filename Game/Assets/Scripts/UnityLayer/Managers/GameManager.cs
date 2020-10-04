@@ -5,7 +5,7 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.GameLogic;
-using Planes262.UnityLayer.Utils;
+using Planes262.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,7 +50,6 @@ namespace Planes262.UnityLayer.Managers
         public void BeginNextRound(IEnumerable<TroopDto> troops)
         {
             mapController.ToggleActivePlayer();
-            Debug.Log("Beginning");
             IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }

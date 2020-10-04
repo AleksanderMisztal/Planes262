@@ -1,8 +1,7 @@
-﻿using GameDataStructures;
-using GameDataStructures.Positioning;
+﻿using GameDataStructures.Positioning;
 using UnityEngine;
 
-namespace Planes262.UnityLayer.Utils
+namespace Planes262.Utils
 {
     public class MapGrid : MonoBehaviour
     {

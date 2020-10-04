@@ -1,6 +1,6 @@
 ﻿using GameDataStructures;
 using GameJudge.Troops;
-using Planes262.UnityLayer.Utils;
+using Planes262.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer

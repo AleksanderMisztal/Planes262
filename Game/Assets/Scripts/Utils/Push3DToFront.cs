@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Planes262.UnityLayer.Utils
+namespace Planes262.Utils
 {
     public class Push3DToFront : MonoBehaviour
     {

@@ -81,12 +81,12 @@
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityTroopDecorator.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\ButtonScaler.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\CanvasHider.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\Effects.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\MapGrid.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\Push3DToFront.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Utils\SpriteHolder.cs" />
+     <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
+     <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
+     <Compile Include="Assets\Scripts\Utils\Effects.cs" />
+     <Compile Include="Assets\Scripts\Utils\MapGrid.cs" />
+     <Compile Include="Assets\Scripts\Utils\Push3DToFront.cs" />
+     <Compile Include="Assets\Scripts\Utils\SpriteHolder.cs" />
      <None Include="Assets\Scripts\Scripts.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

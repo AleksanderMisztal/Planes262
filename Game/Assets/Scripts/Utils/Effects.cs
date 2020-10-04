@@ -3,7 +3,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace Planes262.UnityLayer.Utils
+namespace Planes262.Utils
 {
     public class Effects : MonoBehaviour
     {
