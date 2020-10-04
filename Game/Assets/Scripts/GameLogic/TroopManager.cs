@@ -1,23 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
-using GameJudge;
 using GameJudge.Troops;
-using Planes262.UnityLayer;
 
 namespace Planes262.GameLogic
 {
     public class TroopManager
     {
         private readonly TroopMap troopMap;
-        private readonly ITroopInstantiator troopInstantiator;
         private PlayerSide activePlayer = PlayerSide.Red;
 
-        public TroopManager(TroopMap troopMap, ITroopInstantiator troopInstantiator)
+        public TroopManager(TroopMap troopMap)
         {
             this.troopMap = troopMap;
-            this.troopInstantiator = troopInstantiator;
         }
 
         public void ResetForNewGame()
@@ -29,14 +24,12 @@ namespace Planes262.GameLogic
         
         public void BeginNextRound(IEnumerable<ITroop> troops)
         {
-            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
-            troopMap.SpawnWave(uTroops);
-            
-            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
-            foreach (ITroop troop in beginningTroops)
-                troop.ResetMovePoints();
+            troopMap.SpawnWave(troops);
             
             activePlayer = activePlayer.Opponent();
+            
+            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer);
+            foreach (ITroop troop in beginningTroops) troop.ResetMovePoints();
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
@@ -78,10 +71,5 @@ namespace Planes262.GameLogic
             if (troop.Destroyed)
                 troopMap.Remove(troop, startingPosition);
         }
-    }
-
-    public interface ITroopInstantiator
-    {
-        ITroop InstantiateTroop(ITroop troop);
     }
 }

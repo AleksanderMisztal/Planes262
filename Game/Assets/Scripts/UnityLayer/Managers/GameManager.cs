@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
+using GameJudge.Troops;
 using Planes262.GameLogic;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
@@ -14,16 +16,17 @@ namespace Planes262.UnityLayer.Managers
         private TroopManager troopManager;
         private MapController mapController;
         private TileManager tileManager;
+        private TroopInstantiator troopInstantiator;
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
         private void Start()
         {
             tileManager = FindObjectOfType<TileManager>();
-            TroopInstantiator troopInstantiator = FindObjectOfType<TroopInstantiator>();
+            troopInstantiator = FindObjectOfType<TroopInstantiator>();
             
             TroopMap troopMap = new TroopMap();
-            troopManager = new TroopManager(troopMap, troopInstantiator);
+            troopManager = new TroopManager(troopMap);
             mapController = new MapController(tileManager, troopMap, args => MoveAttempted(args));
 
             FindObjectOfType<InputParser>().CellClicked += cell => mapController.OnCellClicked(cell);
@@ -47,6 +50,9 @@ namespace Planes262.UnityLayer.Managers
         public void BeginNextRound(IEnumerable<TroopDto> troops)
         {
             mapController.ToggleActivePlayer();
+            Debug.Log("Beginning");
+            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            troopManager.BeginNextRound(uTroops);
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)

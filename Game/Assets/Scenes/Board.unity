@@ -1661,6 +1661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 599782840}
   - component: {fileID: 599782842}
+  - component: {fileID: 599782843}
   - component: {fileID: 599782841}
   m_Layer: 9
   m_Name: Score Text
@@ -1729,6 +1730,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599782839}
   m_CullTransparentMesh: 0
+--- !u!114 &599782843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599782839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2fcf1fdbff4ef645bb11d73b5395cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 599782841}
 --- !u!1 &706374988
 GameObject:
   m_ObjectHideFlags: 0
@@ -14608,7 +14622,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   username: {fileID: 1056408176}
   playButton: {fileID: 197941839}
-  mainMenu: {fileID: 743645698}
   particles: {fileID: 10452025}
   mainBackground: {fileID: 403676936}
   waitingText: {fileID: 865342951}

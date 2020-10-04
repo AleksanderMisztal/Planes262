@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameDataStructures\GameDataStructures.csproj" />
     <ProjectReference Include="..\GameJudge\GameJudge.csproj" />
-    <ProjectReference Include="..\Judge\GameJudge.csproj" />
   </ItemGroup>
 
 </Project>

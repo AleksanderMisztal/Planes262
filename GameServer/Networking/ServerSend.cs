@@ -74,6 +74,7 @@ namespace GameServer.Networking
             packet.Write(args.Position);
             packet.Write(args.Direction);
             packet.Write(args.BattleResults);
+            packet.Write(args.Score);
 
             await server.SendPacket(redId, packet);
             await server.SendPacket(blueId, packet);

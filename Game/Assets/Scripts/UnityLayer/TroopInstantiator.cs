@@ -1,21 +1,21 @@
 ﻿using GameDataStructures;
 using GameJudge.Troops;
-using Planes262.GameLogic;
 using Planes262.UnityLayer.Utils;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
-    public class TroopInstantiator : MonoBehaviour, ITroopInstantiator
+    public class TroopInstantiator : MonoBehaviour
     {
         [SerializeField] private SpriteHolder redTroopPrefab;
         [SerializeField] private SpriteHolder blueTroopPrefab;
 
 
-        public ITroop InstantiateTroop(ITroop troop)
+        public ITroop InstantiateTroop(TroopDto troopDto)
         {
-            SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
+            SpriteHolder troopPrefab = troopDto.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
             SpriteHolder spriteHolder = Instantiate(troopPrefab);
+            Troop troop = new Troop(troopDto);
             return new UnityTroopDecorator(spriteHolder, troop);
         }
     }
