@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Packets;
 using GameJudge.GameEvents;
+using GameJudge.Troops;
 
 namespace GameServer.Networking
 {
@@ -17,14 +18,14 @@ namespace GameServer.Networking
 
         public async Task Welcome(int toClient)
         {
-            using Packet packet = new Packet((int)ServerPackets.Welcome);
+            Packet packet = new Packet(ServerPackets.Welcome);
             await server.SendPacket(toClient, packet);
         }
 
         
         public async Task GameJoined(int toClient, string opponentName, PlayerSide side, Board board, ClockInfo clockInfo)
         {
-            using Packet packet = new Packet((int)ServerPackets.GameJoined);
+            Packet packet = new Packet(ServerPackets.GameJoined);
 
             packet.Write(opponentName);
             packet.Write((int)side);
@@ -36,21 +37,21 @@ namespace GameServer.Networking
 
         public async Task MessageSent(int toClient, string message)
         {
-            using Packet packet = new Packet((int)ServerPackets.MessageSent);
+            Packet packet = new Packet(ServerPackets.MessageSent);
             packet.Write(message);
             await server.SendPacket(toClient, packet);
         }
 
         public async Task OpponentDisconnected(int toClient)
         {
-            using Packet packet = new Packet((int)ServerPackets.OpponentDisconnected);
+            Packet packet = new Packet(ServerPackets.OpponentDisconnected);
             await server.SendPacket(toClient, packet);
         }
 
         public async Task LostOnTime(int redId, int blueId, PlayerSide loser)
         {
             Console.WriteLine($"Sending {loser} lost on time");
-            using Packet packet = new Packet((int)ServerPackets.LostOnTime);
+            Packet packet = new Packet(ServerPackets.LostOnTime);
             packet.Write((int)loser);
             
             await server.SendPacket(redId, packet);
@@ -60,8 +61,10 @@ namespace GameServer.Networking
         
         public async Task TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args, TimeInfo timeInfo)
         {
-            using Packet packet = new Packet((int)ServerPackets.TroopSpawned);
-            packet.Write(args.Troops);
+            Packet packet = new Packet(ServerPackets.TroopSpawned);
+            
+            packet.Write(args.Troops.Count);
+            foreach (Troop troop in args.Troops) packet.Write(troop);
             packet.Write(timeInfo);
 
             await server.SendPacket(redId, packet);
@@ -70,7 +73,7 @@ namespace GameServer.Networking
 
         public async Task TroopMoved(int redId, int blueId, TroopMovedEventArgs args)
         {
-            using Packet packet = new Packet((int)ServerPackets.TroopMoved);
+            Packet packet = new Packet(ServerPackets.TroopMoved);
             packet.Write(args.Position);
             packet.Write(args.Direction);
             packet.Write(args.BattleResults);
@@ -82,7 +85,7 @@ namespace GameServer.Networking
 
         public async Task GameEnded(int redId, int blueId, GameEndedEventArgs args)
         {
-            using Packet packet = new Packet((int)ServerPackets.GameEnded);
+            Packet packet = new Packet(ServerPackets.GameEnded);
             packet.Write(args.Score.Red);
             packet.Write(args.Score.Blue);
 

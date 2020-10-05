@@ -35,7 +35,7 @@ namespace GameServer.Networking
             while (isConnected) await BeginReceive();
         }
 
-        private async Task<byte[]> Receive()
+        private async Task<string> Receive()
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
             MemoryStream memoryStream = new MemoryStream();
@@ -54,7 +54,7 @@ namespace GameServer.Networking
             string bytes = reader.ReadToEnd();
             try
             {
-                return Serializer.Deserialize(bytes);
+                return bytes;
             }
             catch
             {
@@ -65,7 +65,7 @@ namespace GameServer.Networking
 
         private async Task BeginReceive()
         {
-            byte[] data;
+            string data;
             try
             {
                 data = await Receive();
@@ -82,14 +82,14 @@ namespace GameServer.Networking
 
             ThreadManager.ExecuteOnMainThread(async () =>
             {
-                using Packet packet = new Packet(data);
+                Packet packet = new Packet(data);
                 await serverHandle.Handle(id, packet);
             });
         }
 
         public async Task SendData(Packet packet)
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
+            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(packet.Data));
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace GameDataStructures.Positioning
 {
@@ -45,6 +46,12 @@ namespace GameDataStructures.Positioning
             VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
             VectorTwo step = steps[direction % 6];
             return new HexOffset(x + step.X, y + step.Y);
+        }
+
+        public HexOffset[] GetNeighbors()
+        {
+            VectorTwo[] steps = (y & 1) == 1 ? oddSteps : evenSteps;
+            return steps.Select(s => new HexOffset(x + s.X, y + s.Y)).ToArray();
         }
 
         public VectorTwo ToVector()

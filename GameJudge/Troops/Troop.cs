@@ -9,25 +9,28 @@ namespace GameJudge.Troops
     {
         public PlayerSide Player { get; }
 
-        public int InitialMovePoints { get; private set; }
+        private int initialMovePoints;
         public int MovePoints { get; private set; }
 
-        public VectorTwo Position { get; set; }
+        public VectorTwo Position { get; private set; }
         public int Orientation { get; private set; }
 
         public int Health { get; private set; }
         public bool Destroyed => Health <= 0;
 
-        public Troop(TroopDto t) : this(t.Player, t.InitialMovePoints, t.Position, t.Orientation, t.Health) { }
-
         public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
             Player = player;
-            InitialMovePoints = movePoints;
+            initialMovePoints = movePoints;
             MovePoints = movePoints;
             Position = position;
             Orientation = orientation;
             Health = health;
+        }
+
+        public void AdjustPosition(VectorTwo newPosition)
+        {
+            Position = newPosition;
         }
 
         public virtual void MoveInDirection(int direction)
@@ -45,7 +48,7 @@ namespace GameJudge.Troops
         public void ApplyDamage()
         {
             Health--;
-            InitialMovePoints--;
+            initialMovePoints--;
             if (MovePoints > 0)
                 MovePoints--;
         }
@@ -56,7 +59,7 @@ namespace GameJudge.Troops
 
         public void ResetMovePoints()
         {
-            MovePoints = InitialMovePoints;
+            MovePoints = initialMovePoints;
         }
 
         public virtual void CleanUpSelf() { }

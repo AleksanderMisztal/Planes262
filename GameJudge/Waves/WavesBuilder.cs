@@ -7,7 +7,7 @@ namespace GameJudge.Waves
 {
     public class WavesBuilder
     {
-        private readonly Dictionary<int, List<TroopDto>> troopsForRound = new Dictionary<int, List<TroopDto>>();
+        private readonly Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>();
 
         private int maxRedWave;
         private int maxBlueWave;
@@ -31,7 +31,7 @@ namespace GameJudge.Waves
 
         private void AddTroopToRound(int round, VectorTwo p, PlayerSide player)
         {
-            TroopDto troop = player == PlayerSide.Red ? TroopFactory.RedDto(p.X, p.Y) : TroopFactory.BlueDto(p.X, p.Y);
+            Troop troop = player == PlayerSide.Red ? TroopFactory.Red(p.X, p.Y) : TroopFactory.Blue(p.X, p.Y);
 
             try
             {
@@ -39,7 +39,7 @@ namespace GameJudge.Waves
             }
             catch (KeyNotFoundException)
             {
-                troopsForRound[round] = new List<TroopDto> {troop};
+                troopsForRound[round] = new List<Troop> {troop};
             }
         }
 

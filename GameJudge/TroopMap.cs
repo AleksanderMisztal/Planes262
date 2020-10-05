@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge
 {
@@ -16,13 +15,11 @@ namespace GameJudge
             this.board = board;
         }
 
-        public IEnumerable<TroopDto> SpawnWave(IEnumerable<TroopDto> wave)
+        public IEnumerable<Troop> SpawnWave(IEnumerable<Troop> wave)
         {
-            foreach (TroopDto t in wave)
+            foreach (Troop troop in wave)
             {
-                t.AdjustPosition(GetEmptyCell(t.Position));
-                
-                Troop troop = new Troop(t);
+                troop.AdjustPosition(GetEmptyCell(troop.Position));
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);
             }

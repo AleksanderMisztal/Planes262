@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameJudge.Utils
+namespace GameDataStructures
 {
     public static class Randomizer
     {

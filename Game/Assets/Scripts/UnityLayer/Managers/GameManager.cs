@@ -7,7 +7,6 @@ using GameJudge.Troops;
 using Planes262.GameLogic;
 using Planes262.Utils;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Planes262.UnityLayer.Managers
 {
@@ -47,7 +46,7 @@ namespace Planes262.UnityLayer.Managers
             tileManager.CreateBoard(board);
         }
 
-        public void BeginNextRound(IEnumerable<TroopDto> troops)
+        public void BeginNextRound(IEnumerable<Troop> troops)
         {
             mapController.ToggleActivePlayer();
             IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));

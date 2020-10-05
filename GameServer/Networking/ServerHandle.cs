@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GameDataStructures;
 using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
 using GameServer.Matchmaking;
@@ -28,7 +27,7 @@ namespace GameServer.Networking
 
         public async Task Handle(int fromClient, Packet packet)
         {
-            int packetType = packet.ReadInt();
+            int packetType = packet.Read<int>();
             try
             {
                 await packetHandlers[packetType](fromClient, packet);
@@ -42,15 +41,15 @@ namespace GameServer.Networking
         
         private async Task JoinGame(int fromClient, Packet packet)
         {
-            string username = packet.ReadString();
+            string username = packet.Read<string>();
             User newUser = new User(fromClient, username);
             await gameHandler.SendToGame(newUser);
         }
 
         private Task MoveTroop(int fromClient, Packet packet)
         {
-            VectorTwo position = packet.ReadVector2Int();
-            int direction = packet.ReadInt();
+            VectorTwo position = packet.Read<VectorTwo>();
+            int direction = packet.Read<int>();
 
             gameHandler.MoveTroop(fromClient, position, direction);
             return Task.CompletedTask;
@@ -58,7 +57,7 @@ namespace GameServer.Networking
 
         private async Task SendMessage(int fromClient, Packet packet)
         {
-            string message = packet.ReadString();
+            string message = packet.Read<string>();
 
             await gameHandler.SendMessage(fromClient, message);
         }

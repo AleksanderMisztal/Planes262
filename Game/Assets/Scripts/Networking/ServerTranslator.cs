@@ -2,6 +2,7 @@
 using GameDataStructures;
 using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
+using GameJudge.Troops;
 using Planes262.UnityLayer.Managers;
 
 namespace Planes262.Networking
@@ -29,14 +30,11 @@ namespace Planes262.Networking
         }
 
         
-        public void HandlePacket(string byteArray)
+        public void HandlePacket(string data)
         {
-            byte[] bytes = Serializer.Deserialize(byteArray);
-            using (Packet packet = new Packet(bytes))
-            {
-                int packetType = packet.ReadInt();
-                packetHandlers[packetType](packet);
-            }
+            Packet packet = new Packet(data)
+            int packetType = packet.ReadInt();
+            packetHandlers[packetType](packet);
         }
 
 
@@ -57,10 +55,11 @@ namespace Planes262.Networking
 
         private void TroopSpawned(Packet packet)
         {
-            List<TroopDto> troopDtos = packet.ReadTroops();
+            int count = packet.Rea
+            List<Troop> troops = packet.ReadTroops();
             TimeInfo timeInfo = packet.ReadTimeInfo();
 
-            geHandler.OnTroopSpawned(troopDtos, timeInfo);
+            geHandler.OnTroopSpawned(troops, timeInfo);
         }
 
         private void TroopMoved(Packet packet)

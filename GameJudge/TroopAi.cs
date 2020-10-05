@@ -2,7 +2,6 @@
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using Hex = GameJudge.Utils.Hex;
 
 namespace GameJudge
 {
@@ -36,7 +35,7 @@ namespace GameJudge
                 VectorTwo neigh = Hex.GetAdjacentHex(troop.Position, direction);
                 if (troopMap.Get(neigh) != null) continue;
 
-                int dist = (target - neigh).SqrMagnitude;
+                int dist = (target - neigh).SqrMagnitude();
                 if (dist < minDist)
                 {
                     minDist = dist;
@@ -45,5 +44,10 @@ namespace GameJudge
             }
             return minDir;
         }
+    }
+
+    public static class V2Extension
+    {
+        public static int SqrMagnitude(this VectorTwo v) => v.X * v.X + v.Y * v.Y;
     }
 }

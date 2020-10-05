@@ -71,7 +71,7 @@ namespace GameJudge
 
         private void AddSpawnsForCurrentRound()
         {
-            IEnumerable<TroopDto> wave = waveProvider.GetTroops(roundNumber);
+            IEnumerable<Troop> wave = waveProvider.GetTroops(roundNumber);
             wave = troopMap.SpawnWave(wave);
             TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
         }

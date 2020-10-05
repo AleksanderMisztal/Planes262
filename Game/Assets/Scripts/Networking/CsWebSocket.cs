@@ -81,15 +81,14 @@ namespace Planes262.Networking
 
         private async Task SendFromQueue(Packet packet)
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Serializer.Serialize(packet.ToArray())));
+            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(packet.Data));
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
         
         
         public void SendData(Packet packet)
         {
-            Packet perm = new Packet(packet.ToArray());
-            sendQueue.Enqueue(perm);
+            sendQueue.Enqueue(packet);
         }
 
         private async Task BeginSendAsync()

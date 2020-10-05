@@ -1,10 +1,17 @@
-﻿namespace GameDataStructures.Positioning
+﻿using System.Linq;
+
+namespace GameDataStructures.Positioning
 {
     public static class Hex
     {
         public static VectorTwo GetAdjacentHex(VectorTwo cell, int direction)
         {
             return new HexOffset(cell).GetAdjacentHex(direction).ToVector();
+        }
+
+        public static VectorTwo[] GetNeighbours(VectorTwo cell)
+        {
+            return new HexOffset(cell).GetNeighbors().Select(c => c.ToVector()).ToArray();
         }
 
         public static VectorTwo[] GetControlZone(VectorTwo cell, int orientation)

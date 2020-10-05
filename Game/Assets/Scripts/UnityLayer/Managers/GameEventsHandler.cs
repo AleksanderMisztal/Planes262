@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Positioning;
+using GameJudge.Troops;
 using UnityEngine;
 
 namespace Planes262.UnityLayer.Managers
@@ -57,7 +58,7 @@ namespace Planes262.UnityLayer.Managers
             uiManager.TransitionIntoGame(board);
         }
 
-        public void OnTroopSpawned(IEnumerable<TroopDto> troops, TimeInfo timeInfo)
+        public void OnTroopSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)
         {
             clockDisplay.ToggleActivePlayer(timeInfo);
             gameManager.BeginNextRound(troops);

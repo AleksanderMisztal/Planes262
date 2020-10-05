@@ -1,12 +1,11 @@
-﻿namespace GameDataStructures.Positioning
+﻿using GameDataStructures.Packets;
+
+namespace GameDataStructures.Positioning
 {
-    public readonly struct VectorTwo
+    public struct VectorTwo : IWriteable, IReadable
     {
-        public readonly int X;
-        public readonly int Y;
-
-        public int SqrMagnitude => X * X + Y * Y;
-
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public VectorTwo(int x, int y)
         {
@@ -40,5 +39,17 @@
 
         public static bool operator != (VectorTwo a, VectorTwo b)
             => a.X != b.X || a.Y != b.Y;
+
+        public string Data => $"{X},{Y}";
+        
+        public IReadable Read(string s)
+        {
+            string[] props = s.Split(',');
+            
+            X = int.Parse(props[0]);
+            Y = int.Parse(props[1]);
+            
+            return this;
+        }
     }
 }

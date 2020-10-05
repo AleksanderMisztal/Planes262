@@ -38,7 +38,7 @@ namespace Planes262.Networking
         {
             using (Packet packet = new Packet((int)ClientPackets.MoveTroop))
             {
-                packet.Write(position);
+                position.Write(packet);
                 packet.Write(direction);
 
                 packetSender.SendData(packet);

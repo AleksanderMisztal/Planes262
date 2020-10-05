@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Positioning;
-using GameJudge.Utils;
 using GameServer.Networking;
 
 namespace GameServer.Matchmaking
