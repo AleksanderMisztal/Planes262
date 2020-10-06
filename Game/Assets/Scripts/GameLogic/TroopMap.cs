@@ -7,10 +7,9 @@ namespace Planes262.GameLogic
 {
     public class TroopMap : TroopMapBase
     {
-        public IEnumerable<ITroop> Troops => map.Values;
-
         public void ResetForNewGame()
         {
+            foreach (ITroop troop in map.Values) troop.CleanUpSelf();
             map = new Dictionary<VectorTwo, ITroop>();
             redTroops = new HashSet<ITroop>();
             blueTroops = new HashSet<ITroop>();

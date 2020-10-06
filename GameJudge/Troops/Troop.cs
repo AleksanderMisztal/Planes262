@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
 
 namespace GameJudge.Troops
 {
-    public class Troop : ITroop
+    public class Troop : ITroop, IReadable, IWriteable
     {
-        public PlayerSide Player { get; }
+        public PlayerSide Player { get; private set; }
 
         private int initialMovePoints;
         public int MovePoints { get; private set; }
@@ -27,6 +28,8 @@ namespace GameJudge.Troops
             Orientation = orientation;
             Health = health;
         }
+        
+        public Troop() { }
 
         public void AdjustPosition(VectorTwo newPosition)
         {
@@ -63,5 +66,27 @@ namespace GameJudge.Troops
         }
 
         public virtual void CleanUpSelf() { }
+        
+        
+        public IReadable Read(string s)
+        {
+            List<string> args = Merger.Split(s);
+
+            Player = (PlayerSide)int.Parse(args[0]);
+            MovePoints = initialMovePoints = int.Parse(args[1]);
+            Position = (VectorTwo)new VectorTwo().Read(args[2]);
+            Orientation = int.Parse(args[3]);
+            Health = int.Parse(args[4]);
+            
+            return this;
+        }
+
+        public string Data => new Merger()
+            .Write((int)Player)
+            .Write(initialMovePoints)
+            .Write(Position)
+            .Write(Orientation)
+            .Write(Health)
+            .Data;
     }
 }

@@ -28,11 +28,10 @@ namespace Planes262.Networking
                 {(int) ServerPackets.LostOnTime, LostOnTime },
             };
         }
-
         
         public void HandlePacket(string data)
         {
-            Packet packet = new Packet(data)
+            Packet packet = new Packet(data);
             int packetType = packet.ReadInt();
             packetHandlers[packetType](packet);
         }
@@ -47,27 +46,26 @@ namespace Planes262.Networking
         {
             string opponentName = packet.ReadString();
             PlayerSide side = (PlayerSide)packet.ReadInt();
-            Board board = packet.ReadBoard();
-            ClockInfo clockInfo = packet.ReadClockInfo();
+            Board board = packet.Read<Board>();
+            ClockInfo clockInfo = packet.Read<ClockInfo>();
 
             geHandler.OnGameJoined(opponentName, side, board, clockInfo);
         }
 
         private void TroopSpawned(Packet packet)
         {
-            int count = packet.Rea
-            List<Troop> troops = packet.ReadTroops();
-            TimeInfo timeInfo = packet.ReadTimeInfo();
+            List<Troop> troops = packet.ReadList<Troop>();
+            TimeInfo timeInfo = packet.Read<TimeInfo>();
 
             geHandler.OnTroopSpawned(troops, timeInfo);
         }
 
         private void TroopMoved(Packet packet)
         {
-            VectorTwo position = packet.ReadVector2Int();
+            VectorTwo position = packet.Read<VectorTwo>();
             int direction = packet.ReadInt();
-            List<BattleResult> battleResults = packet.ReadBattleResults();
-            ScoreInfo score = packet.ReadScore();
+            List<BattleResult> battleResults = packet.ReadList<BattleResult>();
+            ScoreInfo score = packet.Read<ScoreInfo>();
 
             geHandler.OnTroopMoved(position, direction, battleResults, score);
         }

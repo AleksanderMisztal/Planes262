@@ -1,21 +1,25 @@
-﻿using GameDataStructures.Positioning;
+﻿using System.Collections.Generic;
+using GameDataStructures.Packets;
+using GameDataStructures.Positioning;
 
 namespace GameDataStructures
 {
-    public class Board
+    public class Board : IReadable, IWriteable
     {
-        public readonly int XMax;
-        public readonly int YMax;
+        public int XMax { get; private set; }
+        public int YMax { get; private set; }
 
         public VectorTwo Center { get; }
 
         public Board(int xMax, int yMax)
         {
-            XMax = xMax;
-            YMax = yMax;
+            this.XMax = xMax;
+            this.YMax = yMax;
 
             Center = new VectorTwo(xMax / 2, yMax / 2);
         }
+
+        public Board() { }
 
         public bool IsInside(VectorTwo p)
         {
@@ -24,5 +28,18 @@ namespace GameDataStructures
 
         public static readonly Board Standard = new Board(20, 12);
         public static readonly Board Test = new Board(12, 7);
+
+
+        public IReadable Read(string s)
+        {
+            List<string> args = Merger.Split(s);
+
+            XMax = int.Parse(args[0]);
+            YMax = int.Parse(args[1]);
+
+            return this;
+        }
+
+        public string Data => new Merger().Write(XMax).Write(YMax).Data;
     }
 }

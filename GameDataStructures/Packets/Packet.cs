@@ -5,9 +5,10 @@ namespace GameDataStructures.Packets
     public class Packet
     {
         private readonly List<string> objects;
+        private readonly Merger merger = new Merger();
         private int index;
 
-        public string Data => Merger.Join(objects);
+        public string Data => merger.Data;
 
         public Packet(string serialized)
         {
@@ -26,11 +27,6 @@ namespace GameDataStructures.Packets
             Write((int)id);
         }
 
-        private void Write(string obj)
-        {
-            objects.Add(obj);
-        }
-
         public void Write(object obj)
         {
             Write(obj.ToString());
@@ -41,14 +37,27 @@ namespace GameDataStructures.Packets
             Write(writeable.Data);
         }
 
+        private void Write(string obj)
+        {
+            objects.Add(obj);
+            merger.Write(obj);
+        }
+
         public T Read<T>() where T : IReadable, new()
         {
             return (T)new T().Read(objects[index++]);
         }
 
-        public T ReadPrim<T>() where T : IReadable, new()
+        public List<T> ReadList<T>() where T : IReadable, new()
         {
-            return (T)new T().Read(objects[index++]);
+            int count = ReadInt();
+            List<T> ts = new List<T>();
+            for (int i = 0; i < count; i++) ts.Add(Read<T>());
+            return ts;
         }
+
+        public int ReadInt() => int.Parse(objects[index++]);
+
+        public string ReadString() => objects[index++];
     }
 }

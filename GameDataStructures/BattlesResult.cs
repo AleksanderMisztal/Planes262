@@ -1,4 +1,5 @@
-﻿using GameDataStructures.Packets;
+﻿using System.Collections.Generic;
+using GameDataStructures.Packets;
 
 namespace GameDataStructures
 {
@@ -26,16 +27,17 @@ namespace GameDataStructures
             return $"a: {AttackerDamaged} b: {DefenderDamaged}";
         }
 
+        
         public IReadable Read(string s)
         {
-            string[] props = s.Split(',');
+            List<string> args = Merger.Split(s);
             
-            AttackerDamaged = bool.Parse(props[0]);
-            DefenderDamaged = bool.Parse(props[1]);
+            AttackerDamaged = bool.Parse(args[0]);
+            DefenderDamaged = bool.Parse(args[1]);
 
             return this;
         }
 
-        public string Data => $"{AttackerDamaged},{DefenderDamaged}";
+        public string Data => new Merger().Write(AttackerDamaged).Write(DefenderDamaged).Data;
     }
 }

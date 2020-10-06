@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Tests\Play Mode\EndToEndTests.cs" />
      <None Include="Assets\Tests\Play Mode\Play Mode.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>

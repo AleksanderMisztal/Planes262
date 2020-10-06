@@ -1,4 +1,5 @@
-﻿using GameDataStructures.Packets;
+﻿using System.Collections.Generic;
+using GameDataStructures.Packets;
 
 namespace GameDataStructures.Positioning
 {
@@ -40,11 +41,11 @@ namespace GameDataStructures.Positioning
         public static bool operator != (VectorTwo a, VectorTwo b)
             => a.X != b.X || a.Y != b.Y;
 
-        public string Data => $"{X},{Y}";
+        public string Data => new Merger().Write(X).Write(Y).Data;
         
         public IReadable Read(string s)
         {
-            string[] props = s.Split(',');
+            List<string> props = Merger.Split(s);
             
             X = int.Parse(props[0]);
             Y = int.Parse(props[1]);

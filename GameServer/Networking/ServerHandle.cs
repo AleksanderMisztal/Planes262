@@ -27,7 +27,7 @@ namespace GameServer.Networking
 
         public async Task Handle(int fromClient, Packet packet)
         {
-            int packetType = packet.Read<int>();
+            int packetType = packet.ReadInt();
             try
             {
                 await packetHandlers[packetType](fromClient, packet);
@@ -41,7 +41,7 @@ namespace GameServer.Networking
         
         private async Task JoinGame(int fromClient, Packet packet)
         {
-            string username = packet.Read<string>();
+            string username = packet.ReadString();
             User newUser = new User(fromClient, username);
             await gameHandler.SendToGame(newUser);
         }
@@ -49,7 +49,7 @@ namespace GameServer.Networking
         private Task MoveTroop(int fromClient, Packet packet)
         {
             VectorTwo position = packet.Read<VectorTwo>();
-            int direction = packet.Read<int>();
+            int direction = packet.ReadInt();
 
             gameHandler.MoveTroop(fromClient, position, direction);
             return Task.CompletedTask;
@@ -57,7 +57,7 @@ namespace GameServer.Networking
 
         private async Task SendMessage(int fromClient, Packet packet)
         {
-            string message = packet.Read<string>();
+            string message = packet.ReadString();
 
             await gameHandler.SendMessage(fromClient, message);
         }
