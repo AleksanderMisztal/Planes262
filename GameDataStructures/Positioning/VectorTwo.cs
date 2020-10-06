@@ -40,8 +40,7 @@ namespace GameDataStructures.Positioning
 
         public static bool operator != (VectorTwo a, VectorTwo b)
             => a.X != b.X || a.Y != b.Y;
-
-        public string Data => new Merger().Write(X).Write(Y).Data;
+        
         
         public IReadable Read(string s)
         {
@@ -52,5 +51,7 @@ namespace GameDataStructures.Positioning
             
             return this;
         }
+        
+        public string Data => new Merger().Write(X).Write(Y).Data;
     }
 }

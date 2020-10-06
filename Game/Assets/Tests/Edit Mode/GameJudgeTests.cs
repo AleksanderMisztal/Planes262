@@ -10,7 +10,7 @@ namespace Planes262.Tests.Edit_Mode
     public class GameJudgeTests
     {
         [Test]
-        public void GameJudgeTestsSimplePasses()
+        public void TestGameJudge()
         {
             GameController gc = new GameController(WaveProvider.Basic(), Board.Standard);
 

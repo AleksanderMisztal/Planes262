@@ -1,5 +1,4 @@
-﻿using System;
-using GameDataStructures;
+﻿using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 
@@ -42,8 +41,8 @@ namespace GameJudge
             catch (IllegalMoveException ex)
             {
                 message = ex.Message;
-                Console.WriteLine(message);
-                Console.WriteLine($"Pos: {position}, dir: {direction}");
+                MyLogger.Log(message);
+                MyLogger.Log($"Pos: {position}, dir: {direction}");
                 return false;
             }
         }

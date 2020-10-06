@@ -10,9 +10,9 @@ namespace Planes262.GameLogic
         public void ResetForNewGame()
         {
             foreach (ITroop troop in map.Values) troop.CleanUpSelf();
-            map = new Dictionary<VectorTwo, ITroop>();
-            redTroops = new HashSet<ITroop>();
-            blueTroops = new HashSet<ITroop>();
+            map.Clear();
+            redTroops.Clear();
+            blueTroops.Clear();
         }
 
         public void SpawnWave(IEnumerable<ITroop> wave)

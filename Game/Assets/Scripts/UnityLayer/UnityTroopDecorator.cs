@@ -1,4 +1,5 @@
-﻿using GameJudge.Troops;
+﻿using GameDataStructures;
+using GameJudge.Troops;
 using Planes262.Utils;
 using UnityEngine;
 
@@ -31,13 +32,16 @@ namespace Planes262.UnityLayer
 
         public override void MoveInDirection(int direction)
         {
+            Debug.Log("Troop: moving from " + Position);
             base.MoveInDirection(direction);
             body.Rotate(Vector3.forward * 60 * direction);
             go.position = mapGrid.CellToWorld(Position);
+            MyLogger.Log("New position is " + Position);
         }
 
         public override void FlyOverOtherTroop()
         {
+            Debug.Log("Troop: flying");
             base.FlyOverOtherTroop();
             go.position = mapGrid.CellToWorld(Position);
         }

@@ -19,6 +19,7 @@ namespace Planes262.UnityLayer.Managers
 
         private void Awake()
         {
+            MyLogger.myLogger = new UnityLogger();
             uiManager = FindObjectOfType<UIManager>();
             messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
@@ -49,7 +50,7 @@ namespace Planes262.UnityLayer.Managers
             gameManager.SetLocal(true);
             
             GameController gc = new GameController(WaveProvider.Test(), Board.Test);
-            Clock clock = new Clock(10, 5, geHandler.OnLostOnTime);
+            Clock clock = new Clock(100, 5, geHandler.OnLostOnTime);
             
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults, args.Score);
             gc.TroopsSpawned += args => {

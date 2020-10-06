@@ -29,6 +29,7 @@ namespace Planes262.GameLogic
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
+            MyLogger.Log("Moving troop");
             int battleId = 0;
             ITroop troop = troopMap.Get(position);
             VectorTwo startingPosition = troop.Position;

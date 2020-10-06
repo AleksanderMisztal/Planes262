@@ -7,10 +7,10 @@ namespace GameJudge
 {
     public abstract class TroopMapBase
     {
-        protected Dictionary<VectorTwo, ITroop> map = new Dictionary<VectorTwo, ITroop>();
+        protected readonly Dictionary<VectorTwo, ITroop> map = new Dictionary<VectorTwo, ITroop>();
 
-        protected HashSet<ITroop> redTroops = new HashSet<ITroop>();
-        protected HashSet<ITroop> blueTroops = new HashSet<ITroop>();
+        protected readonly HashSet<ITroop> redTroops = new HashSet<ITroop>();
+        protected readonly HashSet<ITroop> blueTroops = new HashSet<ITroop>();
 
         public void AdjustPosition(ITroop troop, VectorTwo startingPosition)
         {

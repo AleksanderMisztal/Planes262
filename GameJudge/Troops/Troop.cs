@@ -31,7 +31,7 @@ namespace GameJudge.Troops
         
         public Troop() { }
 
-        public void AdjustPosition(VectorTwo newPosition)
+        internal void AdjustPosition(VectorTwo newPosition)
         {
             Position = newPosition;
         }

@@ -1,4 +1,4 @@
-Build started 05.10.2020 19:57:10.
+Build started 06.10.2020 13:48:29.
 __________________________________________________
 Project "C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\GameJudge.csproj" (default targets):
 
@@ -71,8 +71,8 @@ Target DispatchToInnerBuilds:
         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702,1701,1702 /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE;RELEASE;NETFRAMEWORK;NET472 /highentropyva+ /reference:"C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.FileSystem.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Numerics.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" /debug- /debug:portable /filealign:512 /optimize+ /out:obj\Release\net472\GameJudge.dll /ruleset:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Static Analysis Tools\\Rule Sets\MinimumRecommendedRules.ruleset" /subsystemversion:6.00 /target:library /warnaserror- /utf8output /deterministic+ /langversion:7.3 Battles\AlwaysDamageBattles.cs Battles\IBattleResolver.cs Battles\StandardBattles.cs Clock.cs GameController.cs GameEvents\GameEndedEventArgs.cs GameEvents\TroopMovedEventArgs.cs GameEvents\TroopsSpawnedEventArgs.cs IllegalMoveException.cs MoveValidator.cs Score.cs TroopAi.cs TroopMap.cs TroopMapBase.cs Troops\DamageScoringTroopDecorator.cs Troops\ITroop.cs Troops\Troop.cs Troops\TroopDecorator.cs Troops\TroopFactory.cs Waves\WaveProvider.cs Waves\WavesBuilder.cs "obj\Release\net472\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" obj\Release\net472\GameJudge.AssemblyInfo.cs /warnaserror+:NU1605
         U¿ywana jest udostêpniona kompilacja z kompilatorem z katalogu: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn
     Target _CopyFilesMarkedCopyLocal:
-        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameDataStructures.dll”.
         Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameDataStructures.pdb”.
+        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\bin\Release\net472\GameDataStructures.dll”.
         Modyfikowanie „C:\Users\aleks\Projects\TS Games\Planes262\GameJudge\obj\Release\net472\GameJudge.csproj.CopyComplete”.
     Target GetCopyToOutputDirectoryItems:
         Target _GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences:
@@ -134,4 +134,4 @@ Kompilacja powiod³a siê.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.24
+Time Elapsed 00:00:02.05
