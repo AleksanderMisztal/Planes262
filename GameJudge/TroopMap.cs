@@ -17,6 +17,7 @@ namespace GameJudge
 
         public IEnumerable<Troop> SpawnWave(IEnumerable<Troop> wave)
         {
+            
             foreach (Troop troop in wave)
             {
                 troop.AdjustPosition(GetEmptyCell(troop.Position));

@@ -73,6 +73,7 @@ namespace GameJudge
         {
             IEnumerable<Troop> wave = waveProvider.GetTroops(roundNumber);
             wave = troopMap.SpawnWave(wave);
+            wave = wave.Select(t => t.Copy);
             TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
         }
 

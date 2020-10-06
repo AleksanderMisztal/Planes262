@@ -67,6 +67,8 @@ namespace GameJudge.Troops
 
         public virtual void CleanUpSelf() { }
         
+        public Troop Copy => new Troop(Player, initialMovePoints, Position, Orientation, Health);
+        
         
         public IReadable Read(string s)
         {

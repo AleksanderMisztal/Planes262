@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
+using UnityEngine;
 
 namespace Planes262.GameLogic
 {
@@ -19,6 +21,7 @@ namespace Planes262.GameLogic
         {
             foreach (ITroop troop in wave)
             {
+                MyLogger.Log("Spawning troop at " + troop.Position);
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);
             }
