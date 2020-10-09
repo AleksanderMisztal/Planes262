@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>Planes262</RootNamespace>
-    <ProjectGuid>{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}</ProjectGuid>
+    <ProjectGuid>{DDFBC18F-9396-3137-9CFE-DEB2CDB74636}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Scripts</AssemblyName>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -58,46 +58,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameLogic\PathFinder.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\TroopManager.cs" />
-     <Compile Include="Assets\Scripts\GameLogic\TroopMap.cs" />
-     <Compile Include="Assets\Scripts\Networking\Client.cs" />
-     <Compile Include="Assets\Scripts\Networking\CsWebSocket.cs" />
-     <Compile Include="Assets\Scripts\Networking\IPacketSender.cs" />
-     <Compile Include="Assets\Scripts\Networking\JSWebSocket.cs" />
-     <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\BomberTemplate.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\FighterTemplate.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\TroopTemplate.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\GameEventsHandler.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\GameManager.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\MapController.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\TileManager.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\MoveAttemptEventArgs.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\PlayerMeta.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\UnityTroopDecorator.cs" />
-     <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
-     <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
-     <Compile Include="Assets\Scripts\Utils\Effects.cs" />
-     <Compile Include="Assets\Scripts\Utils\MapGrid.cs" />
-     <Compile Include="Assets\Scripts\Utils\Push3DToFront.cs" />
-     <Compile Include="Assets\Scripts\Utils\SpriteHolder.cs" />
-     <None Include="Assets\Scripts\Scripts.asmdef" />
- <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+     <Compile Include="Assets\Prefabs\FighterTemp.cs" />
+     <None Include="Assets\Sprites\Icons\sheet_black2x.xml" />
+     <None Include="Assets\Sprites\Icons\sheet_white2x.xml" />
+     <None Include="Assets\Sprites\Icons\sheet_black1x.xml" />
+     <None Include="Assets\Sprites\Icons\sheet_white1x.xml" />
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro.Editor">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.CollabProxy.Editor">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rider.Editor">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -275,18 +266,6 @@
  </Reference>
  <Reference Include="UnityEngine.XRModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.VR">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.Graphs">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WebGL.Extensions">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="GameDataStructures">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Assets/GameDataStructures.dll</HintPath>
@@ -639,6 +618,12 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.4f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Scripts.csproj">
+      <Project>{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}</Project>
+      <Name>Scripts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

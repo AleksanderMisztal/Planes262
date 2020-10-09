@@ -1,5 +1,8 @@
-﻿namespace GameDataStructures
+﻿using System;
+
+namespace GameDataStructures
 {
+    [Serializable]
     public enum TroopType
     {
         Fighter = 0,
