@@ -56,6 +56,11 @@ namespace Planes262.UnityLayer.Managers
             clockDisplay.ResetTime(clockInfo);
             gameManager.StartNewGame(board, side);
             uiManager.TransitionIntoGame(board);
+            
+            string redName = side == PlayerSide.Red ? PlayerMeta.Name : opponentName;
+            string blueName = side == PlayerSide.Blue ? PlayerMeta.Name : opponentName;
+            score.SetNames(redName, blueName);
+            score.Set(0, 0);
         }
 
         public void OnTroopSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)

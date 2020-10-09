@@ -2,6 +2,7 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Battles;
+using GameJudge.Troops;
 using GameJudge.Waves;
 using NUnit.Framework;
 
@@ -105,9 +106,20 @@ namespace JudgeTests
         }
 
         [Test]
-        public void Should_NotThrowIllegalMove_When_MovesAreLegal()
+        public void TestReturningCopies()
         {
-            //GameController gc = new GameController();
+            GameController gc = new GameController(WaveProvider.Basic(), Board.Test);
+            Troop troop = null;
+            bool wasLegal = false;
+            gc.TroopsSpawned += args => troop = args.Troops.GetEnumerator().Current;
+            gc.TroopMoved += args => wasLegal = true;
+            
+            gc.BeginGame();
+            VectorTwo position = troop.Position;
+            troop.MoveInDirection(Forward);
+            gc.ProcessMove(PlayerSide.Blue, position, Forward);
+            
+            Assert.IsTrue(wasLegal);
         }
     }
 }

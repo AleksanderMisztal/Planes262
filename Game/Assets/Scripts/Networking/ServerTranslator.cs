@@ -54,7 +54,7 @@ namespace Planes262.Networking
 
         private void TroopSpawned(Packet packet)
         {
-            List<Troop> troops = packet.ReadList<Troop>();
+            List<Fighter> troops = packet.ReadList<Fighter>();
             TimeInfo timeInfo = packet.Read<TimeInfo>();
 
             geHandler.OnTroopSpawned(troops, timeInfo);

@@ -1,4 +1,4 @@
-Build started 06.10.2020 14:17:13.
+Build started 10/9/2020 11:15:31 AM.
 __________________________________________________
 Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (default targets):
 
@@ -7,35 +7,35 @@ Target DispatchToInnerBuilds:
     Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (Build target(s)):
 
     Target PrepareForBuild:
-        Tworzenie katalogu „bin\Release\net471\”.
+        Creating directory "bin\Release\net471\".
     Target GenerateTargetFrameworkMonikerAttribute:
-      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
     Target CoreGenerateAssemblyInfo:
-      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
     Target CoreCompile:
-      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
     Target CopyFilesToOutputDirectory:
-        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll”.
+        Copying file from "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.dll" to "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll".
         GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.dll
-        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb”.
+        Copying file from "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\net471\GameDataStructures.pdb" to "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\net471\GameDataStructures.pdb".
     __________________________________________________
     Project "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" is building "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\GameDataStructures.csproj" (Build target(s)):
 
     Target PrepareForBuild:
-        Tworzenie katalogu „bin\Release\netcoreapp3.1\”.
+        Creating directory "bin\Release\netcoreapp3.1\".
     Target GenerateTargetFrameworkMonikerAttribute:
-      Pomijanie elementu docelowego „GenerateTargetFrameworkMonikerAttribute”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
     Target CoreGenerateAssemblyInfo:
-      Pomijanie elementu docelowego „CoreGenerateAssemblyInfo”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
     Target CoreCompile:
-      Pomijanie elementu docelowego „CoreCompile”, poniewa¿ wszystkie pliki wyjœciowe s¹ aktualne w porównaniu z plikami wejœciowymi.
+      Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
     Target CopyFilesToOutputDirectory:
-        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.dll” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll”.
+        Copying file from "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.dll" to "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll".
         GameDataStructures -> C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.dll
-        Kopiowanie pliku z „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.pdb” do „C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.pdb”.
+        Copying file from "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\obj\Release\netcoreapp3.1\GameDataStructures.pdb" to "C:\Users\aleks\Projects\TS Games\Planes262\GameDataStructures\bin\Release\netcoreapp3.1\GameDataStructures.pdb".
 
-Kompilacja powiod³a siê.
+Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.30
+Time Elapsed 00:00:01.92

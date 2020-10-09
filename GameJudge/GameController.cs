@@ -71,10 +71,9 @@ namespace GameJudge
 
         private void AddSpawnsForCurrentRound()
         {
-            IEnumerable<Troop> wave = waveProvider.GetTroops(roundNumber);
-            wave = troopMap.SpawnWave(wave);
-            wave = wave.Select(t => t.Copy);
-            TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave));
+            IEnumerable<Troop> troops = waveProvider.GetTroops(roundNumber);
+            IEnumerable<Troop> wave = troopMap.SpawnWave(troops);
+            TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave.Copy()));
         }
 
         private void SetInitialMovePointsLeft(PlayerSide player)

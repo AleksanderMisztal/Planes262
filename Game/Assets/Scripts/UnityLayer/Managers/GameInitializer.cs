@@ -35,7 +35,7 @@ namespace Planes262.UnityLayer.Managers
         {
             client = new Client(geHandler);
 
-            uiManager.GameJoined += username => client.JoinGame(username);
+            uiManager.GameJoined += () => client.JoinGame(PlayerMeta.Name);
             messenger.MessageSent += message => client.SendMessage(message);
         }
 

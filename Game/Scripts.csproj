@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\MoveAttemptEventArgs.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\PlayerMeta.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />

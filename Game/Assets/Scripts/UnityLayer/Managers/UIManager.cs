@@ -23,7 +23,7 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private GameObject gameEnded;
         [SerializeField] private Text resultText;
 
-        public event Action<string> GameJoined;
+        public event Action GameJoined;
 
         private void Start()
         {
@@ -47,7 +47,8 @@ namespace Planes262.UnityLayer.Managers
 
         public void JoinGame()
         {
-            GameJoined?.Invoke(username.text);
+            PlayerMeta.Name = username.text;
+            GameJoined?.Invoke();
         }
 
         public void TransitionIntoGame(Board boardDims)

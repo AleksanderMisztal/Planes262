@@ -22,7 +22,7 @@ namespace Planes262.UnityLayer
 
         public void Set(int red, int blue)
         {
-            scoreText.text = blueName + blue + " : " + red + redName;
+            scoreText.text = blueName + " " + blue + " : " + red + " " + redName;
         }
     }
 }

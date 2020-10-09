@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GameJudge.Troops;
 
 namespace GameJudge.Waves
@@ -110,6 +111,14 @@ namespace GameJudge.Waves
             int maxBlueWave = 5;
 
             return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
+        }
+    }
+
+    public static class WaveExtensions
+    {
+        public static IEnumerable<Troop> Copy(this IEnumerable<Troop> troops)
+        {
+            return troops.Select(t => t.Copy());
         }
     }
 }

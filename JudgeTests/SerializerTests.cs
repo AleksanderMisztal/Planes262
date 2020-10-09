@@ -21,7 +21,7 @@ namespace JudgeTests
         public void TestTroopDeserialization()
         {
             const string serialized = "(0)(5)((2)(3))(0)(2)";
-            Troop troop = (Troop)new Troop().Read(serialized);
+            Troop troop = (Fighter)new Fighter().Read(serialized);
             
             Assert.AreEqual(PlayerSide.Blue, troop.Player);
             Assert.AreEqual(5, troop.MovePoints);

@@ -6,11 +6,12 @@ using GameDataStructures.Positioning;
 
 namespace GameJudge.Troops
 {
-    public class Troop : ITroop, IReadable, IWriteable
+    public abstract class Troop : ITroop, IReadable, IWriteable
     {
         public PlayerSide Player { get; private set; }
+        public abstract TroopType Type { get; protected set; }
 
-        private int initialMovePoints;
+        protected int InitialMovePoints;
         public int MovePoints { get; private set; }
 
         public VectorTwo Position { get; private set; }
@@ -19,17 +20,17 @@ namespace GameJudge.Troops
         public int Health { get; private set; }
         public bool Destroyed => Health <= 0;
 
-        public Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
+        protected Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
             Player = player;
-            initialMovePoints = movePoints;
+            InitialMovePoints = movePoints;
             MovePoints = movePoints;
             Position = position;
             Orientation = orientation;
             Health = health;
         }
         
-        public Troop() { }
+        protected Troop() { }
 
         internal void AdjustPosition(VectorTwo newPosition)
         {
@@ -51,7 +52,7 @@ namespace GameJudge.Troops
         public void ApplyDamage()
         {
             Health--;
-            initialMovePoints--;
+            InitialMovePoints--;
             if (MovePoints > 0)
                 MovePoints--;
         }
@@ -62,33 +63,40 @@ namespace GameJudge.Troops
 
         public void ResetMovePoints()
         {
-            MovePoints = initialMovePoints;
+            MovePoints = InitialMovePoints;
         }
 
         public virtual void CleanUpSelf() { }
-        
-        public Troop Copy => new Troop(Player, initialMovePoints, Position, Orientation, Health);
-        
-        
-        public IReadable Read(string s)
+
+        public IReadable Read(string s) => Read(s, out _);
+
+        protected virtual IReadable Read(string s, out List<string> otherArgs)
         {
             List<string> args = Merger.Split(s);
 
-            Player = (PlayerSide)int.Parse(args[0]);
-            MovePoints = initialMovePoints = int.Parse(args[1]);
-            Position = (VectorTwo)new VectorTwo().Read(args[2]);
-            Orientation = int.Parse(args[3]);
-            Health = int.Parse(args[4]);
+            int id = 0;
+            Type = (TroopType) int.Parse(args[id++]);
+            Player = (PlayerSide) int.Parse(args[id++]);
+            MovePoints = InitialMovePoints = int.Parse(args[id++]);
+            Position = (VectorTwo)new VectorTwo().Read(args[id++]);
+            Orientation = int.Parse(args[id++]);
+            Health = int.Parse(args[id++]);
+
+            otherArgs = args.GetRange(id, args.Count - id);
             
             return this;
         }
 
-        public string Data => new Merger()
-            .Write((int)Player)
-            .Write(initialMovePoints)
+        protected virtual Merger Merger => new Merger()
+            .Write(Type)
+            .Write((int) Player)
+            .Write(InitialMovePoints)
             .Write(Position)
             .Write(Orientation)
-            .Write(Health)
-            .Data;
+            .Write(Health);
+
+        public string Data => Merger.Data;
+        
+        public abstract Troop Copy();
     }
 }
