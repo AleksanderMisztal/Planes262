@@ -66,9 +66,6 @@
      <Compile Include="Assets\Scripts\Networking\IPacketSender.cs" />
      <Compile Include="Assets\Scripts\Networking\JSWebSocket.cs" />
      <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\BomberTemplate.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\FighterTemplate.cs" />
-     <Compile Include="Assets\Scripts\Scriptables\TroopTemplate.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />

@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0511c04080c328941b62ab6ba1184d5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bebe398e1e4e1047ba5391e5958ed77, type: 3}
   m_Name: Me262
   m_EditorClassIdentifier: 
-  typeXd: 0
   movePoints: 6
   health: 2
   sprites:

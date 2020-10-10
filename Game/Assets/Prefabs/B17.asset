@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89ff78d875cc81448911f880ad8eb91, type: 3}
   m_Name: B17
   m_EditorClassIdentifier: 
-  movePoints: 0
-  health: 0
-  sprites: []
+  movePoints: 5
+  health: 2
+  sprites:
+  - {fileID: 0}
+  - {fileID: 0}
