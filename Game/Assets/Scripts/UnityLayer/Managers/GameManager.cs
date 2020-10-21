@@ -22,7 +22,7 @@ namespace Planes262.UnityLayer.Managers
 
         private void Start()
         {
-            gridBase = new GridBase(Board.Test, 1);
+            gridBase = new GridBase(Board.test, 1);
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
             
             TroopMap troopMap = new TroopMap();
@@ -41,7 +41,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void SetLocal(bool local)
         {
-            mapController.IsLocal = local;
+            mapController.isLocal = local;
         }
 
         public void StartNewGame(Board board, PlayerSide side)

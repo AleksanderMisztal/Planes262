@@ -15,7 +15,7 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void TestGameJudge()
         {
-            GameController gc = new GameController(WaveProvider.Basic(), Board.Standard);
+            GameController gc = new GameController(WaveProvider.Basic(), Board.standard);
 
             gc.TroopMoved += Debug.Log;
             gc.TroopsSpawned += Debug.Log;
@@ -28,7 +28,7 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void TestReturningCopies()
         {
-            GameController gc = new GameController(WaveProvider.Test(), Board.Test);
+            GameController gc = new GameController(WaveProvider.Test(), Board.test);
             Troop troop = null;
             bool wasLegal = false;
             gc.TroopsSpawned += args => troop = args.Troops.ToList()[0];

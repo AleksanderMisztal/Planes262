@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Positioning;
-using Planes262.UnityLayer.Managers;
 using UnityEngine;
 
 namespace Planes262.UnityLayer.HexSystem
 {
-    public class GridBase : ITileManager
+    public class GridBase
     {
         private readonly int xSize;
         private readonly int ySize;
@@ -16,34 +15,32 @@ namespace Planes262.UnityLayer.HexSystem
         private IEnumerable<VectorTwo> activePositions = new List<VectorTwo>();
         private IEnumerable<VectorTwo> highlightedPath = new List<VectorTwo>();
 
-        private static readonly Color transparent = new Color(255, 255, 255, 0);
         private static readonly Color active = new Color(0, 0, 255, 255);
         private static readonly Color activeBlocked = new Color(0, 0, 0, 127);
         private static readonly Color onPath = new Color(255, 0, 0, 127);
 
         public GridBase(Board board, float cellSize)
         {
-            xSize = board.XMax;
-            ySize = board.YMax;
+            xSize = board.xSize;
+            ySize = board.ySize;
             this.cellSize = cellSize;
             tiles = new LineRenderer[xSize, ySize];
 
-            CreateBoard(board);
+            CreateBoard();
         }
-        
-        public void CreateBoard(Board board)
+
+        private void CreateBoard()
         {
             for (int x = 0; x < xSize; x++)
             for (int y = 0; y < ySize; y++)
             {
                 Vector3 center = Cube.FromOffset(x, y).ToWorld(cellSize);
-                tiles[x, y] = LineDrawer.DrawHex(center, cellSize);
+                tiles[x, y] = LineDrawer.DrawHex(center, cellSize, Color.white);
             }
         }
 
         public bool IsInside(int x, int y) => !(x < 0 || x >= xSize || y < 0 || y >= ySize);
-        public Vector3 GetHexCenter(Vector3 wp) => Cube.ToCube(wp, cellSize).ToWorld(cellSize);
-        public Vector3 ToWorld(VectorTwo pos) => ToWorld(pos.X, pos.Y);
+        public Vector3 ToWorld(VectorTwo pos) => ToWorld(pos.x, pos.y);
         public Vector3 ToWorld(int x, int y) => Cube.FromOffset(x, y).ToWorld(cellSize);
         public VectorTwo ToOffset(Vector3 wp) => Cube.ToCube(wp, cellSize).ToOffset();
 
@@ -75,9 +72,9 @@ namespace Planes262.UnityLayer.HexSystem
         public void ResetAllTiles()
         {
             foreach (VectorTwo pos in activePositions)
-                LineDrawer.SetColor(GetTile(pos), transparent);
+                LineDrawer.SetColor(GetTile(pos), Color.white);
             foreach (VectorTwo pos in highlightedPath)
-                LineDrawer.SetColor(GetTile(pos), transparent);
+                LineDrawer.SetColor(GetTile(pos), Color.white);
             activePositions = new List<VectorTwo>();
             highlightedPath = new List<VectorTwo>();
         }
@@ -86,7 +83,7 @@ namespace Planes262.UnityLayer.HexSystem
         {
             try
             {
-                return tiles[position.X, position.Y];
+                return tiles[position.x, position.y];
             }
             catch
             {

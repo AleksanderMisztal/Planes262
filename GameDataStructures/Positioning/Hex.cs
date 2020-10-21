@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GameDataStructures.Positioning
 {
@@ -9,12 +10,12 @@ namespace GameDataStructures.Positioning
             return new HexOffset(cell).GetAdjacentHex(direction).ToVector();
         }
 
-        public static VectorTwo[] GetNeighbours(VectorTwo cell)
+        public static IEnumerable<VectorTwo> GetNeighbours(VectorTwo cell)
         {
-            return new HexOffset(cell).GetNeighbors().Select(c => c.ToVector()).ToArray();
+            return new HexOffset(cell).GetNeighbors().Select(c => c.ToVector());
         }
 
-        public static VectorTwo[] GetControlZone(VectorTwo cell, int orientation)
+        public static IEnumerable<VectorTwo> GetControlZone(VectorTwo cell, int orientation)
         {
             VectorTwo[] cells = new VectorTwo[3];
             for (int i = -1; i < 2; i++)

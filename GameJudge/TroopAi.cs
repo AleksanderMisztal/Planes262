@@ -48,6 +48,6 @@ namespace GameJudge
 
     public static class V2Extension
     {
-        public static int SqrMagnitude(this VectorTwo v) => v.X * v.X + v.Y * v.Y;
+        public static int SqrMagnitude(this VectorTwo v) => v.x * v.x + v.y * v.y;
     }
 }

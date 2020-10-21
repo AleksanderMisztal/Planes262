@@ -31,7 +31,7 @@ namespace GameJudge.Waves
 
         private void AddTroopToRound(int round, VectorTwo p, PlayerSide player)
         {
-            Troop troop = player == PlayerSide.Red ? TroopFactory.Red(p.X, p.Y) : TroopFactory.Blue(p.X, p.Y);
+            Troop troop = player == PlayerSide.Red ? TroopFactory.Red(p.x, p.y) : TroopFactory.Blue(p.x, p.y);
 
             try
             {

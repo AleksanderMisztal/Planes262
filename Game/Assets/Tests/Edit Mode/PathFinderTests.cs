@@ -96,7 +96,7 @@ namespace Planes262.Tests.Edit_Mode
             List<Troop> troops = new List<Troop> {
                 TroopFactory.Blue(position, 3),
             };
-            board = Board.Test;
+            board = Board.test;
             map = new TroopMap();
             map.SpawnWave(troops);
             pathFinder = new PathFinder(map, board);

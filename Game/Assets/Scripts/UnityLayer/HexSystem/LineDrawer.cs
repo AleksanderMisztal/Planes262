@@ -5,7 +5,7 @@ namespace Planes262.UnityLayer.HexSystem
 {
     public static class LineDrawer
     {
-        public static LineRenderer DrawHex(Vector3 center, float size)
+        public static LineRenderer DrawHex(Vector3 center, float size, Color color)
         {
             LineRenderer lineRenderer = new GameObject().AddComponent<LineRenderer>();
             Vector3 left = Vector3.left * size;
@@ -23,6 +23,8 @@ namespace Planes262.UnityLayer.HexSystem
             lineRenderer.widthMultiplier = .1f;
             lineRenderer.positionCount = 7;
             lineRenderer.SetPositions(positions);
+            lineRenderer.material.color = color;
+            lineRenderer.gameObject.layer = 8;
             return lineRenderer;
         }
 

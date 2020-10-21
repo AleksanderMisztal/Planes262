@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Planes262.UnityLayer.HexSystem
 {
-    public class Cube
+    public readonly struct Cube
     {
         private readonly int x;
         private readonly int y;
@@ -71,6 +71,6 @@ namespace Planes262.UnityLayer.HexSystem
             return new Cube(x, y);
         }
 
-        public static Cube FromOffset(VectorTwo v) => FromOffset(v.X, v.Y);
+        public static Cube FromOffset(VectorTwo v) => FromOffset(v.x, v.y);
     }
 }

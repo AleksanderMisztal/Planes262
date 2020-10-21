@@ -41,14 +41,14 @@ namespace GameDataStructures.Positioning
 
         public override int GetHashCode()
         {
-            return Orientation + 7 * (Position.X + 101 * Position.Y);
+            return Orientation + 7 * (Position.x + 101 * Position.y);
         }
 
         public override bool Equals(object obj)
         {
             if ((obj == null) || GetType() != obj.GetType()) return false;
             OrientedCell c = (OrientedCell)obj;
-            return Position.X == c.Position.X && Position.Y == c.Position.Y && Orientation == c.Orientation;
+            return Position.x == c.Position.x && Position.y == c.Position.y && Orientation == c.Orientation;
         }
         public static bool operator ==(OrientedCell a, OrientedCell b)
         {

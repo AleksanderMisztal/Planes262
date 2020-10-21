@@ -49,7 +49,7 @@ namespace Planes262.UnityLayer.Managers
         {
             gameManager.SetLocal(true);
             
-            GameController gc = new GameController(WaveProvider.Test(), Board.Test);
+            GameController gc = new GameController(WaveProvider.Test(), Board.test);
             Clock clock = new Clock(100, 5, geHandler.OnLostOnTime);
             
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.Position, args.Direction, args.BattleResults, args.Score);
@@ -62,7 +62,7 @@ namespace Planes262.UnityLayer.Managers
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             
             ClockInfo clockInfo = clock.Initialize();
-            geHandler.OnGameJoined("local", PlayerSide.Blue, Board.Test, clockInfo);
+            geHandler.OnGameJoined("local", PlayerSide.Blue, Board.test, clockInfo);
             gc.BeginGame();
         }
     }

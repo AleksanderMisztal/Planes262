@@ -108,7 +108,7 @@ namespace JudgeTests
         [Test]
         public void TestReturningCopies()
         {
-            GameController gc = new GameController(WaveProvider.Basic(), Board.Test);
+            GameController gc = new GameController(WaveProvider.Basic(), Board.test);
             Troop troop = null;
             bool wasLegal = false;
             gc.TroopsSpawned += args => troop = args.Troops.GetEnumerator().Current;

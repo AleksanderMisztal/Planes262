@@ -37,7 +37,7 @@ namespace GameJudge
             {
                 VectorTwo position = q.Dequeue();
                 if (Get(position) == null) return position;
-                VectorTwo[] neighbours = Hex.GetNeighbours(seedPosition);
+                IEnumerable<VectorTwo> neighbours = Hex.GetNeighbours(seedPosition);
                 foreach (VectorTwo neigh in neighbours)
                     if (board.IsInside(neigh))
                         q.Enqueue(neigh);

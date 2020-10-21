@@ -4,26 +4,27 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.GameLogic;
+using Planes262.UnityLayer.HexSystem;
 
 namespace Planes262.UnityLayer.Managers
 {
     public class MapController
     {
-        public MapController(ITileManager tileManager, TroopMap troopMap, Action<MoveAttemptEventArgs> troopMoveHandler)
+        public MapController(GridBase tileManager, TroopMap troopMap, Action<MoveAttemptEventArgs> troopMoveHandler)
         {
             this.tileManager = tileManager;
             this.troopMap = troopMap;
             this.troopMoveHandler = troopMoveHandler;
         }
         
-        private readonly ITileManager tileManager;
+        private readonly GridBase tileManager;
         private readonly TroopMap troopMap;
         private readonly Action<MoveAttemptEventArgs> troopMoveHandler;
         
         private PathFinder pathFinder;
         private PlayerSide playerSide;
         private PlayerSide activePlayer = PlayerSide.Red;
-        public bool IsLocal = false;
+        public bool isLocal = false;
 
         private bool isPositionSelected;
         private bool isTargetSelected;
@@ -80,7 +81,7 @@ namespace Planes262.UnityLayer.Managers
         {
             DeactivateTroops();
             selectedTroop = troopMap.Get(cell);
-            if (selectedTroop != null && (selectedTroop.Player == playerSide || IsLocal) && selectedTroop.Player == activePlayer)
+            if (selectedTroop != null && (selectedTroop.Player == playerSide || isLocal) && selectedTroop.Player == activePlayer)
                 ActivateTroopAt(cell);
         }
 

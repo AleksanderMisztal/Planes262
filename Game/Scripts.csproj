@@ -75,9 +75,7 @@
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameManager.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\ITileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\MapController.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\TileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />

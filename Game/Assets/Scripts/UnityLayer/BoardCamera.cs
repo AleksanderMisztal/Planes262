@@ -24,31 +24,23 @@ namespace Planes262.UnityLayer
 
         public void Initialize(Board board)
         {
-            SetCameraPosition(board);
-            SetCameraSize(board);
+            Debug.Log("Initializing camera.");
+            if (gridBase == null) Debug.Log("Grid base is null!!");
+            boardCamera = GetComponent<Camera>();
+            SetCameraPositionAndSize(board);
             InitializeBoardBoundaries();
         }
 
-        private void SetCameraPosition(Board board)
+        private void SetCameraPositionAndSize(Board board)
         {
-            Vector3 bottomLeft = gridBase.ToWorld(-1, -1);
-            Vector3 topRight = gridBase.ToWorld(board.XMax + 1, board.YMax + 1);
+            Vector3 bottomLeft = gridBase.ToWorld(-2, -2);
+            Vector3 topRight = gridBase.ToWorld(board.xSize + 1, board.ySize + 1);
 
             center = (bottomLeft + topRight) / 2;
             center.z = -10;
 
             transform.position = center;
-        }
-
-        private void SetCameraSize(Board board)
-        {
-
-            //TODO: calculate based on screen size
-            float xSize = (float)board.XMax / 3 + 1.5f;
-            float ySize = (float)board.YMax / 2 + 1;
-
-            boardCamera = GetComponent<Camera>();
-            boardCamera.orthographicSize = maxSize = Mathf.Max(xSize, ySize);
+            boardCamera.orthographicSize = maxSize = (topRight.y - bottomLeft.y) / 2;
         }
 
         private void InitializeBoardBoundaries()

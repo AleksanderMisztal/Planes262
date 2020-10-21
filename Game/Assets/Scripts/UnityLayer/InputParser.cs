@@ -17,8 +17,8 @@ namespace Planes262.UnityLayer
             if (!Input.GetMouseButtonDown(0)) return;
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = gridBase.ToOffset(mousePosition);
-
-            CellClicked?.Invoke(cell);
+            if (gridBase.IsInside(cell.x, cell.y))
+                CellClicked?.Invoke(cell);
         }
     }
 }

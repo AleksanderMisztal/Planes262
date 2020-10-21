@@ -3,55 +3,55 @@ using GameDataStructures.Packets;
 
 namespace GameDataStructures.Positioning
 {
-    public struct VectorTwo : IWriteable, IReadable
+    public readonly struct VectorTwo : IWriteable, IReadable
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public readonly int x;
+        public readonly int y;
 
         public VectorTwo(int x, int y)
         {
-            X = x;
-            Y = y;
+            this.x = x;
+            this.y = y;
         }
 
         public override int GetHashCode()
         {
-            return 1000 * X + Y;
+            return 1000 * x + y;
         }
 
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             VectorTwo v = (VectorTwo)obj;
-            return (X == v.X) && (Y == v.Y);
+            return (x == v.x) && (y == v.y);
         }
 
         public override string ToString()
         {
-            return $"({X}, {Y})";
+            return $"({x}, {y})";
         }
 
         public static VectorTwo operator - (VectorTwo a, VectorTwo b)
-            => new VectorTwo(a.X - b.X, a.Y - b.Y);
+            => new VectorTwo(a.x - b.x, a.y - b.y);
 
 
         public static bool operator == (VectorTwo a, VectorTwo b)
-            => a.X == b.X && a.Y == b.Y;
+            => a.x == b.x && a.y == b.y;
 
         public static bool operator != (VectorTwo a, VectorTwo b)
-            => a.X != b.X || a.Y != b.Y;
+            => a.x != b.x || a.y != b.y;
         
         
         public IReadable Read(string s)
         {
             List<string> props = Merger.Split(s);
             
-            X = int.Parse(props[0]);
-            Y = int.Parse(props[1]);
+            int newX = int.Parse(props[0]);
+            int newY = int.Parse(props[1]);
             
-            return this;
+            return new VectorTwo(newX, newY);
         }
         
-        public string Data => new Merger().Write(X).Write(Y).Data;
+        public string Data => new Merger().Write(x).Write(y).Data;
     }
 }

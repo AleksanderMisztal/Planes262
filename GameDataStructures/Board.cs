@@ -6,40 +6,40 @@ namespace GameDataStructures
 {
     public class Board : IReadable, IWriteable
     {
-        public int XMax { get; private set; }
-        public int YMax { get; private set; }
+        public readonly int xSize;
+        public readonly int ySize;
 
         public VectorTwo Center { get; }
 
-        public Board(int xMax, int yMax)
+        public Board(int xSize, int ySize)
         {
-            this.XMax = xMax;
-            this.YMax = yMax;
+            this.xSize = xSize;
+            this.ySize = ySize;
 
-            Center = new VectorTwo(xMax / 2, yMax / 2);
+            Center = new VectorTwo(xSize / 2, ySize / 2);
         }
-
-        public Board() { }
-
+        
         public bool IsInside(VectorTwo p)
         {
-            return p.X >= 0 && p.X <= XMax && p.Y >= 0 && p.Y <= YMax;
+            return p.x >= 0 && p.x <= xSize && p.y >= 0 && p.y <= ySize;
         }
 
-        public static readonly Board Standard = new Board(20, 12);
-        public static readonly Board Test = new Board(12, 7);
+        public static readonly Board standard = new Board(20, 12);
+        public static readonly Board test = new Board(12, 7);
 
+        
+        public Board() { }
 
         public IReadable Read(string s)
         {
             List<string> args = Merger.Split(s);
 
-            XMax = int.Parse(args[0]);
-            YMax = int.Parse(args[1]);
+            int newX = int.Parse(args[0]);
+            int newY = int.Parse(args[1]);
 
-            return this;
+            return new Board(newX, newY);
         }
 
-        public string Data => new Merger().Write(XMax).Write(YMax).Data;
+        public string Data => new Merger().Write(xSize).Write(ySize).Data;
     }
 }

@@ -24,7 +24,7 @@ namespace GameServer.Matchmaking
             this.sender = sender;
 
             WaveProvider waveProvider = WaveProvider.Test();
-            board = Board.Test;
+            board = Board.test;
             controller = new GameController(waveProvider, board);
             
             clock = new Clock(10, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));
