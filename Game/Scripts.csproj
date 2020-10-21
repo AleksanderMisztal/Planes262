@@ -68,10 +68,14 @@
      <Compile Include="Assets\Scripts\Networking\ServerTranslator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\HexSystem\Cube.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\HexSystem\GridBase.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\HexSystem\LineDrawer.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameManager.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\Managers\ITileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\MapController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TileManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
@@ -86,7 +90,6 @@
      <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
      <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
      <Compile Include="Assets\Scripts\Utils\Effects.cs" />
-     <Compile Include="Assets\Scripts\Utils\MapGrid.cs" />
      <Compile Include="Assets\Scripts\Utils\Push3DToFront.cs" />
      <Compile Include="Assets\Scripts\Utils\SpriteHolder.cs" />
      <None Include="Assets\Scripts\Scripts.asmdef" />

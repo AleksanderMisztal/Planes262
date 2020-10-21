@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace Planes262.UnityLayer.Managers
 {
-    public class TileManager : MonoBehaviour
+    public class TileManager : MonoBehaviour, ITileManager
     {
         [SerializeField] private Tile boardTile;
         [SerializeField] private Tile rangeTile;
@@ -48,44 +48,38 @@ namespace Planes262.UnityLayer.Managers
             clickTilemap.SetTile(pos, clickTile);
         }
 
-        public void ShowHideGrid()
+        public void SetReachableTiles(IEnumerable<VectorTwo> reachable)
         {
-            isGridActive = !isGridActive;
-            boardTilemap.gameObject.SetActive(isGridActive);
-        }
-
-        public void ActivateTiles(IEnumerable<VectorTwo> toActivate)
-        {
-            DeactivateTiles();
-            foreach (VectorTwo pos in toActivate)
+            ResetAllTiles();
+            foreach (VectorTwo pos in reachable)
                 rangeTilemap.SetColor(pos.ToVector3Int(), active);
-            activePositions = toActivate;
+            activePositions = reachable;
         }
 
-        public void ActivateTilesBlocked(HashSet<VectorTwo> toActivate)
+        public void SetReachableTilesBlocked(HashSet<VectorTwo> reachable)
         {
-            DeactivateTiles();
-            foreach (VectorTwo pos in toActivate)
+            ResetAllTiles();
+            foreach (VectorTwo pos in reachable)
                 rangeTilemap.SetColor(pos.ToVector3Int(), activeBlocked);
-            activePositions = toActivate;
+            activePositions = reachable;
         }
 
-        public void HighlightPath(IEnumerable<VectorTwo> toHighlight)
+        public void HighlightPath(IEnumerable<VectorTwo> path)
         {
             foreach (VectorTwo pos in highlightedPath)
                 rangeTilemap.SetColor(pos.ToVector3Int(), active);
-            foreach (VectorTwo pos in toHighlight)
+            foreach (VectorTwo pos in path)
                 rangeTilemap.SetColor(pos.ToVector3Int(), onPath);
-            highlightedPath = toHighlight;
+            highlightedPath = path;
         }
 
-        public void DeactivateTiles()
+        public void ResetAllTiles()
         {
             foreach (VectorTwo pos in activePositions)
                 rangeTilemap.SetColor(pos.ToVector3Int(), transparent);
             foreach (VectorTwo pos in highlightedPath)
                 rangeTilemap.SetColor(pos.ToVector3Int(), transparent);
-            this.activePositions = new List<VectorTwo>();
+            activePositions = new List<VectorTwo>();
             highlightedPath = new List<VectorTwo>();
         }
     }

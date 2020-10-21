@@ -1,7 +1,6 @@
 ﻿using System;
-using GameDataStructures;
 using GameDataStructures.Positioning;
-using Planes262.Utils;
+using Planes262.UnityLayer.HexSystem;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
@@ -9,14 +8,15 @@ namespace Planes262.UnityLayer
     public class InputParser : MonoBehaviour
     {
         [SerializeField] private Camera boardCamera;
-        [SerializeField] private MapGrid mapGrid;
+        public GridBase gridBase;
 
         public event Action<VectorTwo> CellClicked;
 
-        private void OnMouseDown()
+        private void Update()
         {
+            if (!Input.GetMouseButtonDown(0)) return;
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
-            VectorTwo cell = mapGrid.WorldToCell(mousePosition);
+            VectorTwo cell = gridBase.ToOffset(mousePosition);
 
             CellClicked?.Invoke(cell);
         }

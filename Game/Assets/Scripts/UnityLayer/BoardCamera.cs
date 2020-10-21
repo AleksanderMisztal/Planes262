@@ -1,4 +1,5 @@
 ﻿using GameDataStructures;
+using Planes262.UnityLayer.HexSystem;
 using UnityEngine;
 
 namespace Planes262.UnityLayer
@@ -6,18 +7,17 @@ namespace Planes262.UnityLayer
     public class BoardCamera : MonoBehaviour
     {
         private Camera boardCamera;
+        public GridBase gridBase;
 
-        [SerializeField] private GridLayout gridLayout;
-
-        private const float Sensitivity = 5;
-        private const float Mobility = .2f;
+        private const float sensitivity = 5;
+        private const float mobility = .2f;
 
         private float xMin;
         private float xMax;
         private float yMin;
         private float yMax;
 
-        private const float MinSize = 2;
+        private const float minSize = 2;
         private float maxSize = 5;
         private Vector3 center;
 
@@ -31,8 +31,8 @@ namespace Planes262.UnityLayer
 
         private void SetCameraPosition(Board board)
         {
-            Vector3 bottomLeft = gridLayout.CellToWorld(new Vector3Int(-1, -1, -10));
-            Vector3 topRight = gridLayout.CellToWorld(new Vector3Int(board.XMax + 1, board.YMax + 1, -10));
+            Vector3 bottomLeft = gridBase.ToWorld(-1, -1);
+            Vector3 topRight = gridBase.ToWorld(board.XMax + 1, board.YMax + 1);
 
             center = (bottomLeft + topRight) / 2;
             center.z = -10;
@@ -71,32 +71,34 @@ namespace Planes262.UnityLayer
 
         private void UpdateCameraSize()
         {
-            float deltaSize = -Input.GetAxis("Mouse ScrollWheel") * Sensitivity;
-            boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, MinSize, maxSize);
+            float deltaSize = -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            boardCamera.orthographicSize = Mathf.Clamp(boardCamera.orthographicSize + deltaSize, minSize, maxSize);
         }
 
         private void UpdateCameraPosition()
         {
             if (Input.GetKey(KeyCode.UpArrow))
-                transform.position += Vector3.up * Mobility;
+                transform.position += Vector3.up * mobility;
             if (Input.GetKey(KeyCode.DownArrow))
-                transform.position += Vector3.down * Mobility;
+                transform.position += Vector3.down * mobility;
             if (Input.GetKey(KeyCode.RightArrow))
-                transform.position += Vector3.right * Mobility;
+                transform.position += Vector3.right * mobility;
             if (Input.GetKey(KeyCode.LeftArrow))
-                transform.position += Vector3.left * Mobility;
+                transform.position += Vector3.left * mobility;
         }
 
         private void ClampCameraPosition()
         {
-            float x = Mathf.Clamp(transform.position.x,
+            Vector3 position = transform.position;
+            float x = Mathf.Clamp(position.x,
                                             xMin + CenterXOffset,
                                             xMax - CenterXOffset);
-            float y = Mathf.Clamp(transform.position.y,
+            float y = Mathf.Clamp(position.y,
                                     yMin + CenterYOffset,
                                     yMax - CenterYOffset);
 
-            transform.position = new Vector3(x, y, -10);
+            position = new Vector3(x, y, -10);
+            transform.position = position;
         }
 
         private float CenterXOffset => -.1f

@@ -1,5 +1,6 @@
 ﻿using GameDataStructures;
 using GameJudge.Troops;
+using Planes262.UnityLayer.HexSystem;
 using Planes262.Utils;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Planes262.UnityLayer
     public class UnityTroopDecorator : TroopDecorator
     {
         public static Effects effects;
-        public static MapGrid mapGrid;
+        public static GridBase gridBase;
         
         private readonly Transform go;
         private readonly Transform body;
@@ -21,7 +22,7 @@ namespace Planes262.UnityLayer
             this.spriteHolder = spriteHolder;
             
             go = spriteHolder.transform;
-            go.position = mapGrid.CellToWorld(Position);
+            go.position = gridBase.ToWorld(Position);
             
             body = go.Find("Body");
             body.Rotate(Vector3.forward * 60 * Orientation);
@@ -35,7 +36,7 @@ namespace Planes262.UnityLayer
             Debug.Log("Troop: moving from " + Position);
             base.MoveInDirection(direction);
             body.Rotate(Vector3.forward * 60 * direction);
-            go.position = mapGrid.CellToWorld(Position);
+            go.position = gridBase.ToWorld(Position);
             MyLogger.Log("New position is " + Position);
         }
 
@@ -43,7 +44,7 @@ namespace Planes262.UnityLayer
         {
             Debug.Log("Troop: flying");
             base.FlyOverOtherTroop();
-            go.position = mapGrid.CellToWorld(Position);
+            go.position = gridBase.ToWorld(Position);
         }
 
         public override void ApplyDamage()

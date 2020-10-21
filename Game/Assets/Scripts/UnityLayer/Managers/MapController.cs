@@ -9,14 +9,14 @@ namespace Planes262.UnityLayer.Managers
 {
     public class MapController
     {
-        public MapController(TileManager tileManager, TroopMap troopMap, Action<MoveAttemptEventArgs> troopMoveHandler)
+        public MapController(ITileManager tileManager, TroopMap troopMap, Action<MoveAttemptEventArgs> troopMoveHandler)
         {
             this.tileManager = tileManager;
             this.troopMap = troopMap;
             this.troopMoveHandler = troopMoveHandler;
         }
         
-        private readonly TileManager tileManager;
+        private readonly ITileManager tileManager;
         private readonly TroopMap troopMap;
         private readonly Action<MoveAttemptEventArgs> troopMoveHandler;
         
@@ -89,7 +89,7 @@ namespace Planes262.UnityLayer.Managers
             isPositionSelected = true;
             selectedPosition = cell;
             reachableCells = pathFinder.GetReachableCells(cell);
-            tileManager.ActivateTiles(reachableCells);
+            tileManager.SetReachableTiles(reachableCells);
         }
 
         private void DeactivateTroops()
@@ -99,7 +99,7 @@ namespace Planes262.UnityLayer.Managers
             reachableCells = null;
             isTargetSelected = false;
             directions = null;
-            tileManager.DeactivateTiles();
+            tileManager.ResetAllTiles();
     }
 
         private void HighlightPath(VectorTwo position, int orientation, List<int> moveDirections)

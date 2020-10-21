@@ -5,6 +5,7 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.GameLogic;
+using Planes262.UnityLayer.HexSystem;
 using Planes262.Utils;
 using UnityEngine;
 
@@ -14,24 +15,28 @@ namespace Planes262.UnityLayer.Managers
     {
         private TroopManager troopManager;
         private MapController mapController;
-        private TileManager tileManager;
+        private GridBase gridBase;
         private TroopInstantiator troopInstantiator;
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
         private void Start()
         {
-            tileManager = FindObjectOfType<TileManager>();
+            gridBase = new GridBase(Board.Test, 1);
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
             
             TroopMap troopMap = new TroopMap();
             troopManager = new TroopManager(troopMap);
-            mapController = new MapController(tileManager, troopMap, args => MoveAttempted(args));
+            mapController = new MapController(gridBase, troopMap, args => MoveAttempted(args));
 
-            FindObjectOfType<InputParser>().CellClicked += cell => mapController.OnCellClicked(cell);
+            InputParser inputParser = FindObjectOfType<InputParser>();
+            inputParser.gridBase = gridBase;
+            inputParser.CellClicked += cell => mapController.OnCellClicked(cell);
+
+            FindObjectOfType<BoardCamera>().gridBase = gridBase;
 
             UnityTroopDecorator.effects = FindObjectOfType<Effects>();
-            UnityTroopDecorator.mapGrid = FindObjectOfType<MapGrid>();
+            UnityTroopDecorator.gridBase = gridBase;
         }
 
         public void SetLocal(bool local)
@@ -43,7 +48,6 @@ namespace Planes262.UnityLayer.Managers
         {
             troopManager.ResetForNewGame();
             mapController.ResetForNewGame(side, board);
-            tileManager.CreateBoard(board);
         }
 
         public void BeginNextRound(IEnumerable<Troop> troops)
@@ -60,7 +64,7 @@ namespace Planes262.UnityLayer.Managers
 
         public void OnGameEnded()
         {
-            tileManager.DeactivateTiles();
+            gridBase.ResetAllTiles();
         }
     }
 }

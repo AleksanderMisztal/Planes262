@@ -17,7 +17,6 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private GameObject waitingText;
         
         [SerializeField] private GameObject boardCamera;
-        [SerializeField] private GameObject board;
         [SerializeField] private GameObject gameUi;
         
         [SerializeField] private GameObject gameEnded;
@@ -30,7 +29,6 @@ namespace Planes262.UnityLayer.Managers
             waitingText.SetActive(false);
             
             gameUi.SetActive(false);
-            board.SetActive(false);
             boardCamera.SetActive(false);
             
             gameEnded.SetActive(false);
@@ -60,7 +58,6 @@ namespace Planes262.UnityLayer.Managers
 
             gameUi.SetActive(true);
             boardCamera.SetActive(true);
-            board.SetActive(true);
 
             boardCamera.GetComponent<BoardCamera>().Initialize(boardDims);
         }
@@ -73,8 +70,6 @@ namespace Planes262.UnityLayer.Managers
         private IEnumerator Co_EndGame(string message, float delay)
         {
             yield return new WaitForSeconds(delay);
-
-            board.SetActive(false);
             
             mainBackground.SetActive(true);
             particles.SetActive(true);
