@@ -10,21 +10,21 @@ namespace Planes262.UnityLayer.HexSystem
         private readonly int xSize;
         private readonly int ySize;
         private readonly float cellSize;
-        private readonly LineRenderer[,] tiles;
+        private readonly HexTile[,] tiles;
         
         private IEnumerable<VectorTwo> activePositions = new List<VectorTwo>();
         private IEnumerable<VectorTwo> highlightedPath = new List<VectorTwo>();
 
-        private static readonly Color active = new Color(0, 0, 255, 255);
+        private static readonly Color active = new Color(0, 128, 0, 0);
         private static readonly Color activeBlocked = new Color(0, 0, 0, 127);
-        private static readonly Color onPath = new Color(255, 0, 0, 127);
+        private static readonly Color onPath = new Color(128, 0, 0, 127);
 
         public GridBase(Board board, float cellSize)
         {
             xSize = board.xSize;
             ySize = board.ySize;
             this.cellSize = cellSize;
-            tiles = new LineRenderer[xSize, ySize];
+            tiles = new HexTile[xSize, ySize];
 
             CreateBoard();
         }
@@ -35,7 +35,10 @@ namespace Planes262.UnityLayer.HexSystem
             for (int y = 0; y < ySize; y++)
             {
                 Vector3 center = Cube.FromOffset(x, y).ToWorld(cellSize);
-                tiles[x, y] = LineDrawer.DrawHex(center, cellSize, Color.white);
+                HexTile[] neighs = new HexTile[6];
+                for (int i = 0; i < 6; i++)
+                    neighs[i] = GetTile(Hex.GetAdjacentHex(new VectorTwo(x, y), i));
+                tiles[x, y] = new HexTile(neighs, center, cellSize);
             }
         }
 
@@ -48,7 +51,7 @@ namespace Planes262.UnityLayer.HexSystem
         {
             ResetAllTiles();
             foreach (VectorTwo pos in reachable)
-                LineDrawer.SetColor(GetTile(pos), active);
+                GetTile(pos)?.SetColor(active);
             activePositions = reachable;
         }
 
@@ -56,30 +59,30 @@ namespace Planes262.UnityLayer.HexSystem
         {
             ResetAllTiles();
             foreach (VectorTwo pos in reachable)
-                LineDrawer.SetColor(GetTile(pos), activeBlocked);
+                GetTile(pos)?.SetColor(activeBlocked);
             activePositions = reachable;
         }
 
         public void HighlightPath(IEnumerable<VectorTwo> path)
         {
             foreach (VectorTwo pos in highlightedPath)
-                LineDrawer.SetColor(GetTile(pos), active);
+                GetTile(pos)?.SetColor(active);
             foreach (VectorTwo pos in path)
-                LineDrawer.SetColor(GetTile(pos), onPath);
+                GetTile(pos)?.SetColor(onPath);
             highlightedPath = path;
         }
 
         public void ResetAllTiles()
         {
             foreach (VectorTwo pos in activePositions)
-                LineDrawer.SetColor(GetTile(pos), Color.white);
+                GetTile(pos)?.SetColor(Color.white);
             foreach (VectorTwo pos in highlightedPath)
-                LineDrawer.SetColor(GetTile(pos), Color.white);
+                GetTile(pos)?.SetColor(Color.white);
             activePositions = new List<VectorTwo>();
             highlightedPath = new List<VectorTwo>();
         }
 
-        private LineRenderer GetTile(VectorTwo position)
+        private HexTile GetTile(VectorTwo position)
         {
             try
             {

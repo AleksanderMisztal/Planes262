@@ -70,7 +70,7 @@
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\HexSystem\Cube.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\HexSystem\GridBase.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\HexSystem\LineDrawer.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\HexSystem\HexTile.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\GameInitializer.cs" />
