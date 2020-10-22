@@ -101,8 +101,8 @@ namespace GameJudge
 
         private bool GameHasEnded()
         {
-            bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0 && waveProvider.MaxRedWave <= roundNumber;
-            bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0 && waveProvider.MaxBlueWave <= roundNumber;
+            bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0;
+            bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0;
 
             return redLost || blueLost;
         }

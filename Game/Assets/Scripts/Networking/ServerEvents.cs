@@ -4,6 +4,7 @@ using GameDataStructures;
 using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
+using UnityEngine;
 
 namespace Planes262.Networking
 {
@@ -29,6 +30,7 @@ namespace Planes262.Networking
         
         public void HandlePacket(string data)
         {
+            Debug.Log(data);
             Packet packet = new Packet(data);
             int packetType = packet.ReadInt();
             packetHandlers[packetType](packet);

@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer.Managers
             clockDisplay = FindObjectOfType<ClockDisplay>();
             score = FindObjectOfType<ScoreDisplay>();
             
-            geHandler = new GameEventsHandler(messenger, gameManager, score, clockDisplay);
+            geHandler = new GameEventsHandler(gameManager, score, clockDisplay);
 
             InitializeServerConnection();
         }
@@ -32,7 +32,7 @@ namespace Planes262.UnityLayer.Managers
         private void Start()
         {
             gameManager.Initialize();
-            if (PersistentState.isLocal) 
+            if (TransitionManager.isLocal) 
                 InitializeLocalGame();
             else
                 InitializeOnlineGame();

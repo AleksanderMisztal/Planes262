@@ -8,14 +8,12 @@ namespace Planes262.UnityLayer.Managers
 {
     public class GameEventsHandler
     {
-        private readonly Messenger messenger;
         private readonly GameManager gameManager;
         private readonly ScoreDisplay score;
         private readonly ClockDisplay clockDisplay;
 
-        public GameEventsHandler(Messenger messenger, GameManager gameManager, ScoreDisplay score, ClockDisplay clockDisplay)
+        public GameEventsHandler(GameManager gameManager, ScoreDisplay score, ClockDisplay clockDisplay)
         {
-            this.messenger = messenger;
             this.gameManager = gameManager;
             this.score = score;
             this.clockDisplay = clockDisplay;
@@ -41,13 +39,10 @@ namespace Planes262.UnityLayer.Managers
         public void OnGameJoined(string opponentName, PlayerSide side, Board board, ClockInfo clockInfo)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
-            messenger.ResetMessages();
             clockDisplay.ResetTime(clockInfo);
             gameManager.StartNewGame(board, side);
-            
             if (side == PlayerSide.Red) score.SetNames(PlayerMeta.name, opponentName);
             else score.SetNames(opponentName, PlayerMeta.name);
-            score.Set(0, 0);
         }
 
         public void OnTroopSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)

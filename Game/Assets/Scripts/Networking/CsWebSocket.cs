@@ -12,7 +12,7 @@ namespace Planes262.Networking
 {
     public class CsWebSocket : IPacketSender
     {
-        private const string Host = "wss://localhost:5001";
+        private const string host = "wss://localhost:5001";
         private readonly Queue<Packet> sendQueue = new Queue<Packet>();
         private ClientWebSocket socket;
         private readonly ServerEvents serverEvents;
@@ -25,7 +25,7 @@ namespace Planes262.Networking
 
         public async void InitializeConnection()
         {
-            Uri serverUri = new Uri(Host);
+            Uri serverUri = new Uri(host);
             socket = new ClientWebSocket();
             Debug.Log("Attempting to connect to " + serverUri);
             try
@@ -36,6 +36,7 @@ namespace Planes262.Networking
             }
             catch (Exception ex)
             {
+                throw;
                 Debug.Log("Couldn't connect to server: " + ex.Message);
             }
         }

@@ -82,9 +82,9 @@
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\MoveAttemptEventArgs.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\PersistentState.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\PlayerMeta.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\TransitionManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityTroopDecorator.cs" />

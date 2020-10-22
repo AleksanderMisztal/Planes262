@@ -6,16 +6,13 @@ namespace GameJudge.Waves
 {
     public class WaveProvider
     {
+        public readonly List<Troop> initialTroops;
         private readonly Dictionary<int, List<Troop>> troopsForRound;
 
-        public readonly int MaxRedWave;
-        public readonly int MaxBlueWave;
-
-        internal WaveProvider(Dictionary<int, List<Troop>> troopsForRound, int maxRedWave, int maxBlueWave)
+        internal WaveProvider(List<Troop> initialTroops, Dictionary<int, List<Troop>> troopsForRound)
         {
+            this.initialTroops = initialTroops;
             this.troopsForRound = troopsForRound;
-            MaxRedWave = maxRedWave;
-            MaxBlueWave = maxBlueWave;
         }
 
         internal List<Troop> GetTroops(int round)
@@ -46,14 +43,10 @@ namespace GameJudge.Waves
 
             Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>
             {
-                {1, wave1 },
                 {3, wave3 },
             };
 
-            int maxRedWave = 1;
-            int maxBlueWave = 3;
-
-            return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
+            return new WaveProvider(wave1, troopsForRound);
         }
         
         public static WaveProvider Basic()
@@ -100,17 +93,13 @@ namespace GameJudge.Waves
 
             Dictionary<int, List<Troop>> troopsForRound = new Dictionary<int, List<Troop>>
             {
-                {1, wave1 },
                 {3, wave3 },
                 {4, wave4 },
                 {5, wave5 },
                 {6, wave6 },
             };
 
-            int maxRedWave = 6;
-            int maxBlueWave = 5;
-
-            return new WaveProvider(troopsForRound, maxRedWave, maxBlueWave);
+            return new WaveProvider(wave1, troopsForRound);
         }
     }
 

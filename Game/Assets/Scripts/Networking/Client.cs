@@ -7,15 +7,13 @@ namespace Planes262.Networking
 {
     public class Client : MonoBehaviour
     {
-        [HideInInspector] public static Client instance;
+        public static Client instance;
 
         private void Awake()
         {
-            Debug.Log("Awakening the client");
             if (instance == this) return;
             if (instance == null)
             {
-                Debug.Log("Setting instance to this.");
                 instance = this;
                 DontDestroyOnLoad(this);
             }
@@ -27,11 +25,11 @@ namespace Planes262.Networking
         }
 
         private IPacketSender packetSender;
-        public ServerEvents serverEvents;
+        public readonly ServerEvents serverEvents = new ServerEvents();
 
         private void Start()
         {
-            serverEvents = new ServerEvents();
+            serverEvents.OnWelcome += () => Debug.Log("Connected to server!");
 #if UNITY_EDITOR || !UNITY_WEBGL
             CsWebSocket ws = new CsWebSocket(serverEvents);
             ws.InitializeConnection();

@@ -9,9 +9,9 @@ namespace GameJudge.Troops
     public abstract class Troop : ITroop, IReadable, IWriteable
     {
         public PlayerSide Player { get; private set; }
-        public abstract TroopType Type { get; protected set; }
+        protected abstract TroopType Type { get; set; }
 
-        protected int InitialMovePoints;
+        protected int initialMovePoints;
         public int MovePoints { get; private set; }
 
         public VectorTwo Position { get; private set; }
@@ -23,7 +23,7 @@ namespace GameJudge.Troops
         protected Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
             Player = player;
-            InitialMovePoints = movePoints;
+            initialMovePoints = movePoints;
             MovePoints = movePoints;
             Position = position;
             Orientation = orientation;
@@ -52,7 +52,7 @@ namespace GameJudge.Troops
         public void ApplyDamage()
         {
             Health--;
-            InitialMovePoints--;
+            initialMovePoints--;
             if (MovePoints > 0)
                 MovePoints--;
         }
@@ -63,7 +63,7 @@ namespace GameJudge.Troops
 
         public void ResetMovePoints()
         {
-            MovePoints = InitialMovePoints;
+            MovePoints = initialMovePoints;
         }
 
         public virtual void CleanUpSelf() { }
@@ -77,7 +77,7 @@ namespace GameJudge.Troops
             int id = 0;
             Type = (TroopType) int.Parse(args[id++]);
             Player = (PlayerSide) int.Parse(args[id++]);
-            MovePoints = InitialMovePoints = int.Parse(args[id++]);
+            MovePoints = initialMovePoints = int.Parse(args[id++]);
             Position = (VectorTwo)new VectorTwo().Read(args[id++]);
             Orientation = int.Parse(args[id++]);
             Health = int.Parse(args[id++]);
@@ -88,9 +88,9 @@ namespace GameJudge.Troops
         }
 
         protected virtual Merger Merger => new Merger()
-            .Write(Type)
+            .Write((int)Type)
             .Write((int) Player)
-            .Write(InitialMovePoints)
+            .Write(initialMovePoints)
             .Write(Position)
             .Write(Orientation)
             .Write(Health);

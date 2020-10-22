@@ -77,7 +77,7 @@ namespace Planes262.UnityLayer.Managers
         private static IEnumerator Co_EndGame(string message, float delay)
         {
             yield return new WaitForSeconds(delay);
-            PersistentState.gameEndedMessage = message;
+            TransitionManager.gameEndedMessage = message;
             SceneManager.LoadScene("Game Ended");
         }
     }
