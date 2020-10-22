@@ -33,10 +33,10 @@ namespace Planes262.UnityLayer.Managers
 
         private void InitializeServerConnection()
         {
-            client = new Client(geHandler);
-
-            uiManager.GameJoined += () => client.JoinGame(PlayerMeta.Name);
-            messenger.MessageSent += message => client.SendMessage(message);
+            client = gameObject.AddComponent<Client>();
+            // TODO: Connect to server
+            //uiManager.GameJoined += () => client.JoinGame(PlayerMeta.Name);
+            messenger.MessageSent += message => client.SendAMessage(message);
         }
 
         public void InitializeOnlineGame()

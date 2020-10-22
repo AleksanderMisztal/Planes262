@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using Planes262.UnityLayer.Managers;
 
 namespace Planes262.Networking
 {
-    public class ServerTranslator
+    public class ServerEvents
     {
         private delegate void PacketHandler(Packet packet);
         private readonly Dictionary<int, PacketHandler> packetHandlers;
-        private readonly GameEventsHandler geHandler;
 
-        public ServerTranslator(GameEventsHandler geHandler)
+        public ServerEvents()
         {
-            this.geHandler = geHandler;
             packetHandlers = new Dictionary<int, PacketHandler>
             {
                 {(int) ServerPackets.Welcome, Welcome },
                 {(int) ServerPackets.GameJoined, GameJoined },
-                {(int) ServerPackets.TroopSpawned, TroopSpawned },
+                {(int) ServerPackets.TroopSpawned, TroopsSpawned },
                 {(int) ServerPackets.TroopMoved, TroopMoved },
                 {(int) ServerPackets.GameEnded, GameEnded },
                 {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
@@ -37,11 +35,13 @@ namespace Planes262.Networking
         }
 
 
+        public event Action OnWelcome;
         private void Welcome(Packet packet)
         {
-            geHandler.OnWelcome();
+            OnWelcome?.Invoke();
         }
 
+        public event Action<string, PlayerSide, Board, ClockInfo> OnGameJoined;
         private void GameJoined(Packet packet)
         {
             string opponentName = packet.ReadString();
@@ -49,17 +49,19 @@ namespace Planes262.Networking
             Board board = packet.Read<Board>();
             ClockInfo clockInfo = packet.Read<ClockInfo>();
 
-            geHandler.OnGameJoined(opponentName, side, board, clockInfo);
+            OnGameJoined?.Invoke(opponentName, side, board, clockInfo);
         }
 
-        private void TroopSpawned(Packet packet)
+        public event Action<List<Fighter>, TimeInfo> OnTroopsSpawned;
+        private void TroopsSpawned(Packet packet)
         {
             List<Fighter> troops = packet.ReadList<Fighter>();
             TimeInfo timeInfo = packet.Read<TimeInfo>();
 
-            geHandler.OnTroopSpawned(troops, timeInfo);
+            OnTroopsSpawned?.Invoke(troops, timeInfo);
         }
 
+        public event Action<VectorTwo, int, List<BattleResult>, ScoreInfo> OnTroopMoved;
         private void TroopMoved(Packet packet)
         {
             VectorTwo position = packet.Read<VectorTwo>();
@@ -67,34 +69,38 @@ namespace Planes262.Networking
             List<BattleResult> battleResults = packet.ReadList<BattleResult>();
             ScoreInfo score = packet.Read<ScoreInfo>();
 
-            geHandler.OnTroopMoved(position, direction, battleResults, score);
+            OnTroopMoved?.Invoke(position, direction, battleResults, score);
         }
 
+        public event Action<int, int> OnGameEnded;
         private void GameEnded(Packet packet)
         {
             int redScore = packet.ReadInt();
             int blueScore = packet.ReadInt();
 
-            geHandler.OnGameEnded(redScore, blueScore);
+            OnGameEnded?.Invoke(redScore, blueScore);
         }
 
+        public event Action<string> OnMessageSent;
         private void MessageSent(Packet packet)
         {
             string message = packet.ReadString();
 
-            geHandler.OnMessageSent(message);
+            OnMessageSent?.Invoke(message);
         }
 
+        public event Action OnOpponentDisconnected;
         private void OpponentDisconnected(Packet packet)
         {
-            geHandler.OnOpponentDisconnected();
+            OnOpponentDisconnected?.Invoke();
         }
 
+        public event Action<PlayerSide> OnLostOnTime;
         private void LostOnTime(Packet packet)
         {
             PlayerSide loser = (PlayerSide)packet.ReadInt();
 
-            geHandler.OnLostOnTime(loser);
+            OnLostOnTime?.Invoke(loser);
         }
     }
 }

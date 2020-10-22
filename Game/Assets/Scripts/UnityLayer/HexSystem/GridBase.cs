@@ -31,6 +31,8 @@ namespace Planes262.UnityLayer.HexSystem
 
         private void CreateBoard()
         {
+            HexTile.lineParent = new GameObject("Line Parent").transform;
+            
             for (int x = 0; x < xSize; x++)
             for (int y = 0; y < ySize; y++)
             {

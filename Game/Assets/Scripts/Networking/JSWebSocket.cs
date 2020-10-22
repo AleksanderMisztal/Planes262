@@ -7,7 +7,7 @@ namespace Planes262.Networking
 {
     public class JsWebSocket : MonoBehaviour, IPacketSender
     {
-        private ServerTranslator serverTranslator = null;
+        private ServerEvents serverEvents = null;
 #if !UNITY_EDITOR && UNITY_WEBGL
         [DllImport("__Internal")] private static extern void InitializeConnectionJs();
         [DllImport("__Internal")] private static extern void SendDataJs(string data);
@@ -17,14 +17,14 @@ namespace Planes262.Networking
 #endif
         
         
-        public void SetTranslator(ServerTranslator translator)
+        public void SetTranslator(ServerEvents events)
         {
-            serverTranslator = translator;
+            serverEvents = events;
         }
 
         public void ReceiveWsMessage(string byteArray)
         {
-            serverTranslator.HandlePacket(byteArray);
+            serverEvents.HandlePacket(byteArray);
         }
         
         public void InitializeConnection()

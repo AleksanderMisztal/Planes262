@@ -2,8 +2,8 @@
 {
     public static class PlayerMeta
     {
-        public static string Name { get; set; } = "player1";
-        public static int Elo { get; set; }
-        public static bool Subscribed { get; set; }
+        public static string name = "player1";
+        public static int elo;
+        public static bool subscribed;
     }
 }

@@ -15,11 +15,11 @@ namespace Planes262.Networking
         private const string Host = "wss://localhost:5001";
         private readonly Queue<Packet> sendQueue = new Queue<Packet>();
         private ClientWebSocket socket;
-        private readonly ServerTranslator serverTranslator;
+        private readonly ServerEvents serverEvents;
 
-        public CsWebSocket(ServerTranslator serverTranslator)
+        public CsWebSocket(ServerEvents serverEvents)
         {
-            this.serverTranslator = serverTranslator;
+            this.serverEvents = serverEvents;
         }
 
 
@@ -45,7 +45,7 @@ namespace Planes262.Networking
             while (true)
             {
                 string data = await Receive();
-                serverTranslator.HandlePacket(data);
+                serverEvents.HandlePacket(data);
             }
         }
 

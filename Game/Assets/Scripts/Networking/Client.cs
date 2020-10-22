@@ -1,18 +1,20 @@
 ﻿using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
-using Planes262.UnityLayer.Managers;
+using Planes262.UnityLayer;
+using UnityEngine;
 
 namespace Planes262.Networking
 {
-    public class Client
+    public class Client : MonoBehaviour
     {
         private readonly IPacketSender packetSender;
+        public readonly ServerEvents serverEvents;
 
-        public Client(GameEventsHandler geHandler)
+        public Client()
         {
-            ServerTranslator translator = new ServerTranslator(geHandler);
+            serverEvents = new ServerEvents();
 #if UNITY_EDITOR || !UNITY_WEBGL
-            CsWebSocket ws = new CsWebSocket(translator);
+            CsWebSocket ws = new CsWebSocket(serverEvents);
             ws.InitializeConnection();
 #else
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
@@ -24,11 +26,11 @@ namespace Planes262.Networking
         }
 
         
-        public void JoinGame(string name)
+        public void JoinGame()
         {
             Packet packet = new Packet(ClientPackets.JoinGame);
             {
-                packet.Write(name);
+                packet.Write(PlayerMeta.name);
 
                 packetSender.SendData(packet);
             }
@@ -45,7 +47,7 @@ namespace Planes262.Networking
             }
         }
 
-        public void SendMessage(string message)
+        public void SendAMessage(string message)
         {
             Packet packet = new Packet(ClientPackets.SendMessage);
             {

@@ -27,7 +27,6 @@ namespace Planes262.UnityLayer.Managers
         public void OnWelcome()
         {
             Debug.Log("Connected to server!");
-            uiManager.ActivateMainMenu();
         }
 
         public void OnGameEnded(int redScore, int blueScore)
@@ -55,10 +54,10 @@ namespace Planes262.UnityLayer.Managers
             messenger.ResetMessages();
             clockDisplay.ResetTime(clockInfo);
             gameManager.StartNewGame(board, side);
-            uiManager.TransitionIntoGame(board);
+            //TODO: uiManager.TransitionIntoGame();
             
-            string redName = side == PlayerSide.Red ? PlayerMeta.Name : opponentName;
-            string blueName = side == PlayerSide.Blue ? PlayerMeta.Name : opponentName;
+            string redName = side == PlayerSide.Red ? PlayerMeta.name : opponentName;
+            string blueName = side == PlayerSide.Blue ? PlayerMeta.name : opponentName;
             score.SetNames(redName, blueName);
             score.Set(0, 0);
         }

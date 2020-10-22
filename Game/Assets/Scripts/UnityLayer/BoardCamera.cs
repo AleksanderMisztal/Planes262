@@ -1,4 +1,5 @@
-﻿using GameDataStructures;
+﻿using System;
+using GameDataStructures;
 using Planes262.UnityLayer.HexSystem;
 using UnityEngine;
 
@@ -21,6 +22,10 @@ namespace Planes262.UnityLayer
         private float maxSize = 5;
         private Vector3 center;
 
+        private void Start()
+        {
+            Initialize(Board.test);
+        }
 
         public void Initialize(Board board)
         {

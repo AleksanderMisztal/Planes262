@@ -5,6 +5,8 @@ namespace Planes262.UnityLayer.HexSystem
 {
     public class HexTile
     {
+        public static Transform lineParent;
+        
         private static readonly Vector3 left = Vector3.left;
         private static readonly Vector3 upLeft = new Vector3(-.5f, (float)Math.Sqrt((double)3f/4));
         private static readonly Vector3[] positions = {
@@ -36,9 +38,11 @@ namespace Planes262.UnityLayer.HexSystem
             }
         }
 
-        private static LineRenderer GenerateLine(int i, Vector3 center, float cellSize)
+        private LineRenderer GenerateLine(int i, Vector3 center, float cellSize)
         {
             LineRenderer lineRenderer = new GameObject().AddComponent<LineRenderer>();
+            lineRenderer.name = "Line";
+            lineRenderer.transform.parent = lineParent;
 
             lineRenderer.material.color = Color.white;
             lineRenderer.widthMultiplier = .1f;
