@@ -11,14 +11,19 @@ namespace Planes262.UnityLayer
         public GridBase gridBase;
 
         public event Action<VectorTwo> CellClicked;
+        public event Action<VectorTwo> CellInspected;
 
         private void Update()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = gridBase.ToOffset(mousePosition);
-            if (gridBase.IsInside(cell.x, cell.y))
+            if (!gridBase.IsInside(cell.x, cell.y)) return;
+            
+            if (Input.GetMouseButtonDown(0))
                 CellClicked?.Invoke(cell);
+
+            if (Input.GetMouseButtonDown(1))
+                CellInspected?.Invoke(cell);
         }
     }
 }

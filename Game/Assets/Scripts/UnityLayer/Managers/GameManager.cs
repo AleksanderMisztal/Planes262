@@ -16,6 +16,7 @@ namespace Planes262.UnityLayer.Managers
         private TroopManager troopManager;
         private MapController mapController;
         private GridBase gridBase;
+        private HexInspector hexInspector;
         private TroopInstantiator troopInstantiator;
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
@@ -23,6 +24,7 @@ namespace Planes262.UnityLayer.Managers
         private void Start()
         {
             gridBase = new GridBase(Board.test, 1);
+            hexInspector = new HexInspector(Board.test, gridBase);
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
             
             TroopMap troopMap = new TroopMap();
@@ -31,7 +33,8 @@ namespace Planes262.UnityLayer.Managers
 
             InputParser inputParser = FindObjectOfType<InputParser>();
             inputParser.gridBase = gridBase;
-            inputParser.CellClicked += cell => mapController.OnCellClicked(cell);
+            inputParser.CellClicked += mapController.OnCellClicked;
+            inputParser.CellInspected += hexInspector.Inspect;
 
             FindObjectOfType<BoardCamera>().gridBase = gridBase;
 
