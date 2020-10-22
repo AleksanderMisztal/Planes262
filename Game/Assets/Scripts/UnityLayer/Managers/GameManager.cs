@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
@@ -8,6 +9,7 @@ using Planes262.GameLogic;
 using Planes262.UnityLayer.HexSystem;
 using Planes262.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Planes262.UnityLayer.Managers
 {
@@ -18,10 +20,11 @@ namespace Planes262.UnityLayer.Managers
         private GridBase gridBase;
         private HexInspector hexInspector;
         private TroopInstantiator troopInstantiator;
+        [SerializeField] private GameEndedScreen gameEndedScreen;
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
-        private void Start()
+        public void Initialize()
         {
             gridBase = new GridBase(Board.test, 1);
             hexInspector = new HexInspector(Board.test, gridBase);
@@ -65,9 +68,17 @@ namespace Planes262.UnityLayer.Managers
             troopManager.MoveTroop(position, direction, battleResults);
         }
 
-        public void OnGameEnded()
+        public void EndGame(string message, float delay)
         {
             gridBase.ResetAllTiles();
+            StartCoroutine(Co_EndGame(message, delay));
+        }
+
+        private static IEnumerator Co_EndGame(string message, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            PersistentState.gameEndedMessage = message;
+            SceneManager.LoadScene("Game Ended");
         }
     }
 }

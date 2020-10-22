@@ -8,43 +8,33 @@ namespace Planes262.UnityLayer.Managers
 {
     public class GameEventsHandler
     {
-        private readonly UIManager uiManager;
         private readonly Messenger messenger;
         private readonly GameManager gameManager;
         private readonly ScoreDisplay score;
         private readonly ClockDisplay clockDisplay;
 
-        public GameEventsHandler(Messenger messenger, UIManager uiManager, GameManager gameManager, ScoreDisplay score, ClockDisplay clockDisplay)
+        public GameEventsHandler(Messenger messenger, GameManager gameManager, ScoreDisplay score, ClockDisplay clockDisplay)
         {
             this.messenger = messenger;
-            this.uiManager = uiManager;
             this.gameManager = gameManager;
             this.score = score;
             this.clockDisplay = clockDisplay;
         }
 
-        
-        public void OnWelcome()
-        {
-            Debug.Log("Connected to server!");
-        }
 
         public void OnGameEnded(int redScore, int blueScore)
         {
-            uiManager.EndGame($"Final score: red: {redScore}, blue: {blueScore}", 1.5f);
-            gameManager.OnGameEnded();
+            gameManager.EndGame($"Final score: red: {redScore}, blue: {blueScore}", 1.5f);
         }
 
         public void OnOpponentDisconnected()
         {
-            uiManager.EndGame("Opponent has disconnected :(", 0);
-            gameManager.OnGameEnded();
+            gameManager.EndGame("Opponent has disconnected :(", 0);
         }
 
         public void OnLostOnTime(PlayerSide loser)
         {
-            uiManager.EndGame($"Player {loser} lost on time :(", 0);
-            gameManager.OnGameEnded();
+            gameManager.EndGame($"Player {loser} lost on time :(", 0);
         }
 
         
@@ -54,11 +44,9 @@ namespace Planes262.UnityLayer.Managers
             messenger.ResetMessages();
             clockDisplay.ResetTime(clockInfo);
             gameManager.StartNewGame(board, side);
-            //TODO: uiManager.TransitionIntoGame();
             
-            string redName = side == PlayerSide.Red ? PlayerMeta.name : opponentName;
-            string blueName = side == PlayerSide.Blue ? PlayerMeta.name : opponentName;
-            score.SetNames(redName, blueName);
+            if (side == PlayerSide.Red) score.SetNames(PlayerMeta.name, opponentName);
+            else score.SetNames(opponentName, PlayerMeta.name);
             score.Set(0, 0);
         }
 
@@ -72,12 +60,6 @@ namespace Planes262.UnityLayer.Managers
         {
             gameManager.MoveTroop(position, direction, battleResults);
             score.Set(scoreInfo.Red, scoreInfo.Blue);
-        }
-
-        
-        public void OnMessageSent(string message)
-        {
-            messenger.MessageReceived(message);
         }
     }
 }

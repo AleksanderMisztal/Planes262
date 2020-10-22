@@ -7,10 +7,29 @@ namespace Planes262.Networking
 {
     public class Client : MonoBehaviour
     {
-        private readonly IPacketSender packetSender;
-        public readonly ServerEvents serverEvents;
+        [HideInInspector] public static Client instance;
 
-        public Client()
+        private void Awake()
+        {
+            Debug.Log("Awakening the client");
+            if (instance == this) return;
+            if (instance == null)
+            {
+                Debug.Log("Setting instance to this.");
+                instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+                Debug.Log("Destroying the client!");
+                Destroy(this);
+            }
+        }
+
+        private IPacketSender packetSender;
+        public ServerEvents serverEvents;
+
+        private void Start()
         {
             serverEvents = new ServerEvents();
 #if UNITY_EDITOR || !UNITY_WEBGL

@@ -5,6 +5,7 @@ namespace Planes262.UnityLayer
     public static class PersistentState
     {
         public static Board board;
-        public static bool isLocal;
+        public static bool isLocal = false;
+        public static string gameEndedMessage;
     }
 }

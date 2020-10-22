@@ -68,6 +68,7 @@
      <Compile Include="Assets\Scripts\Networking\ServerEvents.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\GameEndedScreen.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\HexSystem\Cube.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\HexSystem\GridBase.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\HexSystem\HexInspector.cs" />
@@ -79,7 +80,6 @@
      <Compile Include="Assets\Scripts\UnityLayer\Managers\MainMenuManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\MapController.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Managers\TransitionController.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\Managers\UIManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\MoveAttemptEventArgs.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\PersistentState.cs" />
