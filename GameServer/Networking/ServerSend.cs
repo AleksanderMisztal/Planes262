@@ -31,7 +31,8 @@ namespace GameServer.Networking
             packet.Write(opponentName);
             packet.Write((int)side);
             packet.Write(board);
-            packet.Write(troops);
+            packet.Write(troops.Count);
+            foreach (Troop troop in troops) packet.Write(troop);
             packet.Write(clockInfo);
 
             await server.SendPacket(toClient, packet);
@@ -78,7 +79,8 @@ namespace GameServer.Networking
             Packet packet = new Packet(ServerPackets.TroopMoved);
             packet.Write(args.position);
             packet.Write(args.direction);
-            packet.Write(args.battleResults);
+            packet.Write(args.battleResults.Count);
+            foreach (BattleResult battleResult in args.battleResults) packet.Write(battleResult);
             packet.Write(args.score);
 
             await server.SendPacket(redId, packet);

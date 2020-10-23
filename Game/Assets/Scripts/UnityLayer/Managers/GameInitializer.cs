@@ -24,6 +24,7 @@ namespace Planes262.UnityLayer.Managers
             score = FindObjectOfType<ScoreDisplay>();
             
             geHandler = new GameEventsHandler(gameManager, score, clockDisplay);
+            Client.instance.serverEvents.geHandler = geHandler;
 
             InitializeServerConnection();
         }
@@ -31,7 +32,7 @@ namespace Planes262.UnityLayer.Managers
         private void Start()
         {
             gameManager.Initialize();
-            if (TransitionManager.isLocal) 
+            if (PersistState.isLocal) 
                 InitializeLocalGame();
             else
                 InitializeOnlineGame();
@@ -60,14 +61,14 @@ namespace Planes262.UnityLayer.Managers
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults, args.score);
             gc.TroopsSpawned += args => {
                 TimeInfo ti = clock.ToggleActivePlayer();
-                geHandler.OnTroopSpawned(args.troops, ti);
+                geHandler.OnTroopsSpawned(args.troops, ti);
             };
             gc.GameEnded += args => geHandler.OnGameEnded(args.score.Red, args.score.Blue);
 
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             
             ClockInfo clockInfo = clock.Initialize();
-            geHandler.OnGameJoined("local", PlayerSide.Blue, Board.test, waveProvider.initialTroops, clockInfo);
+            geHandler.OnGameReady("local", PlayerSide.Blue, Board.test, waveProvider.initialTroops, clockInfo);
         }
     }
 }

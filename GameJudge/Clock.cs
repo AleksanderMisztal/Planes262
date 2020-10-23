@@ -36,13 +36,14 @@ namespace GameJudge
             this.timeProvider = timeProvider;
             this.lostOnTime = lostOnTime;
             incrementMs = incrementS * 1000;
-            redTimeMs = (initialTimeS - incrementS) * 1000;
+            redTimeMs = initialTimeS * 1000;
             blueTimeMs = initialTimeS * 1000;
         }
 
         public ClockInfo Initialize()
         {
             lastChangeTime = timeProvider.CurrentTime;
+            timeProvider.SetTimeout(ActiveTime, CheckForLoss);
             return new ClockInfo(initialTimeS, incrementS, lastChangeTime);
         }
         

@@ -10,7 +10,7 @@ namespace Planes262.UnityLayer
 
         private void Start()
         {
-            resultText.text = TransitionManager.gameEndedMessage;
+            resultText.text = PersistState.gameEndedMessage;
         }
 
         public void ReturnToMainMenu()

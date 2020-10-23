@@ -50,7 +50,7 @@ namespace Planes262.UnityLayer.Managers
             mapController.isLocal = local;
         }
 
-        public void StartNewGame(Board board, List<Troop> troops, PlayerSide side)
+        public void StartNewGame(Board board, IEnumerable<Troop> troops, PlayerSide side)
         {
             troopManager.ResetForNewGame();
             mapController.ResetForNewGame(side, board);
@@ -79,7 +79,7 @@ namespace Planes262.UnityLayer.Managers
         private static IEnumerator Co_EndGame(string message, float delay)
         {
             yield return new WaitForSeconds(delay);
-            TransitionManager.gameEndedMessage = message;
+            PersistState.gameEndedMessage = message;
             SceneManager.LoadScene("Game Ended");
         }
     }

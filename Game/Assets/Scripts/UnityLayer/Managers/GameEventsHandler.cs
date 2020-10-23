@@ -36,7 +36,7 @@ namespace Planes262.UnityLayer.Managers
         }
 
         
-        public void OnGameJoined(string opponentName, PlayerSide side, Board board, List<Troop> troops, ClockInfo clockInfo)
+        public void OnGameReady(string opponentName, PlayerSide side, Board board, IEnumerable<Troop> troops, ClockInfo clockInfo)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
             clockDisplay.ResetTime(clockInfo);
@@ -45,7 +45,7 @@ namespace Planes262.UnityLayer.Managers
             else score.SetNames(opponentName, PlayerMeta.name);
         }
 
-        public void OnTroopSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)
+        public void OnTroopsSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)
         {
             clockDisplay.ToggleActivePlayer(timeInfo);
             gameManager.BeginNextRound(troops);

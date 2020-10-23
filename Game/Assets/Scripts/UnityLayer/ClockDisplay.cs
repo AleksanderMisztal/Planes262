@@ -35,7 +35,7 @@ namespace Planes262.UnityLayer
 
             int dt = (int)(CurrentTime - clockInfo.StartTimestamp);
             
-            redTime = initialTime - increment;
+            redTime = initialTime;
             blueTime = initialTime - dt / 1000f;
             
             UpdateDisplay();

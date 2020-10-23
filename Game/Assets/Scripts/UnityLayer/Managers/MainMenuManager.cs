@@ -14,34 +14,20 @@ namespace Planes262.UnityLayer.Managers
         [SerializeField] private GameObject loadingIcon;
 
 
-        private void Start()
-        {
-            Client.instance.serverEvents.OnGameJoined += (opponentName, side, board, troops, clockInfo) =>
-            {
-                TransitionManager.opponentName = opponentName;
-                TransitionManager.side = side;
-                TransitionManager.board = board;
-                // TODO: troops?
-                TransitionManager.clockInfo = clockInfo;
-                TransitionManager.isLocal = false;
-
-                SceneManager.LoadScene("Board");
-            };
-        }
-
         public void PlayLocal()
         {
-            TransitionManager.isLocal = true;
+            PersistState.isLocal = true;
             SceneManager.LoadScene("Board");
         }
 
         public void PlayOnline()
         {
-            TransitionManager.isLocal = false;
+            PersistState.isLocal = false;
             PlayerMeta.name = username.text;
             
             SetIsJoining(true);
-            
+            SceneManager.LoadScene("Board");
+
             Client.instance.JoinGame();
         }
 

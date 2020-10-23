@@ -18,6 +18,7 @@ namespace Planes262.UnityLayer
         {
             redName = red;
             blueName = blue;
+            scoreText.text = blueName + " 0 : 0 " + redName;
         }
 
         public void Set(int red, int blue)
