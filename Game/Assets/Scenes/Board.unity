@@ -189,7 +189,7 @@ Canvas:
   m_GameObject: {fileID: 20982150}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1099769204}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8869c43789c49f24da908b45db9efe83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineMaterial: {fileID: 2100000, guid: fa8002369ebc3664ead45ff12c53337a, type: 2}
 --- !u!4 &213170041
 Transform:
   m_ObjectHideFlags: 0
@@ -1659,7 +1660,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

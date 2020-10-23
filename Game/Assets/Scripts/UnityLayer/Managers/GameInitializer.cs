@@ -2,12 +2,14 @@
 using GameJudge;
 using GameJudge.Waves;
 using Planes262.Networking;
+using Planes262.UnityLayer.HexSystem;
 using UnityEngine;
 
 namespace Planes262.UnityLayer.Managers
 {
     public class GameInitializer : MonoBehaviour
     {
+        [SerializeField] private Material lineMaterial;
         private Messenger messenger;
         private GameManager gameManager;
         private ScoreDisplay score;
@@ -25,6 +27,8 @@ namespace Planes262.UnityLayer.Managers
             
             geHandler = new GameEventsHandler(gameManager, score, clockDisplay);
             Client.instance.serverEvents.geHandler = geHandler;
+            
+            HexTile.lineMaterial = lineMaterial;
 
             InitializeServerConnection();
         }

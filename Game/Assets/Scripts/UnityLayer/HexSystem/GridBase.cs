@@ -15,7 +15,7 @@ namespace Planes262.UnityLayer.HexSystem
         private IEnumerable<VectorTwo> activePositions = new List<VectorTwo>();
         private IEnumerable<VectorTwo> highlightedPath = new List<VectorTwo>();
 
-        private static readonly Color active = new Color(0, 128, 0, 0);
+        private static readonly Color active = new Color(0, 128, 0, 127);
         private static readonly Color activeBlocked = new Color(0, 0, 0, 127);
         private static readonly Color onPath = new Color(128, 0, 0, 127);
 
