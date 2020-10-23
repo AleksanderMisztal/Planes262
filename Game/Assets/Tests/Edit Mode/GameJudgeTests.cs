@@ -27,18 +27,14 @@ namespace Planes262.Tests.Edit_Mode
         [Test]
         public void TestReturningCopies()
         {
-            GameController gc = new GameController(WaveProvider.Test(), Board.test);
-            Troop troop = null;
-            bool wasLegal = false;
-            gc.TroopsSpawned += args => troop = args.troops.ToList()[0];
-            gc.TroopsSpawned += args => Trace.WriteLine(args);
-            gc.TroopMoved += args => wasLegal = true;
-            
+            WaveProvider waveProvider = WaveProvider.Test();
+            GameController gc = new GameController(waveProvider, Board.test);
+            Troop troop = waveProvider.initialTroops[0];
             VectorTwo position = troop.Position;
-            troop.MoveInDirection(0);
+            
             gc.ProcessMove(PlayerSide.Blue, position, 0);
             
-            Assert.IsTrue(wasLegal);
+            Assert.AreEqual(position, troop.Position);
         }
     }
 }

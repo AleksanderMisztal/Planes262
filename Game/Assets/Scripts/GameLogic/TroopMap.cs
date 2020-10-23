@@ -6,14 +6,6 @@ namespace Planes262.GameLogic
 {
     public class TroopMap : TroopMapBase
     {
-        public void ResetForNewGame()
-        {
-            foreach (ITroop troop in map.Values) troop.CleanUpSelf();
-            map.Clear();
-            redTroops.Clear();
-            blueTroops.Clear();
-        }
-
         public void SpawnWave(IEnumerable<ITroop> wave)
         {
             foreach (ITroop troop in wave)

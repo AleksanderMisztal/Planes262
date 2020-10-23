@@ -23,9 +23,9 @@ namespace Planes262.Tests.Edit_Mode
 
         private static void AssertSetEquality<T>(HashSet<T> actual, List<T> expected)
         {
-            Assert.IsTrue(actual.Count == expected.Count);
+            Assert.AreEqual(expected.Count, actual.Count);
             foreach (T item in expected)
-                Assert.IsTrue(actual.Contains(item));
+                Assert.IsTrue(actual.Contains(item), $"Didnt contain {item}");
         }
 
 
@@ -34,7 +34,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<Troop> troops = new List<Troop>
             {
-                TroopFactory.Blue(2, 2, 1)
+                TroopFactory.Blue(2, 2, 1),
             };
             CreatePathFinder(troops);
 
@@ -42,9 +42,9 @@ namespace Planes262.Tests.Edit_Mode
 
             List<VectorTwo> expected = new List<VectorTwo>
             {
-                new VectorTwo(2, 3),
-                new VectorTwo(3, 2),
                 new VectorTwo(2, 1),
+                new VectorTwo(3, 1),
+                new VectorTwo(3, 2),
             };
 
             AssertSetEquality(cells, expected);
@@ -56,7 +56,7 @@ namespace Planes262.Tests.Edit_Mode
             List<Troop> troops = new List<Troop>
             {
                 TroopFactory.Blue(2, 2, 2),
-                TroopFactory.Blue(2, 3)
+                TroopFactory.Blue(3, 1),
             };
             CreatePathFinder(troops);
 
@@ -67,10 +67,11 @@ namespace Planes262.Tests.Edit_Mode
                 new VectorTwo(3, 2),
                 new VectorTwo(3, 3),
                 new VectorTwo(4, 2),
-                new VectorTwo(3, 1),
+                new VectorTwo(4, 3),
                 new VectorTwo(2, 1),
                 new VectorTwo(3, 0),
                 new VectorTwo(2, 0),
+                new VectorTwo(1, 0),
             };
             AssertSetEquality(cells, expected);
         }
@@ -110,7 +111,6 @@ namespace Planes262.Tests.Edit_Mode
             Assert.AreEqual(1, directions[3]);
             Assert.AreEqual(1, directions[4]);
             Assert.AreEqual(5, directions.Count);
-            Assert.Throws<KeyNotFoundException>(() => pathFinder.GetDirections(position, new VectorTwo(9, 1)));
         }
     }
 }

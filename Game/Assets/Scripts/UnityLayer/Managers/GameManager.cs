@@ -52,7 +52,6 @@ namespace Planes262.UnityLayer.Managers
 
         public void StartNewGame(Board board, IEnumerable<Troop> troops, PlayerSide side)
         {
-            troopManager.ResetForNewGame();
             mapController.ResetForNewGame(side, board);
             IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);

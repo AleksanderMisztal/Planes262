@@ -15,8 +15,6 @@ namespace Planes262.GameLogic
             this.troopMap = troopMap;
         }
 
-        public void ResetForNewGame() => troopMap.ResetForNewGame();
-
         public void BeginNextRound(IEnumerable<ITroop> troops)
         {
             troopMap.SpawnWave(troops);
