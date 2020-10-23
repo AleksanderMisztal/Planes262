@@ -50,10 +50,12 @@ namespace Planes262.UnityLayer.Managers
             mapController.isLocal = local;
         }
 
-        public void StartNewGame(Board board, PlayerSide side)
+        public void StartNewGame(Board board, List<Troop> troops, PlayerSide side)
         {
             troopManager.ResetForNewGame();
             mapController.ResetForNewGame(side, board);
+            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            troopManager.BeginNextRound(uTroops);
         }
 
         public void BeginNextRound(IEnumerable<Troop> troops)

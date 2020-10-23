@@ -43,15 +43,16 @@ namespace Planes262.Networking
             OnWelcome?.Invoke();
         }
 
-        public event Action<string, PlayerSide, Board, ClockInfo> OnGameJoined;
+        public event Action<string, PlayerSide, Board, List<Fighter>, ClockInfo> OnGameJoined;
         private void GameJoined(Packet packet)
         {
             string opponentName = packet.ReadString();
             PlayerSide side = (PlayerSide)packet.ReadInt();
             Board board = packet.Read<Board>();
+            List<Fighter> troops = packet.ReadList<Fighter>();
             ClockInfo clockInfo = packet.Read<ClockInfo>();
 
-            OnGameJoined?.Invoke(opponentName, side, board, clockInfo);
+            OnGameJoined?.Invoke(opponentName, side, board, troops, clockInfo);
         }
 
         public event Action<List<Fighter>, TimeInfo> OnTroopsSpawned;

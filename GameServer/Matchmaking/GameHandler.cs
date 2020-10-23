@@ -73,7 +73,7 @@ namespace GameServer.Matchmaking
         private int GetOpponent(int client)
         {
             Game game = clientToGame[client];
-            return game.BlueUser.Id ^ game.RedUser.Id ^ client;
+            return game.blueUser.Id ^ game.redUser.Id ^ client;
         }
     }
 }

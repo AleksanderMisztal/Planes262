@@ -1,5 +1,4 @@
-﻿using System;
-using Planes262.Networking;
+﻿using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,11 +16,12 @@ namespace Planes262.UnityLayer.Managers
 
         private void Start()
         {
-            Client.instance.serverEvents.OnGameJoined += (opponentName, side, board, clockInfo) =>
+            Client.instance.serverEvents.OnGameJoined += (opponentName, side, board, troops, clockInfo) =>
             {
                 TransitionManager.opponentName = opponentName;
                 TransitionManager.side = side;
                 TransitionManager.board = board;
+                // TODO: troops?
                 TransitionManager.clockInfo = clockInfo;
                 TransitionManager.isLocal = false;
 

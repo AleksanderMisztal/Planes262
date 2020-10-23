@@ -36,11 +36,11 @@ namespace Planes262.UnityLayer.Managers
         }
 
         
-        public void OnGameJoined(string opponentName, PlayerSide side, Board board, ClockInfo clockInfo)
+        public void OnGameJoined(string opponentName, PlayerSide side, Board board, List<Troop> troops, ClockInfo clockInfo)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
             clockDisplay.ResetTime(clockInfo);
-            gameManager.StartNewGame(board, side);
+            gameManager.StartNewGame(board, troops, side);
             if (side == PlayerSide.Red) score.SetNames(PlayerMeta.name, opponentName);
             else score.SetNames(opponentName, PlayerMeta.name);
         }

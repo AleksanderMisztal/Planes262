@@ -21,7 +21,6 @@ namespace Planes262.Tests.Edit_Mode
             gc.TroopsSpawned += Debug.Log;
             gc.GameEnded += Debug.Log;
             
-            gc.BeginGame();
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 5), 0);
         }
         
@@ -31,11 +30,10 @@ namespace Planes262.Tests.Edit_Mode
             GameController gc = new GameController(WaveProvider.Test(), Board.test);
             Troop troop = null;
             bool wasLegal = false;
-            gc.TroopsSpawned += args => troop = args.Troops.ToList()[0];
+            gc.TroopsSpawned += args => troop = args.troops.ToList()[0];
             gc.TroopsSpawned += args => Trace.WriteLine(args);
             gc.TroopMoved += args => wasLegal = true;
             
-            gc.BeginGame();
             VectorTwo position = troop.Position;
             troop.MoveInDirection(0);
             gc.ProcessMove(PlayerSide.Blue, position, 0);

@@ -5,6 +5,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using GameDataStructures.Packets;
 using UnityEngine;
 
@@ -34,9 +35,8 @@ namespace Planes262.Networking
                 BeginSendAsync();
                 await BeginListenAsync();
             }
-            catch (Exception ex)
+            catch (WebSocketException ex)
             {
-                throw;
                 Debug.Log("Couldn't connect to server: " + ex.Message);
             }
         }

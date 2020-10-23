@@ -16,7 +16,7 @@ namespace GameJudge
         private readonly int incrementS;
         private readonly ITimeProvider timeProvider;
         private readonly Action<PlayerSide> lostOnTime;
-        private bool lost = false;
+        private bool lost;
     
         private int ActiveTime {
             get => activePlayer == PlayerSide.Blue ? blueTimeMs : redTimeMs; 

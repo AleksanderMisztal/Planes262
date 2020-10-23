@@ -10,20 +10,21 @@ namespace GameServer.Matchmaking
 {
     public class Game
     {
-        public readonly User RedUser;
-        public readonly User BlueUser;
+        public readonly User redUser;
+        public readonly User blueUser;
         private readonly ServerSend sender;
         private readonly GameController controller;
         private readonly Clock clock;
         private readonly Board board;
+        private readonly WaveProvider waveProvider;
 
         public Game(User redUser, User blueUser, ServerSend sender)
         {
-            RedUser = redUser;
-            BlueUser = blueUser;
+            this.redUser = redUser;
+            this.blueUser = blueUser;
             this.sender = sender;
 
-            WaveProvider waveProvider = WaveProvider.Test();
+            waveProvider = WaveProvider.Test();
             board = Board.test;
             controller = new GameController(waveProvider, board);
             
@@ -34,16 +35,14 @@ namespace GameServer.Matchmaking
         {
             controller.TroopsSpawned += async args => {
                 TimeInfo timeInfo = clock.ToggleActivePlayer();
-                await sender.TroopsSpawned(RedUser.Id, BlueUser.Id, args, timeInfo);
+                await sender.TroopsSpawned(redUser.Id, blueUser.Id, args, timeInfo);
             };
-            controller.TroopMoved += async args => await sender.TroopMoved(RedUser.Id, BlueUser.Id, args);
-            controller.GameEnded += async args => await sender.GameEnded(RedUser.Id, BlueUser.Id, args);
+            controller.TroopMoved += async args => await sender.TroopMoved(redUser.Id, blueUser.Id, args);
+            controller.GameEnded += async args => await sender.GameEnded(redUser.Id, blueUser.Id, args);
 
             ClockInfo clockInfo = clock.Initialize();
-            await sender.GameJoined(RedUser.Id, BlueUser.Name, PlayerSide.Red, board, clockInfo);
-            await sender.GameJoined(BlueUser.Id, RedUser.Name, PlayerSide.Blue, board, clockInfo);
-
-            controller.BeginGame();
+            await sender.GameJoined(redUser.Id, blueUser.Name, PlayerSide.Red, board, waveProvider.initialTroops, clockInfo);
+            await sender.GameJoined(blueUser.Id, redUser.Name, PlayerSide.Blue, board, waveProvider.initialTroops, clockInfo);
         }
         
         public void MakeMove(int client, VectorTwo position, int direction)
@@ -54,8 +53,8 @@ namespace GameServer.Matchmaking
 
         private PlayerSide GetColor(int client)
         {
-            if (client == RedUser.Id) return PlayerSide.Red;
-            if (client == BlueUser.Id) return PlayerSide.Blue;
+            if (client == redUser.Id) return PlayerSide.Red;
+            if (client == blueUser.Id) return PlayerSide.Blue;
 
             throw new KeyNotFoundException("Get color didn't work");
         }

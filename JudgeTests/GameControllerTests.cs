@@ -10,7 +10,7 @@ namespace JudgeTests
 {
     public class GameControllerTests
     {
-        private const int Forward = 0;
+        private const int forward = 0;
 
         private GameController gc;
 
@@ -20,7 +20,6 @@ namespace JudgeTests
             Board board = new Board(xMax, yMax);
 
             gc = new GameController(battles, board, waveProvider);
-            gc.BeginGame();
         }
 
         private void Move(PlayerSide player, int x, int y, int direction)
@@ -40,12 +39,12 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 3, 3, Forward);
-            Move(PlayerSide.Blue, 4, 3, Forward);
-            Move(PlayerSide.Blue, 6, 3, Forward);
-            Move(PlayerSide.Blue, 2, 3, Forward);
-            Move(PlayerSide.Blue, 3, 3, Forward);
-            Move(PlayerSide.Blue, 4, 3, Forward);
+            Move(PlayerSide.Blue, 3, 3, forward);
+            Move(PlayerSide.Blue, 4, 3, forward);
+            Move(PlayerSide.Blue, 6, 3, forward);
+            Move(PlayerSide.Blue, 2, 3, forward);
+            Move(PlayerSide.Blue, 3, 3, forward);
+            Move(PlayerSide.Blue, 4, 3, forward);
 
             Assert.IsTrue(true);
         }
@@ -62,12 +61,12 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 3, 3, Forward);
-            Move(PlayerSide.Blue, 4, 3, Forward);
-            Move(PlayerSide.Blue, 6, 3, Forward);
-            Move(PlayerSide.Blue, 2, 3, Forward);
-            Move(PlayerSide.Blue, 3, 3, Forward);
-            Move(PlayerSide.Blue, 4, 3, Forward);
+            Move(PlayerSide.Blue, 3, 3, forward);
+            Move(PlayerSide.Blue, 4, 3, forward);
+            Move(PlayerSide.Blue, 6, 3, forward);
+            Move(PlayerSide.Blue, 2, 3, forward);
+            Move(PlayerSide.Blue, 3, 3, forward);
+            Move(PlayerSide.Blue, 4, 3, forward);
 
             Assert.AreEqual(1, 1);
         }
@@ -82,9 +81,9 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 5, 5);
 
-            Move(PlayerSide.Blue, 4, 3, Forward);
+            Move(PlayerSide.Blue, 4, 3, forward);
 
-            Assert.IsTrue(5 == 5);
+            Assert.IsTrue(true);
         }
 
         [Test]
@@ -100,7 +99,7 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 0, 3, Forward);
+            Move(PlayerSide.Blue, 0, 3, forward);
 
             Assert.AreEqual(1, 1);
         }
@@ -108,18 +107,14 @@ namespace JudgeTests
         [Test]
         public void TestReturningCopies()
         {
-            GameController gc = new GameController(WaveProvider.Basic(), Board.test);
-            Troop troop = null;
-            bool wasLegal = false;
-            gc.TroopsSpawned += args => troop = args.Troops.GetEnumerator().Current;
-            gc.TroopMoved += args => wasLegal = true;
-            
-            gc.BeginGame();
+            WaveProvider waveProvider = WaveProvider.Basic();
+            gc = new GameController(waveProvider, Board.test);
+            Troop troop = waveProvider.initialTroops[0];
             VectorTwo position = troop.Position;
-            troop.MoveInDirection(Forward);
-            gc.ProcessMove(PlayerSide.Blue, position, Forward);
             
-            Assert.IsTrue(wasLegal);
+            gc.ProcessMove(PlayerSide.Blue, position, forward);
+            
+            Assert.AreEqual(position, troop.Position);
         }
     }
 }

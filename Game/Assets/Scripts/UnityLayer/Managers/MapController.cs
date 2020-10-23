@@ -39,7 +39,7 @@ namespace Planes262.UnityLayer.Managers
         {
             DeactivateTroops();
             playerSide = side;
-            activePlayer = PlayerSide.Red;
+            activePlayer = PlayerSide.Blue;
             pathFinder = new PathFinder(troopMap, board);
         }
 

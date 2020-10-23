@@ -15,12 +15,12 @@ namespace JudgeTests
             Troop blue = TroopFactory.Blue(2, 3);
 
             string serialized = blue.Data;
-            Assert.AreEqual("(0)(5)((2)(3))(0)(2)", serialized);
+            Assert.AreEqual("(0)(0)(5)((2)(3))(0)(2)", serialized);
         }
         [Test]
         public void TestTroopDeserialization()
         {
-            const string serialized = "(0)(5)((2)(3))(0)(2)";
+            const string serialized = "(0)(0)(5)((2)(3))(0)(2)";
             Troop troop = (Fighter)new Fighter().Read(serialized);
             
             Assert.AreEqual(PlayerSide.Blue, troop.Player);

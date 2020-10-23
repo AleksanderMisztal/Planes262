@@ -12,8 +12,8 @@ namespace GameJudge
 {
     public class GameController
     {
-        private PlayerSide activePlayer = PlayerSide.Red;
-        private int roundNumber;
+        private PlayerSide activePlayer = PlayerSide.Blue;
+        private int roundNumber = 1;
         private int movePointsLeft;
 
         private readonly Score score = new Score();
@@ -36,6 +36,10 @@ namespace GameJudge
             troopMap = new TroopMap(board);
             validator = new MoveValidator(troopMap, board, activePlayer);
             troopAi = new TroopAi(troopMap, board);
+
+            IEnumerable<Troop> troops = waveProvider.initialTroops.Copy();
+            troopMap.SpawnWave(troops);
+            ResetBeginningTroops();
         }
 
 
@@ -43,30 +47,20 @@ namespace GameJudge
         public event Action<TroopMovedEventArgs> TroopMoved;
         public event Action<GameEndedEventArgs> GameEnded;
 
-
-        public void BeginGame()
-        {
-            if (roundNumber != 0) throw new Exception("This game controller has already been initialized");
-            BeginRound();
-        }
-
+        
         private void BeginRound()
         {
-            roundNumber++;
+            IncrementRoundAndTogglePlayer();
             AddSpawnsForCurrentRound();
-            ChangeActivePlayer();
+            ResetBeginningTroops();
             ExecuteAiMoves();
         }
 
-        private void ChangeActivePlayer()
+        private void IncrementRoundAndTogglePlayer()
         {
-            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer.Opponent());
-            foreach (ITroop troop in beginningTroops)
-                troop.ResetMovePoints();
-
+            roundNumber++;
             activePlayer = activePlayer.Opponent();
             validator.ToggleActivePlayer();
-            SetInitialMovePointsLeft(activePlayer);
         }
 
         private void AddSpawnsForCurrentRound()
@@ -76,10 +70,12 @@ namespace GameJudge
             TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave.Copy()));
         }
 
-        private void SetInitialMovePointsLeft(PlayerSide player)
+        private void ResetBeginningTroops()
         {
-            HashSet<ITroop> troops = troopMap.GetTroops(player);
-            movePointsLeft = troops.Aggregate(0, (acc, t) => acc + t.MovePoints);
+            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer);
+            foreach (ITroop troop in beginningTroops)
+                troop.ResetMovePoints();
+            movePointsLeft = beginningTroops.Aggregate(0, (acc, t) => acc + t.MovePoints);
         }
 
 

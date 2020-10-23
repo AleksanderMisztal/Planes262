@@ -8,23 +8,23 @@ namespace GameJudge.GameEvents
 {
     public class TroopMovedEventArgs : EventArgs
     {
-        public readonly VectorTwo Position;
-        public readonly int Direction;
-        public readonly List<BattleResult> BattleResults;
-        public readonly ScoreInfo Score;
+        public readonly VectorTwo position;
+        public readonly int direction;
+        public readonly List<BattleResult> battleResults;
+        public readonly ScoreInfo score;
 
         public TroopMovedEventArgs(VectorTwo position, int direction, List<BattleResult> battleResults, Score score)
         {
-            Position = position;
-            Direction = direction;
-            BattleResults = battleResults;
-            Score = new ScoreInfo(score.Red, score.Blue);
+            this.position = position;
+            this.direction = direction;
+            this.battleResults = battleResults;
+            this.score = new ScoreInfo(score.Red, score.Blue);
         }
 
         public override string ToString()
         {
-            string res = $"Troop moved event\n p: {Position} d: {Direction}\n";
-            return BattleResults.Aggregate(res, (current, b) => current + (b + "\n"));
+            string res = $"Troop moved event\n p: {position} d: {direction}\n";
+            return battleResults.Aggregate(res, (current, b) => current + (b + "\n"));
         }
     }
 }
