@@ -16,11 +16,6 @@ namespace Planes262.Tests.Edit_Mode
         public void TestGameJudge()
         {
             GameController gc = new GameController(WaveProvider.Basic(), Board.standard);
-
-            gc.TroopMoved += Debug.Log;
-            gc.TroopsSpawned += Debug.Log;
-            gc.GameEnded += Debug.Log;
-            
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 5), 0);
         }
         

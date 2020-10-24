@@ -12,7 +12,7 @@ namespace Planes262.Managers
 
         public void PlayLocal()
         {
-            GameInitializer.LoadBoard("xd", true);
+            GameInitializer.LoadBoard("board", true);
         }
 
         public void PlayOnline()

@@ -18,8 +18,8 @@ namespace Planes262.Managers
         
         private GameEventsHandler geHandler;
 
-        private static bool isLocal;
-        private static string levelName;
+        private static bool isLocal = true;
+        private static string levelName = "board";
 
         public static void LoadBoard(string aLevelName, bool aIsLocal)
         {
@@ -36,27 +36,28 @@ namespace Planes262.Managers
             score = FindObjectOfType<ScoreDisplay>();
             
             geHandler = new GameEventsHandler(gameManager, score, clockDisplay);
-            Client.instance.serverEvents.geHandler = geHandler;
+            if (Client.instance != null)
+                Client.instance.serverEvents.geHandler = geHandler;
             
             HexTile.lineMaterial = lineMaterial;
         }
 
         private void Start()
         {
-            gameManager.Initialize();
+            gameManager.Initialize(levelName);
             if (isLocal) 
                 InitializeLocalGame();
             else
                 InitializeOnlineGame();
         }
 
-        public void InitializeOnlineGame()
+        private void InitializeOnlineGame()
         {
             gameManager.SetLocal(false);
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
         }
 
-        public void InitializeLocalGame()
+        private void InitializeLocalGame()
         {            
             Debug.Log("Initializing a local game");
             gameManager.SetLocal(true);

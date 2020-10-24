@@ -25,7 +25,7 @@ namespace Planes262.Managers
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
-        public void Initialize()
+        public void Initialize(string levelName)
         {
             gridBase = new GridBase(Board.test, 1);
             hexInspector = new HexInspector(Board.test, gridBase);
@@ -44,6 +44,13 @@ namespace Planes262.Managers
 
             UnityTroopDecorator.effects = FindObjectOfType<Effects>();
             UnityTroopDecorator.gridBase = gridBase;
+
+            LoadLevel(levelName);
+        }
+
+        private void LoadLevel(string levelName)
+        {
+            FindObjectOfType<BackgroundManager>().SetBackground(levelName);
         }
 
         public void SetLocal(bool local)
@@ -74,7 +81,7 @@ namespace Planes262.Managers
         {
             gridBase.ResetAllTiles();
             PersistState.gameEndedMessage = message;
-            Client.instance.serverEvents.geHandler = null;
+            if (Client.instance != null) Client.instance.serverEvents.geHandler = null;
             StartCoroutine(DelayedSceneChange(delay));
         }
 
