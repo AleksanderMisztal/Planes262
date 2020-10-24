@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Planes262.UnityLayer.Managers
+namespace Planes262.Managers
 {
     public class MenuEventsHandler
     {

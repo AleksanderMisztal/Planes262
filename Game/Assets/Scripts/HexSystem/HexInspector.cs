@@ -2,7 +2,7 @@
 using GameDataStructures.Positioning;
 using UnityEngine;
 
-namespace Planes262.UnityLayer.HexSystem
+namespace Planes262.HexSystem
 {
     public class HexInspector
     {

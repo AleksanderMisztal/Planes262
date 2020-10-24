@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Planes262.UnityLayer.HexSystem
+namespace Planes262.HexSystem
 {
     public class HexTile
     {

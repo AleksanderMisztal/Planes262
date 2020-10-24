@@ -4,9 +4,10 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.GameLogic;
-using Planes262.UnityLayer.HexSystem;
+using Planes262.HexSystem;
+using Planes262.UnityLayer;
 
-namespace Planes262.UnityLayer.Managers
+namespace Planes262.Managers
 {
     public class MapController
     {

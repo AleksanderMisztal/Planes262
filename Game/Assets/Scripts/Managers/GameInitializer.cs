@@ -1,26 +1,36 @@
 ﻿using GameDataStructures;
 using GameJudge;
 using GameJudge.Waves;
+using Planes262.HexSystem;
 using Planes262.Networking;
-using Planes262.UnityLayer.HexSystem;
+using Planes262.UnityLayer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Planes262.UnityLayer.Managers
+namespace Planes262.Managers
 {
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private Material lineMaterial;
-        private Messenger messenger;
         private GameManager gameManager;
         private ScoreDisplay score;
         private ClockDisplay clockDisplay;
         
         private GameEventsHandler geHandler;
 
+        private static bool isLocal;
+        private static string levelName;
+
+        public static void LoadBoard(string aLevelName, bool aIsLocal)
+        {
+            levelName = aLevelName;
+            isLocal = aIsLocal;
+            SceneManager.LoadScene("Board");
+        }
+        
         private void Awake()
         {
             MyLogger.myLogger = new UnityLogger();
-            messenger = FindObjectOfType<Messenger>();
             gameManager = FindObjectOfType<GameManager>();
             clockDisplay = FindObjectOfType<ClockDisplay>();
             score = FindObjectOfType<ScoreDisplay>();
@@ -29,22 +39,15 @@ namespace Planes262.UnityLayer.Managers
             Client.instance.serverEvents.geHandler = geHandler;
             
             HexTile.lineMaterial = lineMaterial;
-
-            InitializeServerConnection();
         }
 
         private void Start()
         {
             gameManager.Initialize();
-            if (PersistState.isLocal) 
+            if (isLocal) 
                 InitializeLocalGame();
             else
                 InitializeOnlineGame();
-        }
-
-        private void InitializeServerConnection()
-        {
-            messenger.MessageSent += message => Client.instance.SendAMessage(message);
         }
 
         public void InitializeOnlineGame()

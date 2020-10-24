@@ -4,7 +4,7 @@ using GameDataStructures;
 using GameDataStructures.Packets;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
-using Planes262.UnityLayer.Managers;
+using Planes262.Managers;
 using UnityEngine;
 
 namespace Planes262.Networking

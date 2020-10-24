@@ -1,6 +1,6 @@
 ﻿using System;
 using GameDataStructures;
-using Planes262.UnityLayer.HexSystem;
+using Planes262.HexSystem;
 using UnityEngine;
 
 namespace Planes262.UnityLayer

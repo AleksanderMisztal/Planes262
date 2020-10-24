@@ -2,9 +2,10 @@
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
+using Planes262.UnityLayer;
 using UnityEngine;
 
-namespace Planes262.UnityLayer.Managers
+namespace Planes262.Managers
 {
     public class GameEventsHandler
     {

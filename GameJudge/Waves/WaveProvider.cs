@@ -9,7 +9,7 @@ namespace GameJudge.Waves
         public readonly List<Troop> initialTroops;
         private readonly Dictionary<int, List<Troop>> troopsForRound;
 
-        internal WaveProvider(List<Troop> initialTroops, Dictionary<int, List<Troop>> troopsForRound)
+        public WaveProvider(List<Troop> initialTroops, Dictionary<int, List<Troop>> troopsForRound)
         {
             this.initialTroops = initialTroops;
             this.troopsForRound = troopsForRound;

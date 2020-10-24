@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,18 +15,16 @@ namespace Planes262.UnityLayer
         private List<GameObject> messages = new List<GameObject>();
         private string username;
 
-        public event Action<string> MessageSent;
-
-        public void SetUsername(string username)
+        public void SetUsername(string aUsername)
         {
-            this.username = username;
+            username = aUsername;
         }
 
         public void SendAMessage()
         {
             string message = username + ": " + input.text;
             input.text = "";
-            MessageSent?.Invoke(message);
+            Client.instance.SendAMessage(message);
             Display(message);
         }
 

@@ -6,12 +6,14 @@ using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.GameLogic;
-using Planes262.UnityLayer.HexSystem;
+using Planes262.HexSystem;
+using Planes262.Networking;
+using Planes262.UnityLayer;
 using Planes262.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Planes262.UnityLayer.Managers
+namespace Planes262.Managers
 {
     public class GameManager : MonoBehaviour
     {
@@ -20,7 +22,6 @@ namespace Planes262.UnityLayer.Managers
         private GridBase gridBase;
         private HexInspector hexInspector;
         private TroopInstantiator troopInstantiator;
-        [SerializeField] private GameEndedScreen gameEndedScreen;
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
@@ -72,13 +73,14 @@ namespace Planes262.UnityLayer.Managers
         public void EndGame(string message, float delay)
         {
             gridBase.ResetAllTiles();
-            StartCoroutine(Co_EndGame(message, delay));
+            PersistState.gameEndedMessage = message;
+            Client.instance.serverEvents.geHandler = null;
+            StartCoroutine(DelayedSceneChange(delay));
         }
 
-        private static IEnumerator Co_EndGame(string message, float delay)
+        private static IEnumerator DelayedSceneChange(float delay)
         {
             yield return new WaitForSeconds(delay);
-            PersistState.gameEndedMessage = message;
             SceneManager.LoadScene("Game Ended");
         }
     }

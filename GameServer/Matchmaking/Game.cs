@@ -28,7 +28,7 @@ namespace GameServer.Matchmaking
             board = Board.test;
             controller = new GameController(waveProvider, board);
             
-            clock = new Clock(10, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));
+            clock = new Clock(30, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));
         }
 
         public async Task Initialize()
