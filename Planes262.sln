@@ -2,12 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Game\Scripts.csproj", "{C8933BEA-52A1-761E-F572-1CC9E9CAACA2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditMode", "Game\EditMode.csproj", "{0B6E3BBD-0095-AB9C-02D5-AB65608FCE69}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayMode", "Game\PlayMode.csproj", "{C0BE9F80-7FD9-41B2-D790-7A7F9DB6EC9F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\GameServer.csproj", "{6F21A6D1-B823-47DD-AD69-EB8B7C9BF8D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerTests", "GameServerTests\GameServerTests.csproj", "{200A32C3-EEC0-470F-889C-43E5DAD6B57F}"

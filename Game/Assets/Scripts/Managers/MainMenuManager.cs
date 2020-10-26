@@ -1,6 +1,7 @@
 ﻿using Planes262.Networking;
 using Planes262.UnityLayer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Planes262.Managers
@@ -20,6 +21,11 @@ namespace Planes262.Managers
             PlayerMeta.name = username.text;
             GameInitializer.LoadBoard("xd", false);
             Client.instance.JoinGame();
+        }
+
+        public void EditLevel()
+        {
+            SceneManager.LoadScene("Editor Menu");
         }
     }
 }
