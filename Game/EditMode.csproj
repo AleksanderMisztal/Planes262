@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Tests\Edit Mode\ConversionTests.cs" />
      <Compile Include="Assets\Tests\Edit Mode\GameJudgeTests.cs" />
      <Compile Include="Assets\Tests\Edit Mode\HexLogicTests.cs" />
      <Compile Include="Assets\Tests\Edit Mode\PathFinderTests.cs" />

@@ -10,6 +10,7 @@ namespace Planes262.HexSystem
         private readonly int xSize;
         private readonly int ySize;
         private readonly float cellSize;
+        private readonly Vector3 offset;
         private readonly HexTile[,] tiles;
         
         private IEnumerable<VectorTwo> activePositions = new List<VectorTwo>();
@@ -19,11 +20,15 @@ namespace Planes262.HexSystem
         private static readonly Color activeBlocked = new Color(0, 0, 0, 127);
         private static readonly Color onPath = new Color(128, 0, 0, 127);
 
-        public GridBase(Board board, float cellSize)
+        public GridBase(Board board) : this(board, 1, Vector3.zero) { }
+
+        private GridBase(Board board, float cellSize, Vector3 offset)
         {
             xSize = board.xSize;
             ySize = board.ySize;
             this.cellSize = cellSize;
+            offset.z = 0;
+            this.offset = offset;
             tiles = new HexTile[xSize, ySize];
 
             CreateBoard();
@@ -36,7 +41,7 @@ namespace Planes262.HexSystem
             for (int x = 0; x < xSize; x++)
             for (int y = 0; y < ySize; y++)
             {
-                Vector3 center = Cube.FromOffset(x, y).ToWorld(cellSize);
+                Vector3 center = offset + Cube.FromOffset(x, y).ToWorld(cellSize);
                 HexTile[] neighs = new HexTile[6];
                 for (int i = 0; i < 6; i++)
                     neighs[i] = GetTile(Hex.GetAdjacentHex(new VectorTwo(x, y), i));
@@ -46,8 +51,8 @@ namespace Planes262.HexSystem
 
         public bool IsInside(int x, int y) => !(x < 0 || x >= xSize || y < 0 || y >= ySize);
         public Vector3 ToWorld(VectorTwo pos) => ToWorld(pos.x, pos.y);
-        public Vector3 ToWorld(int x, int y) => Cube.FromOffset(x, y).ToWorld(cellSize);
-        public VectorTwo ToOffset(Vector3 wp) => Cube.ToCube(wp, cellSize).ToOffset();
+        public Vector3 ToWorld(int x, int y) => offset + Cube.FromOffset(x, y).ToWorld(cellSize);
+        public VectorTwo ToOffset(Vector3 wp) => Cube.ToCube(wp - offset, cellSize).ToOffset();
 
         public void SetReachableTiles(IEnumerable<VectorTwo> reachable)
         {

@@ -53,7 +53,7 @@ namespace Planes262.HexSystem
             float wpx = cellSize * (     3f/2 * x);
             float wpy = -cellSize * ((float) Math.Sqrt(3) / 2 * x + (float) Math.Sqrt(3) * y);
             
-            return new Vector3(wpx, wpy);
+            return new Vector3(wpx, wpy, 0);
         }
 
         public VectorTwo ToOffset()

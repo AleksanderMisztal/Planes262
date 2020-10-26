@@ -1,14 +1,10 @@
-﻿using System;
-using GameDataStructures;
-using Planes262.HexSystem;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
     public class BoardCamera : MonoBehaviour
     {
         private Camera boardCamera;
-        public GridBase gridBase;
 
         private const float sensitivity = 5;
         private const float mobility = .2f;
@@ -18,47 +14,26 @@ namespace Planes262.UnityLayer
         private float yMin;
         private float yMax;
 
-        private const float minSize = 2;
-        private float maxSize = 5;
-        private Vector3 center;
+        private float minSize = 0;
+        private float maxSize = 100;
 
-        private void Start()
-        {
-            Initialize(Board.test);
-        }
-
-        public void Initialize(Board board)
+        public void Initialize(Vector3 offset, float ortoSize)
         {
             Debug.Log("Initializing camera.");
-            if (gridBase == null) Debug.Log("Grid base is null!!");
             boardCamera = GetComponent<Camera>();
-            SetCameraPositionAndSize(board);
-            InitializeBoardBoundaries();
+            boardCamera.transform.position = offset;
+            boardCamera.GetComponent<Camera>().orthographicSize = ortoSize;
+            
+            maxSize = ortoSize;
+            minSize = ortoSize / 5;
+
+            float aspect = boardCamera.aspect;
+            xMin = offset.x - ortoSize * aspect;
+            xMax = offset.x + ortoSize * aspect;
+            yMin = offset.y - ortoSize;
+            yMax = offset.y + ortoSize;
         }
 
-        private void SetCameraPositionAndSize(Board board)
-        {
-            Vector3 bottomLeft = gridBase.ToWorld(-2, -2);
-            Vector3 topRight = gridBase.ToWorld(board.xSize + 1, board.ySize + 1);
-
-            center = (bottomLeft + topRight) / 2;
-            center.z = -10;
-
-            transform.position = center;
-            boardCamera.orthographicSize = maxSize = (topRight.y - bottomLeft.y) / 2;
-        }
-
-        private void InitializeBoardBoundaries()
-        {
-            Vector3 camBottomLeft = boardCamera.ScreenToWorldPoint(new Vector3(0, 0, 0));
-            Vector3 camTopRight = boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, boardCamera.pixelHeight, 0));
-
-            xMin = camBottomLeft.x;
-            yMin = camBottomLeft.y;
-            xMax = camTopRight.x;
-            yMax = camTopRight.y;
-        }
-        
         private void Update()
         {
             UpdateCameraSize();
@@ -86,24 +61,17 @@ namespace Planes262.UnityLayer
 
         private void ClampCameraPosition()
         {
+            const float d = .01f;
             Vector3 position = transform.position;
+            float xOffset = boardCamera.orthographicSize * boardCamera.aspect;
+            float yOffset = boardCamera.orthographicSize;
             float x = Mathf.Clamp(position.x,
-                                            xMin + CenterXOffset,
-                                            xMax - CenterXOffset);
+                                            xMin + xOffset - d,
+                                            xMax - xOffset + d);
             float y = Mathf.Clamp(position.y,
-                                    yMin + CenterYOffset,
-                                    yMax - CenterYOffset);
-
-            position = new Vector3(x, y, -10);
-            transform.position = position;
+                                    yMin + yOffset - d,
+                                    yMax - yOffset + d);
+            transform.position = new Vector3(x, y, -10);
         }
-
-        private float CenterXOffset => -.1f
-                                              + boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth, 0, 0)).x
-                                              - boardCamera.ScreenToWorldPoint(new Vector3(boardCamera.pixelWidth / 2, 0, 0)).x;
-
-        private float CenterYOffset => -.1f
-                                              + boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight, 0)).y
-                                              - boardCamera.ScreenToWorldPoint(new Vector3(0, boardCamera.pixelHeight / 2, 0)).y;
     }
 }

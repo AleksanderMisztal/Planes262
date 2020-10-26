@@ -6,6 +6,7 @@ using GameJudge.Troops;
 using Planes262.GameLogic;
 using Planes262.HexSystem;
 using Planes262.UnityLayer;
+using UnityEngine;
 
 namespace Planes262.Managers
 {
@@ -16,6 +17,7 @@ namespace Planes262.Managers
             this.tileManager = tileManager;
             this.troopMap = troopMap;
             this.troopMoveHandler = troopMoveHandler;
+            if (troopMoveHandler == null) Debug.Log("Received null");
         }
         
         private readonly GridBase tileManager;

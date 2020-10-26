@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Planes262.LevelEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Planes262.UnityLayer
@@ -7,11 +8,17 @@ namespace Planes262.UnityLayer
     {
         private const string path = "Backgrounds/";
 
-        public void SetBackground(string levelName)
+        public void SetBackground(string backgroundName)
         {
-            Sprite background = Resources.Load<Sprite>(path + levelName);
-            Debug.Log(background);
-            GetComponent<Image>().sprite = background;
+            LevelConfig.background = backgroundName;
+            Sprite background = Resources.Load<Sprite>(path + backgroundName);
+            transform.GetChild(0).GetComponent<Image>().sprite = background;
+        }
+
+        public void DetachFromCamera()
+        {
+            Canvas canvas = GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
         }
     }
 }

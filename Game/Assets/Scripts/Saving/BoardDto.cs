@@ -7,9 +7,9 @@ namespace Planes262.Saving
     public class BoardDto
     {
         public string background;
-        public Vector3 offset;
         public int xSize;
         public int ySize;
-        public float gridSize;
+        public Vector3 offset;
+        public float ortoSize;
     }
 }

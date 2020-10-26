@@ -8,6 +8,7 @@ using GameJudge.Troops;
 using Planes262.GameLogic;
 using Planes262.HexSystem;
 using Planes262.Networking;
+using Planes262.Saving;
 using Planes262.UnityLayer;
 using Planes262.Utils;
 using UnityEngine;
@@ -25,10 +26,11 @@ namespace Planes262.Managers
 
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
-        public void Initialize(string levelName)
+        public void Initialize(Board board)
         {
-            gridBase = new GridBase(Board.test, 1);
-            hexInspector = new HexInspector(Board.test, gridBase);
+            gridBase = new GridBase(board);
+            
+            hexInspector = new HexInspector(board, gridBase);
             troopInstantiator = FindObjectOfType<TroopInstantiator>();
             
             TroopMap troopMap = new TroopMap();
@@ -40,17 +42,8 @@ namespace Planes262.Managers
             inputParser.CellClicked += mapController.OnCellClicked;
             inputParser.CellInspected += hexInspector.Inspect;
 
-            FindObjectOfType<BoardCamera>().gridBase = gridBase;
-
             UnityTroopDecorator.effects = FindObjectOfType<Effects>();
             UnityTroopDecorator.gridBase = gridBase;
-
-            LoadLevel(levelName);
-        }
-
-        private void LoadLevel(string levelName)
-        {
-            FindObjectOfType<BackgroundManager>().SetBackground(levelName);
         }
 
         public void SetLocal(bool local)

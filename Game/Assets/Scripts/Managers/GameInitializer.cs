@@ -1,8 +1,12 @@
-﻿using GameDataStructures;
+﻿using System.Collections;
+using System.Collections.Generic;
+using GameDataStructures;
 using GameJudge;
+using GameJudge.Troops;
 using GameJudge.Waves;
 using Planes262.HexSystem;
 using Planes262.Networking;
+using Planes262.Saving;
 using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,7 +23,7 @@ namespace Planes262.Managers
         private GameEventsHandler geHandler;
 
         private static bool isLocal = true;
-        private static string levelName = "board";
+        private static string levelName = "hi";
 
         public static void LoadBoard(string aLevelName, bool aIsLocal)
         {
@@ -44,11 +48,29 @@ namespace Planes262.Managers
 
         private void Start()
         {
-            gameManager.Initialize(levelName);
+            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
+            InitializeBackground(boardDto);
+            Board board = new Board(boardDto.xSize, boardDto.ySize);
+            List<Troop> troops = TroopReader.Load(levelName);
+            gameManager.Initialize(board);
             if (isLocal) 
-                InitializeLocalGame();
+                InitializeLocalGame(board, troops);
             else
                 InitializeOnlineGame();
+        }
+
+        private void InitializeBackground(BoardDto boardDto)
+        {
+            BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
+            backgroundManager.SetBackground(boardDto.background);
+            FindObjectOfType<BoardCamera>().Initialize(boardDto.offset, boardDto.ortoSize);
+            StartCoroutine(DetachBackground(backgroundManager));
+        }
+
+        private IEnumerator DetachBackground(BackgroundManager bm)
+        {
+            yield return null;
+            bm.DetachFromCamera();
         }
 
         private void InitializeOnlineGame()
@@ -57,14 +79,13 @@ namespace Planes262.Managers
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
         }
 
-        private void InitializeLocalGame()
-        {            
-            Debug.Log("Initializing a local game");
+        private void InitializeLocalGame(Board board, List<Troop> troops)
+        {
             gameManager.SetLocal(true);
 
-            WaveProvider waveProvider = WaveProvider.Test();
-            GameController gc = new GameController(waveProvider, Board.test);
-            Clock clock = new Clock(100, 5, geHandler.OnLostOnTime);
+            WaveProvider waveProvider = new WaveProvider(troops, new Dictionary<int, List<Troop>>());
+            GameController gc = new GameController(waveProvider, board);
+            Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults, args.score);
             gc.TroopsSpawned += args => {

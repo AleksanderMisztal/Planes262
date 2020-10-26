@@ -13,8 +13,8 @@ namespace Planes262.Utils
         private void Start()
         {
             Canvas myCanvas = GetComponent<Canvas>();
-            myCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-            myCanvas.worldCamera = Camera.main;
+            myCanvas.renderMode = RenderMode.WorldSpace;
+            myCanvas.worldCamera = FindObjectOfType<Camera>();
 
             myCanvas.sortingLayerName = sortingLayer;
             myCanvas.sortingOrder = orderInLayer;
