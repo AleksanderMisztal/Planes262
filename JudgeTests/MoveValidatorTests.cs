@@ -1,8 +1,8 @@
-﻿using GameDataStructures;
+﻿using System.Collections.Generic;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
-using GameJudge.Waves;
 using NUnit.Framework;
 
 namespace JudgeTests
@@ -10,86 +10,76 @@ namespace JudgeTests
     public class MoveValidatorTests
     {
         private TroopMap troopMap;
-        private WavesBuilder wb;
-        private PlayerSide player0;
-        private Board board;
-
         private MoveValidator validator;
 
-
-        private void CreateValidator()
+        
+        private void MakeValidator()
         {
-            board = new Board(5, 5);
+            Board board = new Board(5, 5);
             troopMap = new TroopMap(board);
-            player0 = PlayerSide.Red;
-            wb = new WavesBuilder();
-
-            validator = new MoveValidator(troopMap, board, player0);
-            validator.ToggleActivePlayer();
+            validator = new MoveValidator(troopMap, board, PlayerSide.Blue);
         }
 
-        private void AddTroop(int x, int y)
+        private void AssertForwardLegality(bool legal, int x, int y)
         {
-            wb.Add(1, x, y, PlayerSide.Blue);
+            Assert.AreEqual(legal, validator.IsLegalMove(PlayerSide.Blue, new VectorTwo(x, y), 0));
         }
+        
 
-        private void DoAddTroops()
+        [Test]
+        public void ShouldMove()
         {
-            WaveProvider waveProvider = wb.GetWaves();
-            troopMap.SpawnWave(waveProvider.GetTroops(1));
-            OnTurnBegin(PlayerSide.Blue);
-        }
+            MakeValidator();
 
-        private void OnTurnBegin(PlayerSide player)
-        {
-            foreach (ITroop troop in troopMap.GetTroops(player))
+            troopMap.SpawnWave(new List<Troop>
             {
-                troop.ResetMovePoints();
-            }
-        }
+                TroopFactory.Blue(2, 2),
+            });
 
-        private ITroop GetTroop(int x, int y)
-        {
-            return troopMap.Get(new VectorTwo(x, y));
+            AssertForwardLegality(true, 2, 2);
         }
 
         [Test]
-        public void Should_ReturnTrue_When_NormalMove()
+        public void ShouldNotEnterFriend()
         {
-            CreateValidator();
-            AddTroop(2, 2);
-            DoAddTroops();
-            ITroop troop = GetTroop(2, 2);
+            MakeValidator();
 
-            Assert.IsTrue(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
+            troopMap.SpawnWave(new List<Troop>
+            {
+                TroopFactory.Blue(2, 2),
+                TroopFactory.Blue(3, 1),
+            });
+
+            AssertForwardLegality(false, 2, 2);
         }
 
         [Test]
-        public void Should_ReturnFalse_When_EntersFriend()
+        public void Friends3NotBlocking()
         {
-            CreateValidator();
-            AddTroop(2, 2);
-            AddTroop(3, 2);
-            DoAddTroops();
-            ITroop troop = GetTroop(2, 2);
+            MakeValidator();
 
-            Assert.IsFalse(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
+            troopMap.SpawnWave(new List<Troop>()
+            {
+                TroopFactory.Blue(2, 2),
+                TroopFactory.Blue(3, 2),
+                TroopFactory.Blue(3, 1),
+                TroopFactory.Blue(2, 1),
+            });
+
+            AssertForwardLegality(true, 2, 2);
         }
 
         [Test]
-        public void Should_ReturnTrue_When_BlockedBy3Friends()
+        public void ShouldNotExitBoard()
         {
-            CreateValidator();
-            AddTroop(2, 2);
+            MakeValidator();
 
-            AddTroop(2, 3);
-            AddTroop(3, 2);
-            AddTroop(2, 1);
-            DoAddTroops();
+            troopMap.SpawnWave(new List<Troop>()
+            {
+                TroopFactory.Blue(5, 0),
+            });
 
-            ITroop troop = GetTroop(2, 2);
-
-            Assert.IsTrue(validator.IsLegalMove(PlayerSide.Blue, troop.Position, 0));
+            AssertForwardLegality(false, 5, 2);
         }
     }
 }

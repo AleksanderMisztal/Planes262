@@ -10,7 +10,7 @@ namespace GameJudge
         private readonly int incrementMs;
         private int redTimeMs;
         private int blueTimeMs;
-        private PlayerSide activePlayer = PlayerSide.Red;
+        private PlayerSide activePlayer = PlayerSide.Blue;
         private long lastChangeTime = -1;
         private readonly int initialTimeS;
         private readonly int incrementS;

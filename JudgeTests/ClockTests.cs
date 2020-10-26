@@ -39,27 +39,21 @@ namespace JudgeTests
                 timedActions.Add(TimedAction);
             }
         }
-        
-        bool lost;
+
+        private bool lost;
         private PlayerSide loser;
         private int timesLost;
         private Clock clock;
         private MockTimeProvider tp;
 
-        private void SetUp(int inc)
+        private void SetUp(int initial, int inc)
         {
             lost = false;
             timesLost = 0;
             tp = new MockTimeProvider();
-            clock = new Clock(10, inc, tp, LostOnTime);
-
+            clock = new Clock(initial, inc, tp, LostOnTime);
             clock.Initialize();
-            clock.ToggleActivePlayer();
         }
-
-        private void SetUp() => SetUp(0);
-
-        private TimeInfo Toggle() => clock.ToggleActivePlayer();
 
         private void LostOnTime(PlayerSide side)
         {
@@ -71,16 +65,16 @@ namespace JudgeTests
         [Test]
         public void TestTimeRunning()
         {
-            SetUp();
+            SetUp(10, 0);
             tp.Inc(5);
-            TimeInfo ti = Toggle();
+            TimeInfo ti = clock.ToggleActivePlayer();
             Assert.AreEqual(5000, ti.BlueTimeMs);
         }
 
         [Test]
         public void TestLosing()
         {
-            SetUp();
+            SetUp(10, 0);
             
             tp.Inc(11);
             
@@ -90,12 +84,12 @@ namespace JudgeTests
         [Test]
         public void TestLosesOnce()
         {
-            SetUp();
+            SetUp(10, 0);
             
-            Toggle();
-            Toggle();
-            Toggle();
-            Toggle();
+            clock.ToggleActivePlayer();
+            clock.ToggleActivePlayer();
+            clock.ToggleActivePlayer();
+            clock.ToggleActivePlayer();
             tp.Inc(11);
             
             Assert.IsTrue(lost);
@@ -106,24 +100,24 @@ namespace JudgeTests
         [Test]
         public void TestClockWithIncrement()
         {
-            SetUp(2);
+            SetUp(10, 2);
             
             tp.Inc(3);
-            TimeInfo ti = Toggle();
+            TimeInfo ti = clock.ToggleActivePlayer();
             Assert.AreEqual(9000, ti.BlueTimeMs);
             tp.Inc(5);
-            ti = Toggle();
+            ti = clock.ToggleActivePlayer();
             Assert.AreEqual(7000, ti.RedTimeMs);
             
             tp.Inc(5);
-            Toggle();
+            clock.ToggleActivePlayer();
             tp.Inc(4);
-            Toggle();
+            clock.ToggleActivePlayer();
             
             Assert.IsFalse(lost);
             
             tp.Inc(6);
-            Toggle();
+            clock.ToggleActivePlayer();
             
             Assert.IsTrue(lost);
             Assert.AreEqual(PlayerSide.Blue, loser);

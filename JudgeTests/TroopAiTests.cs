@@ -1,8 +1,7 @@
-﻿using GameDataStructures;
-using GameDataStructures.Positioning;
+﻿using System.Collections.Generic;
+using GameDataStructures;
 using GameJudge;
 using GameJudge.Troops;
-using GameJudge.Waves;
 using NUnit.Framework;
 
 namespace JudgeTests
@@ -10,44 +9,26 @@ namespace JudgeTests
     public class TroopAiTests
     {
         private TroopMap troopMap;
-        private Board board;
         private TroopAi troopAi;
-        private WavesBuilder wb;
 
-        private void CreateTroopAi()
+        private void MakeAi()
         {
-            board = new Board(5, 5);
+            Board board = new Board(5, 5);
             troopMap = new TroopMap(board);
             troopAi = new TroopAi(troopMap, board);
-            wb = new WavesBuilder();
-        }
-
-        private void AddTroop(int x, int y)
-        {
-            wb.Add(1, x, y, PlayerSide.Blue);
-        }
-
-        private void DoAddTroops()
-        {
-            WaveProvider waveProvider = wb.GetWaves();
-            troopMap.SpawnWave(waveProvider.GetTroops(1));
-        }
-
-        private ITroop GetTroop(int x, int y)
-        {
-            return troopMap.Get(new VectorTwo(x, y));
         }
 
 
         [Test]
         public void Should_ReturnFalse_When_InMiddleBoard()
         {
-            CreateTroopAi();
+            MakeAi();
 
-            AddTroop(2, 2);
-            DoAddTroops();
-
-            ITroop troop = GetTroop(2, 2);
+            Troop troop = TroopFactory.Blue(2, 2);
+            troopMap.SpawnWave(new List<Troop>
+            {
+                troop,
+            });
 
             Assert.IsFalse(troopAi.ShouldControl(troop));
         }
@@ -55,14 +36,15 @@ namespace JudgeTests
         [Test]
         public void Should_ReturnFalse_When_BlockedByFriends()
         {
-            CreateTroopAi();
+            MakeAi();
 
-            AddTroop(3, 5);
-            AddTroop(4, 5);
-            AddTroop(4, 4);
-            DoAddTroops();
-
-            ITroop troop = GetTroop(3, 5);
+            Troop troop = TroopFactory.Blue(0, 0);
+            troopMap.SpawnWave(new List<Troop>
+            {
+                troop,
+                TroopFactory.Blue(1, 0),
+                TroopFactory.Blue(0, 1),
+            });
 
             Assert.IsFalse(troopAi.ShouldControl(troop));
         }
@@ -70,11 +52,13 @@ namespace JudgeTests
         [Test]
         public void Should_ReturnTrue_When_HasToExitBoard()
         {
-            CreateTroopAi();
+            MakeAi();
 
-            AddTroop(5, 5);
-            DoAddTroops();
-            ITroop troop = GetTroop(5, 5);
+            Troop troop = TroopFactory.Blue(5, 0);
+            troopMap.SpawnWave(new List<Troop>
+            {
+                troop,
+            });
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }
@@ -82,12 +66,13 @@ namespace JudgeTests
         [Test]
         public void Should_ReturnTrue_When_OutsideTheBoard()
         {
-            CreateTroopAi();
+            MakeAi();
 
-            AddTroop(8, 9);
-            DoAddTroops();
-
-            ITroop troop = GetTroop(8, 9);
+            Troop troop = TroopFactory.Blue(8, 2);
+            troopMap.SpawnWave(new List<Troop>
+            {
+                troop,
+            });
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }
@@ -95,12 +80,13 @@ namespace JudgeTests
         [Test]
         public void Should_ReturnTrue_When_CanReenterBoard()
         {
-            CreateTroopAi();
+            MakeAi();
 
-            AddTroop(3, 6);
-            DoAddTroops();
-
-            ITroop troop = GetTroop(3, 6);
+            Troop troop = TroopFactory.Blue(-1, 2);
+            troopMap.SpawnWave(new List<Troop>
+            {
+                troop,
+            });
 
             Assert.IsTrue(troopAi.ShouldControl(troop));
         }
