@@ -23,7 +23,7 @@ namespace Planes262.Managers
         private GameEventsHandler geHandler;
 
         private static bool isLocal = true;
-        private static string levelName = "hi";
+        private static string levelName = "level2";
 
         public static void LoadBoard(string aLevelName, bool aIsLocal)
         {
@@ -97,7 +97,7 @@ namespace Planes262.Managers
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             
             ClockInfo clockInfo = clock.Initialize();
-            geHandler.OnGameReady("local", PlayerSide.Blue, Board.test, waveProvider.initialTroops, clockInfo);
+            geHandler.OnGameReady("local", PlayerSide.Blue, board, waveProvider.initialTroops, clockInfo);
         }
     }
 }

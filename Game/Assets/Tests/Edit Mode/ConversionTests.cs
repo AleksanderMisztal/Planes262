@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Planes262.LevelEditor.Tilemaps;
 using UnityEngine;
 
-namespace LevelEditor.Tests.EditMode
+namespace Planes262.Tests.Edit_Mode
 {
     public class ConversionTests
     {

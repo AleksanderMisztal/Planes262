@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer
             go.position = gridBase.ToWorld(Position);
             
             body = go.Find("Body");
-            body.Rotate(Vector3.back * (60 * Orientation + 30));
+            body.Rotate(Vector3.forward * (60 * Orientation - 30));
             
             spriteRenderer = body.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];

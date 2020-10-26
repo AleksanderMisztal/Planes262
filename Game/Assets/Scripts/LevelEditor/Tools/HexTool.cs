@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures.Positioning;
 using Planes262.LevelEditor.Tilemaps;
-using Planes262.Saving;
 using UnityEngine;
 
 namespace Planes262.LevelEditor.Tools
@@ -33,11 +32,6 @@ namespace Planes262.LevelEditor.Tools
             }
         }
 
-        private class TemplatesDto
-        {
-            public T[] templates;
-        }
-        
         public override void Initialize(ResizableGridBase theGridBase)
         {
             theGridBase.GridResized += Resize;
@@ -66,6 +60,13 @@ namespace Planes262.LevelEditor.Tools
                 if (!gridBase.IsInside(v.x, v.y)) return;
                 hexGrid.SetTile(position, CreateObject(position, templates[activeId]));
             }
+            
+            CustomUpdate();
+        }
+
+        protected virtual void CustomUpdate()
+        {
+            
         }
 
         private void Resize()

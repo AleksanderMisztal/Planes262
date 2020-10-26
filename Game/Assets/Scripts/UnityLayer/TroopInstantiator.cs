@@ -13,6 +13,7 @@ namespace Planes262.UnityLayer
 
         public ITroop InstantiateTroop(Troop troop)
         {
+            Debug.Log($"{troop.Position} => {troop.Orientation}");
             SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
             SpriteHolder spriteHolder = Instantiate(troopPrefab);
             return new UnityTroopDecorator(spriteHolder, troop);

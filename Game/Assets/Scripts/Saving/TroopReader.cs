@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 
@@ -19,9 +20,9 @@ namespace Planes262.Saving
             switch (dto.name)
             {
                 case "Me262":
-                    return TroopFactory.Blue(dto.x, dto.y, dto.orientation);
+                    return new Fighter(PlayerSide.Blue, 5, new VectorTwo(dto.x, dto.y), dto.orientation, 2);
                 case "B17":
-                    return TroopFactory.Red(new VectorTwo(dto.x, dto.y), dto.orientation);
+                    return new Fighter(PlayerSide.Red, 5, new VectorTwo(dto.x, dto.y), dto.orientation, 2);
                 default:
                     return default;
             }
