@@ -65,9 +65,9 @@
      <Compile Include="Assets\Scripts\HexSystem\GridBase.cs" />
      <Compile Include="Assets\Scripts\HexSystem\HexInspector.cs" />
      <Compile Include="Assets\Scripts\HexSystem\HexTile.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\Initializer.cs" />
+     <Compile Include="Assets\Scripts\LevelEditor\EditorManager.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelConfig.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\Scenes\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\LevelEditor\MenuManager.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Terrains\Terrain.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Tilemaps\Cube.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Tilemaps\HexGrid.cs" />

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Planes262.LevelEditor.Scenes
+namespace Planes262.LevelEditor
 {
     public class MenuManager : MonoBehaviour
     {

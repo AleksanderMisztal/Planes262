@@ -84,16 +84,8 @@ namespace Planes262.LevelEditor.Tilemaps
             }
         }
 
-        public bool IsInside(int x, int y)
-        {
-            return !(x < 0 || x >= XSize || y < 0 || y >= YSize);
-        }
-
-        public Vector3 ToWorld(int x, int y)
-        {
-            return Cube.FromOffset(x, y).ToWorld(cellSize);
-        }
-
+        public bool IsInside(int x, int y) => x >= 0 && x < XSize && y >= 0 && y < YSize;
+        public Vector3 ToWorld(int x, int y) => Cube.FromOffset(x, y).ToWorld(cellSize);
         public VectorTwo ToOffset(Vector3 wp) => Cube.ToCube(wp, cellSize).ToOffset();
     }
 }

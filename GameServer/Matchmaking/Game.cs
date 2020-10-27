@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
+using GameJudge.Troops;
 using GameJudge.Waves;
 using GameServer.Networking;
 
@@ -24,8 +25,11 @@ namespace GameServer.Matchmaking
             this.blueUser = blueUser;
             this.sender = sender;
 
-            waveProvider = WaveProvider.Test();
-            board = Board.test;
+            waveProvider = new WaveProvider(new List<Troop> {
+                TroopFactory.Blue(1, 3),
+                TroopFactory.Red(5, 3),
+            }, new Dictionary<int, List<Troop>>());
+            board = new Board(12, 7);
             controller = new GameController(waveProvider, board);
             
             clock = new Clock(30, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));

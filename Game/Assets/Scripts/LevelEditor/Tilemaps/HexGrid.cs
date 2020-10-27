@@ -22,7 +22,7 @@ namespace Planes262.LevelEditor.Tilemaps
 
         public void SetTile(int x, int y, GameObject tile)
         {
-            if (x < 0 || x >= gridBase.XSize || y < 0 || y >= gridBase.YSize) return;
+            if (!gridBase.IsInside(x, y)) return;
             GameObject go = tiles[x, y];
             if (!(go is null)) Object.Destroy(go); 
             tiles[x, y] = tile;

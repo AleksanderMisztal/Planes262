@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
@@ -85,6 +86,7 @@ namespace GameJudge
             ITroop troop = troopMap.Get(position);
             MoveTroop(position, direction);
             if (!board.IsInside(troop.Position)) ControlWithAi(troop);
+            else MyLogger.Log($"{troop.Position} Was inside board");
 
             while (!GameHasEnded())
             {
@@ -177,6 +179,7 @@ namespace GameJudge
 
         private void ControlWithAi(ITroop troop)
         {
+            Trace.WriteLine("Will control troop");
             while (troopAi.ShouldControl(troop) && troop.MovePoints > 0)
             {
                 int direction = troopAi.GetOptimalDirection(troop);

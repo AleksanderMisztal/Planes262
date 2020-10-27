@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Diagnostics;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
@@ -10,14 +12,12 @@ namespace JudgeTests
 {
     public class GameControllerTests
     {
-        private const int forward = 0;
-
         private GameController gc;
 
-        private void CreateGameController(WaveProvider waveProvider, int xMax, int yMax)
+        private void CreateGameController(WaveProvider waveProvider, int xSize, int ySize)
         {
             IBattleResolver battles = new AlwaysDamageBattles();
-            Board board = new Board(xMax, yMax);
+            Board board = new Board(xSize, ySize);
 
             gc = new GameController(battles, board, waveProvider);
         }
@@ -39,12 +39,12 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 3, 3, forward);
-            Move(PlayerSide.Blue, 4, 3, forward);
-            Move(PlayerSide.Blue, 6, 3, forward);
-            Move(PlayerSide.Blue, 2, 3, forward);
-            Move(PlayerSide.Blue, 3, 3, forward);
-            Move(PlayerSide.Blue, 4, 3, forward);
+            Move(PlayerSide.Blue, 3, 3, 0);
+            Move(PlayerSide.Blue, 4, 3, 0);
+            Move(PlayerSide.Blue, 6, 3, 0);
+            Move(PlayerSide.Blue, 2, 3, 0);
+            Move(PlayerSide.Blue, 3, 3, 0);
+            Move(PlayerSide.Blue, 4, 3, 0);
 
             Assert.IsTrue(true);
         }
@@ -61,12 +61,12 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 3, 3, forward);
-            Move(PlayerSide.Blue, 4, 3, forward);
-            Move(PlayerSide.Blue, 6, 3, forward);
-            Move(PlayerSide.Blue, 2, 3, forward);
-            Move(PlayerSide.Blue, 3, 3, forward);
-            Move(PlayerSide.Blue, 4, 3, forward);
+            Move(PlayerSide.Blue, 3, 3, 0);
+            Move(PlayerSide.Blue, 4, 3, 0);
+            Move(PlayerSide.Blue, 6, 3, 0);
+            Move(PlayerSide.Blue, 2, 3, 0);
+            Move(PlayerSide.Blue, 3, 3, 0);
+            Move(PlayerSide.Blue, 4, 3, 0);
 
             Assert.AreEqual(1, 1);
         }
@@ -74,16 +74,19 @@ namespace JudgeTests
         [Test]
         public void Should_ControlTroopWithAI_When_ExitsBoard()
         {
-            WaveProvider waveProvider = new WavesBuilder()
-                .Add(1, 4, 3, PlayerSide.Blue)
-                .Add(1, 5, 3, PlayerSide.Red)
-                .GetWaves();
-
+            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            {
+                new Fighter(PlayerSide.Blue, 5, new VectorTwo(2, 3), 2, 2 ),
+                new Fighter(PlayerSide.Red, 5, new VectorTwo(2, 4), 5, 2 ),
+            }, new Dictionary<int, List<Troop>>());
             CreateGameController(waveProvider, 5, 5);
+            int moveCount = 0;
+            gc.TroopMoved += args => moveCount++;
 
-            Move(PlayerSide.Blue, 4, 3, forward);
 
-            Assert.IsTrue(true);
+            Move(PlayerSide.Blue, 2, 3, 0);
+
+            Assert.AreEqual(4, moveCount);
         }
 
         [Test]
@@ -99,7 +102,7 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 0, 3, forward);
+            Move(PlayerSide.Blue, 0, 3, 0);
 
             Assert.AreEqual(1, 1);
         }
@@ -107,12 +110,12 @@ namespace JudgeTests
         [Test]
         public void TestReturningCopies()
         {
-            WaveProvider waveProvider = WaveProvider.Basic();
-            gc = new GameController(waveProvider, Board.test);
+            WaveProvider waveProvider = new WaveProvider(new List<Troop>{TroopFactory.Blue(2, 2)}, null);
+            gc = new GameController(waveProvider, new Board(5, 5));
             Troop troop = waveProvider.initialTroops[0];
             VectorTwo position = troop.Position;
             
-            gc.ProcessMove(PlayerSide.Blue, position, forward);
+            gc.ProcessMove(PlayerSide.Blue, position, 0);
             
             Assert.AreEqual(position, troop.Position);
         }

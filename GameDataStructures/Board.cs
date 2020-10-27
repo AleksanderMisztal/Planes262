@@ -21,11 +21,8 @@ namespace GameDataStructures
         
         public bool IsInside(VectorTwo p)
         {
-            return p.x >= 0 && p.x <= xSize && p.y >= 0 && p.y <= ySize;
+            return p.x >= 0 && p.x < xSize && p.y >= 0 && p.y < ySize;
         }
-
-        public static readonly Board standard = new Board(20, 12);
-        public static readonly Board test = new Board(12, 7);
 
         
         public Board() { }

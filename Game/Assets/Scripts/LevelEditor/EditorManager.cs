@@ -2,10 +2,11 @@
 using Planes262.LevelEditor.Tools;
 using Planes262.Saving;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Planes262.LevelEditor
 {
-    public class Initializer : MonoBehaviour
+    public class EditorManager : MonoBehaviour
     {
         [SerializeField] private HexTool[] tools;
         private BoardTool boardTool;
@@ -27,6 +28,12 @@ namespace Planes262.LevelEditor
             else Save();
         }
 
+        public void BackToMain()
+        {
+            Save();
+            SceneManager.LoadScene("Main Menu");
+        }
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.T)) NextTool();

@@ -16,6 +16,7 @@ namespace Planes262.Managers
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private Material lineMaterial;
+        
         private GameManager gameManager;
         private ScoreDisplay score;
         private ClockDisplay clockDisplay;
