@@ -24,7 +24,7 @@ namespace Planes262.UnityLayer
         {
             string message = username + ": " + input.text;
             input.text = "";
-            Client.instance.SendAMessage(message);
+            Client.instance?.SendAMessage(message);
             Display(message);
         }
 

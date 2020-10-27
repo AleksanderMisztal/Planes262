@@ -18,7 +18,7 @@ namespace Planes262.LevelEditor.Tools
             {
                 VectorTwo cell = gridBase.ToOffset(gridBase.GetHexCenterWp());
                 GameObject go = hexGrid.GetTile(cell.x, cell.y);
-                go.GetComponent<RotationHolder>().Rotate();
+                go?.GetComponent<RotationHolder>().Rotate();
             }
         }
 

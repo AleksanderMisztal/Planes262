@@ -21,7 +21,6 @@ namespace GameJudge
 
         private readonly IBattleResolver battleResolver;
         private readonly WaveProvider waveProvider;
-        private readonly Board board;
         private readonly TroopMap troopMap;
         private readonly MoveValidator validator;
         private readonly TroopAi troopAi;
@@ -33,7 +32,6 @@ namespace GameJudge
         {
             this.battleResolver = battleResolver;
             this.waveProvider = waveProvider;
-            this.board = board;
             troopMap = new TroopMap(board);
             validator = new MoveValidator(troopMap, board, activePlayer);
             troopAi = new TroopAi(troopMap, board);
@@ -85,8 +83,7 @@ namespace GameJudge
             if (!validator.IsLegalMove(player, position, direction)) return;
             ITroop troop = troopMap.Get(position);
             MoveTroop(position, direction);
-            if (!board.IsInside(troop.Position)) ControlWithAi(troop);
-            else MyLogger.Log($"{troop.Position} Was inside board");
+            if (troopAi.ShouldControl(troop)) ControlWithAi(troop);
 
             while (!GameHasEnded())
             {
@@ -122,7 +119,7 @@ namespace GameJudge
                 return;
             }
 
-            BattleResult result = BattleResult.FriendlyCollision;
+            BattleResult result = BattleResult.friendlyCollision;
             if (encounter.Player != troop.Player)
                 result = battleResolver.GetFightResult(encounter, startingPosition);
 

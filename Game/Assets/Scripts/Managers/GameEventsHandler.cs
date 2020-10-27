@@ -40,7 +40,7 @@ namespace Planes262.Managers
         public void OnGameReady(string opponentName, PlayerSide side, Board board, IEnumerable<Troop> troops, ClockInfo clockInfo)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
-            clockDisplay.ResetTime(clockInfo);
+            clockDisplay.Initialize(clockInfo);
             gameManager.StartNewGame(board, troops, side);
             if (side == PlayerSide.Red) score.SetNames(PlayerMeta.name, opponentName);
             else score.SetNames(opponentName, PlayerMeta.name);

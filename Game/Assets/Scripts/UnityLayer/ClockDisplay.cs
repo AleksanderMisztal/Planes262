@@ -17,7 +17,7 @@ namespace Planes262.UnityLayer
         private float redTime;
         private float blueTime;
 
-        private PlayerSide activePlayer = PlayerSide.Red;
+        private PlayerSide activePlayer = PlayerSide.Blue;
         
         private float ActiveTime {
             get => activePlayer == PlayerSide.Blue ? blueTime : redTime; 
@@ -27,11 +27,10 @@ namespace Planes262.UnityLayer
             }
         }
 
-        public void ResetTime(ClockInfo clockInfo)
+        public void Initialize(ClockInfo clockInfo)
         {
             initialTime = clockInfo.InitialTimeS;
             increment = clockInfo.IncrementS;
-            activePlayer = PlayerSide.Red;
 
             int dt = (int)(CurrentTime - clockInfo.StartTimestamp);
             

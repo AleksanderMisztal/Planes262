@@ -22,11 +22,6 @@ namespace JudgeTests
             gc = new GameController(battles, board, waveProvider);
         }
 
-        private void Move(PlayerSide player, int x, int y, int direction)
-        {
-            gc.ProcessMove(player, new VectorTwo(x, y), direction);
-        }
-
 
         [Test]
         public void Should_EndGame_When_OneSideLosesAllTroops()
@@ -39,36 +34,14 @@ namespace JudgeTests
 
             CreateGameController(waveProvider, 10, 10);
 
-            Move(PlayerSide.Blue, 3, 3, 0);
-            Move(PlayerSide.Blue, 4, 3, 0);
-            Move(PlayerSide.Blue, 6, 3, 0);
-            Move(PlayerSide.Blue, 2, 3, 0);
-            Move(PlayerSide.Blue, 3, 3, 0);
-            Move(PlayerSide.Blue, 4, 3, 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(3, 3), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 3), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(6, 3), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 3), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(3, 3), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 3), 0);
 
-            Assert.IsTrue(true);
-        }
-
-        [Test]
-        public void Should_ContinueGame_When_MoreTroopsWillSpawn()
-        {
-            WaveProvider waveProvider = new WavesBuilder()
-                .Add(1, 3, 3, PlayerSide.Blue)
-                .Add(1, 2, 3, PlayerSide.Blue)
-                .Add(1, 5, 3, PlayerSide.Red)
-                .Add(4, 1, 1, PlayerSide.Red)
-                .GetWaves();
-
-            CreateGameController(waveProvider, 10, 10);
-
-            Move(PlayerSide.Blue, 3, 3, 0);
-            Move(PlayerSide.Blue, 4, 3, 0);
-            Move(PlayerSide.Blue, 6, 3, 0);
-            Move(PlayerSide.Blue, 2, 3, 0);
-            Move(PlayerSide.Blue, 3, 3, 0);
-            Move(PlayerSide.Blue, 4, 3, 0);
-
-            Assert.AreEqual(1, 1);
+            Assert.IsTrue(false);
         }
 
         [Test]
@@ -84,7 +57,7 @@ namespace JudgeTests
             gc.TroopMoved += args => moveCount++;
 
 
-            Move(PlayerSide.Blue, 2, 3, 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 3), 0);
 
             Assert.AreEqual(4, moveCount);
         }
@@ -92,19 +65,24 @@ namespace JudgeTests
         [Test]
         public void Should_AllowEnteringFriend_When_Blocked()
         {
-            WaveProvider waveProvider = new WavesBuilder()
-                .Add(1, 0, 3, PlayerSide.Blue)
-                .Add(1, 1, 2, PlayerSide.Blue)
-                .Add(1, 1, 3, PlayerSide.Blue)
-                .Add(1, 1, 4, PlayerSide.Blue)
-                .Add(1, 5, 3, PlayerSide.Red)
-                .GetWaves();
+            Troop troop = TroopFactory.Blue(2, 2);
+            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            {
+                troop,
+                TroopFactory.Blue(3, 2),
+                TroopFactory.Blue(3, 1),
+                TroopFactory.Blue(2, 1),
+                TroopFactory.Red(8, 3),
+            }, new Dictionary<int, List<Troop>>());
 
             CreateGameController(waveProvider, 10, 10);
+            
+            int moveCount = 0;
+            gc.TroopMoved += args => moveCount++;
 
-            Move(PlayerSide.Blue, 0, 3, 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 2), 0);
 
-            Assert.AreEqual(1, 1);
+            Assert.AreEqual(1, moveCount);
         }
 
         [Test]

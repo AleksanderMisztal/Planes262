@@ -12,6 +12,7 @@ namespace Planes262.UnityLayer
         
         private readonly Transform go;
         private readonly Transform body;
+        private readonly GameObject active;
         
         private readonly SpriteHolder spriteHolder;
         private readonly SpriteRenderer spriteRenderer;
@@ -24,10 +25,18 @@ namespace Planes262.UnityLayer
             go.position = gridBase.ToWorld(Position);
             
             body = go.Find("Body");
+            active = go.Find("Active").gameObject;
+            active.SetActive(false);
             body.Rotate(Vector3.forward * (60 * Orientation - 30));
             
             spriteRenderer = body.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];
+        }
+
+        public override void ResetMovePoints()
+        {
+            base.ResetMovePoints();
+            active.SetActive(true);
         }
 
         public override void MoveInDirection(int direction)
@@ -35,6 +44,8 @@ namespace Planes262.UnityLayer
             base.MoveInDirection(direction);
             body.Rotate(Vector3.forward * 60 * direction);
             go.position = gridBase.ToWorld(Position);
+
+            if (MovePoints == 0) active.SetActive(false);
         }
 
         public override void FlyOverOtherTroop()
@@ -49,12 +60,8 @@ namespace Planes262.UnityLayer
             effects.Explode(go.position, 2);
             if (Health > 0) spriteRenderer.sprite = spriteHolder.sprites[Health - 1];
             else Object.Destroy(go.gameObject);
-        }
 
-        public override void CleanUpSelf()
-        {
-            base.CleanUpSelf();
-            Object.Destroy(go.gameObject);
+            if (MovePoints == 0) active.SetActive(false);
         }
     }
 }

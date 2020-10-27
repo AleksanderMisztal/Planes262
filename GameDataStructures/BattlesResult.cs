@@ -20,7 +20,7 @@ namespace GameDataStructures
             AttackerDamaged = false;
         }
         
-        public static BattleResult FriendlyCollision => new BattleResult(true, true);
+        public static readonly BattleResult friendlyCollision = new BattleResult(true, true);
 
         public override string ToString()
         {
