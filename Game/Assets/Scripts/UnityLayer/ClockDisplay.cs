@@ -67,8 +67,8 @@ namespace Planes262.UnityLayer
         
         private void UpdateDisplay()
         {
-            redTimeText.text = redTime.ToString(CultureInfo.CurrentCulture);
-            blueTimeText.text = blueTime.ToString(CultureInfo.CurrentCulture);
+            redTimeText.text = redTime.ToString("n2");
+            blueTimeText.text = blueTime.ToString("n2");
         }
         
         private static long CurrentTime => DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
