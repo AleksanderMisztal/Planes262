@@ -16,22 +16,17 @@ namespace GameServer.Networking
         private readonly WebSocket socket;
         private readonly ServerHandle serverHandle;
 
-        private bool isRunning;
-        private readonly BlockingCollection<Packet> sendQueue = new BlockingCollection<Packet>(new ConcurrentQueue<Packet>());
-
         public event Action<int> ConnectionTerminated;
 
+        private bool isRunning = true;
+        private readonly BlockingCollection<Packet> sendQueue = new BlockingCollection<Packet>(new ConcurrentQueue<Packet>());
+        
         public Client(int id, WebSocket socket, ServerHandle serverHandle)
         {
             this.id = id;
             this.socket = socket;
             this.serverHandle = serverHandle;
-
-            isRunning = true;
-            Task.Run(async () =>
-            {
-                while (isRunning) await BeginReceive();
-            });
+            
             Task.Run(async () =>
             {
                 while (isRunning)
@@ -40,6 +35,11 @@ namespace GameServer.Networking
                     await SendData(packet);
                 }
             });
+        }
+
+        public async Task Connect()
+        {
+            while (isRunning) await BeginReceive();
         }
 
         private async Task BeginReceive()
@@ -52,7 +52,8 @@ namespace GameServer.Networking
             catch (WebSocketException ex)
             {
                 Console.WriteLine($"Exception occured: {ex}. Disconnecting client {id}.");
-                TerminateConnection();
+                isRunning = false;
+                ConnectionTerminated?.Invoke(id);
                 return;
             }
             
@@ -81,20 +82,14 @@ namespace GameServer.Networking
 
             if (result.MessageType == WebSocketMessageType.Close)
             {
-                //TerminateConnection();
+                Console.WriteLine("Closed cleanly");
+                isRunning = false;
                 return null;
             }
             using StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8);
             return await reader.ReadToEndAsync();
         }
 
-        private void TerminateConnection()
-        {
-            ConnectionTerminated?.Invoke(id);
-            isRunning = false;
-        }
-
-        
         public void Send(Packet packet)
         {
             sendQueue.Add(packet);

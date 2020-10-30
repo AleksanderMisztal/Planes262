@@ -31,7 +31,7 @@ namespace Planes262.Networking
         {
             serverEvents.OnWelcome += () => Debug.Log("Connected to server!");
 #if UNITY_EDITOR || !UNITY_WEBGL
-            CsWebSocket ws = new CsWebSocket(serverEvents);
+            ws = new CsWebSocket(serverEvents);
             ws.InitializeConnection();
 #else
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
@@ -41,8 +41,14 @@ namespace Planes262.Networking
 #endif
             packetSender = ws;
         }
+#if UNITY_EDITOR || !UNITY_WEBGL
+        private CsWebSocket ws;
+        private void OnApplicationQuit()
+        {
+            ws.Close();
+        }
+#endif
 
-        
         public void JoinGame()
         {
             Packet packet = new Packet(ClientPackets.JoinGame);

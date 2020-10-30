@@ -35,7 +35,7 @@ namespace Planes262.Networking
                 BeginSendAsync();
                 await BeginListenAsync();
             }
-            catch (KeyNotFoundException ex)
+            catch (WebSocketException ex)
             {
                 Debug.Log("Couldn't connect to server: " + ex.Message);
             }
@@ -93,6 +93,11 @@ namespace Planes262.Networking
                 }
                 await Task.Delay(100);
             }
+        }
+
+        public void Close()
+        {
+            socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
         }
     }
 }

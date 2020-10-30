@@ -36,5 +36,10 @@ namespace Planes262.Networking
         {
             SendDataJs(packet.Data);
         }
+
+        public void Close()
+        {
+            
+        }
     }
 }

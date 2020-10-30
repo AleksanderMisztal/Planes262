@@ -31,7 +31,7 @@ namespace GameServer
                 {
                     WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
 
-                    server.ConnectNewClient(socket);
+                    await server.ConnectNewClient(socket);
                 }
                 else
                 {
