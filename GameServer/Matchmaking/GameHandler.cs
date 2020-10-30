@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameServer.Networking;
@@ -20,12 +19,12 @@ namespace GameServer.Matchmaking
         private bool someoneWaiting;
         private User waitingUser;
 
-        public async Task SendToGame(User newUser)
+        public void SendToGame(User newUser)
         {
             if (someoneWaiting)
             {
                 someoneWaiting = false;
-                await InitializeNewGame(newUser, waitingUser);
+                InitializeNewGame(newUser, waitingUser);
             }
             else
             {
@@ -34,15 +33,15 @@ namespace GameServer.Matchmaking
             }
         }
 
-        private async Task InitializeNewGame(User u1, User u2)
+        private void InitializeNewGame(User u1, User u2)
         {
             Randomizer.RandomlyAssign(u1, u2, out User redUser, out User blueUser);
             Game game = new Game(redUser, blueUser, sender);
 
-            clientToGame[redUser.Id] = game;
-            clientToGame[blueUser.Id] = game;
+            clientToGame[redUser.id] = game;
+            clientToGame[blueUser.id] = game;
 
-            await game.Initialize();
+            game.Initialize();
         }
 
         public void MoveTroop(int client, VectorTwo position, int direction)
@@ -51,29 +50,33 @@ namespace GameServer.Matchmaking
             game.MakeMove(client, position, direction);
         }
 
-        public async Task SendMessage(int client, string message)
+        public void SendMessage(int client, string message)
         {
             int opponent = GetOpponent(client);
-            await sender.MessageSent(opponent, message);
+            sender.MessageSent(opponent, message);
         }
 
-        public async Task ClientDisconnected(int client)
+        public void ClientDisconnected(int client)
         {
-            if (someoneWaiting && client == waitingUser.Id)
+            if (someoneWaiting && client == waitingUser.id)
+            {
                 someoneWaiting = false;
-
+                return;
+            }
+            if (!clientToGame.TryGetValue(client, out _)) return;
+            
             int opponent = GetOpponent(client);
 
             clientToGame.Remove(client);
             clientToGame.Remove(opponent);
 
-            await sender.OpponentDisconnected(opponent);
+            sender.OpponentDisconnected(opponent);
         }
 
         private int GetOpponent(int client)
         {
             Game game = clientToGame[client];
-            return game.blueUser.Id ^ game.redUser.Id ^ client;
+            return game.blueUser.id ^ game.redUser.id ^ client;
         }
     }
 }

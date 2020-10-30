@@ -2,13 +2,13 @@
 {
     public readonly struct User
     {
-        public readonly int Id;
-        public readonly string Name;
+        public readonly int id;
+        public readonly string name;
 
         public User(int id, string name)
         {
-            Id = id;
-            Name = name;
+            this.id = id;
+            this.name = name;
         }
     }
 }

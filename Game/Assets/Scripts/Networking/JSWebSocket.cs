@@ -17,7 +17,7 @@ namespace Planes262.Networking
 #endif
         
         
-        public void SetTranslator(ServerEvents events)
+        public void SetEvents(ServerEvents events)
         {
             serverEvents = events;
         }

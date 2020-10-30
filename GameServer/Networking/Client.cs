@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GameDataStructures.Packets;
-using GameServer.Matchmaking;
 using GameServer.Utils;
 
 namespace GameServer.Networking
@@ -13,26 +13,56 @@ namespace GameServer.Networking
     public class Client
     {
         private readonly int id;
-        private readonly ServerSend sender;
-        private readonly GameHandler gameHandler;
+        private readonly WebSocket socket;
         private readonly ServerHandle serverHandle;
-        private WebSocket socket;
-        private bool isConnected;
 
-        public Client(int id, ServerSend sender, GameHandler gameHandler, ServerHandle serverHandle)
+        private bool isRunning;
+        private readonly BlockingCollection<Packet> sendQueue = new BlockingCollection<Packet>(new ConcurrentQueue<Packet>());
+
+        public event Action<int> ConnectionTerminated;
+
+        public Client(int id, WebSocket socket, ServerHandle serverHandle)
         {
             this.id = id;
-            this.sender = sender;
-            this.gameHandler = gameHandler;
+            this.socket = socket;
             this.serverHandle = serverHandle;
+
+            isRunning = true;
+            Task.Run(async () =>
+            {
+                while (isRunning) await BeginReceive();
+            });
+            Task.Run(async () =>
+            {
+                while (isRunning)
+                {
+                    Packet packet = sendQueue.Take();
+                    await SendData(packet);
+                }
+            });
         }
 
-        public async Task Connect(WebSocket socket)
+        private async Task BeginReceive()
         {
-            this.socket = socket;
-            isConnected = true;
-            await sender.Welcome(id);
-            while (isConnected) await BeginReceive();
+            string data;
+            try
+            {
+                data = await Receive();
+            }
+            catch (WebSocketException ex)
+            {
+                Console.WriteLine($"Exception occured: {ex}. Disconnecting client {id}.");
+                TerminateConnection();
+                return;
+            }
+            
+            if (data == null) return;
+
+            ThreadManager.ExecuteOnMainThread(() =>
+            {
+                Packet packet = new Packet(data);
+                serverHandle.Handle(id, packet);
+            });
         }
 
         private async Task<string> Receive()
@@ -49,45 +79,28 @@ namespace GameServer.Networking
 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            if (result.MessageType == WebSocketMessageType.Close) return null;
+            if (result.MessageType == WebSocketMessageType.Close)
+            {
+                //TerminateConnection();
+                return null;
+            }
             using StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8);
-            string bytes = reader.ReadToEnd();
-            try
-            {
-                return bytes;
-            }
-            catch
-            {
-                Console.WriteLine("Couldn't convert to bytes");
-            }
-            return null;
+            return await reader.ReadToEndAsync();
         }
 
-        private async Task BeginReceive()
+        private void TerminateConnection()
         {
-            string data;
-            try
-            {
-                data = await Receive();
-            }
-            catch (WebSocketException ex)
-            {
-                Console.WriteLine($"Exception occured: {ex}. Disconnecting client {id}.");
-                isConnected = false;
-                await gameHandler.ClientDisconnected(id);
-                return;
-            }
-            
-            if (data == null) return;
-
-            ThreadManager.ExecuteOnMainThread(async () =>
-            {
-                Packet packet = new Packet(data);
-                await serverHandle.Handle(id, packet);
-            });
+            ConnectionTerminated?.Invoke(id);
+            isRunning = false;
         }
 
-        public async Task SendData(Packet packet)
+        
+        public void Send(Packet packet)
+        {
+            sendQueue.Add(packet);
+        }
+        
+        private async Task SendData(Packet packet)
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(packet.Data));
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);

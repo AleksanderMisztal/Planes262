@@ -63,7 +63,7 @@ namespace Planes262.Managers
         public void PlayOnline()
         {
             PlayerMeta.name = username.text;
-            GameInitializer.LoadBoard("xd", false);
+            GameInitializer.LoadBoard("level1", false);
             Client.instance.JoinGame();
         }
 

@@ -62,5 +62,10 @@ namespace Planes262.LevelEditor
             else Debug.Log("Will override");
             SceneManager.LoadScene("Level Editor");
         }
+
+        public void BackToMain()
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 }

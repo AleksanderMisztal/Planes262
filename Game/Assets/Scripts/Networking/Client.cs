@@ -36,7 +36,7 @@ namespace Planes262.Networking
 #else
             JsWebSocket ws = Instantiate(new GameObject().AddComponent<JsWebSocket>());
             ws.gameObject.name = "JsWebSocket";
-            ws.SetTranslator(serverTranslator);
+            ws.SetEvents(serverEvents);
             ws.InitializeConnection();
 #endif
             packetSender = ws;

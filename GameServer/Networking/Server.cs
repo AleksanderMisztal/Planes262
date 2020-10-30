@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
-using System.Threading.Tasks;
 using GameDataStructures.Packets;
 using GameServer.Matchmaking;
 
@@ -24,28 +23,28 @@ namespace GameServer.Networking
         private readonly Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
 
-        public async Task ConnectNewClient(WebSocket socket)
+        public void ConnectNewClient(WebSocket socket)
         {
             Console.WriteLine("Connecting a new client");
 
-            Client client = new Client(nextClientId, sender, gameHandler, serverHandle);
+            Client client = new Client(nextClientId, socket, serverHandle);
 
             clients.Add(nextClientId, client);
             nextClientId++;
 
-            await client.Connect(socket);
+            sender.Welcome(nextClientId - 1);
         }
 
-        public async Task SendPacket(int toClient, Packet packet)
+        public void SendPacket(int toClient, Packet packet)
         {
             try
             {
-                await clients[toClient].SendData(packet);
+                clients[toClient].Send(packet);
             }
             catch (WebSocketException ex)
             {
                 Console.WriteLine("Exception thrown by server while sending data: " + ex);
-                await gameHandler.ClientDisconnected(toClient);
+                gameHandler.ClientDisconnected(toClient);
             }
         }
     }

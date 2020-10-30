@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Packets;
 using GameJudge.GameEvents;
@@ -17,14 +16,14 @@ namespace GameServer.Networking
             this.server = server;
         }
 
-        public async Task Welcome(int toClient)
+        public void Welcome(int toClient)
         {
             Packet packet = new Packet(ServerPackets.Welcome);
-            await server.SendPacket(toClient, packet);
+            server.SendPacket(toClient, packet);
         }
 
         
-        public async Task GameJoined(int toClient, string opponentName, PlayerSide side, Board board, List<Troop> troops, ClockInfo clockInfo)
+        public void GameJoined(int toClient, string opponentName, PlayerSide side, Board board, List<Troop> troops, ClockInfo clockInfo)
         {
             Packet packet = new Packet(ServerPackets.GameJoined);
 
@@ -35,34 +34,34 @@ namespace GameServer.Networking
             foreach (Troop troop in troops) packet.Write(troop);
             packet.Write(clockInfo);
 
-            await server.SendPacket(toClient, packet);
+            server.SendPacket(toClient, packet);
         }
 
-        public async Task MessageSent(int toClient, string message)
+        public void MessageSent(int toClient, string message)
         {
             Packet packet = new Packet(ServerPackets.MessageSent);
             packet.Write(message);
-            await server.SendPacket(toClient, packet);
+            server.SendPacket(toClient, packet);
         }
 
-        public async Task OpponentDisconnected(int toClient)
+        public void OpponentDisconnected(int toClient)
         {
             Packet packet = new Packet(ServerPackets.OpponentDisconnected);
-            await server.SendPacket(toClient, packet);
+            server.SendPacket(toClient, packet);
         }
 
-        public async Task LostOnTime(int redId, int blueId, PlayerSide loser)
+        public void LostOnTime(int redId, int blueId, PlayerSide loser)
         {
             Console.WriteLine($"Sending {loser} lost on time");
             Packet packet = new Packet(ServerPackets.LostOnTime);
             packet.Write((int)loser);
             
-            await server.SendPacket(redId, packet);
-            await server.SendPacket(blueId, packet);
+            server.SendPacket(redId, packet);
+            server.SendPacket(blueId, packet);
         }
 
         
-        public async Task TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args, TimeInfo timeInfo)
+        public void TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args, TimeInfo timeInfo)
         {
             Packet packet = new Packet(ServerPackets.TroopSpawned);
             
@@ -70,11 +69,11 @@ namespace GameServer.Networking
             foreach (Troop troop in args.troops) packet.Write(troop);
             packet.Write(timeInfo);
 
-            await server.SendPacket(redId, packet);
-            await server.SendPacket(blueId, packet);
+            server.SendPacket(redId, packet);
+            server.SendPacket(blueId, packet);
         }
 
-        public async Task TroopMoved(int redId, int blueId, TroopMovedEventArgs args)
+        public void TroopMoved(int redId, int blueId, TroopMovedEventArgs args)
         {
             Packet packet = new Packet(ServerPackets.TroopMoved);
             packet.Write(args.position);
@@ -83,18 +82,18 @@ namespace GameServer.Networking
             foreach (BattleResult battleResult in args.battleResults) packet.Write(battleResult);
             packet.Write(args.score);
 
-            await server.SendPacket(redId, packet);
-            await server.SendPacket(blueId, packet);
+            server.SendPacket(redId, packet);
+            server.SendPacket(blueId, packet);
         }
 
-        public async Task GameEnded(int redId, int blueId, GameEndedEventArgs args)
+        public void GameEnded(int redId, int blueId, GameEndedEventArgs args)
         {
             Packet packet = new Packet(ServerPackets.GameEnded);
             packet.Write(args.score.Red);
             packet.Write(args.score.Blue);
 
-            await server.SendPacket(redId, packet);
-            await server.SendPacket(blueId, packet);
+            server.SendPacket(redId, packet);
+            server.SendPacket(blueId, packet);
         }
     }
 }

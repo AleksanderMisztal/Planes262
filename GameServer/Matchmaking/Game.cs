@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
@@ -32,21 +31,21 @@ namespace GameServer.Matchmaking
             board = new Board(12, 7);
             controller = new GameController(waveProvider, board);
             
-            clock = new Clock(30, 5, async side => await sender.LostOnTime(redUser.Id, blueUser.Id, side));
+            clock = new Clock(30, 5, side => sender.LostOnTime(redUser.id, blueUser.id, side));
         }
 
-        public async Task Initialize()
+        public void Initialize()
         {
-            controller.TroopsSpawned += async args => {
+            controller.TroopsSpawned += args => {
                 TimeInfo timeInfo = clock.ToggleActivePlayer();
-                await sender.TroopsSpawned(redUser.Id, blueUser.Id, args, timeInfo);
+                sender.TroopsSpawned(redUser.id, blueUser.id, args, timeInfo);
             };
-            controller.TroopMoved += async args => await sender.TroopMoved(redUser.Id, blueUser.Id, args);
-            controller.GameEnded += async args => await sender.GameEnded(redUser.Id, blueUser.Id, args);
+            controller.TroopMoved += args => sender.TroopMoved(redUser.id, blueUser.id, args);
+            controller.GameEnded += args => sender.GameEnded(redUser.id, blueUser.id, args);
 
             ClockInfo clockInfo = clock.Initialize();
-            await sender.GameJoined(redUser.Id, blueUser.Name, PlayerSide.Red, board, waveProvider.initialTroops, clockInfo);
-            await sender.GameJoined(blueUser.Id, redUser.Name, PlayerSide.Blue, board, waveProvider.initialTroops, clockInfo);
+            sender.GameJoined(redUser.id, blueUser.name, PlayerSide.Red, board, waveProvider.initialTroops, clockInfo);
+            sender.GameJoined(blueUser.id, redUser.name, PlayerSide.Blue, board, waveProvider.initialTroops, clockInfo);
         }
         
         public void MakeMove(int client, VectorTwo position, int direction)
@@ -57,8 +56,8 @@ namespace GameServer.Matchmaking
 
         private PlayerSide GetColor(int client)
         {
-            if (client == redUser.Id) return PlayerSide.Red;
-            if (client == blueUser.Id) return PlayerSide.Blue;
+            if (client == redUser.id) return PlayerSide.Red;
+            if (client == blueUser.id) return PlayerSide.Blue;
 
             throw new KeyNotFoundException("Get color didn't work");
         }

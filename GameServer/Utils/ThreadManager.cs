@@ -5,36 +5,33 @@ namespace GameServer.Utils
 {
     public static class ThreadManager
     {
-        private static readonly List<Action> ToExecuteOnMainThread = new List<Action>();
-        private static readonly List<Action> ExecuteCopiedOnMainThread = new List<Action>();
-        private static bool _actionToExecuteOnMainThread;
+        private static readonly List<Action> toExecuteOnMainThread = new List<Action>();
+        private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
+        private static bool actionToExecuteOnMainThread;
 
         public static void ExecuteOnMainThread(Action action)
         {
-            if (action == null)
+            if (action == null) return;
+            
+            lock (toExecuteOnMainThread)
             {
-                return;
-            }
-
-            lock (ToExecuteOnMainThread)
-            {
-                ToExecuteOnMainThread.Add(action);
-                _actionToExecuteOnMainThread = true;
+                toExecuteOnMainThread.Add(action);
+                actionToExecuteOnMainThread = true;
             }
         }
 
         public static void UpdateMain()
         {
-            if (!_actionToExecuteOnMainThread) return;
-            ExecuteCopiedOnMainThread.Clear();
-            lock (ToExecuteOnMainThread)
+            if (!actionToExecuteOnMainThread) return;
+            lock (toExecuteOnMainThread)
             {
-                ExecuteCopiedOnMainThread.AddRange(ToExecuteOnMainThread);
-                ToExecuteOnMainThread.Clear();
-                _actionToExecuteOnMainThread = false;
+                executeCopiedOnMainThread.Clear();
+                executeCopiedOnMainThread.AddRange(toExecuteOnMainThread);
+                toExecuteOnMainThread.Clear();
+                actionToExecuteOnMainThread = false;
             }
 
-            foreach (Action t in ExecuteCopiedOnMainThread) t();
+            foreach (Action t in executeCopiedOnMainThread) t();
         }
     }
 }

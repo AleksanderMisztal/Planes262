@@ -35,7 +35,7 @@ namespace Planes262.Networking
                 BeginSendAsync();
                 await BeginListenAsync();
             }
-            catch (WebSocketException ex)
+            catch (KeyNotFoundException ex)
             {
                 Debug.Log("Couldn't connect to server: " + ex.Message);
             }
@@ -63,21 +63,11 @@ namespace Planes262.Networking
 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            if (result.MessageType == WebSocketMessageType.Close)
-                throw new Exception("Something went wrong while reading the message.");
+            if (result.MessageType == WebSocketMessageType.Close) return null; // TODO: terminate connection
             using (StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8))
             {
-                string bytes = reader.ReadToEnd();
-                try
-                {
-                    return bytes;
-                }
-                catch
-                {
-                    Debug.Log("Couldn't convert to bytes");
-                }
+                return await reader.ReadToEndAsync();
             }
-            throw new Exception("Something went wrong while reading the message.");
         }
 
         private async Task SendFromQueue(Packet packet)

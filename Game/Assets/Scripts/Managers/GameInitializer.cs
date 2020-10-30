@@ -49,15 +49,8 @@ namespace Planes262.Managers
 
         private void Start()
         {
-            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
-            InitializeBackground(boardDto);
-            Board board = new Board(boardDto.xSize, boardDto.ySize);
-            List<Troop> troops = TroopReader.Load(levelName);
-            gameManager.Initialize(board);
-            if (isLocal) 
-                InitializeLocalGame(board, troops);
-            else
-                InitializeOnlineGame();
+            if (isLocal) InitializeLocalGame();
+            else InitializeOnlineGame();
         }
 
         private void InitializeBackground(BoardDto boardDto)
@@ -76,12 +69,22 @@ namespace Planes262.Managers
 
         private void InitializeOnlineGame()
         {
+            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
+            InitializeBackground(boardDto);
+            Board board = new Board(boardDto.xSize, boardDto.ySize);
+            gameManager.Initialize(board);
+            
             gameManager.SetLocal(false);
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
         }
 
-        private void InitializeLocalGame(Board board, List<Troop> troops)
+        private void InitializeLocalGame()
         {
+            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
+            InitializeBackground(boardDto);
+            Board board = new Board(boardDto.xSize, boardDto.ySize);
+            List<Troop> troops = TroopReader.Load(levelName);
+            gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
             WaveProvider waveProvider = new WaveProvider(troops, new Dictionary<int, List<Troop>>());
