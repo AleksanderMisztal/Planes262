@@ -176,7 +176,8 @@ namespace GameJudge
 
         private void ControlWithAi(ITroop troop)
         {
-            Trace.WriteLine("Will control troop");
+            MyLogger.Log("Will control troop");
+            if (troop.Health <= 0) return;
             while (troopAi.ShouldControl(troop) && troop.MovePoints > 0)
             {
                 int direction = troopAi.GetOptimalDirection(troop);

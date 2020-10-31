@@ -63,15 +63,11 @@ namespace GameJudge
 
         private void CheckForLoss()
         {
-            Trace.WriteLine($"Checking for loss. {redTimeMs} : {blueTimeMs}");
-            if (ActiveTime + lastChangeTime - timeProvider.CurrentTime < 5) Lose(activePlayer);
-        }
-
-        private void Lose(PlayerSide loser)
-        {
-            if (lost) return;
-            lost = true;
-            lostOnTime(loser);
+            Console.WriteLine($"Checking for loss. {redTimeMs} : {blueTimeMs}");
+            if (lost || ActiveTime + lastChangeTime - timeProvider.CurrentTime >= 5) return;
+            Console.WriteLine($"Losing");
+            lost = true;            
+            lostOnTime(activePlayer);
         }
 
         private class DefaultTimeProvider : ITimeProvider
@@ -80,8 +76,15 @@ namespace GameJudge
             
             public async void SetTimeout(int timeMs, Action callback)
             {
-                await Task.Delay(timeMs);
-                callback();
+                try
+                {
+                    await Task.Delay(timeMs);
+                    callback();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
     }

@@ -87,7 +87,7 @@ namespace Planes262.Managers
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
-            WaveProvider waveProvider = new WaveProvider(troops, new Dictionary<int, List<Troop>>());
+            WaveProvider waveProvider = new WaveProvider(troops);
             GameController gc = new GameController(waveProvider, board);
             Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             

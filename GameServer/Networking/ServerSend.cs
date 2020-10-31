@@ -52,7 +52,7 @@ namespace GameServer.Networking
 
         public void LostOnTime(int redId, int blueId, PlayerSide loser)
         {
-            Console.WriteLine($"Sending {loser} lost on time");
+            Console.WriteLine($"Sending {loser} lost on time to clients {redId}, {blueId}");
             Packet packet = new Packet(ServerPackets.LostOnTime);
             packet.Write((int)loser);
             

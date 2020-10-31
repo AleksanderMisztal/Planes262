@@ -10,83 +10,83 @@ namespace GameServer.Matchmaking
     {
         private readonly ServerSend sender;
 
+        private readonly Dictionary<int, Game> games = new Dictionary<int, Game>();
+        private readonly Dictionary<string, User> waitingUsers = new Dictionary<string, User>();
+        private readonly Dictionary<int, string> users = new Dictionary<int, string>();
+
         public GameHandler(ServerSend sender)
         {
             this.sender = sender;
         }
 
-        private readonly Dictionary<int, Game> clientToGame = new Dictionary<int, Game>();
-
-        private bool someoneWaiting;
-        private User waitingUser;
-
         public void SendToGame(User newUser)
         {
-            if (newUser.id == waitingUser.id) return;
-            Console.WriteLine($"Sending client {newUser.id} with name {newUser.name} to game");
-            if (someoneWaiting)
+            if (users.TryGetValue(newUser.id, out _)) return;
+            const string gameType = "test";
+            users[newUser.id] = gameType;
+            
+            Console.WriteLine($"Sending client {newUser.id} with name {newUser.name} to game of type <{gameType}>.");
+            if (waitingUsers.TryGetValue(gameType, out User waitingUser))
             {
-                someoneWaiting = false;
-                InitializeNewGame(newUser, waitingUser);
+                waitingUsers.Remove(gameType);
+                InitializeNewGame(newUser, waitingUser, GameConfig.configs[gameType]);
             }
-            else
-            {
-                someoneWaiting = true;
-                waitingUser = newUser;
-            }
+            else waitingUsers[gameType] = newUser;
         }
 
-        private void InitializeNewGame(User u1, User u2)
+        private void InitializeNewGame(User u1, User u2, GameConfig config)
         {
             Randomizer.RandomlyAssign(u1, u2, out User redUser, out User blueUser);
             Game game = new Game(redUser, blueUser, sender);
             game.GameEnded += HandleGameEnd;
 
-            clientToGame[redUser.id] = game;
-            clientToGame[blueUser.id] = game;
+            games[redUser.id] = game;
+            games[blueUser.id] = game;
 
-            game.Initialize();
+            game.Initialize(config);
         }
 
         private void HandleGameEnd(Game game)
         {
-            clientToGame.Remove(game.redUser.id);
-            clientToGame.Remove(game.blueUser.id);
+            games.Remove(game.redUser.id);
+            games.Remove(game.blueUser.id);
+            users.Remove(game.redUser.id);
+            users.Remove(game.blueUser.id);
         }
 
         public void MoveTroop(int client, VectorTwo position, int direction)
         {
-            if (!clientToGame.TryGetValue(client, out Game game)) return;
+            if (!games.TryGetValue(client, out Game game)) return;
             game.MakeMove(client, position, direction);
         }
 
         public void SendMessage(int client, string message)
         {
-            if (!clientToGame.TryGetValue(client, out Game game)) return;
+            if (!games.TryGetValue(client, out Game game)) return;
             int opponent = game.blueUser.id ^ game.redUser.id ^ client;
             sender.MessageSent(opponent, message);
         }
 
         public void ClientDisconnected(int client)
         {
-            if (someoneWaiting && client == waitingUser.id)
+            if (!users.TryGetValue(client, out string gameType)) return;
+            if (waitingUsers.TryGetValue(gameType, out User user) && user.id == client)
             {
-                someoneWaiting = false;
+                waitingUsers.Remove(gameType);
                 return;
             }
-            if (!clientToGame.TryGetValue(client, out _)) return;
-            
-            int opponent = GetOpponent(client);
+            if (!games.TryGetValue(client, out Game game)) return;
+            int opponent = game.blueUser.id ^ game.redUser.id ^ client;
 
-            clientToGame.Remove(client);
-            clientToGame.Remove(opponent);
+            games.Remove(client);
+            games.Remove(opponent);
 
             sender.OpponentDisconnected(opponent);
         }
 
         private int GetOpponent(int client)
         {
-            Game game = clientToGame[client];
+            Game game = games[client];
             return game.blueUser.id ^ game.redUser.id ^ client;
         }
     }

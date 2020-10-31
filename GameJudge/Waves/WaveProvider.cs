@@ -15,6 +15,12 @@ namespace GameJudge.Waves
             this.troopsForRound = troopsForRound;
         }
 
+        public WaveProvider(List<Troop> initialTroops)
+        {
+            this.initialTroops = initialTroops;
+            troopsForRound = new Dictionary<int, List<Troop>>();
+        }
+
         internal List<Troop> GetTroops(int round)
         {
             try

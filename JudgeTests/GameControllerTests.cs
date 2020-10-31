@@ -22,28 +22,6 @@ namespace JudgeTests
             gc = new GameController(battles, board, waveProvider);
         }
 
-
-        [Test]
-        public void Should_EndGame_When_OneSideLosesAllTroops()
-        {
-            WaveProvider waveProvider = new WavesBuilder()
-                .Add(1, 3, 3, PlayerSide.Blue)
-                .Add(1, 2, 3, PlayerSide.Blue)
-                .Add(1, 5, 3, PlayerSide.Red)
-                .GetWaves();
-
-            CreateGameController(waveProvider, 10, 10);
-
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(3, 3), 0);
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 3), 0);
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(6, 3), 0);
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 3), 0);
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(3, 3), 0);
-            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 3), 0);
-
-            Assert.IsTrue(false);
-        }
-
         [Test]
         public void Should_ControlTroopWithAI_When_ExitsBoard()
         {
@@ -51,7 +29,7 @@ namespace JudgeTests
             {
                 new Fighter(PlayerSide.Blue, 5, new VectorTwo(2, 3), 2, 2 ),
                 new Fighter(PlayerSide.Red, 5, new VectorTwo(2, 4), 5, 2 ),
-            }, new Dictionary<int, List<Troop>>());
+            });
             CreateGameController(waveProvider, 5, 5);
             int moveCount = 0;
             gc.TroopMoved += args => moveCount++;
@@ -73,7 +51,7 @@ namespace JudgeTests
                 TroopFactory.Blue(3, 1),
                 TroopFactory.Blue(2, 1),
                 TroopFactory.Red(8, 3),
-            }, new Dictionary<int, List<Troop>>());
+            });
 
             CreateGameController(waveProvider, 10, 10);
             
@@ -96,6 +74,28 @@ namespace JudgeTests
             gc.ProcessMove(PlayerSide.Blue, position, 0);
             
             Assert.AreEqual(position, troop.Position);
+        }
+
+        [Test]
+        public void ShouldNotControlDestroyedTroop()
+        {
+            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            {
+                TroopFactory.Blue(new VectorTwo(4, 6), 2),
+                TroopFactory.Red(4, 7),
+                TroopFactory.Red(4, 9),
+            });
+
+            CreateGameController(waveProvider, 10, 10);
+            
+            int moveCount = 0;
+            gc.TroopMoved += args => moveCount++;
+
+            
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 6), 0);
+            gc.ProcessMove(PlayerSide.Blue, new VectorTwo(4, 8), 0);
+            
+            Assert.AreEqual(2, moveCount);
         }
     }
 }

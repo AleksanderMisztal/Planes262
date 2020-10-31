@@ -5,7 +5,6 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using GameDataStructures.Packets;
 using UnityEngine;
 
@@ -97,7 +96,8 @@ namespace Planes262.Networking
 
         public void Close()
         {
-            socket?.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+            if (socket.State == WebSocketState.Open)
+                socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
         }
     }
 }

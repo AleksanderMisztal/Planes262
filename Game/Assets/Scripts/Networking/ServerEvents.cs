@@ -36,6 +36,11 @@ namespace Planes262.Networking
             Debug.Log(data);
             Packet packet = new Packet(data);
             int packetType = packet.ReadInt();
+            if (geHandler == null && packetType != (int) ServerPackets.Welcome)
+            {
+                Debug.Log("This packet shouldn't have been sent");
+                return;
+            }
             packetHandlers[packetType](packet);
         }
 
