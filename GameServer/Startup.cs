@@ -30,13 +30,9 @@ namespace GameServer
                 if (context.WebSockets.IsWebSocketRequest)
                 {
                     WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
-
                     await server.ConnectNewClient(socket);
                 }
-                else
-                {
-                    await next();
-                }
+                else await next();
             });
 
             app.Run(async context =>

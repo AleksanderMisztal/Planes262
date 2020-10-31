@@ -51,13 +51,15 @@ namespace GameServer.Networking
             }
             catch (WebSocketException ex)
             {
-                Console.WriteLine($"Exception occured: {ex}. Disconnecting client {id}.");
-                isRunning = false;
-                ConnectionTerminated?.Invoke(id);
+                TerminateConnection(ex.Message);
                 return;
             }
-            
-            if (data == null) return;
+
+            if (data == null)
+            {
+                TerminateConnection("disconnected.");
+                return;
+            }
 
             ThreadManager.ExecuteOnMainThread(() =>
             {
@@ -78,16 +80,18 @@ namespace GameServer.Networking
                 memoryStream.Write(buffer.Array, buffer.Offset, result.Count);
             } while (!result.EndOfMessage);
 
-            memoryStream.Seek(0, SeekOrigin.Begin);
+            if (result.MessageType == WebSocketMessageType.Close) return null;
 
-            if (result.MessageType == WebSocketMessageType.Close)
-            {
-                Console.WriteLine("Closed cleanly");
-                isRunning = false;
-                return null;
-            }
+            memoryStream.Seek(0, SeekOrigin.Begin);
             using StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8);
             return await reader.ReadToEndAsync();
+        }
+
+        private void TerminateConnection(string message)
+        {
+            Console.WriteLine($"Connection for client {id} terminated: " + message);
+            isRunning = false;
+            ConnectionTerminated?.Invoke(id);
         }
 
         public void Send(Packet packet)

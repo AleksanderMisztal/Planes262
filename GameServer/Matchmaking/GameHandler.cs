@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameServer.Networking;
@@ -21,6 +22,8 @@ namespace GameServer.Matchmaking
 
         public void SendToGame(User newUser)
         {
+            if (newUser.id == waitingUser.id) return;
+            Console.WriteLine($"Sending client {newUser.id} with name {newUser.name} to game");
             if (someoneWaiting)
             {
                 someoneWaiting = false;
@@ -37,6 +40,7 @@ namespace GameServer.Matchmaking
         {
             Randomizer.RandomlyAssign(u1, u2, out User redUser, out User blueUser);
             Game game = new Game(redUser, blueUser, sender);
+            game.GameEnded += HandleGameEnd;
 
             clientToGame[redUser.id] = game;
             clientToGame[blueUser.id] = game;
@@ -44,15 +48,22 @@ namespace GameServer.Matchmaking
             game.Initialize();
         }
 
+        private void HandleGameEnd(Game game)
+        {
+            clientToGame.Remove(game.redUser.id);
+            clientToGame.Remove(game.blueUser.id);
+        }
+
         public void MoveTroop(int client, VectorTwo position, int direction)
         {
-            Game game = clientToGame[client];
+            if (!clientToGame.TryGetValue(client, out Game game)) return;
             game.MakeMove(client, position, direction);
         }
 
         public void SendMessage(int client, string message)
         {
-            int opponent = GetOpponent(client);
+            if (!clientToGame.TryGetValue(client, out Game game)) return;
+            int opponent = game.blueUser.id ^ game.redUser.id ^ client;
             sender.MessageSent(opponent, message);
         }
 
