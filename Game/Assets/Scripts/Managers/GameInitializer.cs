@@ -26,10 +26,10 @@ namespace Planes262.Managers
         private static bool isLocal = true;
         private static string levelName = "level1";
 
-        public static void LoadBoard(string aLevelName, bool aIsLocal)
+        public static void LoadBoard(string aLevelName, bool local)
         {
             levelName = aLevelName;
-            isLocal = aIsLocal;
+            isLocal = local;
             SceneManager.LoadScene("Board");
         }
         

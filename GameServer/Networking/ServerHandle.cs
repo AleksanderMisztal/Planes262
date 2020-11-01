@@ -41,8 +41,10 @@ namespace GameServer.Networking
         private void JoinGame(int fromClient, Packet packet)
         {
             string username = packet.ReadString();
+            string gameType = packet.ReadString(); 
+                
             User newUser = new User(fromClient, username);
-            gameHandler.SendToGame(newUser);
+            gameHandler.SendToGame(newUser, gameType);
         }
 
         private void MoveTroop(int fromClient, Packet packet)

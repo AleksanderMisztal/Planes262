@@ -56,6 +56,14 @@ namespace GameDataStructures.Packets
             return ts;
         }
 
+        public List<string> ReadStrings()
+        {
+            int count = ReadInt();
+            List<string> ts = new List<string>();
+            for (int i = 0; i < count; i++) ts.Add(ReadString());
+            return ts;
+        }
+
         public int ReadInt() => int.Parse(objects[index++]);
 
         public string ReadString() => objects[index++];

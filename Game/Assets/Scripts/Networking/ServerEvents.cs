@@ -45,10 +45,11 @@ namespace Planes262.Networking
         }
 
 
-        public event Action OnWelcome;
+        public event Action<List<string>> OnWelcome;
         private void Welcome(Packet packet)
         {
-            OnWelcome?.Invoke();
+            List<string> types = packet.ReadStrings();
+            OnWelcome?.Invoke(types);
         }
 
         private void GameJoined(Packet packet)

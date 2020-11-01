@@ -19,10 +19,9 @@ namespace GameServer.Matchmaking
             this.sender = sender;
         }
 
-        public void SendToGame(User newUser)
+        public void SendToGame(User newUser, string gameType)
         {
             if (users.TryGetValue(newUser.id, out _)) return;
-            const string gameType = "test";
             users[newUser.id] = gameType;
             
             Console.WriteLine($"Sending client {newUser.id} with name {newUser.name} to game of type <{gameType}>.");

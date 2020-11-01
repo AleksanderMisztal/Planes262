@@ -32,9 +32,7 @@ namespace GameServer.Networking
             client.ConnectionTerminated += id => gameHandler.ClientDisconnected(id);
 
             clients.Add(nextClientId, client);
-            nextClientId++;
-
-            sender.Welcome(nextClientId - 1);
+            sender.Welcome(nextClientId++, GameConfig.configs.Keys);
             await client.Connect();
         }
 

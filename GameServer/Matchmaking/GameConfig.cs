@@ -19,7 +19,7 @@ namespace GameServer.Matchmaking
             this.time = time;
             this.increment = increment;
         }
-        
+       
         
         public static readonly Dictionary<string, GameConfig> configs = new Dictionary<string, GameConfig>();
 

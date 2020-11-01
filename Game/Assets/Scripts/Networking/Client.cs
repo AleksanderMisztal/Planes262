@@ -29,7 +29,6 @@ namespace Planes262.Networking
 
         private void Start()
         {
-            serverEvents.OnWelcome += () => Debug.Log("Connected to server!");
 #if UNITY_EDITOR || !UNITY_WEBGL
             ws = new CsWebSocket(serverEvents);
             ws.InitializeConnection();
@@ -49,11 +48,12 @@ namespace Planes262.Networking
         }
 #endif
 
-        public void JoinGame()
+        public void JoinGame(string gameType)
         {
             Packet packet = new Packet(ClientPackets.JoinGame);
             {
                 packet.Write(PlayerMeta.name);
+                packet.Write(gameType);
 
                 packetSender.SendData(packet);
             }

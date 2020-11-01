@@ -14,34 +14,42 @@ namespace Planes262.Managers
         [SerializeField] private InputField username;
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private GameObject loadMenu;
-        [SerializeField] private GameObject loadableLevels;
+        [SerializeField] private Transform localLevels;
+        [SerializeField] private Transform onlineLevels;
         [SerializeField] private Button loadablePrefab;
 
         private void Start()
         {
+            CreateButtons(PersistState.gameTypes, onlineLevels);
+            Client.instance.serverEvents.OnWelcome += gameTypes => CreateButtons(gameTypes, onlineLevels);
             DisplayLoadableLevels();
             loadMenu.SetActive(false);
         }
 
-        private void DisplayLoadableLevels()
+        private void CreateButtons(IEnumerable<string> gameTypes, Transform parent)
         {
-            IEnumerable<string> levels = GetDirs();
-            foreach (string level in levels)
+            PersistState.gameTypes = gameTypes;
+            foreach (string gameType in gameTypes)
             {
-                string currentLevel = level.Split('/').Last();
-                Button button = Instantiate(loadablePrefab, loadableLevels.transform);
+                Button button = Instantiate(loadablePrefab, parent);
                 Text text = button.transform.GetChild(0).GetComponent<Text>();
-                text.text = currentLevel;
-                button.onClick.AddListener(() => PlayLocal(currentLevel));
+                text.text = gameType;
+                button.onClick.AddListener(() => PlayOnline(gameType));
             }
         }
+
+        private void DisplayLoadableLevels()
+        {
+            IEnumerable<string> levels = GetLevels();
+            CreateButtons(levels, localLevels);
+        }
         
-        private static IEnumerable<string> GetDirs()
+        private static IEnumerable<string> GetLevels()
         {
             string path = Application.dataPath + "/Saves/";
             try
             {
-                return Directory.GetDirectories(path);
+                return Directory.GetDirectories(path).Select(d => d.Split('/').Last());
             }
             catch
             {
@@ -60,11 +68,11 @@ namespace Planes262.Managers
             GameInitializer.LoadBoard(level, true);
         }
 
-        public void PlayOnline()
+        public void PlayOnline(string gameType)
         {
             PlayerMeta.name = username.text;
             GameInitializer.LoadBoard("level1", false);
-            Client.instance.JoinGame();
+            Client.instance.JoinGame(gameType);
         }
 
         public void EditLevel()

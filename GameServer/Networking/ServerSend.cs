@@ -16,9 +16,11 @@ namespace GameServer.Networking
             this.server = server;
         }
 
-        public void Welcome(int toClient)
+        public void Welcome(int toClient, ICollection<string> gameTypes)
         {
             Packet packet = new Packet(ServerPackets.Welcome);
+            packet.Write(gameTypes.Count);
+            foreach (string gameType in gameTypes) packet.Write(gameType);
             server.SendPacket(toClient, packet);
         }
 
