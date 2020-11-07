@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Planes262.Networking;
@@ -20,13 +21,13 @@ namespace Planes262.Managers
 
         private void Start()
         {
-            CreateButtons(PersistState.gameTypes, onlineLevels);
-            Client.instance.serverEvents.OnWelcome += gameTypes => CreateButtons(gameTypes, onlineLevels);
+            CreateButtons(PersistState.gameTypes, onlineLevels, PlayOnline);
+            Client.instance.serverEvents.OnWelcome += gameTypes => CreateButtons(gameTypes, onlineLevels, PlayOnline);
             DisplayLoadableLevels();
             loadMenu.SetActive(false);
         }
 
-        private void CreateButtons(IEnumerable<string> gameTypes, Transform parent)
+        private void CreateButtons(IEnumerable<string> gameTypes, Transform parent, Action<string> onGameSelected)
         {
             PersistState.gameTypes = gameTypes;
             foreach (string gameType in gameTypes)
@@ -34,14 +35,14 @@ namespace Planes262.Managers
                 Button button = Instantiate(loadablePrefab, parent);
                 Text text = button.transform.GetChild(0).GetComponent<Text>();
                 text.text = gameType;
-                button.onClick.AddListener(() => PlayOnline(gameType));
+                button.onClick.AddListener(() => onGameSelected(gameType));
             }
         }
 
         private void DisplayLoadableLevels()
         {
             IEnumerable<string> levels = GetLevels();
-            CreateButtons(levels, localLevels);
+            CreateButtons(levels, localLevels, PlayLocal);
         }
         
         private static IEnumerable<string> GetLevels()

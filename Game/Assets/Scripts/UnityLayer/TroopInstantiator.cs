@@ -9,6 +9,7 @@ namespace Planes262.UnityLayer
     {
         [SerializeField] private SpriteHolder redTroopPrefab;
         [SerializeField] private SpriteHolder blueTroopPrefab;
+        [SerializeField] private SpriteHolder flakPrefab;
 
         private Transform troopParent;
 
@@ -19,7 +20,8 @@ namespace Planes262.UnityLayer
 
         public ITroop InstantiateTroop(Troop troop)
         {
-            SpriteHolder troopPrefab = troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
+            SpriteHolder troopPrefab = troop.Type == TroopType.Flak ? flakPrefab : 
+                troop.Player == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
             SpriteHolder spriteHolder = Instantiate(troopPrefab, troopParent);
             return new UnityTroopDecorator(spriteHolder, troop);
         }

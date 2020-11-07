@@ -7,5 +7,6 @@ namespace GameDataStructures
     {
         Fighter = 0,
         Bomber = 1,
+        Flak = 2,
     }
 }

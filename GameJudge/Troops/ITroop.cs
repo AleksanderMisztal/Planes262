@@ -6,6 +6,7 @@ namespace GameJudge.Troops
 {
     public interface ITroop
     {
+        TroopType Type { get; }
         PlayerSide Player { get; }
         int MovePoints { get; }
         VectorTwo Position { get; }

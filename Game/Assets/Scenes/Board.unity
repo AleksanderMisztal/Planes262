@@ -184,6 +184,8 @@ MonoBehaviour:
     type: 3}
   blueTroopPrefab: {fileID: 891695190564888900, guid: 81ad609f2d666094f925414cb164336d,
     type: 3}
+  flakPrefab: {fileID: 5118016936831082379, guid: 4ccb003148eaa3043b79d3223b5f9cbb,
+    type: 3}
 --- !u!114 &213170043
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ namespace GameJudge.Troops
     public abstract class Troop : ITroop, IReadable, IWriteable
     {
         public PlayerSide Player { get; private set; }
-        protected abstract TroopType Type { get; set; }
+        public abstract TroopType Type { get; protected set; }
 
         protected int initialMovePoints;
         public int MovePoints { get; private set; }
@@ -57,7 +57,7 @@ namespace GameJudge.Troops
                 MovePoints--;
         }
 
-        public IEnumerable<VectorTwo> ControlZone => Hex.GetControlZone(Position, Orientation);
+        public virtual IEnumerable<VectorTwo> ControlZone => Hex.GetControlZone(Position, Orientation);
 
         public bool InControlZone(VectorTwo position) => ControlZone.Any(cell => cell == position);
 
@@ -76,15 +76,32 @@ namespace GameJudge.Troops
 
             int id = 0;
             Type = (TroopType) int.Parse(args[id++]);
-            Player = (PlayerSide) int.Parse(args[id++]);
-            MovePoints = initialMovePoints = int.Parse(args[id++]);
-            Position = (VectorTwo)new VectorTwo().Read(args[id++]);
-            Orientation = int.Parse(args[id++]);
-            Health = int.Parse(args[id++]);
+            Troop troop;
+            switch (Type)
+            {
+                case TroopType.Fighter:
+                    troop = new Fighter();
+                    break;
+                case TroopType.Bomber:
+                    troop = new Bomber();
+                    break;
+                case TroopType.Flak:
+                    troop = new Flak();
+                    break;
+                default:
+                    troop = new Fighter();
+                    MyLogger.Log("Troop type not found!");
+                    break;
+            }
+            troop.Player = (PlayerSide) int.Parse(args[id++]);
+            troop.MovePoints = initialMovePoints = int.Parse(args[id++]);
+            troop.Position = (VectorTwo)new VectorTwo().Read(args[id++]);
+            troop.Orientation = int.Parse(args[id++]);
+            troop.Health = int.Parse(args[id++]);
 
             otherArgs = args.GetRange(id, args.Count - id);
             
-            return this;
+            return troop;
         }
 
         protected virtual Merger Merger => new Merger()

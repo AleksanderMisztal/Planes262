@@ -10,6 +10,7 @@ namespace GameJudge.Troops
         
         protected TroopDecorator(ITroop troop) => this.troop = troop;
 
+        public TroopType Type => troop.Type;
         public PlayerSide Player => troop.Player;
         public int MovePoints => troop.MovePoints;
         public VectorTwo Position => troop.Position;

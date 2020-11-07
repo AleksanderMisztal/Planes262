@@ -1,4 +1,5 @@
-﻿using GameJudge.Troops;
+﻿using GameDataStructures;
+using GameJudge.Troops;
 using Planes262.HexSystem;
 using Planes262.Utils;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Planes262.UnityLayer
         private readonly SpriteHolder spriteHolder;
         private readonly SpriteRenderer spriteRenderer;
 
-        public UnityTroopDecorator(SpriteHolder spriteHolder, ITroop troop) : base(troop)
+        public UnityTroopDecorator(SpriteHolder spriteHolder, Troop troop) : base(troop)
         {
             this.spriteHolder = spriteHolder;
             
@@ -30,7 +31,8 @@ namespace Planes262.UnityLayer
             body.Rotate(Vector3.forward * (60 * Orientation - 30));
             
             spriteRenderer = body.GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = spriteHolder.sprites[spriteHolder.sprites.Length - 1];
+            spriteRenderer.sprite = troop.Type == TroopType.Flak ? spriteHolder.sprites[0] 
+                : spriteHolder.sprites[spriteHolder.sprites.Length - 1];
         }
 
         public override void ResetMovePoints()

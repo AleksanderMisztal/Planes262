@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
 using GameJudge.Waves;
@@ -84,6 +85,7 @@ namespace Planes262.Managers
             InitializeBackground(boardDto);
             Board board = new Board(boardDto.xSize, boardDto.ySize);
             List<Troop> troops = TroopReader.Load(levelName);
+            troops.Add(new Flak(PlayerSide.Red, 1, new VectorTwo(5, 5), 0, 5));
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
