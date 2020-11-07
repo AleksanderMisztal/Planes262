@@ -29,7 +29,7 @@ namespace Planes262.GameLogic
         public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             ResetMembers();
-            ITroop troop = map.Get(position);
+            Troop troop = map.Get(position);
             if (troop == null) throw new Exception("Troop was null!");
             return GetReachableCells(troop);
         }
@@ -41,11 +41,11 @@ namespace Planes262.GameLogic
             orient.Clear();
         }
 
-        private HashSet<VectorTwo> GetReachableCells(ITroop troop)
+        private HashSet<VectorTwo> GetReachableCells(Troop troop)
         {
             side = troop.Player;
             
-            ITroop t;
+            Troop t;
             bool blocked = troop.ControlZone.All(c => !board.IsInside(c) || ((t = map.Get(c)) != null && t.Player == side));
             if (blocked)
             {
@@ -78,7 +78,7 @@ namespace Planes262.GameLogic
 
         private void AddCell(OrientedCell sourceCell, int movePoints, OrientedCell oCell)
         {
-            ITroop encounter = map.Get(oCell.Position);
+            Troop encounter = map.Get(oCell.Position);
             if (encounter == null || encounter.Player != side)
             {
                 reachableCells.Add(oCell);

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameDataStructures.Packets;
 
 namespace GameDataStructures.Positioning
 {
+    [Serializable]
     public readonly struct VectorTwo : IWriteable, IReadable
     {
         public readonly int x;

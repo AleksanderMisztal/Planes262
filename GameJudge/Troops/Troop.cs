@@ -6,7 +6,7 @@ using GameDataStructures.Positioning;
 
 namespace GameJudge.Troops
 {
-    public abstract class Troop : ITroop, IReadable, IWriteable
+    public abstract class Troop : IReadable, IWriteable
     {
         public PlayerSide Player { get; private set; }
         public abstract TroopType Type { get; protected set; }

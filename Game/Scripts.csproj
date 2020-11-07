@@ -112,7 +112,7 @@
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\UnityTroopDecorator.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\UnityFighter.cs" />
      <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
      <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
      <Compile Include="Assets\Scripts\Utils\Effects.cs" />

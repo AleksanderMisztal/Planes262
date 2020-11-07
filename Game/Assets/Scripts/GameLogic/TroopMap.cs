@@ -6,9 +6,9 @@ namespace Planes262.GameLogic
 {
     public class TroopMap : TroopMapBase
     {
-        public void SpawnWave(IEnumerable<ITroop> wave)
+        public void SpawnWave(IEnumerable<Troop> wave)
         {
-            foreach (ITroop troop in wave)
+            foreach (Troop troop in wave)
             {
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);

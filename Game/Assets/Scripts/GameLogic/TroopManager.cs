@@ -15,24 +15,24 @@ namespace Planes262.GameLogic
             this.troopMap = troopMap;
         }
 
-        public void BeginNextRound(IEnumerable<ITroop> troops)
+        public void BeginNextRound(IEnumerable<Troop> troops)
         {
             troopMap.SpawnWave(troops);
             
             activePlayer = activePlayer.Opponent();
             
-            HashSet<ITroop> beginningTroops = troopMap.GetTroops(activePlayer);
-            foreach (ITroop troop in beginningTroops) troop.ResetMovePoints();
+            HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer);
+            foreach (Troop troop in beginningTroops) troop.ResetMovePoints();
         }
 
         public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
         {
             int battleId = 0;
-            ITroop troop = troopMap.Get(position);
+            Troop troop = troopMap.Get(position);
             VectorTwo startingPosition = troop.Position;
             troop.MoveInDirection(direction);
 
-            ITroop encounter = troopMap.Get(troop.Position);
+            Troop encounter = troopMap.Get(troop.Position);
             if (encounter == null)
             {
                 troopMap.AdjustPosition(troop, startingPosition);
@@ -58,7 +58,7 @@ namespace Planes262.GameLogic
                 troopMap.AdjustPosition(troop, startingPosition);
         }
 
-        private void ApplyDamage(ITroop troop, VectorTwo startingPosition)
+        private void ApplyDamage(Troop troop, VectorTwo startingPosition)
         {
             troop.ApplyDamage();
             if (troop.Destroyed)

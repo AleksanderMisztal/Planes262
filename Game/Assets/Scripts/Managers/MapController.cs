@@ -32,7 +32,7 @@ namespace Planes262.Managers
         private bool isPositionSelected;
         private bool isTargetSelected;
         private VectorTwo selectedPosition;
-        private ITroop selectedTroop;
+        private Troop selectedTroop;
         private HashSet<VectorTwo> reachableCells;
         private VectorTwo targetPosition;
         private List<int> directions;

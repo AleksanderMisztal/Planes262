@@ -10,7 +10,7 @@ namespace GameJudge.Battles
     {
         private static readonly Random random = new Random();
 
-        public BattleResult GetFightResult(ITroop defender, VectorTwo attackerPosition)
+        public BattleResult GetFightResult(Troop defender, VectorTwo attackerPosition)
         {
             if (defender.Type == TroopType.Flak) return GetFlakDamage(defender, attackerPosition);
             
@@ -20,7 +20,7 @@ namespace GameJudge.Battles
             return new BattleResult(defenderDamaged, attackerDamaged);
         }
 
-        private BattleResult GetFlakDamage(ITroop flak, VectorTwo attackerPosition)
+        private BattleResult GetFlakDamage(Troop flak, VectorTwo attackerPosition)
         {
             return attackerPosition == flak.Position 
                 ? new BattleResult(false, random.Next(0, 6) < 5) 

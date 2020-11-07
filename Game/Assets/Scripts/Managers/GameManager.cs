@@ -8,7 +8,6 @@ using GameJudge.Troops;
 using Planes262.GameLogic;
 using Planes262.HexSystem;
 using Planes262.Networking;
-using Planes262.Saving;
 using Planes262.UnityLayer;
 using Planes262.Utils;
 using UnityEngine;
@@ -42,8 +41,8 @@ namespace Planes262.Managers
             inputParser.CellClicked += mapController.OnCellClicked;
             inputParser.CellInspected += hexInspector.Inspect;
 
-            UnityTroopDecorator.effects = FindObjectOfType<Effects>();
-            UnityTroopDecorator.gridBase = gridBase;
+            UnityFighter.effects = FindObjectOfType<Effects>();
+            UnityFighter.gridBase = gridBase;
         }
 
         public void SetLocal(bool local)
@@ -54,14 +53,14 @@ namespace Planes262.Managers
         public void StartNewGame(Board board, IEnumerable<Troop> troops, PlayerSide side)
         {
             mapController.ResetForNewGame(side, board);
-            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }
 
         public void BeginNextRound(IEnumerable<Troop> troops)
         {
             mapController.ToggleActivePlayer();
-            IEnumerable<ITroop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
+            IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }
 

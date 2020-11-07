@@ -7,23 +7,23 @@ namespace GameJudge
 {
     public abstract class TroopMapBase
     {
-        protected readonly Dictionary<VectorTwo, ITroop> map = new Dictionary<VectorTwo, ITroop>();
+        protected readonly Dictionary<VectorTwo, Troop> map = new Dictionary<VectorTwo, Troop>();
 
-        protected readonly HashSet<ITroop> redTroops = new HashSet<ITroop>();
-        protected readonly HashSet<ITroop> blueTroops = new HashSet<ITroop>();
+        protected readonly HashSet<Troop> redTroops = new HashSet<Troop>();
+        protected readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
 
-        public void AdjustPosition(ITroop troop, VectorTwo startingPosition)
+        public void AdjustPosition(Troop troop, VectorTwo startingPosition)
         {
             map.Remove(startingPosition);
             map.Add(troop.Position, troop);
         }
 
-        public HashSet<ITroop> GetTroops(PlayerSide player)
+        public HashSet<Troop> GetTroops(PlayerSide player)
         {
             return player == PlayerSide.Red ? redTroops : blueTroops;
         }
 
-        public ITroop Get(VectorTwo position)
+        public Troop Get(VectorTwo position)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace GameJudge
             }
         }
 
-        public void Remove(ITroop troop, VectorTwo startingPosition)
+        public void Remove(Troop troop, VectorTwo startingPosition)
         {
             map.Remove(startingPosition);
             GetTroops(troop.Player).Remove(troop);

@@ -17,13 +17,13 @@ namespace GameJudge
         }
 
 
-        public bool ShouldControl(ITroop troop)
+        public bool ShouldControl(Troop troop)
         {
             return !board.IsInside(troop.Position) 
                    || troop.ControlZone.All(cell => !board.IsInside(cell));
         }
 
-        public int GetOptimalDirection(ITroop troop)
+        public int GetOptimalDirection(Troop troop)
         {
             VectorTwo target = board.Center;
 
