@@ -1,10 +1,9 @@
-﻿
-using GameDataStructures.Packets;
+﻿using GameDataStructures.Messages.Client;
 
 namespace Planes262.Networking
 {
     public interface IPacketSender
     {
-        void SendData(Packet packet);
+        void SendData(ClientMessage message);
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameDataStructures;
-using GameDataStructures.Packets;
-using GameDataStructures.Positioning;
-using GameJudge.Troops;
+using GameDataStructures.Messages.Server;
 using Planes262.Managers;
 using UnityEngine;
 
@@ -13,100 +10,83 @@ namespace Planes262.Networking
     {
         public GameEventsHandler geHandler;
 
-        private delegate void PacketHandler(Packet packet);
-        private readonly Dictionary<int, PacketHandler> packetHandlers;
+        private delegate void MessageHandler(ServerMessage message);
+        private readonly Dictionary<ServerPackets, MessageHandler> packetHandlers;
 
         public ServerEvents()
         {
-            packetHandlers = new Dictionary<int, PacketHandler>
+            packetHandlers = new Dictionary<ServerPackets, MessageHandler>
             {
-                {(int) ServerPackets.Welcome, Welcome },
-                {(int) ServerPackets.GameJoined, GameJoined },
-                {(int) ServerPackets.TroopSpawned, TroopsSpawned },
-                {(int) ServerPackets.TroopMoved, TroopMoved },
-                {(int) ServerPackets.GameEnded, GameEnded },
-                {(int) ServerPackets.OpponentDisconnected, OpponentDisconnected },
-                {(int) ServerPackets.MessageSent, MessageSent },
-                {(int) ServerPackets.LostOnTime, LostOnTime },
+                {ServerPackets.Welcome, Welcome },
+                {ServerPackets.GameJoined, GameJoined },
+                {ServerPackets.TroopsSpawned, TroopsSpawned },
+                {ServerPackets.TroopMoved, TroopMoved },
+                {ServerPackets.GameEnded, GameEnded },
+                {ServerPackets.OpponentDisconnected, OpponentDisconnected },
+                {ServerPackets.ChatSent, ChatSent },
+                {ServerPackets.LostOnTime, LostOnTime },
             };
         }
         
-        public void HandlePacket(string data)
+        public void HandlePacket(ServerMessage message)
         {
-            Debug.Log(data);
-            Packet packet = new Packet(data);
-            int packetType = packet.ReadInt();
-            if (geHandler == null && packetType != (int) ServerPackets.Welcome)
+            if (geHandler == null && message.type != ServerPackets.Welcome)
             {
                 Debug.Log("This packet shouldn't have been sent");
                 return;
             }
-            packetHandlers[packetType](packet);
+            packetHandlers[message.type](message);
         }
 
 
-        public event Action<List<string>> OnWelcome;
-        private void Welcome(Packet packet)
+        public event Action<string[]> OnWelcome;
+        private void Welcome(ServerMessage message)
         {
-            List<string> types = packet.ReadStrings();
-            OnWelcome?.Invoke(types);
+            WelcomeMessage m = (WelcomeMessage) message;
+            Debug.Log("Connected to the server! Game types: " + string.Join(", ", m.gameTypes));
+            OnWelcome?.Invoke(m.gameTypes);
         }
 
-        private void GameJoined(Packet packet)
+        private void GameJoined(ServerMessage message)
         {
-            string opponentName = packet.ReadString();
-            PlayerSide side = (PlayerSide)packet.ReadInt();
-            Board board = packet.Read<Board>();
-            List<Fighter> troops = packet.ReadList<Fighter>();
-            ClockInfo clockInfo = packet.Read<ClockInfo>();
-
-            geHandler.OnGameReady(opponentName, side, board, troops, clockInfo);
+            GameJoinedMessage m = (GameJoinedMessage) message;
+            geHandler.OnGameReady(m.opponentName, m.side, m.board, m.troops, m.clockInfo);
         }
 
-        private void TroopsSpawned(Packet packet)
+        private void TroopsSpawned(ServerMessage message)
         {
-            List<Fighter> troops = packet.ReadList<Fighter>();
-            TimeInfo timeInfo = packet.Read<TimeInfo>();
-
-            geHandler.OnTroopsSpawned(troops, timeInfo);
+            TroopsSpawnedMessage m = (TroopsSpawnedMessage) message;
+            geHandler.OnTroopsSpawned(m.troops, m.timeInfo);
         }
 
-        private void TroopMoved(Packet packet)
+        private void TroopMoved(ServerMessage message)
         {
-            VectorTwo position = packet.Read<VectorTwo>();
-            int direction = packet.ReadInt();
-            List<BattleResult> battleResults = packet.ReadList<BattleResult>();
-            ScoreInfo score = packet.Read<ScoreInfo>();
-
-            geHandler.OnTroopMoved(position, direction, battleResults, score);
+            TroopMovedMessage m = (TroopMovedMessage) message;
+            geHandler.OnTroopMoved(m.position, m.direction, m.battleResults, m.scoreInfo);
         }
 
-        private void GameEnded(Packet packet)
+        private void GameEnded(ServerMessage message)
         {
-            int redScore = packet.ReadInt();
-            int blueScore = packet.ReadInt();
-
-            geHandler.OnGameEnded(redScore, blueScore);
+            GameEndedMessage m = (GameEndedMessage) message;
+            geHandler.OnGameEnded(m.scoreInfo);
         }
 
         public event Action<string> OnMessageSent;
-        private void MessageSent(Packet packet)
+        private void ChatSent(ServerMessage message)
         {
-            string message = packet.ReadString();
-
-            OnMessageSent?.Invoke(message);
+            ChatSentMessage m = (ChatSentMessage) message;
+            OnMessageSent?.Invoke(m.message);
         }
 
-        private void OpponentDisconnected(Packet packet)
+        private void OpponentDisconnected(ServerMessage message)
         {
             geHandler.OnOpponentDisconnected();
         }
 
-        private void LostOnTime(Packet packet)
+        private void LostOnTime(ServerMessage message)
         {
-            PlayerSide loser = (PlayerSide)packet.ReadInt();
-
-            geHandler.OnLostOnTime(loser);
+            LostOnTimeMessage m = (LostOnTimeMessage) message;
+            geHandler.OnLostOnTime(m.loser);
         }
     }
 }

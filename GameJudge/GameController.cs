@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
@@ -36,13 +35,13 @@ namespace GameJudge
             validator = new MoveValidator(troopMap, board, activePlayer);
             troopAi = new TroopAi(troopMap, board);
 
-            IEnumerable<Troop> troops = waveProvider.initialTroops.Copy();
+            IEnumerable<TroopDto> troops = waveProvider.initialTroops;
             troopMap.SpawnWave(troops);
             ResetBeginningTroops();
         }
 
 
-        public event Action<TroopsSpawnedEventArgs> TroopsSpawned;
+        public event Action<TroopDto[]> TroopsSpawned;
         public event Action<TroopMovedEventArgs> TroopMoved;
         public event Action<GameEndedEventArgs> GameEnded;
 
@@ -64,9 +63,9 @@ namespace GameJudge
 
         private void AddSpawnsForCurrentRound()
         {
-            IEnumerable<Troop> troops = waveProvider.GetTroops(roundNumber);
-            IEnumerable<Troop> wave = troopMap.SpawnWave(troops);
-            TroopsSpawned?.Invoke(new TroopsSpawnedEventArgs(wave.Copy()));
+            IEnumerable<TroopDto> troops = waveProvider.GetTroops(roundNumber);
+            TroopDto[] wave = troopMap.SpawnWave(troops);
+            TroopsSpawned?.Invoke(wave);
         }
 
         private void ResetBeginningTroops()

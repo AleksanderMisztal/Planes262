@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using GameDataStructures.Packets;
+﻿using System;
 
 namespace GameDataStructures
 {
-    public class BattleResult : IWriteable, IReadable
+    [Serializable]
+    public class BattleResult
     {
         public bool DefenderDamaged { get; private set; }
         public bool AttackerDamaged { get; private set; }
@@ -26,18 +26,5 @@ namespace GameDataStructures
         {
             return $"a: {AttackerDamaged} b: {DefenderDamaged}";
         }
-
-        
-        public IReadable Read(string s)
-        {
-            List<string> args = Merger.Split(s);
-            
-            AttackerDamaged = bool.Parse(args[0]);
-            DefenderDamaged = bool.Parse(args[1]);
-
-            return this;
-        }
-
-        public string Data => new Merger().Write(AttackerDamaged).Write(DefenderDamaged).Data;
     }
 }

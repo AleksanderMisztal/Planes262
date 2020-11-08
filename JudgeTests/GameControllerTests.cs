@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
@@ -25,10 +23,10 @@ namespace JudgeTests
         [Test]
         public void Should_ControlTroopWithAI_When_ExitsBoard()
         {
-            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            WaveProvider waveProvider = new WaveProvider(new TroopDto[]
             {
-                new Fighter(PlayerSide.Blue, 5, new VectorTwo(2, 3), 2, 2 ),
-                new Fighter(PlayerSide.Red, 5, new VectorTwo(2, 4), 5, 2 ),
+                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new VectorTwo(2, 3), orientation = 2, health = 2},
+                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new VectorTwo(2, 4), orientation = 5, health = 2},
             });
             CreateGameController(waveProvider, 5, 5);
             int moveCount = 0;
@@ -43,8 +41,8 @@ namespace JudgeTests
         [Test]
         public void Should_AllowEnteringFriend_When_Blocked()
         {
-            Troop troop = TroopFactory.Blue(2, 2);
-            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            TroopDto troop = TroopFactory.Blue(2, 2);
+            WaveProvider waveProvider = new WaveProvider(new TroopDto[]
             {
                 troop,
                 TroopFactory.Blue(3, 2),
@@ -66,9 +64,10 @@ namespace JudgeTests
         [Test]
         public void TestReturningCopies()
         {
-            WaveProvider waveProvider = new WaveProvider(new List<Troop>{TroopFactory.Blue(2, 2)}, null);
+            WaveProvider waveProvider = new WaveProvider(new TroopDto[]{TroopFactory.Blue(2, 2)}, null);
             gc = new GameController(waveProvider, new Board(5, 5));
-            Troop troop = waveProvider.initialTroops[0];
+            TroopDto dto = waveProvider.initialTroops[0];
+            Troop troop = dto.Get();
             VectorTwo position = troop.Position;
             
             gc.ProcessMove(PlayerSide.Blue, position, 0);
@@ -79,7 +78,7 @@ namespace JudgeTests
         [Test]
         public void ShouldNotControlDestroyedTroop()
         {
-            WaveProvider waveProvider = new WaveProvider(new List<Troop>
+            WaveProvider waveProvider = new WaveProvider(new TroopDto[]
             {
                 TroopFactory.Blue(new VectorTwo(4, 6), 2),
                 TroopFactory.Red(4, 7),

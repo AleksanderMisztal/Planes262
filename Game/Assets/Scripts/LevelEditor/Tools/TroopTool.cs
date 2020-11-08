@@ -47,24 +47,24 @@ namespace Planes262.LevelEditor.Tools
             Saver.Save(LevelConfig.name + "/" + saveFileName, Dto());
         }
         
-        private TroopDtos Dto()
+        private UTroopDtos Dto()
         {
-            List<TroopDto> troopDtos = new List<TroopDto>(); 
+            List<UTroopDto> troopDtos = new List<UTroopDto>(); 
             for (int y = 0; y < gridBase.YSize; y++)
             for (int x = 0; x < gridBase.XSize; x++)
             {
                 GameObject go = hexGrid.GetTile(x, y);
                 if (go == null) continue;
-                troopDtos.Add(new TroopDto {x = x, y = y, orientation = go.GetComponent<RotationHolder>().Rotation, name = go.name});
+                troopDtos.Add(new UTroopDto {x = x, y = y, orientation = go.GetComponent<RotationHolder>().Rotation, name = go.name});
             }
 
-            return new TroopDtos {dtos = troopDtos.ToArray()};
+            return new UTroopDtos {dtos = troopDtos.ToArray()};
         }
         
         public override void Load()
         {
-            TroopDtos dtos = Saver.Read<TroopDtos>(LevelConfig.name + "/" + saveFileName);
-            foreach (TroopDto dto in dtos.dtos)
+            UTroopDtos dtos = Saver.Read<UTroopDtos>(LevelConfig.name + "/" + saveFileName);
+            foreach (UTroopDto dto in dtos.dtos)
             {
                 TroopTemplate template = GetTemplate(dto.name);
                 hexGrid.SetTile(dto.x, dto.y, template is null ? null : CreateObject(dto.x, dto.y, dto.orientation, template));

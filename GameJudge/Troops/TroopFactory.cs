@@ -5,14 +5,14 @@ namespace GameJudge.Troops
 {
     public static class TroopFactory
     {
-        public static Fighter Red(int x, int y)
+        public static TroopDto Red(int x, int y)
         {
-            return new Fighter(PlayerSide.Red, 5, new VectorTwo(x, y), 3, 2);
+            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new VectorTwo(x, y), orientation = 3, health = 2};
         }
 
-        public static Fighter Blue(int x, int y)
+        public static TroopDto Blue(int x, int y)
         {
-            return new Fighter(PlayerSide.Blue, 5, new VectorTwo(x, y), 0, 2);
+            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new VectorTwo(x, y), orientation = 0, health = 2};
         }
         
         public static Fighter Blue(int x, int y, int movePoints)
@@ -35,9 +35,9 @@ namespace GameJudge.Troops
             return new Fighter(PlayerSide.Red, 5, position, orientation, 2);
         }
 
-        public static Fighter Blue(VectorTwo position, int orientation)
+        public static TroopDto Blue(VectorTwo position, int orientation)
         {
-            return new Fighter(PlayerSide.Blue, 5, position, orientation, 2);
+            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = position, orientation = orientation, health = 2};
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using GameDataStructures.Packets;
 
 namespace GameDataStructures.Positioning
 {
     [Serializable]
-    public readonly struct VectorTwo : IWriteable, IReadable
+    public readonly struct VectorTwo
     {
         public readonly int x;
         public readonly int y;
@@ -42,18 +40,5 @@ namespace GameDataStructures.Positioning
 
         public static bool operator != (VectorTwo a, VectorTwo b)
             => a.x != b.x || a.y != b.y;
-        
-        
-        public IReadable Read(string s)
-        {
-            List<string> props = Merger.Split(s);
-            
-            int newX = int.Parse(props[0]);
-            int newY = int.Parse(props[1]);
-            
-            return new VectorTwo(newX, newY);
-        }
-        
-        public string Data => new Merger().Write(x).Write(y).Data;
     }
 }

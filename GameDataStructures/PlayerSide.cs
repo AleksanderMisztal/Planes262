@@ -1,5 +1,8 @@
-﻿namespace GameDataStructures
+﻿using System;
+
+namespace GameDataStructures
 {
+    [Serializable]
     public enum PlayerSide
     {
         Blue = 0,

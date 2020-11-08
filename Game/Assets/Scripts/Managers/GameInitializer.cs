@@ -1,9 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using GameDataStructures;
-using GameDataStructures.Positioning;
 using GameJudge;
-using GameJudge.Troops;
 using GameJudge.Waves;
 using Planes262.HexSystem;
 using Planes262.Networking;
@@ -84,21 +81,20 @@ namespace Planes262.Managers
             BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
             InitializeBackground(boardDto);
             Board board = new Board(boardDto.xSize, boardDto.ySize);
-            List<Troop> troops = TroopReader.Load(levelName);
-            troops.Add(new Flak(PlayerSide.Red, 1, new VectorTwo(5, 5), 0, 5));
+            TroopDto[] dtos = TroopLoader.Load(levelName);
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
-            WaveProvider waveProvider = new WaveProvider(troops);
+            WaveProvider waveProvider = new WaveProvider(dtos);
             GameController gc = new GameController(waveProvider, board);
             Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             
-            gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults, args.score);
-            gc.TroopsSpawned += args => {
+            gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults.ToArray(), args.score);
+            gc.TroopsSpawned += troops => {
                 TimeInfo ti = clock.ToggleActivePlayer();
-                geHandler.OnTroopsSpawned(args.troops, ti);
+                geHandler.OnTroopsSpawned(troops, ti);
             };
-            gc.GameEnded += args => geHandler.OnGameEnded(args.score.Red, args.score.Blue);
+            gc.GameEnded += args => geHandler.OnGameEnded(args.score);
 
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             

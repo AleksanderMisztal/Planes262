@@ -98,8 +98,8 @@
      <Compile Include="Assets\Scripts\Saving\BoardDto.cs" />
      <Compile Include="Assets\Scripts\Saving\GridDto.cs" />
      <Compile Include="Assets\Scripts\Saving\Saver.cs" />
-     <Compile Include="Assets\Scripts\Saving\TroopDto.cs" />
-     <Compile Include="Assets\Scripts\Saving\TroopReader.cs" />
+     <Compile Include="Assets\Scripts\Saving\TroopLoader.cs" />
+     <Compile Include="Assets\Scripts\Saving\UTroopDto.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BackgroundManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
@@ -111,8 +111,8 @@
      <Compile Include="Assets\Scripts\UnityLayer\PlayerMeta.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
-     <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityFighter.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
      <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
      <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
      <Compile Include="Assets\Scripts\Utils\Effects.cs" />

@@ -21,9 +21,9 @@ namespace Planes262.Managers
         }
 
 
-        public void OnGameEnded(int redScore, int blueScore)
+        public void OnGameEnded(ScoreInfo scoreInfo)
         {
-            gameManager.EndGame($"Final score: red: {redScore}, blue: {blueScore}", 1.5f);
+            gameManager.EndGame($"Final score: red: {scoreInfo.Red}, blue: {scoreInfo.Blue}", 1.5f);
         }
 
         public void OnOpponentDisconnected()
@@ -37,7 +37,7 @@ namespace Planes262.Managers
         }
 
         
-        public void OnGameReady(string opponentName, PlayerSide side, Board board, IEnumerable<Troop> troops, ClockInfo clockInfo)
+        public void OnGameReady(string opponentName, PlayerSide side, Board board, IEnumerable<TroopDto> troops, ClockInfo clockInfo)
         {
             Debug.Log("Game joined received! Playing against " + opponentName);
             clockDisplay.Initialize(clockInfo);
@@ -46,13 +46,13 @@ namespace Planes262.Managers
             else score.SetNames(opponentName, PlayerMeta.name);
         }
 
-        public void OnTroopsSpawned(IEnumerable<Troop> troops, TimeInfo timeInfo)
+        public void OnTroopsSpawned(IEnumerable<TroopDto> troops, TimeInfo timeInfo)
         {
             clockDisplay.ToggleActivePlayer(timeInfo);
             gameManager.BeginNextRound(troops);
         }
 
-        public void OnTroopMoved(VectorTwo position, int direction, List<BattleResult> battleResults, ScoreInfo scoreInfo)
+        public void OnTroopMoved(VectorTwo position, int direction, BattleResult[] battleResults, ScoreInfo scoreInfo)
         {
             gameManager.MoveTroop(position, direction, battleResults);
             score.Set(scoreInfo.Red, scoreInfo.Blue);

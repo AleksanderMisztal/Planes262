@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
-using GameDataStructures.Packets;
+using GameDataStructures.Messages.Server;
 using GameServer.Matchmaking;
 
 namespace GameServer.Networking
@@ -32,13 +33,13 @@ namespace GameServer.Networking
             client.ConnectionTerminated += id => gameHandler.ClientDisconnected(id);
 
             clients.Add(nextClientId, client);
-            sender.Welcome(nextClientId++, GameConfig.configs.Keys);
+            sender.Welcome(nextClientId++, GameConfig.configs.Keys.ToArray());
             await client.Connect();
         }
 
-        public void SendPacket(int toClient, Packet packet)
+        public void SendMessage(int toClient, ServerMessage message)
         {
-            clients[toClient].Send(packet);
+            clients[toClient].Send(message);
         }
     }
 }

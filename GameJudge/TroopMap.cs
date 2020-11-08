@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
@@ -15,16 +16,16 @@ namespace GameJudge
             this.board = board;
         }
 
-        public IEnumerable<Troop> SpawnWave(IEnumerable<Troop> wave)
+        public TroopDto[] SpawnWave(IEnumerable<TroopDto> wave)
         {
-            
-            foreach (Troop troop in wave)
+            foreach (TroopDto dto in wave)
             {
-                troop.AdjustPosition(GetEmptyCell(troop.Position));
+                dto.position = GetEmptyCell(dto.position);
+                Troop troop = dto.Get();
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);
             }
-            return wave;
+            return wave.ToArray();
         }
 
         private VectorTwo GetEmptyCell(VectorTwo seedPosition)

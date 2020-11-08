@@ -32,7 +32,7 @@ namespace GameServer.Matchmaking
 
         private static GameConfig Test() =>
             new GameConfig(
-                new WaveProvider(new List<Troop> {
+                new WaveProvider(new[] {
                     TroopFactory.Blue(1, 3),
                     TroopFactory.Red(5, 3),
                 }),
@@ -41,7 +41,7 @@ namespace GameServer.Matchmaking
         
         private static GameConfig Basic() =>
             new GameConfig(
-                new WaveProvider(new List<Troop> {
+                new WaveProvider(new[] {
                     TroopFactory.Blue(1, 3),
                     TroopFactory.Blue(1, 4),
                     TroopFactory.Blue(1, 5),

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable once RedundantUsingDirective
 using System.Runtime.InteropServices;
-using GameDataStructures.Packets;
+using GameDataStructures.Messages;
+using GameDataStructures.Messages.Client;
 using UnityEngine;
 
 namespace Planes262.Networking
@@ -24,7 +25,7 @@ namespace Planes262.Networking
 
         public void ReceiveWsMessage(string byteArray)
         {
-            serverEvents.HandlePacket(byteArray);
+            //serverEvents.HandlePacket(byteArray);
         }
         
         public void InitializeConnection()
@@ -32,9 +33,10 @@ namespace Planes262.Networking
             InitializeConnectionJs();
         }
 
-        public void SendData(Packet packet)
+        public void SendData(ClientMessage message)
         {
-            SendDataJs(packet.Data);
+            byte[] data = Serializer.SerializeToStream(message).GetBuffer();
+            //SendDataJs(data);
         }
 
         public void Close()

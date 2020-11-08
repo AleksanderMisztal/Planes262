@@ -31,7 +31,7 @@ namespace JudgeTests
         {
             MakeValidator();
 
-            troopMap.SpawnWave(new List<Troop>
+            troopMap.SpawnWave(new[]
             {
                 TroopFactory.Blue(2, 2),
             });
@@ -44,7 +44,7 @@ namespace JudgeTests
         {
             MakeValidator();
 
-            troopMap.SpawnWave(new List<Troop>
+            troopMap.SpawnWave(new[]
             {
                 TroopFactory.Blue(2, 2),
                 TroopFactory.Blue(3, 1),
@@ -58,7 +58,7 @@ namespace JudgeTests
         {
             MakeValidator();
 
-            troopMap.SpawnWave(new List<Troop>()
+            troopMap.SpawnWave(new[]
             {
                 TroopFactory.Blue(2, 2),
                 TroopFactory.Blue(3, 2),
@@ -74,7 +74,7 @@ namespace JudgeTests
         {
             MakeValidator();
 
-            troopMap.SpawnWave(new List<Troop>()
+            troopMap.SpawnWave(new[]
             {
                 TroopFactory.Blue(5, 0),
             });

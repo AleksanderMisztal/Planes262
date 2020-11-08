@@ -1,4 +1,5 @@
-﻿using GameJudge.Troops;
+﻿using GameDataStructures;
+using GameJudge.Troops;
 using Planes262.HexSystem;
 using Planes262.Utils;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Planes262.UnityLayer
         private readonly SpriteHolder spriteHolder;
         private readonly SpriteRenderer spriteRenderer;
 
-        public UnityFighter(SpriteHolder spriteHolder, Fighter fighter)
+        public UnityFighter(SpriteHolder spriteHolder, TroopDto dto) : base(dto)
         {
             this.spriteHolder = spriteHolder;
             

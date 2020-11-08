@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameDataStructures;
-using GameDataStructures.Packets;
+using GameDataStructures.Messages.Server;
 using GameJudge.GameEvents;
-using GameJudge.Troops;
 
 namespace GameServer.Networking
 {
@@ -16,86 +14,74 @@ namespace GameServer.Networking
             this.server = server;
         }
 
-        public void Welcome(int toClient, ICollection<string> gameTypes)
+        public void Welcome(int toClient, string[] gameTypes)
         {
-            Packet packet = new Packet(ServerPackets.Welcome);
-            packet.Write(gameTypes.Count);
-            foreach (string gameType in gameTypes) packet.Write(gameType);
-            server.SendPacket(toClient, packet);
+            WelcomeMessage message = new WelcomeMessage{gameTypes = gameTypes};
+            server.SendMessage(toClient, message);
         }
-
         
-        public void GameJoined(int toClient, string opponentName, PlayerSide side, Board board, List<Troop> troops, ClockInfo clockInfo)
+        public void GameJoined(int toClient, string opponentName, PlayerSide side, Board board, TroopDto[] troops, ClockInfo clockInfo)
         {
-            Packet packet = new Packet(ServerPackets.GameJoined);
+            GameJoinedMessage message = new GameJoinedMessage
+            {
+                opponentName = opponentName,
+                side = side,
+                board = board,
+                troops = troops,
+                clockInfo = clockInfo,
+            };
 
-            packet.Write(opponentName);
-            packet.Write((int)side);
-            packet.Write(board);
-            packet.Write(troops.Count);
-            foreach (Troop troop in troops) packet.Write(troop);
-            packet.Write(clockInfo);
-
-            server.SendPacket(toClient, packet);
+            server.SendMessage(toClient, message);
         }
 
-        public void MessageSent(int toClient, string message)
+        public void ChatSent(int toClient, string chatMessage)
         {
-            Packet packet = new Packet(ServerPackets.MessageSent);
-            packet.Write(message);
-            server.SendPacket(toClient, packet);
+            ChatSentMessage message = new ChatSentMessage{message = chatMessage};
+            server.SendMessage(toClient, message);
         }
 
         public void OpponentDisconnected(int toClient)
         {
-            Packet packet = new Packet(ServerPackets.OpponentDisconnected);
-            server.SendPacket(toClient, packet);
+            OpponentDisconnectedMessage message = new OpponentDisconnectedMessage();
+            server.SendMessage(toClient, message);
         }
 
         public void LostOnTime(int redId, int blueId, PlayerSide loser)
         {
             Console.WriteLine($"Sending {loser} lost on time to clients {redId}, {blueId}");
-            Packet packet = new Packet(ServerPackets.LostOnTime);
-            packet.Write((int)loser);
-            
-            server.SendPacket(redId, packet);
-            server.SendPacket(blueId, packet);
+            LostOnTimeMessage message = new LostOnTimeMessage{loser = loser};
+            server.SendMessage(redId, message);
+            server.SendMessage(blueId, message);
         }
 
         
-        public void TroopsSpawned(int redId, int blueId, TroopsSpawnedEventArgs args, TimeInfo timeInfo)
+        public void TroopsSpawned(int redId, int blueId, TroopDto[] troops, TimeInfo timeInfo)
         {
-            Packet packet = new Packet(ServerPackets.TroopSpawned);
-            
-            packet.Write(args.troops.Count);
-            foreach (Troop troop in args.troops) packet.Write(troop);
-            packet.Write(timeInfo);
-
-            server.SendPacket(redId, packet);
-            server.SendPacket(blueId, packet);
+            TroopsSpawnedMessage message = new TroopsSpawnedMessage {troops = troops, timeInfo = timeInfo};
+            server.SendMessage(redId, message);
+            server.SendMessage(blueId, message);
         }
 
         public void TroopMoved(int redId, int blueId, TroopMovedEventArgs args)
         {
-            Packet packet = new Packet(ServerPackets.TroopMoved);
-            packet.Write(args.position);
-            packet.Write(args.direction);
-            packet.Write(args.battleResults.Count);
-            foreach (BattleResult battleResult in args.battleResults) packet.Write(battleResult);
-            packet.Write(args.score);
+            TroopMovedMessage message = new TroopMovedMessage
+            {
+                position = args.position,
+                direction = args.direction,
+                battleResults = args.battleResults.ToArray(),
+                scoreInfo = args.score,
+            };
 
-            server.SendPacket(redId, packet);
-            server.SendPacket(blueId, packet);
+            server.SendMessage(redId, message);
+            server.SendMessage(blueId, message);
         }
 
         public void GameEnded(int redId, int blueId, GameEndedEventArgs args)
         {
-            Packet packet = new Packet(ServerPackets.GameEnded);
-            packet.Write(args.score.Red);
-            packet.Write(args.score.Blue);
+            GameEndedMessage message = new GameEndedMessage{scoreInfo = args.score};
 
-            server.SendPacket(redId, packet);
-            server.SendPacket(blueId, packet);
+            server.SendMessage(redId, message);
+            server.SendMessage(blueId, message);
         }
     }
 }

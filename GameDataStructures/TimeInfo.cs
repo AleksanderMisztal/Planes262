@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using GameDataStructures.Packets;
+﻿using System;
 
 namespace GameDataStructures
 {
-    public struct TimeInfo : IReadable, IWriteable
+    [Serializable]
+    public readonly struct TimeInfo
     {
-        public int RedTimeMs { get; private set; }
-        public int BlueTimeMs { get; private set; }
-        public long ChangeTimeMs { get; private set; }
+        public int RedTimeMs { get; }
+        public int BlueTimeMs { get; }
+        public long ChangeTimeMs { get; }
 
         public TimeInfo(int redTimeMs, int blueTimeMs, long changeTimeMs)
         {
@@ -15,18 +15,5 @@ namespace GameDataStructures
             BlueTimeMs = blueTimeMs;
             ChangeTimeMs = changeTimeMs;
         }
-
-        public IReadable Read(string s)
-        {
-            List<string> props = Merger.Split(s);
-            
-            RedTimeMs = int.Parse(props[0]);
-            BlueTimeMs = int.Parse(props[1]);
-            ChangeTimeMs = long.Parse(props[2]);
-
-            return this;
-        }
-
-        public string Data => new Merger().Write(RedTimeMs).Write(BlueTimeMs).Write(ChangeTimeMs).Data;
     }
 }

@@ -1,4 +1,4 @@
-﻿using GameDataStructures.Packets;
+﻿using GameDataStructures.Messages.Client;
 using GameDataStructures.Positioning;
 using Planes262.UnityLayer;
 using UnityEngine;
@@ -24,7 +24,7 @@ namespace Planes262.Networking
             }
         }
 
-        private IPacketSender packetSender;
+        private IPacketSender messageSender;
         public readonly ServerEvents serverEvents = new ServerEvents();
 
         private void Start()
@@ -38,7 +38,7 @@ namespace Planes262.Networking
             ws.SetEvents(serverEvents);
             ws.InitializeConnection();
 #endif
-            packetSender = ws;
+            messageSender = ws;
         }
 #if UNITY_EDITOR || !UNITY_WEBGL
         private CsWebSocket ws;
@@ -50,34 +50,28 @@ namespace Planes262.Networking
 
         public void JoinGame(string gameType)
         {
-            Packet packet = new Packet(ClientPackets.JoinGame);
+            JoinGameMessage message = new JoinGameMessage
             {
-                packet.Write(PlayerMeta.name);
-                packet.Write(gameType);
-
-                packetSender.SendData(packet);
-            }
+                gameType = gameType,
+                username = PlayerMeta.name,
+            };
+            messageSender.SendData(message);
         }
 
         public void MoveTroop(VectorTwo position, int direction)
         {
-            Packet packet = new Packet(ClientPackets.MoveTroop);
+            MoveTroopMessage message = new MoveTroopMessage
             {
-                packet.Write(position);
-                packet.Write(direction);
-
-                packetSender.SendData(packet);
-            }
+                direction = direction,
+                position = position,
+            };
+            messageSender.SendData(message);
         }
 
-        public void SendAMessage(string message)
+        public void SendAMessage(string m)
         {
-            Packet packet = new Packet(ClientPackets.SendMessage);
-            {
-                packet.Write(message);
-
-                packetSender.SendData(packet);
-            }
+            SendChatMessage message = new SendChatMessage{message = m};
+            messageSender.SendData(message);
         }
     }
 }

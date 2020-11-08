@@ -4,7 +4,6 @@ using GameDataStructures.Positioning;
 using NUnit.Framework;
 using Planes262.GameLogic;
 using GameJudge.Troops;
-using GameJudge.Waves;
 
 namespace Planes262.Tests.Edit_Mode
 {
@@ -18,7 +17,7 @@ namespace Planes262.Tests.Edit_Mode
             List<BattleResult> battleResults = new List<BattleResult>();
             for (int i = 0; i < battleCount; i++) 
                 battleResults.Add(new BattleResult(true, true));
-            troopManager.MoveTroop(new VectorTwo(x, y), direction, battleResults);
+            troopManager.MoveTroop(new VectorTwo(x, y), direction, battleResults.ToArray());
         }
         
         [Test]
@@ -26,8 +25,8 @@ namespace Planes262.Tests.Edit_Mode
         {
             troopManager = new TroopManager(new TroopMap());
             troops = new List<Troop> {
-                TroopFactory.Blue(1, 2),
-                TroopFactory.Red(2, 2),
+                TroopFactory.Blue(1, 2).Get(),
+                TroopFactory.Red(2, 2).Get(),
             };
             
             troopManager.BeginNextRound(troops);
@@ -42,9 +41,9 @@ namespace Planes262.Tests.Edit_Mode
         {
             troopManager = new TroopManager(new TroopMap());
             troops = new List<Troop> {
-                TroopFactory.Blue(2, 3),
-                TroopFactory.Red(6, 2),
-                TroopFactory.Red(6, 3),
+                TroopFactory.Blue(2, 3).Get(),
+                TroopFactory.Red(6, 2).Get(),
+                TroopFactory.Red(6, 3).Get(),
             };
             troopManager.BeginNextRound(troops);
             Move(2, 3, 0, 0);

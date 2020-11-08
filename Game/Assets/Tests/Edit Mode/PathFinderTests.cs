@@ -56,7 +56,7 @@ namespace Planes262.Tests.Edit_Mode
             List<Troop> troops = new List<Troop>
             {
                 TroopFactory.Blue(2, 2, 2),
-                TroopFactory.Blue(3, 1),
+                TroopFactory.Blue(3, 1).Get(),
             };
             CreatePathFinder(troops);
 
@@ -95,7 +95,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             VectorTwo position = new VectorTwo(6, 2);
             List<Troop> troops = new List<Troop> {
-                TroopFactory.Blue(position, 3),
+                TroopFactory.Blue(position, 3).Get(),
             };
             board = new Board(12, 7);
             map = new TroopMap();

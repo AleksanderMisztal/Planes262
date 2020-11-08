@@ -2,10 +2,11 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.WebSockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GameDataStructures.Packets;
+using GameDataStructures.Messages;
+using GameDataStructures.Messages.Client;
+using GameDataStructures.Messages.Server;
 using GameServer.Utils;
 
 namespace GameServer.Networking
@@ -19,7 +20,7 @@ namespace GameServer.Networking
         public event Action<int> ConnectionTerminated;
 
         private bool isRunning = true;
-        private readonly BlockingCollection<Packet> sendQueue = new BlockingCollection<Packet>(new ConcurrentQueue<Packet>());
+        private readonly BlockingCollection<ServerMessage> sendQueue = new BlockingCollection<ServerMessage>(new ConcurrentQueue<ServerMessage>());
         
         public Client(int id, WebSocket socket, ServerHandle serverHandle)
         {
@@ -31,8 +32,8 @@ namespace GameServer.Networking
             {
                 while (isRunning)
                 {
-                    Packet packet = sendQueue.Take();
-                    await SendData(packet);
+                    ServerMessage message = sendQueue.Take();
+                    await SendData(message);
                 }
             });
         }
@@ -44,7 +45,7 @@ namespace GameServer.Networking
 
         private async Task BeginReceive()
         {
-            string data;
+            MemoryStream data;
             try
             {
                 data = await Receive();
@@ -63,12 +64,12 @@ namespace GameServer.Networking
 
             ThreadManager.ExecuteOnMainThread(() =>
             {
-                Packet packet = new Packet(data);
-                serverHandle.Handle(id, packet);
+                ClientMessage message = (ClientMessage) Serializer.DeserializeFromStream(data);
+                serverHandle.Handle(id, message);
             });
         }
 
-        private async Task<string> Receive()
+        private async Task<MemoryStream> Receive()
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
             MemoryStream memoryStream = new MemoryStream();
@@ -81,10 +82,7 @@ namespace GameServer.Networking
             } while (!result.EndOfMessage);
 
             if (result.MessageType == WebSocketMessageType.Close) return null;
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            using StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8);
-            return await reader.ReadToEndAsync();
+            return memoryStream;
         }
 
         private void TerminateConnection(string message)
@@ -94,14 +92,14 @@ namespace GameServer.Networking
             ConnectionTerminated?.Invoke(id);
         }
 
-        public void Send(Packet packet)
+        public void Send(ServerMessage message)
         {
-            sendQueue.Add(packet);
+            sendQueue.Add(message);
         }
         
-        private async Task SendData(Packet packet)
+        private async Task SendData(ServerMessage message)
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(packet.Data));
+            ArraySegment<byte> buffer = Serializer.SerializeToStream(message).GetBuffer();
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
     }

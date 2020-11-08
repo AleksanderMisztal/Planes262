@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using GameDataStructures.Packets;
+using GameDataStructures.Messages;
+using GameDataStructures.Messages.Client;
+using GameDataStructures.Messages.Server;
 using UnityEngine;
 
 namespace Planes262.Networking
@@ -13,7 +14,7 @@ namespace Planes262.Networking
     public class CsWebSocket : IPacketSender
     {
         private const string host = "wss://localhost:5001";
-        private readonly Queue<Packet> sendQueue = new Queue<Packet>();
+        private readonly Queue<ClientMessage> sendQueue = new Queue<ClientMessage>();
         private ClientWebSocket socket;
         private readonly ServerEvents serverEvents;
 
@@ -44,12 +45,12 @@ namespace Planes262.Networking
         {
             while (true)
             {
-                string data = await Receive();
-                serverEvents.HandlePacket(data);
+                ServerMessage message = await Receive();
+                serverEvents.HandlePacket(message);
             }
         }
 
-        private async Task<string> Receive()
+        private async Task<ServerMessage> Receive()
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
             MemoryStream memoryStream = new MemoryStream();
@@ -62,21 +63,18 @@ namespace Planes262.Networking
 
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            if (result.MessageType == WebSocketMessageType.Close) return null; // TODO: terminate connection
-            using (StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8))
-            {
-                return await reader.ReadToEndAsync();
-            }
+            if (result.MessageType == WebSocketMessageType.Close) return null;
+            return (ServerMessage) Serializer.DeserializeFromStream(memoryStream);
         }
 
-        private async Task SendFromQueue(Packet packet)
+        private async Task SendFromQueue(ClientMessage message)
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(packet.Data));
+            ArraySegment<byte> buffer = new ArraySegment<byte>(Serializer.SerializeToStream(message).GetBuffer());
             await socket.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
         
         
-        public void SendData(Packet packet)
+        public void SendData(ClientMessage packet)
         {
             sendQueue.Enqueue(packet);
         }
@@ -87,8 +85,8 @@ namespace Planes262.Networking
             {
                 while (sendQueue.Count != 0)
                 {
-                    Packet packet = sendQueue.Dequeue();
-                    await SendFromQueue(packet);
+                    ClientMessage message = sendQueue.Dequeue();
+                    await SendFromQueue(message);
                 }
                 await Task.Delay(100);
             }

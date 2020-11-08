@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GameJudge.Troops;
+using GameDataStructures;
 
 namespace GameJudge.Waves
 {
     public class WaveProvider
     {
-        public readonly List<Troop> initialTroops;
-        private readonly Dictionary<int, List<Troop>> troopsForRound;
+        public readonly TroopDto[] initialTroops;
+        private readonly Dictionary<int, List<TroopDto>> troopsForRound;
 
-        public WaveProvider(List<Troop> initialTroops, Dictionary<int, List<Troop>> troopsForRound)
+        public WaveProvider(TroopDto[] initialTroops, Dictionary<int, List<TroopDto>> troopsForRound)
         {
             this.initialTroops = initialTroops;
             this.troopsForRound = troopsForRound;
         }
 
-        public WaveProvider(List<Troop> initialTroops)
+        public WaveProvider(TroopDto[] initialTroops)
         {
             this.initialTroops = initialTroops;
-            troopsForRound = new Dictionary<int, List<Troop>>();
+            troopsForRound = new Dictionary<int, List<TroopDto>>();
         }
 
-        internal List<Troop> GetTroops(int round)
+        internal List<TroopDto> GetTroops(int round)
         {
             try
             {
@@ -29,16 +28,8 @@ namespace GameJudge.Waves
             }
             catch (KeyNotFoundException)
             {
-                return new List<Troop>();
+                return new List<TroopDto>();
             }
-        }
-    }
-
-    public static class WaveExtensions
-    {
-        public static IEnumerable<Troop> Copy(this IEnumerable<Troop> troops)
-        {
-            return troops.Select(t => t.Copy());
         }
     }
 }

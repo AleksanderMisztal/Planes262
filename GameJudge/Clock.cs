@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using GameDataStructures;
 
@@ -65,7 +64,7 @@ namespace GameJudge
         {
             Console.WriteLine($"Checking for loss. {redTimeMs} : {blueTimeMs}");
             if (lost || ActiveTime + lastChangeTime - timeProvider.CurrentTime >= 5) return;
-            Console.WriteLine($"Losing");
+            Console.WriteLine("Losing");
             lost = true;            
             lostOnTime(activePlayer);
         }

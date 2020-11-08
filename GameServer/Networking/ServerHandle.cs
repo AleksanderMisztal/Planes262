@@ -1,65 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using GameDataStructures.Packets;
-using GameDataStructures.Positioning;
+﻿using System.Collections.Generic;
+using GameDataStructures.Messages.Client;
 using GameServer.Matchmaking;
 
 namespace GameServer.Networking
 {
     public class ServerHandle
     {
-        private delegate void PacketHandler(int fromClient, Packet packet);
+        private delegate void PacketHandler(int fromClient, ClientMessage packet);
         
         private readonly GameHandler gameHandler;
-        private readonly Dictionary<int, PacketHandler> packetHandlers;
+        private readonly Dictionary<ClientPackets, PacketHandler> packetHandlers;
 
         public ServerHandle(GameHandler gameHandler)
         {
             this.gameHandler = gameHandler;
-            packetHandlers = new Dictionary<int, PacketHandler>
+            packetHandlers = new Dictionary<ClientPackets, PacketHandler>
             {
-                {(int) ClientPackets.JoinGame, JoinGame },
-                {(int) ClientPackets.MoveTroop, MoveTroop },
-                {(int) ClientPackets.SendMessage, SendMessage },
+                {ClientPackets.JoinGame, JoinGame },
+                {ClientPackets.MoveTroop, MoveTroop },
+                {ClientPackets.SendMessage, SendMessage },
             };
         }
 
-        public void Handle(int fromClient, Packet packet)
+        public void Handle(int fromClient, ClientMessage message)
         {
-            int packetType = packet.ReadInt();
-            try
-            {
-                packetHandlers[packetType](fromClient, packet);
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("Unsupported packet type: " + packetType);
-            }
-        }        
+            packetHandlers[message.type](fromClient, message);
+        }
         
-        
-        private void JoinGame(int fromClient, Packet packet)
+        private void JoinGame(int fromClient, ClientMessage message)
         {
-            string username = packet.ReadString();
-            string gameType = packet.ReadString(); 
-                
-            User newUser = new User(fromClient, username);
-            gameHandler.SendToGame(newUser, gameType);
+            JoinGameMessage m = (JoinGameMessage) message;
+            User newUser = new User(fromClient, m.username);
+            gameHandler.SendToGame(newUser, m.gameType);
         }
 
-        private void MoveTroop(int fromClient, Packet packet)
+        private void MoveTroop(int fromClient, ClientMessage message)
         {
-            VectorTwo position = packet.Read<VectorTwo>();
-            int direction = packet.ReadInt();
+            MoveTroopMessage m = (MoveTroopMessage) message;
 
-            gameHandler.MoveTroop(fromClient, position, direction);
+            gameHandler.MoveTroop(fromClient, m.position, m.direction);
         }
 
-        private void SendMessage(int fromClient, Packet packet)
+        private void SendMessage(int fromClient, ClientMessage message)
         {
-            string message = packet.ReadString();
+            SendChatMessage m = (SendChatMessage) message;
 
-            gameHandler.SendMessage(fromClient, message);
+            gameHandler.SendMessage(fromClient, m.message);
         }
     }
 }

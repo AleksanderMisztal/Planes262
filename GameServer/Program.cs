@@ -10,33 +10,25 @@ namespace GameServer
     {
         public static void Main(string[] args)
         {
-            StartServer();
+            new Thread(MainThread).Start();
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-
-        private static void StartServer()
-        {
-            Thread mainThread = new Thread(MainThread);
-            mainThread.Start();
-        }
+                .ConfigureWebHostDefaults(webBuilder => 
+                    webBuilder.UseStartup<Startup>());
 
         private static void MainThread()
         {
-            Console.WriteLine($"Main thread started. Running at {Constants.TicksPerSec} ticks per second.");
+            Console.WriteLine($"Main thread started. Running at {Constants.ticksPerSec} ticks per second.");
             DateTime nextLoop = DateTime.Now;
             while (true)
             {
                 if (nextLoop < DateTime.Now)
                 {
-                    GameCycle.Update();
-                    nextLoop = nextLoop.AddMilliseconds(Constants.MsPerTick);
+                    ThreadManager.UpdateMain();
+                    nextLoop = nextLoop.AddMilliseconds(Constants.msPerTick);
                 }
                 else
                 {

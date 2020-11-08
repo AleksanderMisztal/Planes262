@@ -63,7 +63,7 @@ namespace GameServer.Matchmaking
         {
             if (!games.TryGetValue(client, out Game game)) return;
             int opponent = game.blueUser.id ^ game.redUser.id ^ client;
-            sender.MessageSent(opponent, message);
+            sender.ChatSent(opponent, message);
         }
 
         public void ClientDisconnected(int client)
@@ -81,12 +81,6 @@ namespace GameServer.Matchmaking
             games.Remove(opponent);
 
             sender.OpponentDisconnected(opponent);
-        }
-
-        private int GetOpponent(int client)
-        {
-            Game game = games[client];
-            return game.blueUser.id ^ game.redUser.id ^ client;
         }
     }
 }

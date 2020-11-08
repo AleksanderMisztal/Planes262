@@ -50,21 +50,21 @@ namespace Planes262.Managers
             mapController.isLocal = local;
         }
 
-        public void StartNewGame(Board board, IEnumerable<Troop> troops, PlayerSide side)
+        public void StartNewGame(Board board, IEnumerable<TroopDto> troops, PlayerSide side)
         {
             mapController.ResetForNewGame(side, board);
             IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }
 
-        public void BeginNextRound(IEnumerable<Troop> troops)
+        public void BeginNextRound(IEnumerable<TroopDto> troops)
         {
             mapController.ToggleActivePlayer();
             IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }
 
-        public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
+        public void MoveTroop(VectorTwo position, int direction, BattleResult[] battleResults)
         {
             troopManager.MoveTroop(position, direction, battleResults);
         }

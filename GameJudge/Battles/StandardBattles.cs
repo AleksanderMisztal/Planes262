@@ -20,7 +20,7 @@ namespace GameJudge.Battles
             return new BattleResult(defenderDamaged, attackerDamaged);
         }
 
-        private BattleResult GetFlakDamage(Troop flak, VectorTwo attackerPosition)
+        private static BattleResult GetFlakDamage(Troop flak, VectorTwo attackerPosition)
         {
             return attackerPosition == flak.Position 
                 ? new BattleResult(false, random.Next(0, 6) < 5) 

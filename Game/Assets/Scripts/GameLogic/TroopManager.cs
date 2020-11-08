@@ -25,7 +25,7 @@ namespace Planes262.GameLogic
             foreach (Troop troop in beginningTroops) troop.ResetMovePoints();
         }
 
-        public void MoveTroop(VectorTwo position, int direction, List<BattleResult> battleResults)
+        public void MoveTroop(VectorTwo position, int direction, BattleResult[] battleResults)
         {
             int battleId = 0;
             Troop troop = troopMap.Get(position);

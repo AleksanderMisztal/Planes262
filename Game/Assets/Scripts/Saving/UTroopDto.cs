@@ -3,7 +3,7 @@
 namespace Planes262.Saving
 {
     [Serializable]
-    public class TroopDto
+    public class UTroopDto
     {
         public string name;
         public int x;
@@ -12,8 +12,8 @@ namespace Planes262.Saving
     }
 
     [Serializable]
-    public class TroopDtos
+    public class UTroopDtos
     {
-        public TroopDto[] dtos;
+        public UTroopDto[] dtos;
     }
 }

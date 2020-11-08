@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GameDataStructures;
+﻿using GameDataStructures;
+using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;
 using NUnit.Framework;
@@ -24,71 +24,47 @@ namespace JudgeTests
         {
             MakeAi();
 
-            Troop troop = TroopFactory.Blue(2, 2);
-            troopMap.SpawnWave(new List<Troop>
-            {
-                troop,
-            });
+            troopMap.SpawnWave(new[]{TroopFactory.Blue(2, 2),});
 
-            Assert.IsFalse(troopAi.ShouldControl(troop));
+            
+            Assert.IsFalse(troopAi.ShouldControl(troopMap.Get(new VectorTwo(2, 2))));
         }
 
         [Test]
         public void Should_ReturnFalse_When_BlockedByFriends()
         {
             MakeAi();
-
-            Troop troop = TroopFactory.Blue(0, 0);
-            troopMap.SpawnWave(new List<Troop>
+            troopMap.SpawnWave(new[]
             {
-                troop,
+                TroopFactory.Blue(0, 0),
                 TroopFactory.Blue(1, 0),
                 TroopFactory.Blue(0, 1),
             });
-
-            Assert.IsFalse(troopAi.ShouldControl(troop));
+            Assert.IsFalse(troopAi.ShouldControl(troopMap.Get(new VectorTwo(0, 0))));
         }
 
         [Test]
         public void Should_ReturnTrue_When_HasToExitBoard()
         {
             MakeAi();
-
-            Troop troop = TroopFactory.Blue(5, 0);
-            troopMap.SpawnWave(new List<Troop>
-            {
-                troop,
-            });
-
-            Assert.IsTrue(troopAi.ShouldControl(troop));
+            troopMap.SpawnWave(new[]{TroopFactory.Blue(5, 0),});
+            Assert.IsTrue(troopAi.ShouldControl(troopMap.Get(new VectorTwo(5, 0))));
         }
 
         [Test]
         public void Should_ReturnTrue_When_OutsideTheBoard()
         {
             MakeAi();
-
-            Troop troop = TroopFactory.Blue(8, 2);
-            troopMap.SpawnWave(new List<Troop>
-            {
-                troop,
-            });
-
-            Assert.IsTrue(troopAi.ShouldControl(troop));
+            troopMap.SpawnWave(new[]{TroopFactory.Blue(8, 2),});
+            Assert.IsTrue(troopAi.ShouldControl(troopMap.Get(new VectorTwo(8, 2))));
         }
 
         [Test]
         public void Should_ReturnTrue_When_CanReenterBoard()
         {
             MakeAi();
-
-            Troop troop = TroopFactory.Blue(-1, 2);
-            troopMap.SpawnWave(new List<Troop>
-            {
-                troop,
-            });
-
-            Assert.IsTrue(troopAi.ShouldControl(troop));
+            troopMap.SpawnWave(new[]{TroopFactory.Blue(-1, 2),});
+            Assert.IsTrue(troopAi.ShouldControl(troopMap.Get(new VectorTwo(-1, 2))));
         }
     }
 }

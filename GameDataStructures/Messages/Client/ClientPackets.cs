@@ -1,5 +1,8 @@
-﻿namespace GameDataStructures.Packets
+﻿using System;
+
+namespace GameDataStructures.Messages.Client
 {
+    [Serializable]
     public enum ClientPackets
     {
         JoinGame = 1,

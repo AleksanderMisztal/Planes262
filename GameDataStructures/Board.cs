@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using GameDataStructures.Packets;
+﻿using System;
 using GameDataStructures.Positioning;
 
 namespace GameDataStructures
 {
-    public class Board : IReadable, IWriteable
+    [Serializable]
+    public class Board
     {
         public readonly int xSize;
         public readonly int ySize;
@@ -23,20 +23,5 @@ namespace GameDataStructures
         {
             return p.x >= 0 && p.x < xSize && p.y >= 0 && p.y < ySize;
         }
-
-        
-        public Board() { }
-
-        public IReadable Read(string s)
-        {
-            List<string> args = Merger.Split(s);
-
-            int newX = int.Parse(args[0]);
-            int newY = int.Parse(args[1]);
-
-            return new Board(newX, newY);
-        }
-
-        public string Data => new Merger().Write(xSize).Write(ySize).Data;
     }
 }
