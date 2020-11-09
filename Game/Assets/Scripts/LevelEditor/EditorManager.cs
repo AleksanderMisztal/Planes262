@@ -1,6 +1,7 @@
-﻿using Planes262.LevelEditor.Tilemaps;
+﻿using GameDataStructures.Dtos;
+using Planes262.LevelEditor.Tilemaps;
 using Planes262.LevelEditor.Tools;
-using Planes262.Saving;
+using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,30 +9,30 @@ namespace Planes262.LevelEditor
 {
     public class EditorManager : MonoBehaviour
     {
-        [SerializeField] private HexTool[] tools;
-        private BoardTool boardTool;
-        private int activeTool;
+        [SerializeField] private TroopTool troopTool;
+        [SerializeField] private TerrainTool terrainTool;
+        [SerializeField] private BoardTool boardTool;
+        
+        [SerializeField] private BackgroundManager backgroundManager;
 
         private ResizableGridBase gridBase;
         private const float cellSize = 1f;
 
         private void Start()
         {
-            LineDrawer.lineParent = new GameObject("Line Parent").transform;
-            gridBase = new ResizableGridBase(cellSize);
-            boardTool = GetComponent<BoardTool>();
-            boardTool.Initialize(gridBase);
-            foreach (HexTool tool in tools) tool.Initialize(gridBase);
-            tools[0].Enabled = true;
-
-            if (LevelConfig.isLoaded) Load();
-            else Save();
+            backgroundManager.SetBackground(LevelConfig.background);
+            InitializeTools();
+            //if (LevelConfig.isLoaded) Load();
+            Save();
         }
 
-        public void BackToMain()
+        private void InitializeTools()
         {
-            Save();
-            SceneManager.LoadScene("Main Menu");
+            gridBase = new ResizableGridBase(cellSize);
+            if (gridBase == null) Debug.Log("Wtf");
+            boardTool.Initialize(gridBase);
+            troopTool.Initialize(gridBase);
+            terrainTool.Initialize(gridBase);
         }
         
         private void Update()
@@ -43,25 +44,43 @@ namespace Planes262.LevelEditor
 
         private void NextTool()
         {
-            tools[activeTool++].Enabled = false;
-            if (activeTool >= tools.Length) activeTool -= tools.Length;
-            tools[activeTool].Enabled = true;
+            if (troopTool.Enabled)
+            {
+                troopTool.Enabled = false;
+                terrainTool.Enabled = true;
+            }
+            else
+            {
+                terrainTool.Enabled = false;
+                troopTool.Enabled = true;
+            }
+        }
+
+        public void BackToMain()
+        {
+            Save();
+            SceneManager.LoadScene("Main Menu");
         }
 
         private void Save()
         {
-            boardTool.Save();
-            foreach (HexTool tool in tools)
-                tool.Save();
+            LevelDto levelDto = new LevelDto
+            {
+                background = LevelConfig.background,
+                board = new BoardDto{xSize = gridBase.XSize, ySize = gridBase.YSize},
+                cameraDto = boardTool.Dto(),
+                troopDtos = troopTool.Dto(),
+            };
+            Saver.Save(LevelConfig.name, levelDto);
         }
 
         private void Load()
         {
-            BoardDto dto = Saver.Read<BoardDto>(LevelConfig.name + "/board");
-            gridBase.Resize(dto.xSize, dto.ySize);
-            boardTool.Load();
-            foreach (HexTool tool in tools)
-                tool.Load();
+            LevelDto levelDto = Saver.Read<LevelDto>(LevelConfig.name);
+            backgroundManager.SetBackground(levelDto.background);
+            gridBase.Resize(levelDto.board.Get());
+            boardTool.Load(levelDto.cameraDto);
+            troopTool.Load(levelDto.troopDtos);
         }
     }
 }

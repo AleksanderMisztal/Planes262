@@ -1,4 +1,5 @@
 using GameDataStructures;
+using GameDataStructures.Dtos;
 using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Battles;

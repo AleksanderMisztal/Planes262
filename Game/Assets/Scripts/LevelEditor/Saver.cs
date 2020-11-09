@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace Planes262.Saving
+namespace Planes262.LevelEditor
 {
     public static class Saver
     {

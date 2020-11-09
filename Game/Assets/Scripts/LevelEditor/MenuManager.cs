@@ -57,9 +57,6 @@ namespace Planes262.LevelEditor
 
         private void TransitionToEditing()
         {
-            string path = Application.dataPath + "/Saves/" + levelName.text;
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            else Debug.Log("Will override");
             SceneManager.LoadScene("Level Editor");
         }
 

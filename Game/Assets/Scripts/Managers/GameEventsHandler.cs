@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Dtos;
 using GameDataStructures.Positioning;
-using GameJudge.Troops;
 using Planes262.UnityLayer;
 using UnityEngine;
 

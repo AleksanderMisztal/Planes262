@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameDataStructures;
 using GameDataStructures.Positioning;
 using UnityEngine;
 
@@ -37,7 +38,9 @@ namespace Planes262.LevelEditor.Tilemaps
         }
 
         public void ResizeByDelta(int dx, int dy) => Resize(XSize + dx, YSize + dy);
-        public void Resize(int newX, int newY)
+        public void Resize(Board board) => Resize(board.xSize, board.ySize);
+
+        private void Resize(int newX, int newY)
         {
             newReachable = new List<VectorTwo>();
             newUnreachable = new List<VectorTwo>();
@@ -74,6 +77,7 @@ namespace Planes262.LevelEditor.Tilemaps
         
         private void DrawTiles()
         {
+            LineDrawer.lineParent = new GameObject("Line Parent").transform;
             for (int x = 0; x < maxSize; x++)
             for (int y = 0; y < maxSize; y++)
             {

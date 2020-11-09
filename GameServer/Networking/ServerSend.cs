@@ -1,5 +1,6 @@
 ﻿using System;
 using GameDataStructures;
+using GameDataStructures.Dtos;
 using GameDataStructures.Messages.Server;
 using GameJudge.GameEvents;
 

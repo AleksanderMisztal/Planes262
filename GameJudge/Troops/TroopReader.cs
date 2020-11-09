@@ -1,4 +1,5 @@
 ﻿using GameDataStructures;
+using GameDataStructures.Dtos;
 
 namespace GameJudge.Troops
 {

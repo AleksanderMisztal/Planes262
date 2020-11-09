@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using GameDataStructures;
+using GameDataStructures.Dtos;
 using GameJudge;
 using GameJudge.Waves;
 using Planes262.HexSystem;
+using Planes262.LevelEditor;
 using Planes262.Networking;
-using Planes262.Saving;
 using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +23,7 @@ namespace Planes262.Managers
         private GameEventsHandler geHandler;
 
         private static bool isLocal = true;
-        private static string levelName = "level1";
+        private static string levelName;
 
         public static void LoadBoard(string aLevelName, bool local)
         {
@@ -48,15 +49,7 @@ namespace Planes262.Managers
         private void Start()
         {
             if (isLocal) InitializeLocalGame();
-            else InitializeOnlineGame();
-        }
-
-        private void InitializeBackground(BoardDto boardDto)
-        {
-            BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
-            backgroundManager.SetBackground(boardDto.background);
-            FindObjectOfType<BoardCamera>().Initialize(boardDto.offset, boardDto.ortoSize);
-            StartCoroutine(DetachBackground(backgroundManager));
+            else InitializeOnlineGame(null);
         }
 
         private IEnumerator DetachBackground(BackgroundManager bm)
@@ -65,12 +58,14 @@ namespace Planes262.Managers
             bm.DetachFromCamera();
         }
 
-        private void InitializeOnlineGame()
+        private void InitializeOnlineGame(LevelDto levelDto)
         {
-            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
-            InitializeBackground(boardDto);
-            Board board = new Board(boardDto.xSize, boardDto.ySize);
-            gameManager.Initialize(board);
+            CameraDto cameraDto = levelDto.cameraDto;
+            BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
+            backgroundManager.SetBackground(levelDto.background);
+            FindObjectOfType<BoardCamera>().Initialize(cameraDto);
+            StartCoroutine(DetachBackground(backgroundManager));
+            gameManager.Initialize(levelDto.board.Get());
             
             gameManager.SetLocal(false);
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
@@ -78,14 +73,17 @@ namespace Planes262.Managers
 
         private void InitializeLocalGame()
         {
-            BoardDto boardDto = Saver.Read<BoardDto>(levelName + "/board");
-            InitializeBackground(boardDto);
-            Board board = new Board(boardDto.xSize, boardDto.ySize);
-            TroopDto[] dtos = TroopLoader.Load(levelName);
+            LevelDto levelDto = Saver.Read<LevelDto>(levelName);
+            CameraDto cameraDto = levelDto.cameraDto;
+            BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
+            backgroundManager.SetBackground(levelDto.background);
+            FindObjectOfType<BoardCamera>().Initialize(cameraDto);
+            StartCoroutine(DetachBackground(backgroundManager));
+            Board board = levelDto.board.Get();
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
-            WaveProvider waveProvider = new WaveProvider(dtos);
+            WaveProvider waveProvider = new WaveProvider(levelDto.troopDtos);
             GameController gc = new GameController(waveProvider, board);
             Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             

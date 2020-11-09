@@ -1,6 +1,5 @@
-﻿using Planes262.LevelEditor.Tilemaps;
-using Planes262.Saving;
-using Planes262.UnityLayer;
+﻿using GameDataStructures.Dtos;
+using Planes262.LevelEditor.Tilemaps;
 using UnityEngine;
 
 namespace Planes262.LevelEditor.Tools
@@ -9,13 +8,12 @@ namespace Planes262.LevelEditor.Tools
     {
         [SerializeField] private new Camera camera;
         [SerializeField] private float moveSpeed;
-        [SerializeField] private BackgroundManager backgroundManager;
         private ResizableGridBase gridBase;
 
         public void Initialize(ResizableGridBase theGridBase)
         {
+            Debug.Log("setting grid base " + gridBase);
             gridBase = theGridBase;
-            backgroundManager.SetBackground(LevelConfig.background);
         }
 
         private void Update()
@@ -41,7 +39,7 @@ namespace Planes262.LevelEditor.Tools
             if (Input.GetKeyDown(KeyCode.RightArrow)) dx++;
 
             if (dx == 0 && dy == 0) return;
-            
+            if (gridBase == null) Debug.Log("Grid base was null");
             gridBase.ResizeByDelta(dx, dy);
         }
 
@@ -62,25 +60,21 @@ namespace Planes262.LevelEditor.Tools
         }
 
         
-        public void Save()
+        public CameraDto Dto()
         {
-            BoardDto dto = new BoardDto
+            Vector3 position = camera.transform.position;
+            return new CameraDto
             {
-                background = LevelConfig.background, 
-                offset = camera.transform.position,
+                xOffset = position .x,
+                yOffset = position.y,
                 ortoSize = camera.orthographicSize,
-                xSize = gridBase.XSize,
-                ySize = gridBase.YSize,
             };
-            Saver.Save(LevelConfig.name + "/board", dto);
         }
 
-        public void Load()
+        public void Load(CameraDto dto)
         {
-            BoardDto dto = Saver.Read<BoardDto>(LevelConfig.name + "/board");
             camera.orthographicSize = dto.ortoSize;
-            camera.transform.position = dto.offset;
-            backgroundManager.SetBackground(dto.background);
+            camera.transform.position = new Vector3(dto.xOffset, dto.yOffset, -10);
         }
     }
 }

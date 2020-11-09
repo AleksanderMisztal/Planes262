@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameDataStructures.Dtos;
+using UnityEngine;
 
 namespace Planes262.UnityLayer
 {
@@ -17,10 +18,11 @@ namespace Planes262.UnityLayer
         private float minSize = 0;
         private float maxSize = 100;
 
-        public void Initialize(Vector3 offset, float ortoSize)
+        public void Initialize(CameraDto dto)
         {
-            Debug.Log("Initializing camera.");
             boardCamera = GetComponent<Camera>();
+            Vector3 offset = new Vector3(dto.xOffset,  dto.yOffset, -10);
+            float ortoSize = dto.ortoSize;
             boardCamera.transform.position = offset;
             boardCamera.GetComponent<Camera>().orthographicSize = ortoSize;
             

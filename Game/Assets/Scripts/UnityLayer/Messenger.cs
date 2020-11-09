@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Planes262.Networking;
 using UnityEngine;
 using UnityEngine.UI;

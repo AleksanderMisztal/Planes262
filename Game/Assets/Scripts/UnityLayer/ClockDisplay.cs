@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using GameDataStructures;
 using UnityEngine;
 using UnityEngine.UI;

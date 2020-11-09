@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Dtos;
 using GameDataStructures.Positioning;
 using GameJudge.Battles;
 using GameJudge.GameEvents;

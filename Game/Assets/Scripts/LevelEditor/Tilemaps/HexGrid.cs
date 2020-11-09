@@ -28,6 +28,8 @@ namespace Planes262.LevelEditor.Tilemaps
             tiles[x, y] = tile;
         }
 
+        public void SetTile(VectorTwo position, GameObject tile) => SetTile(position.x, position.y, tile);
+
         public GameObject GetTile(int x, int y)
         {
             if (x < 0 || x >= ResizableGridBase.maxSize || y < 0 || y >= ResizableGridBase.maxSize) return default;

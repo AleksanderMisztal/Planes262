@@ -1,4 +1,5 @@
 ﻿using System;
+using GameDataStructures.Dtos;
 
 namespace GameDataStructures.Messages.Server
 {

@@ -1,4 +1,4 @@
-﻿using GameDataStructures;
+﻿using GameDataStructures.Dtos;
 using GameJudge.Troops;
 using Planes262.HexSystem;
 using Planes262.Utils;

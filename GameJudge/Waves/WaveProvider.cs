@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Dtos;
 
 namespace GameJudge.Waves
 {
