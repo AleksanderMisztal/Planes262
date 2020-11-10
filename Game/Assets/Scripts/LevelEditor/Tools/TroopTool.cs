@@ -37,8 +37,11 @@ namespace Planes262.LevelEditor.Tools
             theGridBase.GridResized += Resize;
             gridBase = theGridBase;
             hexGrid = new HexGrid(theGridBase);
-            foreach (TroopTemplate template in templates)
+            for (int i = 0; i < templates.Length - 1; i++)
+            {
+                TroopTemplate template = templates[i];
                 templateByName.Add(template.name, template);
+            }
         }
         
         private void Update()
@@ -56,14 +59,14 @@ namespace Planes262.LevelEditor.Tools
                 Vector3 position = gridBase.GetHexCenterWp();
                 VectorTwo v = gridBase.ToOffset(position);
                 if (!gridBase.IsInside(v.x, v.y)) return;
-                hexGrid.SetTile(position, CreateObject(position, templates[activeId]));
+                hexGrid.SetTile(position, CreateObject(position, templates[activeId])?.gameObject);
             }
 
             if (Input.GetMouseButtonDown(1))
             {
                 VectorTwo cell = gridBase.ToOffset(gridBase.GetHexCenterWp());
-                GameObject go = hexGrid.GetTile(cell.x, cell.y);
-                go?.GetComponent<RotationHolder>().Rotate();
+                TroopObject go = hexGrid.GetTile(cell.x, cell.y).GetComponent<TroopObject>();
+                if (go != null) go.Rotate();
             }
         }
 
@@ -72,33 +75,34 @@ namespace Planes262.LevelEditor.Tools
             foreach (VectorTwo v in gridBase.newReachable)
             {
                 GameObject go = hexGrid.GetTile(v.x, v.y);
-                if (go is null) continue;
+                if (go == null) continue;
                 go.SetActive(true);
             }
             foreach (VectorTwo v in gridBase.newUnreachable)
             {
                 GameObject go = hexGrid.GetTile(v.x, v.y);
-                if (go is null) continue;
+                if (go == null) continue;
                 go.SetActive(false);
             }
         }
         
-        private GameObject CreateObject(Vector3 position, TroopTemplate template)
+        private TroopObject CreateObject(Vector3 position, TroopTemplate template)
         {
-            GameObject go = new GameObject(template.name);
-            go.AddComponent<RotationHolder>();
-            go.transform.position = position;
-            go.transform.Rotate(Vector3.forward * -30);
-            SpriteRenderer spriteRenderer = go.gameObject.AddComponent<SpriteRenderer>();
+            if (template is null) return null;
+            TroopObject troopObject = new GameObject(template.name).AddComponent<TroopObject>();
+            troopObject.template = template;
+            troopObject.transform.position = position;
+            troopObject.transform.Rotate(Vector3.forward * -30);
+            SpriteRenderer spriteRenderer = troopObject.gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = template.Sprite;
-            return go;
+            return troopObject;
         }
 
-        private GameObject CreateObject(VectorTwo p, int orientation, TroopTemplate template)
+        private TroopObject CreateObject(VectorTwo p, int orientation, TroopTemplate template)
         {
             Vector3 position = gridBase.ToWorld(p.x, p.y);
-            GameObject go = CreateObject(position, template);
-            go.GetComponent<RotationHolder>().Rotate(orientation);
+            TroopObject go = CreateObject(position, template);
+            go.GetComponent<TroopObject>().Rotate(orientation);
             return go;
         }
 
@@ -108,9 +112,18 @@ namespace Planes262.LevelEditor.Tools
             for (int y = 0; y < gridBase.YSize; y++)
             for (int x = 0; x < gridBase.XSize; x++)
             {
-                GameObject go = hexGrid.GetTile(x, y);
-                if (go is null) continue;
-                troopDtos.Add(new TroopDto {position = new VectorTwo(x, y), orientation = go.GetComponent<RotationHolder>().Rotation, name = go.name});
+                TroopObject go = hexGrid.GetTile(x, y)?.GetComponent<TroopObject>();
+                if (go == null) continue;
+                troopDtos.Add(new TroopDto
+                {
+                    name = go.name,
+                    type = go.template.type,
+                    side = go.template.side,
+                    movePoints = go.template.movePoints,
+                    health = go.template.health,
+                    position = new VectorTwo(x, y).Dto(),
+                    orientation = go.GetComponent<TroopObject>().Rotation,
+                });
             }
 
             return troopDtos.ToArray();
@@ -121,7 +134,7 @@ namespace Planes262.LevelEditor.Tools
             foreach (TroopDto dto in dtos)
             {
                 TroopTemplate template = GetTemplate(dto.name);
-                hexGrid.SetTile(dto.position, template is null ? null : CreateObject(dto.position, dto.orientation, template));
+                hexGrid.SetTile(dto.position.Get(), CreateObject(dto.position.Get(), dto.orientation, template).gameObject);
             }
         }
     }

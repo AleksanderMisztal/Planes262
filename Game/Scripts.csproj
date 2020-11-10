@@ -78,9 +78,7 @@
      <Compile Include="Assets\Scripts\LevelEditor\Tools\TerrainTool.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Tools\TextCreator.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Tools\TroopTool.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\Troops\BomberTemplate.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\Troops\FighterTemplate.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\Troops\RotationHolder.cs" />
+     <Compile Include="Assets\Scripts\LevelEditor\Troops\TroopObject.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Troops\TroopTemplate.cs" />
      <Compile Include="Assets\Scripts\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\Managers\GameInitializer.cs" />

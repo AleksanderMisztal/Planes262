@@ -26,8 +26,8 @@ namespace JudgeTests
         {
             WaveProvider waveProvider = new WaveProvider(new TroopDto[]
             {
-                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new VectorTwo(2, 3), orientation = 2, health = 2},
-                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new VectorTwo(2, 4), orientation = 5, health = 2},
+                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new VectorTwo(2, 3).Dto(), orientation = 2, health = 2},
+                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new VectorTwo(2, 4).Dto(), orientation = 5, health = 2},
             });
             CreateGameController(waveProvider, 5, 5);
             int moveCount = 0;

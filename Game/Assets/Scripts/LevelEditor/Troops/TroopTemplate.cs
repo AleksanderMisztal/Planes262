@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Planes262.LevelEditor.Troops
 {
-    public abstract class TroopTemplate : ScriptableObject
+    [CreateAssetMenu(fileName="New Troop", menuName="Troop")]
+    public class TroopTemplate : ScriptableObject
     {
-        public abstract TroopType Type { get; }
+        public TroopType type;
 
+        public PlayerSide side;
         public int movePoints;
         public int health;
         public List<Sprite> sprites;

@@ -21,7 +21,7 @@ namespace GameJudge
         {
             foreach (TroopDto dto in wave)
             {
-                dto.position = GetEmptyCell(dto.position);
+                dto.position = GetEmptyCell(dto.position.Get()).Dto();
                 Troop troop = dto.Get();
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);

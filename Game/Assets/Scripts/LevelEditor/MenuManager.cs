@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
+using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,31 +12,20 @@ namespace Planes262.LevelEditor
         [SerializeField] private InputField levelName;
         [SerializeField] private GameObject loadableLevels;
         [SerializeField] private Button loadablePrefab;
-        
+
+        private void Start()
+        {
+        }
 
         public void DisplayLoadableLevels()
         {
-            IEnumerable<string> levels = GetDirs();
-            foreach (string level in levels)
+            foreach (string level in PersistState.localLevels)
             {
                 string currentLevel = level.Split('/').Last();
                 Button button = Instantiate(loadablePrefab, loadableLevels.transform);
                 Text text = button.transform.GetChild(0).GetComponent<Text>();
                 text.text = currentLevel;
                 button.onClick.AddListener(() => LoadLevel(text.text));
-            }
-        }
-        
-        private static IEnumerable<string> GetDirs()
-        {
-            string path = Application.dataPath + "/Saves/";
-            try
-            {
-                return Directory.GetDirectories(path);
-            }
-            catch
-            {
-                return new string[0];
             }
         }
 

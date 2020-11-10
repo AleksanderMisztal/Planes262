@@ -8,20 +8,11 @@ namespace Planes262.LevelEditor.Tools
     {
         [SerializeField] private new Camera camera;
         [SerializeField] private float moveSpeed;
-        private ResizableGridBase gridBase;
-
-        public void Initialize(ResizableGridBase theGridBase)
-        {
-            Debug.Log("setting grid base " + gridBase);
-            gridBase = theGridBase;
-        }
+        public ResizableGridBase gridBase;
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                ResizeGrid();
-            }
+            if (Input.GetKey(KeyCode.LeftControl)) ResizeGrid();
             else
             {
                 AdjustCameraPosition();
@@ -39,7 +30,6 @@ namespace Planes262.LevelEditor.Tools
             if (Input.GetKeyDown(KeyCode.RightArrow)) dx++;
 
             if (dx == 0 && dy == 0) return;
-            if (gridBase == null) Debug.Log("Grid base was null");
             gridBase.ResizeByDelta(dx, dy);
         }
 

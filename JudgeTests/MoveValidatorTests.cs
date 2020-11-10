@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GameDataStructures;
+﻿using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Troops;

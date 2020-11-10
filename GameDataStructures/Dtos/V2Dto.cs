@@ -11,4 +11,12 @@ namespace GameDataStructures.Dtos
         
         public VectorTwo Get() => new VectorTwo(x, y);
     }
+    
+    public static class V2Ext
+    {
+        public static V2Dto Dto(this VectorTwo v)
+        {
+            return new V2Dto {x = v.x, y = v.y};
+        }
+    }
 }

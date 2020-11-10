@@ -440,7 +440,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   templates:
   - {fileID: 11400000, guid: da6fa34bbaeac6249a449286589e7798, type: 2}
-  - {fileID: 11400000, guid: c3dfad8c860e82143928fcf00711115f, type: 2}
+  - {fileID: 11400000, guid: 4ed3e76c3903bf04fb1ece1327896053, type: 2}
+  - {fileID: 0}
 --- !u!1 &1107300221
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +497,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1382749563}
   - component: {fileID: 1382749562}
-  - component: {fileID: 1382749565}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged
@@ -534,20 +534,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1382749565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1382749561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c792624812e4539a69f6300f1afcffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 519420031}
-  moveSpeed: 0.01
 --- !u!1 &1517729541
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +581,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 20c6762fe83e59d478e37b43cd4e37fe, type: 2}
   - {fileID: 11400000, guid: e0eb9f09262e7f34684bc8da46681ecd, type: 2}
   - {fileID: 11400000, guid: d9f9063d82ee1ca4fb91a5fa9ac014c8, type: 2}
+  - {fileID: 0}
 --- !u!1 &1532537986
 GameObject:
   m_ObjectHideFlags: 0

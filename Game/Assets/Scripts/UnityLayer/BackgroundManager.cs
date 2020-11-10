@@ -1,4 +1,5 @@
-﻿using Planes262.LevelEditor;
+﻿using System.Collections;
+using Planes262.LevelEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,10 +16,16 @@ namespace Planes262.UnityLayer
             transform.GetChild(0).GetComponent<Image>().sprite = background;
         }
 
-        public void DetachFromCamera()
+        private IEnumerator Co_DetachBackground()
         {
+            yield return null;
             Canvas canvas = GetComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
+        }
+
+        public void DetachBackground()
+        {
+            StartCoroutine(Co_DetachBackground());
         }
     }
 }

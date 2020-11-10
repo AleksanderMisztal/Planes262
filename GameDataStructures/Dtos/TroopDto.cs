@@ -1,5 +1,4 @@
 ﻿using System;
-using GameDataStructures.Positioning;
 
 namespace GameDataStructures.Dtos
 {
@@ -9,7 +8,7 @@ namespace GameDataStructures.Dtos
         public string name;
         public TroopType type;
         public PlayerSide side;
-        public VectorTwo position;
+        public V2Dto position;
         public int orientation;
         public int movePoints;
         public int health;

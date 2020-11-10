@@ -15,21 +15,25 @@ namespace Planes262.Managers
         [SerializeField] private InputField username;
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private GameObject loadMenu;
-        [SerializeField] private Transform localLevels;
-        [SerializeField] private Transform onlineLevels;
+        [SerializeField] private Transform localLevelsScroll;
+        [SerializeField] private Transform onlineLevelsScroll;
         [SerializeField] private Button loadablePrefab;
 
         private void Start()
         {
-            CreateButtons(PersistState.gameTypes, onlineLevels, PlayOnline);
-            Client.instance.serverEvents.OnWelcome += gameTypes => CreateButtons(gameTypes, onlineLevels, PlayOnline);
-            DisplayLoadableLevels();
+            string savePath = Application.dataPath + "/Saves/";
+            PersistState.localLevels = Directory.GetFiles(savePath).Where(p => p.EndsWith(".txt")).Select(Path.GetFileNameWithoutExtension);
+            CreateButtons(PersistState.localLevels, localLevelsScroll, PlayLocal);
+            CreateButtons(PersistState.onlineLevels, onlineLevelsScroll, PlayOnline);
+            Client.instance.serverEvents.OnWelcome += gameTypes => {
+                PersistState.onlineLevels = gameTypes;
+                CreateButtons(gameTypes, onlineLevelsScroll, PlayOnline);
+            };
             loadMenu.SetActive(false);
         }
 
         private void CreateButtons(IEnumerable<string> gameTypes, Transform parent, Action<string> onGameSelected)
         {
-            PersistState.gameTypes = gameTypes;
             foreach (string gameType in gameTypes)
             {
                 Button button = Instantiate(loadablePrefab, parent);
@@ -38,26 +42,7 @@ namespace Planes262.Managers
                 button.onClick.AddListener(() => onGameSelected(gameType));
             }
         }
-
-        private void DisplayLoadableLevels()
-        {
-            IEnumerable<string> levels = GetLevels();
-            CreateButtons(levels, localLevels, PlayLocal);
-        }
         
-        private static IEnumerable<string> GetLevels()
-        {
-            string path = Application.dataPath + "/Saves/";
-            try
-            {
-                return Directory.GetDirectories(path).Select(d => d.Split('/').Last());
-            }
-            catch
-            {
-                return new string[0];
-            }
-        }
-
         public void PlayLocal()
         {
             mainMenu.SetActive(false);

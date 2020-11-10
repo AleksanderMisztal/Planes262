@@ -22,15 +22,15 @@ namespace Planes262.LevelEditor
         {
             backgroundManager.SetBackground(LevelConfig.background);
             InitializeTools();
-            //if (LevelConfig.isLoaded) Load();
-            Save();
+            if (LevelConfig.isLoaded) Load();
+            else Save();
+            troopTool.Enabled = true;
         }
 
         private void InitializeTools()
         {
             gridBase = new ResizableGridBase(cellSize);
-            if (gridBase == null) Debug.Log("Wtf");
-            boardTool.Initialize(gridBase);
+            boardTool.gridBase = gridBase;
             troopTool.Initialize(gridBase);
             terrainTool.Initialize(gridBase);
         }
@@ -76,7 +76,7 @@ namespace Planes262.LevelEditor
 
         private void Load()
         {
-            LevelDto levelDto = Saver.Read<LevelDto>(LevelConfig.name);
+            LevelDto levelDto = Saver.Read(LevelConfig.name);
             backgroundManager.SetBackground(levelDto.background);
             gridBase.Resize(levelDto.board.Get());
             boardTool.Load(levelDto.cameraDto);

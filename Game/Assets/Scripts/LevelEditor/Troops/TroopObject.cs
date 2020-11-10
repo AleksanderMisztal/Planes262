@@ -2,8 +2,9 @@
 
 namespace Planes262.LevelEditor.Troops
 {
-    public class RotationHolder : MonoBehaviour
+    public class TroopObject : MonoBehaviour
     {
+        public TroopTemplate template;
         public int Rotation { get; private set; }
 
         public void Rotate(int orientation = 1)

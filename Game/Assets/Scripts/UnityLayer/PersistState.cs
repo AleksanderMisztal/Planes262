@@ -6,6 +6,7 @@ namespace Planes262.UnityLayer
     {
         public static string gameEndedMessage;
 
-        public static IEnumerable<string> gameTypes = new List<string>();
+        public static IEnumerable<string> onlineLevels = new List<string>();
+        public static IEnumerable<string> localLevels = new List<string>();
     }
 }

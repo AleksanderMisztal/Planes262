@@ -10,11 +10,11 @@ namespace GameJudge.Troops
             switch (dto.type)
             {
                 case TroopType.Fighter:
-                    return new Fighter(dto.side, dto.movePoints, dto.position, dto.orientation, dto.health);
+                    return new Fighter(dto.side, dto.movePoints, dto.position.Get(), dto.orientation, dto.health);
                 case TroopType.Flak:
-                    return new Flak(dto.side, dto.movePoints, dto.position, dto.orientation, dto.health);
+                    return new Flak(dto.side, dto.movePoints, dto.position.Get(), dto.orientation, dto.health);
                 default:
-                    return new Bomber(dto.side, dto.movePoints, dto.position, dto.orientation, dto.health);
+                    return new Bomber(dto.side, dto.movePoints, dto.position.Get(), dto.orientation, dto.health);
             }
         }
     }

@@ -36,8 +36,11 @@ namespace Planes262.LevelEditor.Tools
             theGridBase.GridResized += Resize;
             gridBase = theGridBase;
             hexGrid = new HexGrid(theGridBase);
-            foreach (Terrain template in templates)
+            for (int i = 0; i < templates.Length - 1; i++)
+            {
+                Terrain template = templates[i];
                 templateByName.Add(template.name, template);
+            }
         }
         
         private void Update()
@@ -83,6 +86,7 @@ namespace Planes262.LevelEditor.Tools
 
         private GameObject CreateObject(Vector3 position, Terrain template)
         {
+            if (template is null) return null;
             TextMesh textMesh = TextCreator.CreateWorldText(template.name, null, position);
             textMesh.fontSize = 60;
             textMesh.transform.localScale /= 10;
@@ -94,10 +98,8 @@ namespace Planes262.LevelEditor.Tools
         {
             List<string> gridTiles = new List<string>(); 
             for (int y = 0; y < gridBase.YSize; y++)
-            for (int x = 0; x < gridBase.XSize; x++)
-            {
-                gridTiles.Add(hexGrid.GetTile(x, y)?.name);
-            }
+                for (int x = 0; x < gridBase.XSize; x++)
+                    gridTiles.Add(hexGrid.GetTile(x, y)?.name);
 
             return gridTiles.ToArray();
         }

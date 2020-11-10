@@ -35,7 +35,7 @@ namespace GameJudge.Troops
             Player = dto.side;
             initialMovePoints = dto.movePoints;
             MovePoints = dto.movePoints;
-            Position = dto.position;
+            Position = dto.position.Get();
             Orientation = dto.orientation;
             Health = dto.health;
         }

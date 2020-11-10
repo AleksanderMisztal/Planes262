@@ -52,19 +52,13 @@ namespace Planes262.Managers
             else InitializeOnlineGame(null);
         }
 
-        private IEnumerator DetachBackground(BackgroundManager bm)
-        {
-            yield return null;
-            bm.DetachFromCamera();
-        }
-
         private void InitializeOnlineGame(LevelDto levelDto)
         {
             CameraDto cameraDto = levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
             backgroundManager.SetBackground(levelDto.background);
             FindObjectOfType<BoardCamera>().Initialize(cameraDto);
-            StartCoroutine(DetachBackground(backgroundManager));
+            backgroundManager.DetachBackground();
             gameManager.Initialize(levelDto.board.Get());
             
             gameManager.SetLocal(false);
@@ -73,12 +67,12 @@ namespace Planes262.Managers
 
         private void InitializeLocalGame()
         {
-            LevelDto levelDto = Saver.Read<LevelDto>(levelName);
+            LevelDto levelDto = Saver.Read(levelName);
             CameraDto cameraDto = levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
             backgroundManager.SetBackground(levelDto.background);
             FindObjectOfType<BoardCamera>().Initialize(cameraDto);
-            StartCoroutine(DetachBackground(backgroundManager));
+            backgroundManager.DetachBackground();
             Board board = levelDto.board.Get();
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
