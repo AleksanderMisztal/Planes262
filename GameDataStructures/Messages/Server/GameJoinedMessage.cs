@@ -10,8 +10,7 @@ namespace GameDataStructures.Messages.Server
         
         public string opponentName;
         public PlayerSide side;
-        public Board board;
-        public TroopDto[] troops;
+        public LevelDto levelDto;
         public ClockInfo clockInfo;
     }
 }

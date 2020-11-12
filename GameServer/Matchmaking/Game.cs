@@ -2,6 +2,7 @@
 using GameDataStructures;
 using GameDataStructures.Positioning;
 using GameJudge;
+using GameJudge.Waves;
 using GameServer.Networking;
 
 namespace GameServer.Matchmaking
@@ -24,7 +25,7 @@ namespace GameServer.Matchmaking
 
         public void Initialize(GameConfig config)
         {
-            controller = new GameController(config.waveProvider, config.board);
+            controller = new GameController(new WaveProvider(config.levelDto.troopDtos), config.levelDto.board.Get());
             
             Clock clock = new Clock(config.time, config.increment, side =>
             {
@@ -43,8 +44,8 @@ namespace GameServer.Matchmaking
             };
 
             ClockInfo clockInfo = clock.Initialize();
-            sender.GameJoined(redUser.id, blueUser.name, PlayerSide.Red, config.board, config.waveProvider.initialTroops, clockInfo);
-            sender.GameJoined(blueUser.id, redUser.name, PlayerSide.Blue, config.board, config.waveProvider.initialTroops, clockInfo);
+            sender.GameJoined(redUser.id, blueUser.name, PlayerSide.Red, config.levelDto, clockInfo);
+            sender.GameJoined(blueUser.id, redUser.name, PlayerSide.Blue, config.levelDto, clockInfo);
         }
         
         public void MakeMove(int client, VectorTwo position, int direction)

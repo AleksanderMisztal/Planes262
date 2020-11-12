@@ -1,32 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GameDataStructures.Positioning;
 
-namespace GameDataStructures.Positioning
+namespace Planes262.GameLogic
 {
     public class OrientedCell
     {
         public VectorTwo Position { get; }
-        public int Orientation { get; }
+        private readonly int orientation;
 
         public OrientedCell(VectorTwo position, int orientation)
         {
             Position = position;
-            Orientation = (orientation%6+6)%6;
+            this.orientation = (orientation%6+6)%6;
         }
 
-        public OrientedCell[] GetControlZone()
+        public IEnumerable<OrientedCell> GetReachable()
         {
-            OrientedCell[] cs = new OrientedCell[3];
-            for (int i = -1; i < 2; i++)
-            {
-                cs[i + 1] = GetAdjacent(i);
-            }
-            return cs;
+            return new[] {-1, 0, 1}.Select(GetAdjacent);
         }
 
         private OrientedCell GetAdjacent(int direction)
         {
-            VectorTwo position = Hex.GetAdjacentHex(Position, Orientation + direction);
-            return new OrientedCell(position, Orientation + direction);
+            VectorTwo position = Hex.GetAdjacentHex(Position, orientation + direction);
+            return new OrientedCell(position, orientation + direction);
         }
 
         public int GetDirection(OrientedCell coords)
@@ -41,14 +39,14 @@ namespace GameDataStructures.Positioning
 
         public override int GetHashCode()
         {
-            return Orientation + 7 * (Position.x + 101 * Position.y);
+            return orientation + 7 * (Position.x + 101 * Position.y);
         }
 
         public override bool Equals(object obj)
         {
             if ((obj == null) || GetType() != obj.GetType()) return false;
             OrientedCell c = (OrientedCell)obj;
-            return Position.x == c.Position.x && Position.y == c.Position.y && Orientation == c.Orientation;
+            return Position.x == c.Position.x && Position.y == c.Position.y && orientation == c.orientation;
         }
         public static bool operator ==(OrientedCell a, OrientedCell b)
         {
@@ -63,7 +61,7 @@ namespace GameDataStructures.Positioning
 
         public override string ToString()
         {
-            return "" + Position + Orientation;
+            return "" + Position + orientation;
         }
     }
 }

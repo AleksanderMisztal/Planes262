@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using GameDataStructures;
+﻿using GameDataStructures;
 using GameDataStructures.Dtos;
 using GameJudge;
 using GameJudge.Waves;
@@ -35,24 +34,23 @@ namespace Planes262.Managers
         private void Awake()
         {
             MyLogger.myLogger = new UnityLogger();
+            HexTile.lineMaterial = lineMaterial;
+            
             gameManager = FindObjectOfType<GameManager>();
             clockDisplay = FindObjectOfType<ClockDisplay>();
             score = FindObjectOfType<ScoreDisplay>();
-            
             geHandler = new GameEventsHandler(gameManager, score, clockDisplay);
+            
             if (Client.instance != null)
                 Client.instance.serverEvents.geHandler = geHandler;
-            
-            HexTile.lineMaterial = lineMaterial;
         }
 
         private void Start()
         {
             if (isLocal) InitializeLocalGame();
-            else InitializeOnlineGame(null);
         }
 
-        private void InitializeOnlineGame(LevelDto levelDto)
+        public void InitializeOnlineGame(LevelDto levelDto)
         {
             CameraDto cameraDto = levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
@@ -91,7 +89,12 @@ namespace Planes262.Managers
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             
             ClockInfo clockInfo = clock.Initialize();
-            geHandler.OnGameReady("p2", PlayerSide.Blue, board, waveProvider.initialTroops, clockInfo);
+            geHandler.OnGameReady("p2", PlayerSide.Blue, levelDto, clockInfo);
+        }
+
+        public void BackToMain()
+        {
+            SceneManager.LoadScene("Main Menu");
         }
     }
 }

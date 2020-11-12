@@ -21,14 +21,13 @@ namespace GameServer.Networking
             server.SendMessage(toClient, message);
         }
         
-        public void GameJoined(int toClient, string opponentName, PlayerSide side, Board board, TroopDto[] troops, ClockInfo clockInfo)
+        public void GameJoined(int toClient, string opponentName, PlayerSide side, LevelDto levelDto, ClockInfo clockInfo)
         {
             GameJoinedMessage message = new GameJoinedMessage
             {
                 opponentName = opponentName,
                 side = side,
-                board = board,
-                troops = troops,
+                levelDto = levelDto,
                 clockInfo = clockInfo,
             };
 

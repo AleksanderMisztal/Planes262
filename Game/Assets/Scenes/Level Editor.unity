@@ -441,6 +441,7 @@ MonoBehaviour:
   templates:
   - {fileID: 11400000, guid: da6fa34bbaeac6249a449286589e7798, type: 2}
   - {fileID: 11400000, guid: 4ed3e76c3903bf04fb1ece1327896053, type: 2}
+  - {fileID: 11400000, guid: 006735d7991410c4b9fcba14f1e2ce1d, type: 2}
   - {fileID: 0}
 --- !u!1 &1107300221
 GameObject:

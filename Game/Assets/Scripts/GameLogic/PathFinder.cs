@@ -18,20 +18,23 @@ namespace Planes262.GameLogic
         private readonly Dictionary<OrientedCell, OrientedCell> parent = new Dictionary<OrientedCell, OrientedCell>();
         private readonly Dictionary<VectorTwo, OrientedCell> orient = new Dictionary<VectorTwo, OrientedCell>();
         private readonly Queue<Action> q = new Queue<Action>();
+        private bool wasFlak;
 
         public PathFinder(TroopMap map, Board board)
         {
             this.map = map;
             this.board = board;
         }
-
-
+        
         public HashSet<VectorTwo> GetReachableCells(VectorTwo position)
         {
             ResetMembers();
             Troop troop = map.Get(position);
             if (troop == null) throw new Exception("Troop was null!");
-            return GetReachableCells(troop);
+            if (troop.Type == TroopType.Fighter) return GetReachableCells(troop);
+            wasFlak = true;
+            if (troop.MovePoints == 0) return new HashSet<VectorTwo>();
+            return new HashSet<VectorTwo>(Hex.GetNeighbours(position).Where(c => map.Get(c) == null));
         }
 
         private void ResetMembers()
@@ -43,6 +46,7 @@ namespace Planes262.GameLogic
 
         private HashSet<VectorTwo> GetReachableCells(Troop troop)
         {
+            wasFlak = false;
             side = troop.Player;
             
             Troop t;
@@ -69,10 +73,11 @@ namespace Planes262.GameLogic
         private void AddReachableCells(OrientedCell sourceCell, int movePoints)
         {
             if (movePoints <= 0) return;
-            foreach (OrientedCell oCell in sourceCell.GetControlZone())
+            foreach (OrientedCell oCell in sourceCell.GetReachable())
             {
-                if (reachableCells.Contains(oCell) || !board.IsInside(oCell.Position)) continue;
-                AddCell(sourceCell, movePoints - 1, oCell);
+                bool notSeen = !reachableCells.Contains(oCell);
+                bool isInside = board.IsInside(oCell.Position);
+                if (notSeen && isInside) AddCell(sourceCell, movePoints - 1, oCell);
             }
         }
 
@@ -94,6 +99,13 @@ namespace Planes262.GameLogic
 
         public List<int> GetDirections(VectorTwo start, VectorTwo end)
         {
+            if (wasFlak)
+            {
+                for (int i = 0; i < 6; i++)
+                    if (Hex.GetAdjacentHex(start, i) == end)
+                        return new List<int> {i,};
+                throw new Exception("Direction for flak not found");
+            }
             List<int> directions = new List<int>();
             OrientedCell coords = orient[end];
             while (coords.Position != start)

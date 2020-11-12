@@ -11,27 +11,20 @@ namespace Planes262.Networking
 
         public event Action<string[]> OnWelcome;
         public event Action<string> OnMessageSent;
-        
-        
-        
+
+
         public void HandlePacket(ServerMessage message)
         {
-            if (message.type == ServerPackets.Welcome)
-            {
-                WelcomeMessage wm = (WelcomeMessage) message;
-                Debug.Log("Connected to the server! Game types: " + string.Join(", ", wm.gameTypes));
-                OnWelcome?.Invoke(wm.gameTypes);
-            }
-            if (geHandler == null)
-            {
-                Debug.Log("This packet shouldn't have been sent");
-                return;
-            }
             switch (message.type)
             {
+                case ServerPackets.Welcome:
+                    WelcomeMessage wm = (WelcomeMessage) message;
+                    Debug.Log("Connected to the server! Game types: " + string.Join(", ", wm.gameTypes));
+                    OnWelcome?.Invoke(wm.gameTypes);
+                    break;
                 case ServerPackets.GameJoined:
                     GameJoinedMessage gjm = (GameJoinedMessage) message;
-                    geHandler.OnGameReady(gjm.opponentName, gjm.side, gjm.board, gjm.troops, gjm.clockInfo);
+                    geHandler.OnGameReady(gjm.opponentName, gjm.side, gjm.levelDto, gjm.clockInfo);
                     break;
                 case ServerPackets.TroopsSpawned:
                     TroopsSpawnedMessage tsm = (TroopsSpawnedMessage) message;

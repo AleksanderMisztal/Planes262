@@ -1,4 +1,5 @@
-﻿using GameDataStructures;
+﻿using System;
+using GameDataStructures;
 using GameDataStructures.Dtos;
 using GameJudge.Troops;
 using Planes262.Utils;
@@ -21,10 +22,21 @@ namespace Planes262.UnityLayer
 
         public Troop InstantiateTroop(TroopDto troop)
         {
-            SpriteHolder troopPrefab = troop.type == TroopType.Flak ? flakPrefab : 
-                troop.side == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
-            SpriteHolder spriteHolder = Instantiate(troopPrefab, troopParent);
-            return new UnityFighter(spriteHolder, troop);
+            switch (troop.type)
+            {
+                case TroopType.Fighter:
+                    SpriteHolder troopPrefab = troop.side == PlayerSide.Red ? redTroopPrefab : blueTroopPrefab;
+                    SpriteHolder spriteHolder = Instantiate(troopPrefab, troopParent);
+                    return new UnityFighter(spriteHolder, troop);
+                case TroopType.Flak:
+                    SpriteHolder flakSprites = Instantiate(flakPrefab, troopParent);
+                    return new UnityFlak(flakSprites, troop);
+                case TroopType.Bomber:
+                    Debug.Log("How to create a bomber", this);
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

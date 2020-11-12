@@ -44,6 +44,7 @@ namespace Planes262.Managers
 
             UnityFighter.effects = FindObjectOfType<Effects>();
             UnityFighter.gridBase = gridBase;
+            UnityFlak.gridBase = gridBase;
         }
 
         public void SetLocal(bool local)

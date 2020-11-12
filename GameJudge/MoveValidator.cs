@@ -12,11 +12,11 @@ namespace GameJudge
         private string message;
 
 
-        public MoveValidator(TroopMap map, Board area, PlayerSide player0)
+        public MoveValidator(TroopMap map, Board area, PlayerSide beginningPlayer)
         {
             this.map = map;
             this.area = area;
-            activePlayer = player0;
+            activePlayer = beginningPlayer;
         }
 
         public void ToggleActivePlayer()
@@ -77,13 +77,13 @@ namespace GameJudge
             VectorTwo targetPosition = Hex.GetAdjacentHex(troop.Position, troop.Orientation + direction);
             Troop encounter = map.Get(targetPosition);
 
-            if (encounter == null || encounter.Player != troop.Player) return;
+            if (encounter == null) return;
+            if (!troop.CanAttack) throw new IllegalMoveException("This troop can't attack");
+            if (encounter.Player != troop.Player) return;
 
             // Tries to enter a friend so throw if has some other legal move
-            foreach (VectorTwo cell in troop.ControlZone)
-            {
+            foreach (VectorTwo cell in troop.ControlZone) 
                 ThrowIfNotBlocked(troop, cell);
-            }
         }
 
         private void ThrowIfNotBlocked(Troop troop, VectorTwo cell)

@@ -10,12 +10,13 @@ namespace GameJudge.Troops
     {
         public PlayerSide Player { get; }
         public abstract TroopType Type { get; }
+        public abstract bool CanAttack { get; }
 
         private int initialMovePoints;
-        public int MovePoints { get; private set; }
+        public int MovePoints { get; protected set; }
 
-        public VectorTwo Position { get; private set; }
-        public int Orientation { get; private set; }
+        public VectorTwo Position { get; protected set; }
+        public int Orientation { get; protected set; }
 
         public int Health { get; private set; }
         public bool Destroyed => Health <= 0;

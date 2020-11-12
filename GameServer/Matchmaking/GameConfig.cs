@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
-using GameDataStructures;
-using GameJudge.Troops;
-using GameJudge.Waves;
+using GameDataStructures.Dtos;
+using GameServer.Utils;
 
 namespace GameServer.Matchmaking
 {
     public class GameConfig
     {
-        public readonly WaveProvider waveProvider;
-        public readonly Board board;
+        public readonly LevelDto levelDto;
         public readonly int time;
         public readonly int increment;
         
-        private GameConfig(WaveProvider waveProvider, Board board, int time, int increment)
+        private GameConfig(LevelDto levelDto, int time, int increment)
         {
-            this.waveProvider = waveProvider;
-            this.board = board;
+            this.levelDto = levelDto;
             this.time = time;
             this.increment = increment;
         }
@@ -29,29 +26,12 @@ namespace GameServer.Matchmaking
             configs.Add("basic", Basic());
         }
 
+        private static string level0 = "{\"background\":\"board\",\"board\":{\"xSize\":18,\"ySize\":10},\"cameraDto\":{\"xOffset\":13.190206527709961,\"yOffset\":8.800106048583985,\"ortoSize\":12.0},\"troopDtos\":[{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":3},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":3},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":4},\"orientation\":1,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":12,\"y\":4},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":4},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":14,\"y\":4},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":8,\"y\":5},\"orientation\":1,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":9,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":5},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":8,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":6},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":7},\"orientation\":0,\"movePoints\":0,\"health\":0}]}";
 
         private static GameConfig Test() =>
-            new GameConfig(
-                new WaveProvider(new[] {
-                    TroopFactory.Blue(1, 3),
-                    TroopFactory.Red(5, 3),
-                }),
-                new Board(12, 7),
-                30, 5);
+            new GameConfig(Json.Read(level0), 30, 5);
         
         private static GameConfig Basic() =>
-            new GameConfig(
-                new WaveProvider(new[] {
-                    TroopFactory.Blue(1, 3),
-                    TroopFactory.Blue(1, 4),
-                    TroopFactory.Blue(1, 5),
-                    TroopFactory.Blue(1, 6),
-                    TroopFactory.Red(5, 4),
-                    TroopFactory.Red(5, 5),
-                    TroopFactory.Red(5, 6),
-                    TroopFactory.Red(5, 7),
-                }),
-                new Board(16, 10),
-                60, 20);
+            new GameConfig(Json.Read(level0), 60, 20);
     }
 }
