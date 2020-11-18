@@ -6,7 +6,8 @@ namespace GameDataStructures.Messages.Client
     public enum ClientPackets
     {
         JoinGame = 1,
-        MoveTroop = 2,
-        SendMessage = 3,
+        EndRound = 2,
+        MoveTroop = 3,
+        SendMessage = 4,
     }
 }

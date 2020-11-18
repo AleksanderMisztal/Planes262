@@ -22,6 +22,9 @@ namespace GameServer.Networking
                     User newUser = new User(fromClient, m.username);
                     gameHandler.SendToGame(newUser, m.gameType);
                     break;
+                case ClientPackets.EndRound:
+                    gameHandler.EndRound(fromClient);
+                    break;
                 case ClientPackets.MoveTroop:
                     MoveTroopMessage mtm = (MoveTroopMessage) message;
                     gameHandler.MoveTroop(fromClient, mtm.position, mtm.direction);

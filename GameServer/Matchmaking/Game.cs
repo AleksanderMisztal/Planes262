@@ -47,6 +47,12 @@ namespace GameServer.Matchmaking
             sender.GameJoined(redUser.id, blueUser.name, PlayerSide.Red, config.levelDto, clockInfo);
             sender.GameJoined(blueUser.id, redUser.name, PlayerSide.Blue, config.levelDto, clockInfo);
         }
+
+        public void EndRound(int client)
+        {
+            PlayerSide player = client == redUser.id ? PlayerSide.Red : PlayerSide.Blue;
+            controller.EndRound(player);
+        }
         
         public void MakeMove(int client, VectorTwo position, int direction)
         {

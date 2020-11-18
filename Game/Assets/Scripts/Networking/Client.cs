@@ -57,6 +57,12 @@ namespace Planes262.Networking
             };
             messageSender.SendData(message);
         }
+        
+        public void EndRound()
+        {
+            EndRoundMessage message = new EndRoundMessage();
+            messageSender.SendData(message);
+        }
 
         public void MoveTroop(VectorTwo position, int direction)
         {

@@ -8,12 +8,14 @@ using Planes262.Networking;
 using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Planes262.Managers
 {
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private Material lineMaterial;
+        [SerializeField] private Button endRoundButton;
         
         private GameManager gameManager;
         private ScoreDisplay score;
@@ -23,6 +25,7 @@ namespace Planes262.Managers
 
         private static bool isLocal = true;
         private static string levelName;
+        private PlayerSide activePlayer = PlayerSide.Blue;
 
         public static void LoadBoard(string aLevelName, bool local)
         {
@@ -59,6 +62,8 @@ namespace Planes262.Managers
             backgroundManager.DetachBackground();
             gameManager.Initialize(levelDto.board.Get());
             
+            endRoundButton.onClick.AddListener(Client.instance.EndRound);
+            
             gameManager.SetLocal(false);
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
         }
@@ -79,8 +84,12 @@ namespace Planes262.Managers
             GameController gc = new GameController(waveProvider, board);
             Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             
+            endRoundButton.onClick.AddListener(() => gc.EndRound(activePlayer));
+            
             gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults.ToArray(), args.score);
-            gc.TroopsSpawned += troops => {
+            gc.TroopsSpawned += troops =>
+            {
+                activePlayer = activePlayer.Opponent();
                 TimeInfo ti = clock.ToggleActivePlayer();
                 geHandler.OnTroopsSpawned(troops, ti);
             };

@@ -53,6 +53,12 @@ namespace GameServer.Matchmaking
             users.Remove(game.blueUser.id);
         }
 
+        public void EndRound(int client)
+        {
+            if (!games.TryGetValue(client, out Game game)) return;
+            game.EndRound(client);
+        }
+
         public void MoveTroop(int client, VectorTwo position, int direction)
         {
             if (!games.TryGetValue(client, out Game game)) return;
