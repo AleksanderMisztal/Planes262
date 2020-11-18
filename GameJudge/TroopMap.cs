@@ -25,6 +25,7 @@ namespace GameJudge
                 Troop troop = dto.Get();
                 map.Add(troop.Position, troop);
                 GetTroops(troop.Player).Add(troop);
+                if (troop.IsFlak) GetFlaks(troop.Player).Add((Flak) troop);
             }
             return wave.ToArray();
         }

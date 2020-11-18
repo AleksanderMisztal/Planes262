@@ -11,6 +11,9 @@ namespace GameJudge
 
         protected readonly HashSet<Troop> redTroops = new HashSet<Troop>();
         protected readonly HashSet<Troop> blueTroops = new HashSet<Troop>();
+        
+        private readonly HashSet<Flak> redFlaks = new HashSet<Flak>();
+        private readonly HashSet<Flak> blueFlaks = new HashSet<Flak>();
 
         public void AdjustPosition(Troop troop, VectorTwo startingPosition)
         {
@@ -18,10 +21,9 @@ namespace GameJudge
             map.Add(troop.Position, troop);
         }
 
-        public HashSet<Troop> GetTroops(PlayerSide player)
-        {
-            return player == PlayerSide.Red ? redTroops : blueTroops;
-        }
+        public HashSet<Flak> GetFlaks(PlayerSide player) => player == PlayerSide.Red ? redFlaks : blueFlaks;
+
+        public HashSet<Troop> GetTroops(PlayerSide player) => player == PlayerSide.Red ? redTroops : blueTroops;
 
         public Troop Get(VectorTwo position)
         {

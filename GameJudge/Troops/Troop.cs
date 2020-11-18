@@ -16,10 +16,11 @@ namespace GameJudge.Troops
         public int MovePoints { get; protected set; }
 
         public VectorTwo Position { get; protected set; }
-        public int Orientation { get; protected set; }
+        public int Orientation { get; private set; }
 
         public int Health { get; private set; }
         public bool Destroyed => Health <= 0;
+        public bool IsFlak => Type == TroopType.Flak;
 
         protected Troop(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)
         {
@@ -61,7 +62,7 @@ namespace GameJudge.Troops
                 MovePoints--;
         }
 
-        public virtual IEnumerable<VectorTwo> ControlZone => Hex.GetControlZone(Position, Orientation);
+        public abstract IEnumerable<VectorTwo> ControlZone { get; }
 
         public bool InControlZone(VectorTwo position) => ControlZone.Any(cell => cell == position);
 

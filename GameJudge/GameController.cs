@@ -78,9 +78,8 @@ namespace GameJudge
         private void ResetBeginningTroops()
         {
             HashSet<Troop> beginningTroops = troopMap.GetTroops(activePlayer);
-            foreach (Troop troop in beginningTroops)
-                troop.ResetMovePoints();
-            movePointsLeft = beginningTroops.Where(t => t.Type != TroopType.Flak).Aggregate(0, (acc, t) => acc + t.MovePoints);
+            foreach (Troop troop in beginningTroops) troop.ResetMovePoints();
+            movePointsLeft = beginningTroops.Where(t => !t.IsFlak).Aggregate(0, (acc, t) => acc + t.MovePoints);
         }
 
 
@@ -88,7 +87,7 @@ namespace GameJudge
         {
             if (!validator.IsLegalMove(player, position, direction)) return;
             Troop troop = troopMap.Get(position);
-            if (troop.Type == TroopType.Flak) MoveFlak((Flak) troop, direction);
+            if (troop.IsFlak) MoveFlak((Flak) troop, direction);
             else
             {
                 Fighter fighter = (Fighter) troop;
@@ -122,6 +121,13 @@ namespace GameJudge
             movePointsLeft--;
             VectorTwo startingPosition = fighter.Position;
             fighter.MoveInDirection(direction);
+            foreach (Flak flak in troopMap.GetFlaks(fighter.Player.Opponent()))
+            {
+                if (flak.ControlZone.Contains(fighter.Position))
+                {
+                    MyLogger.Log($"Entered flak control zone. Position: {fighter.Position}, flak position: {flak.Position}");
+                }
+            }
 
             List<BattleResult> battleResults = new List<BattleResult>();
             Troop encounter = troopMap.Get(fighter.Position);
@@ -163,7 +169,7 @@ namespace GameJudge
             PlayerSide opponent = troop.Player.Opponent();
             score.Increment(opponent);
 
-            if (troop.Player == activePlayer && troop.MovePoints > 0 && troop.Type != TroopType.Flak)
+            if (troop.Player == activePlayer && troop.MovePoints > 0 && !troop.IsFlak)
                 movePointsLeft--;
 
             troop.ApplyDamage();
@@ -174,7 +180,7 @@ namespace GameJudge
         private void DestroyTroop(Troop troop, VectorTwo startingPosition)
         {
             troopMap.Remove(troop, startingPosition);
-            if (troop.Player == activePlayer && troop.CanAttack)
+            if (troop.Player == activePlayer && !troop.IsFlak)
                 movePointsLeft -= troop.MovePoints;
         }
 
@@ -182,7 +188,7 @@ namespace GameJudge
         {
             foreach (Troop troop in troopMap.GetTroops(activePlayer))
             {
-                if (troop.Type != TroopType.Fighter || !troopAi.ShouldControl(troop)) continue;
+                if (troop.IsFlak || !troopAi.ShouldControl(troop)) continue;
                 ControlWithAi((Fighter) troop);
             }
         }
@@ -190,7 +196,7 @@ namespace GameJudge
         private void ControlWithAi(Fighter troop)
         {
             MyLogger.Log("Will control troop");
-            if (troop.Type == TroopType.Flak || troop.Health <= 0) return;
+            if (troop.IsFlak || troop.Health <= 0) return;
             while (troopAi.ShouldControl(troop) && troop.MovePoints > 0)
             {
                 int direction = troopAi.GetOptimalDirection(troop);
