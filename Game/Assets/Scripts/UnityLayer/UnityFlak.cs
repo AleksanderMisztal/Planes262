@@ -10,6 +10,7 @@ namespace Planes262.UnityLayer
     public class UnityFlak : Flak
     {
         public static GridBase gridBase;
+        public static Effects effects;
         
         private readonly Transform go;
         private readonly GameObject active;
@@ -43,6 +44,11 @@ namespace Planes262.UnityLayer
         {
             base.FlyOverOtherTroop();
             go.position = gridBase.ToWorld(Position);
+        }
+
+        public void Fire()
+        {
+            effects.Fire(go.position);
         }
     }
 }

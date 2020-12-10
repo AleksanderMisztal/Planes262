@@ -24,6 +24,10 @@ namespace Planes262.Managers
         private HexInspector hexInspector;
         private TroopInstantiator troopInstantiator;
 
+        [SerializeField] private GameObject fogTile;
+        private FogController fogController;
+        private PlayerSide activePlayer = PlayerSide.Blue;
+
         public Action<MoveAttemptEventArgs> MoveAttempted { private get; set; }
 
         public void Initialize(Board board)
@@ -36,13 +40,17 @@ namespace Planes262.Managers
             TroopMap troopMap = new TroopMap();
             troopManager = new TroopManager(troopMap);
             mapController = new MapController(gridBase, troopMap, args => MoveAttempted(args));
+            fogController = new FogController(fogTile, board, gridBase, troopMap);
 
             InputParser inputParser = FindObjectOfType<InputParser>();
             inputParser.gridBase = gridBase;
             inputParser.CellClicked += mapController.OnCellClicked;
             inputParser.CellInspected += hexInspector.Inspect;
 
-            UnityFighter.effects = FindObjectOfType<Effects>();
+            
+            Effects effects = FindObjectOfType<Effects>();
+            UnityFighter.effects = effects;
+            UnityFlak.effects = effects;
             UnityFighter.gridBase = gridBase;
             UnityFlak.gridBase = gridBase;
         }
@@ -54,14 +62,17 @@ namespace Planes262.Managers
 
         public void StartNewGame(Board board, IEnumerable<TroopDto> troops, PlayerSide side)
         {
-            mapController.ResetForNewGame(side, board);
+            mapController.Initialize(side, board);
             IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
+            fogController.CreateFog(activePlayer);
         }
 
         public void BeginNextRound(IEnumerable<TroopDto> troops)
         {
+            activePlayer = activePlayer.Opponent();
             mapController.ToggleActivePlayer();
+            fogController.CreateFog(activePlayer);
             IEnumerable<Troop> uTroops = troops.Select(t => troopInstantiator.InstantiateTroop(t));
             troopManager.BeginNextRound(uTroops);
         }
@@ -69,6 +80,7 @@ namespace Planes262.Managers
         public void MoveTroop(VectorTwo position, int direction, BattleResult[] battleResults)
         {
             troopManager.MoveTroop(position, direction, battleResults);
+            fogController.CreateFog(activePlayer);
         }
 
         public void EndGame(string message, float delay)

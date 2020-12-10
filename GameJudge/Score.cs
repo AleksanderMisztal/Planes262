@@ -17,5 +17,7 @@ namespace GameJudge
         {
             return $"{Red} : {Blue}";
         }
+        
+        public ScoreInfo Info => new ScoreInfo(Red, Blue);
     }
 }

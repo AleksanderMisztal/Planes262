@@ -1,7 +1,6 @@
 ﻿using GameDataStructures;
 using GameDataStructures.Dtos;
 using GameJudge;
-using GameJudge.Waves;
 using Planes262.HexSystem;
 using Planes262.LevelEditor;
 using Planes262.Networking;
@@ -24,12 +23,12 @@ namespace Planes262.Managers
         private GameEventsHandler geHandler;
 
         private static bool isLocal = true;
-        private static string levelName;
+        private static LevelDto level;
         private PlayerSide activePlayer = PlayerSide.Blue;
 
-        public static void LoadBoard(string aLevelName, bool local)
+        public static void LoadBoard(LevelDto levelDto, bool local)
         {
-            levelName = aLevelName;
+            level = levelDto;
             isLocal = local;
             SceneManager.LoadScene("Board");
         }
@@ -50,7 +49,8 @@ namespace Planes262.Managers
 
         private void Start()
         {
-            if (isLocal) InitializeLocalGame();
+            if (isLocal) InitializeLocalGame(level);
+            else InitializeOnlineGame(level);
         }
 
         public void InitializeOnlineGame(LevelDto levelDto)
@@ -68,9 +68,8 @@ namespace Planes262.Managers
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
         }
 
-        private void InitializeLocalGame()
+        private void InitializeLocalGame(LevelDto levelDto)
         {
-            LevelDto levelDto = Saver.Read(levelName);
             CameraDto cameraDto = levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
             backgroundManager.SetBackground(levelDto.background);
@@ -86,14 +85,14 @@ namespace Planes262.Managers
             
             endRoundButton.onClick.AddListener(() => gc.EndRound(activePlayer));
             
-            gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults.ToArray(), args.score);
+            gc.TroopMoved += args => geHandler.OnTroopMoved(args.position, args.direction, args.battleResults, args.scoreInfo);
             gc.TroopsSpawned += troops =>
             {
                 activePlayer = activePlayer.Opponent();
                 TimeInfo ti = clock.ToggleActivePlayer();
                 geHandler.OnTroopsSpawned(troops, ti);
             };
-            gc.GameEnded += args => geHandler.OnGameEnded(args.score);
+            gc.GameEnded += args => geHandler.OnGameEnded(args.scoreInfo);
 
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             

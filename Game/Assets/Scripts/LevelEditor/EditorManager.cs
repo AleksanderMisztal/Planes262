@@ -1,4 +1,5 @@
-﻿using GameDataStructures.Dtos;
+﻿using System.Collections.Generic;
+using GameDataStructures.Dtos;
 using Planes262.LevelEditor.Tilemaps;
 using Planes262.LevelEditor.Tools;
 using Planes262.UnityLayer;
@@ -71,12 +72,12 @@ namespace Planes262.LevelEditor
                 cameraDto = boardTool.Dto(),
                 troopDtos = troopTool.Dto(),
             };
-            Saver.Save(LevelConfig.name, levelDto);
+            GameConfig.Save(LevelConfig.name, levelDto);
         }
 
         private void Load()
         {
-            LevelDto levelDto = Saver.Read(LevelConfig.name);
+            LevelDto levelDto = GameConfig.GetLevel(LevelConfig.name);
             backgroundManager.SetBackground(levelDto.background);
             gridBase.Resize(levelDto.board.Get());
             boardTool.Load(levelDto.cameraDto);

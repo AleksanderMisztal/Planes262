@@ -78,7 +78,7 @@ namespace GameJudge
             Troop encounter = map.Get(targetPosition);
 
             if (encounter == null) return;
-            if (!troop.CanAttack) throw new IllegalMoveException("This troop can't attack");
+            if (troop.IsFlak) throw new IllegalMoveException("Flak can't attack");
             if (encounter.Player != troop.Player) return;
 
             // Tries to enter a friend so throw if has some other legal move

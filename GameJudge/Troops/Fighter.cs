@@ -8,7 +8,6 @@ namespace GameJudge.Troops
     public class Fighter : Troop
     {
         public override TroopType Type { get; } = TroopType.Fighter;
-        public override bool CanAttack { get; } = true;
         public override IEnumerable<VectorTwo> ControlZone => Hex.GetControlZone(Position, Orientation);
 
         public Fighter(PlayerSide player, int movePoints, VectorTwo position, int orientation, int health)

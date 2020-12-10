@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using GameDataStructures.Messages.Server;
+using GameJudge;
 using GameServer.Matchmaking;
 
 namespace GameServer.Networking

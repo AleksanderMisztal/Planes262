@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures.Dtos;
 
-namespace GameJudge.Waves
+namespace GameJudge
 {
     public class WaveProvider
     {

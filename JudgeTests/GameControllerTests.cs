@@ -4,7 +4,6 @@ using GameDataStructures.Positioning;
 using GameJudge;
 using GameJudge.Battles;
 using GameJudge.Troops;
-using GameJudge.Waves;
 using NUnit.Framework;
 
 namespace JudgeTests
@@ -124,7 +123,7 @@ namespace JudgeTests
                 moveCount++;
                 Assert.AreEqual(3, args.direction);
                 Assert.AreEqual(new VectorTwo(2, 2), args.position);
-                Assert.AreEqual(0, args.battleResults.Count);
+                Assert.AreEqual(0, args.battleResults.Length);
             };
             
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 2), 3);

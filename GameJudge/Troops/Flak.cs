@@ -8,7 +8,6 @@ namespace GameJudge.Troops
     public class Flak : Troop
     {
         public override TroopType Type { get;}  = TroopType.Flak;
-        public override bool CanAttack { get; } = false;
 
         public override IEnumerable<VectorTwo> ControlZone => Hex.GetNeighbours(Position);
         

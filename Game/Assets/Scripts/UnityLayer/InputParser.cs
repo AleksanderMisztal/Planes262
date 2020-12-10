@@ -17,7 +17,7 @@ namespace Planes262.UnityLayer
         {
             Vector3 mousePosition = boardCamera.ScreenToWorldPoint(Input.mousePosition);
             VectorTwo cell = gridBase.ToOffset(mousePosition);
-            if (!gridBase.IsInside(cell.x, cell.y)) return;
+            if (!gridBase.IsInside(cell)) return;
             
             if (Input.GetMouseButtonDown(0))
                 CellClicked?.Invoke(cell);

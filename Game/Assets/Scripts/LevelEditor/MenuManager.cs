@@ -12,14 +12,11 @@ namespace Planes262.LevelEditor
         [SerializeField] private InputField levelName;
         [SerializeField] private GameObject loadableLevels;
         [SerializeField] private Button loadablePrefab;
-
-        private void Start()
-        {
-        }
+        
 
         public void DisplayLoadableLevels()
         {
-            foreach (string level in PersistState.localLevels)
+            foreach (string level in GameConfig.LocalLevels)
             {
                 string currentLevel = level.Split('/').Last();
                 Button button = Instantiate(loadablePrefab, loadableLevels.transform);

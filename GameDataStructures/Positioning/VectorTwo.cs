@@ -14,10 +14,7 @@ namespace GameDataStructures.Positioning
             this.y = y;
         }
 
-        public override int GetHashCode()
-        {
-            return 1000 * x + y;
-        }
+        public override int GetHashCode() => 1000 * x + y;
 
         public override bool Equals(object obj)
         {
@@ -26,10 +23,10 @@ namespace GameDataStructures.Positioning
             return (x == v.x) && (y == v.y);
         }
 
-        public override string ToString()
-        {
-            return $"({x}, {y})";
-        }
+        public override string ToString() => $"({x}, {y})";
+
+        public static VectorTwo operator + (VectorTwo a, VectorTwo b)
+            => new VectorTwo(a.x + b.x, a.y + b.y);
 
         public static VectorTwo operator - (VectorTwo a, VectorTwo b)
             => new VectorTwo(a.x - b.x, a.y - b.y);

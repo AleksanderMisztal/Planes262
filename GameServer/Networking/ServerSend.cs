@@ -2,7 +2,6 @@
 using GameDataStructures;
 using GameDataStructures.Dtos;
 using GameDataStructures.Messages.Server;
-using GameJudge.GameEvents;
 
 namespace GameServer.Networking
 {
@@ -62,24 +61,14 @@ namespace GameServer.Networking
             server.SendMessage(blueId, message);
         }
 
-        public void TroopMoved(int redId, int blueId, TroopMovedEventArgs args)
+        public void TroopMoved(int redId, int blueId, TroopMovedMessage message)
         {
-            TroopMovedMessage message = new TroopMovedMessage
-            {
-                position = args.position,
-                direction = args.direction,
-                battleResults = args.battleResults.ToArray(),
-                scoreInfo = args.score,
-            };
-
             server.SendMessage(redId, message);
             server.SendMessage(blueId, message);
         }
 
-        public void GameEnded(int redId, int blueId, GameEndedEventArgs args)
+        public void GameEnded(int redId, int blueId, GameEndedMessage message)
         {
-            GameEndedMessage message = new GameEndedMessage{scoreInfo = args.score};
-
             server.SendMessage(redId, message);
             server.SendMessage(blueId, message);
         }

@@ -38,7 +38,7 @@ namespace Planes262.Managers
         private List<int> directions;
         
 
-        public void ResetForNewGame(PlayerSide side, Board board)
+        public void Initialize(PlayerSide side, Board board)
         {
             DeactivateTroops();
             playerSide = side;

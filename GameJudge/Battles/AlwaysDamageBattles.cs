@@ -6,14 +6,8 @@ namespace GameJudge.Battles
 {
     internal class AlwaysDamageBattles : IBattleResolver
     {
-        public BattleResult GetFightResult(Troop defender, VectorTwo attackerPosition)
-        {
-            return new BattleResult(true, true);
-        }
-
-        public BattleResult GetCollisionResult()
-        {
-            return new BattleResult(true, true);
-        }
+        public FightResult GetFightResult(Troop defender, VectorTwo attackerPosition, PlayerSide attackerSide) => FightResult.collision;
+        public FightResult GetCollisionResult() => FightResult.collision;
+        public FlakDamage GetFlakDamage(VectorTwo flakPosition) => new FlakDamage(flakPosition, true);
     }
 }

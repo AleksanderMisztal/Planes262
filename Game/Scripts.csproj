@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\LevelEditor\Tools\TroopTool.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Troops\TroopObject.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\Troops\TroopTemplate.cs" />
+     <Compile Include="Assets\Scripts\Managers\FogController.cs" />
      <Compile Include="Assets\Scripts\Managers\GameEventsHandler.cs" />
      <Compile Include="Assets\Scripts\Managers\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
@@ -96,6 +97,8 @@
      <Compile Include="Assets\Scripts\UnityLayer\BackgroundManager.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\BoardCamera.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ClockDisplay.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\Effects.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\GameConfig.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\GameEndedScreen.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\InputParser.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\Messenger.cs" />
@@ -103,15 +106,14 @@
      <Compile Include="Assets\Scripts\UnityLayer\PersistState.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\PlayerMeta.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\ScoreDisplay.cs" />
+     <Compile Include="Assets\Scripts\UnityLayer\SpriteHolder.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\TroopInstantiator.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityFighter.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityFlak.cs" />
      <Compile Include="Assets\Scripts\UnityLayer\UnityLogger.cs" />
      <Compile Include="Assets\Scripts\Utils\ButtonScaler.cs" />
      <Compile Include="Assets\Scripts\Utils\CanvasHider.cs" />
-     <Compile Include="Assets\Scripts\Utils\Effects.cs" />
      <Compile Include="Assets\Scripts\Utils\Push3DToFront.cs" />
-     <Compile Include="Assets\Scripts\Utils\SpriteHolder.cs" />
      <None Include="Assets\Scripts\Scripts.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Users/aleks/Projects/TS Games/Planes262/Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

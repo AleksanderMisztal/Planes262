@@ -16,7 +16,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<BattleResult> battleResults = new List<BattleResult>();
             for (int i = 0; i < battleCount; i++) 
-                battleResults.Add(new BattleResult(true, true));
+                battleResults.Add(new BattleResult(FightResult.collision, null));
             troopManager.MoveTroop(new VectorTwo(x, y), direction, battleResults.ToArray());
         }
         

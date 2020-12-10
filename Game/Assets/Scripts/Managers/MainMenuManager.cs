@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GameDataStructures.Dtos;
 using Planes262.Networking;
 using Planes262.UnityLayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Planes262.Managers
@@ -14,22 +16,28 @@ namespace Planes262.Managers
     {
         [SerializeField] private InputField username;
         [SerializeField] private GameObject mainMenu;
-        [SerializeField] private GameObject loadMenu;
+        [SerializeField] private GameObject localMenu;
+        [SerializeField] private GameObject onlineMenu;
+        [SerializeField] private GameObject settings;
         [SerializeField] private Transform localLevelsScroll;
         [SerializeField] private Transform onlineLevelsScroll;
         [SerializeField] private Button loadablePrefab;
 
         private void Start()
         {
-            string savePath = Application.dataPath + "/Saves/";
-            PersistState.localLevels = Directory.GetFiles(savePath).Where(p => p.EndsWith(".txt")).Select(Path.GetFileNameWithoutExtension);
-            CreateButtons(PersistState.localLevels, localLevelsScroll, PlayLocal);
-            CreateButtons(PersistState.onlineLevels, onlineLevelsScroll, PlayOnline);
+            GameConfig.LoadLocalLevels();
+            
+            CreateButtons(GameConfig.LocalLevels, localLevelsScroll, PlayLocal);
+            CreateButtons(GameConfig.onlineLevels, onlineLevelsScroll, PlayOnline);
+            
             Client.instance.serverEvents.OnWelcome += gameTypes => {
-                PersistState.onlineLevels = gameTypes;
+                GameConfig.onlineLevels = gameTypes;
                 CreateButtons(gameTypes, onlineLevelsScroll, PlayOnline);
             };
-            loadMenu.SetActive(false);
+            localMenu.SetActive(false);
+            onlineMenu.SetActive(false);
+            if (string.IsNullOrEmpty(PlayerMeta.name)) ShowSettings();
+            else username.text = PlayerMeta.name;
         }
 
         private void CreateButtons(IEnumerable<string> gameTypes, Transform parent, Action<string> onGameSelected)
@@ -42,22 +50,39 @@ namespace Planes262.Managers
                 button.onClick.AddListener(() => onGameSelected(gameType));
             }
         }
+
+        public void UpdateUsername()
+        {
+            PlayerMeta.name = username.text;
+        }
+        
+        public void ShowSettings()
+        {
+            mainMenu.SetActive(false);
+            settings.SetActive(true);
+        }
         
         public void PlayLocal()
         {
             mainMenu.SetActive(false);
-            loadMenu.SetActive(true);
+            localMenu.SetActive(true);
+        }
+        
+        public void PlayOnline()
+        {
+            mainMenu.SetActive(false);
+            onlineMenu.SetActive(true);
         }
         
         private void PlayLocal(string level)
         {
-            GameInitializer.LoadBoard(level, true);
+            LevelDto dto = GameConfig.GetLevel(level);
+            GameInitializer.LoadBoard(dto, true);
         }
 
         public void PlayOnline(string gameType)
         {
             PlayerMeta.name = username.text;
-            GameInitializer.LoadBoard("level1", false);
             Client.instance.JoinGame(gameType);
         }
 

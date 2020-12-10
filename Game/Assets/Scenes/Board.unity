@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0305da993f40a4bacd99bd74b93399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fogTile: {fileID: 412871187017807360, guid: a337c1245b997784fa510d22fc63e1e9, type: 3}
 --- !u!114 &213170044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,10 +1056,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1899271463}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338218114367fa346a1cd0fb43f8f469, type: 3}
+  m_Script: {fileID: 11500000, guid: e04e32999005973499fa9815966bb600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 6351433400103120235, guid: 4bf55cc4efd12d1488de08b33b395c12,
+    type: 3}
+  machineFirePrefab: {fileID: 6351433400103120235, guid: 4bf55cc4efd12d1488de08b33b395c12,
     type: 3}
 --- !u!4 &1899271465
 Transform:

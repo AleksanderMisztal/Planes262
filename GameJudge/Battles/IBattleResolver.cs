@@ -6,8 +6,9 @@ namespace GameJudge.Battles
 {
     internal interface IBattleResolver
     {
-        BattleResult GetFightResult(Troop defender, VectorTwo attackerPosition);
+        FightResult GetFightResult(Troop defender, VectorTwo attackerPosition, PlayerSide attackerSide);
 
-        BattleResult GetCollisionResult();
+        FightResult GetCollisionResult();
+        FlakDamage GetFlakDamage(VectorTwo flakPosition);
     }
 }

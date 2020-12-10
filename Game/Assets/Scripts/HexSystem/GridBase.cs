@@ -50,6 +50,7 @@ namespace Planes262.HexSystem
         }
 
         public bool IsInside(int x, int y) => x >= 0 && x < xSize && y >= 0 && y < ySize;
+        public bool IsInside(VectorTwo pos) => IsInside(pos.x, pos.y);
         public Vector3 ToWorld(VectorTwo pos) => ToWorld(pos.x, pos.y);
         public Vector3 ToWorld(int x, int y) => offset + Cube.FromOffset(x, y).ToWorld(cellSize);
         public VectorTwo ToOffset(Vector3 wp) => Cube.ToCube(wp - offset, cellSize).ToOffset();

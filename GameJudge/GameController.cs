@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
 using GameDataStructures.Dtos;
+using GameDataStructures.Messages.Server;
 using GameDataStructures.Positioning;
 using GameJudge.Battles;
-using GameJudge.GameEvents;
 using GameJudge.Troops;
-using GameJudge.Waves;
 
 namespace GameJudge
 {
@@ -26,7 +25,7 @@ namespace GameJudge
         private readonly TroopAi troopAi;
         
         
-        public GameController(WaveProvider waveProvider, Board board) : this(new StandardBattles(), board, waveProvider) { }
+        public GameController(WaveProvider waveProvider, Board board) : this(new StandardBattleResolver(), board, waveProvider) { }
 
         internal GameController(IBattleResolver battleResolver, Board board, WaveProvider waveProvider)
         {
@@ -43,8 +42,8 @@ namespace GameJudge
 
 
         public event Action<TroopDto[]> TroopsSpawned;
-        public event Action<TroopMovedEventArgs> TroopMoved;
-        public event Action<GameEndedEventArgs> GameEnded;
+        public event Action<TroopMovedMessage> TroopMoved;
+        public event Action<GameEndedMessage> GameEnded;
 
         public void EndRound(PlayerSide player)
         {
@@ -103,7 +102,7 @@ namespace GameJudge
             bool redLost = troopMap.GetTroops(PlayerSide.Red).Count == 0;
             bool blueLost = troopMap.GetTroops(PlayerSide.Blue).Count == 0;
             if (redLost || blueLost)
-                GameEnded?.Invoke(new GameEndedEventArgs(score));
+                GameEnded?.Invoke(new GameEndedMessage(score.Info));
         }
 
         private void MoveFlak(Flak flak, int direction)
@@ -113,55 +112,85 @@ namespace GameJudge
             if (troopMap.Get(targetPosition) != null) return;
             flak.MoveInDirection(direction);
             troopMap.AdjustPosition(flak, startingPosition);
-            TroopMoved?.Invoke(new TroopMovedEventArgs(startingPosition, direction, new List<BattleResult>(), score));
+            TroopMoved?.Invoke(new TroopMovedMessage(startingPosition, direction, null, score.Info));
         }
         
         private void MoveFighter(Fighter fighter, int direction)
         {
-            movePointsLeft--;
+            List<BattleResult> battleResults = new List<BattleResult>();
+            FlakDamage[] flakDamages;
             VectorTwo startingPosition = fighter.Position;
-            fighter.MoveInDirection(direction);
-            foreach (Flak flak in troopMap.GetFlaks(fighter.Player.Opponent()))
+
+            void ApplyFlakDamages()
             {
-                if (flak.ControlZone.Contains(fighter.Position))
+                flakDamages = GetFlakDamages(fighter);
+                foreach (FlakDamage _ in flakDamages.Where(d => d.damaged))
                 {
-                    MyLogger.Log($"Entered flak control zone. Position: {fighter.Position}, flak position: {flak.Position}");
+                    ApplyDamage(fighter, startingPosition);
+                    if (fighter.Destroyed)
+                    {
+                        battleResults.Add(new BattleResult(null, flakDamages));
+                        EndMove();
+                        return;
+                    }
                 }
             }
 
-            List<BattleResult> battleResults = new List<BattleResult>();
-            Troop encounter = troopMap.Get(fighter.Position);
-            if (encounter == null)
+            void ApplyFightDamage(bool isFirst)
             {
-                troopMap.AdjustPosition(fighter, startingPosition);
-                TroopMoved?.Invoke(new TroopMovedEventArgs(startingPosition, direction, battleResults, score));
+                Troop encounter = troopMap.Get(fighter.Position);
+                FightResult fightResult = isFirst
+                    ? battleResolver.GetFightResult(encounter, startingPosition, fighter.Player)
+                    : battleResolver.GetCollisionResult();
+                battleResults.Add(new BattleResult(fightResult, flakDamages));
+                if (fightResult.attackerDamaged) ApplyDamage(fighter, startingPosition);
+                if (fightResult.defenderDamaged) ApplyDamage(encounter, encounter.Position);
+            }
+
+            void EndMove()
+            {
+                if (!fighter.Destroyed) troopMap.AdjustPosition(fighter, startingPosition);
+                TroopMoved?.Invoke(new TroopMovedMessage(startingPosition, direction, battleResults.ToArray(), score.Info));
+            }
+
+            fighter.MoveInDirection(direction);
+            movePointsLeft--;
+
+            ApplyFlakDamages();
+            if (fighter.Destroyed) return;
+
+            bool EnteredEmpty() => troopMap.Get(fighter.Position) == null;
+            if (EnteredEmpty())
+            {
+                battleResults.Add(new BattleResult(null, flakDamages));
+                EndMove();
                 return;
             }
 
-            BattleResult result = BattleResult.friendlyCollision;
-            if (encounter.Player != fighter.Player)
-                result = battleResolver.GetFightResult(encounter, startingPosition);
-
-            battleResults.Add(result);
-            if (result.AttackerDamaged) ApplyDamage(fighter, startingPosition);
-            if (result.DefenderDamaged) ApplyDamage(encounter, encounter.Position);
-
-            fighter.FlyOverOtherTroop();
-            
-            while ((encounter = troopMap.Get(fighter.Position)) != null && fighter.Health > 0)
+            ApplyFightDamage(true);
+            while (fighter.Health > 0)
             {
-                result = battleResolver.GetCollisionResult();
-                battleResults.Add(result);
-                if (result.AttackerDamaged) ApplyDamage(fighter, startingPosition);
-                if (result.DefenderDamaged) ApplyDamage(encounter, encounter.Position);
-
                 fighter.FlyOverOtherTroop();
+                
+                ApplyFlakDamages();
+                if (fighter.Destroyed) return;
+
+                if (EnteredEmpty())
+                {
+                    battleResults.Add(new BattleResult(null, flakDamages));
+                    break;
+                }
+                ApplyFightDamage(false);
             }
+            EndMove();
+        }
 
-            if (fighter.Health > 0)
-                troopMap.AdjustPosition(fighter, startingPosition);
-
-            TroopMoved?.Invoke(new TroopMovedEventArgs(startingPosition, direction, battleResults, score));
+        private FlakDamage[] GetFlakDamages(Fighter fighter)
+        {
+            return troopMap.GetFlaks(fighter.Player.Opponent())
+                .Where(f => f.ControlZone.Contains(fighter.Position))
+                .Select(f => battleResolver.GetFlakDamage(f.Position))
+                .ToArray();
         }
 
         private void ApplyDamage(Troop troop, VectorTwo startingPosition)
