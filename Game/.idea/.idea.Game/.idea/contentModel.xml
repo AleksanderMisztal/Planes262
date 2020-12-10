@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Aleksander\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Aleksander\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Game.1202181712.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Aleksander\Projects\Planes262\Game" t="IncludeRecursive">
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="GameLogic" t="Include">
+            <e p="OrientedCell.cs" t="Include" />
+            <e p="PathFinder.cs" t="Include" />
+            <e p="TroopManager.cs" t="Include" />
+            <e p="TroopMap.cs" t="Include" />
+          </e>
+          <e p="HexSystem" t="Include">
+            <e p="Cube.cs" t="Include" />
+            <e p="GridBase.cs" t="Include" />
+            <e p="HexInspector.cs" t="Include" />
+            <e p="HexTile.cs" t="Include" />
+          </e>
+          <e p="LevelEditor" t="Include">
+            <e p="EditorManager.cs" t="Include" />
+            <e p="LevelConfig.cs" t="Include" />
+            <e p="MenuManager.cs" t="Include" />
+            <e p="Saver.cs" t="Include" />
+            <e p="Terrains" t="Include">
+              <e p="Terrain.cs" t="Include" />
+            </e>
+            <e p="Tilemaps" t="Include">
+              <e p="Cube.cs" t="Include" />
+              <e p="HexGrid.cs" t="Include" />
+              <e p="LineDrawer.cs" t="Include" />
+              <e p="ResizableGridBase.cs" t="Include" />
+            </e>
+            <e p="Tools" t="Include">
+              <e p="BoardTool.cs" t="Include" />
+              <e p="TerrainTool.cs" t="Include" />
+              <e p="TextCreator.cs" t="Include" />
+              <e p="TroopTool.cs" t="Include" />
+            </e>
+            <e p="Troops" t="Include">
+              <e p="TroopObject.cs" t="Include" />
+              <e p="TroopTemplate.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Managers" t="Include">
+            <e p="GameEventsHandler.cs" t="Include" />
+            <e p="GameInitializer.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="MainMenuManager.cs" t="Include" />
+            <e p="MapController.cs" t="Include" />
+            <e p="MenuEventsHandler.cs" t="Include" />
+            <e p="TransitionController.cs" t="Include" />
+          </e>
+          <e p="Networking" t="Include">
+            <e p="Client.cs" t="Include" />
+            <e p="CsWebSocket.cs" t="Include" />
+            <e p="IPacketSender.cs" t="Include" />
+            <e p="JSWebSocket.cs" t="Include" />
+            <e p="ServerEvents.cs" t="Include" />
+          </e>
+          <e p="Scripts.asmdef" t="Include" />
+          <e p="UnityLayer" t="Include">
+            <e p="BackgroundManager.cs" t="Include" />
+            <e p="BoardCamera.cs" t="Include" />
+            <e p="ClockDisplay.cs" t="Include" />
+            <e p="GameEndedScreen.cs" t="Include" />
+            <e p="InputParser.cs" t="Include" />
+            <e p="Messenger.cs" t="Include" />
+            <e p="MoveAttemptEventArgs.cs" t="Include" />
+            <e p="PersistState.cs" t="Include" />
+            <e p="PlayerMeta.cs" t="Include" />
+            <e p="ScoreDisplay.cs" t="Include" />
+            <e p="TroopInstantiator.cs" t="Include" />
+            <e p="UnityFighter.cs" t="Include" />
+            <e p="UnityFlak.cs" t="Include" />
+            <e p="UnityLogger.cs" t="Include" />
+          </e>
+          <e p="Utils" t="Include">
+            <e p="ButtonScaler.cs" t="Include" />
+            <e p="CanvasHider.cs" t="Include" />
+            <e p="Effects.cs" t="Include" />
+            <e p="Push3DToFront.cs" t="Include" />
+            <e p="SpriteHolder.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Tests" t="Include">
+          <e p="Edit Mode" t="Include">
+            <e p="ConversionTests.cs" t="Include" />
+            <e p="Edit Mode.asmdef" t="Include" />
+            <e p="HexLogicTests.cs" t="Include" />
+            <e p="PathFinderTests.cs" t="Include" />
+            <e p="TroopManagerTests.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="EditMode.csproj" t="IncludeRecursive" />
+      <e p="Game.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Scripts.csproj" t="IncludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

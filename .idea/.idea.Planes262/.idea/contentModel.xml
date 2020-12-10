@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.net.test.sdk\16.4.0\build\netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.net.test.sdk\16.5.0\build\netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.testplatform.testhost\16.4.0\build\netcoreapp2.1\x64\testhost.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.testplatform.testhost\16.4.0\build\netcoreapp2.1\x64\testhost.exe" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.testplatform.testhost\16.5.0\build\netcoreapp2.1\x64\testhost.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\microsoft.testplatform.testhost\16.5.0\build\netcoreapp2.1\x64\testhost.exe" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\mstest.testadapter\2.1.0\build\_common\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\mstest.testadapter\2.1.0\build\_common\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\mstest.testadapter\2.1.0\build\netcoreapp1.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\nunit.engine.api.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\nunit.engine.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\Aleksander\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="C:\Users\Aleksander\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Aleksander\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Planes262.-1731613525.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Aleksander\Projects\Planes262" t="IncludeFlat">
+      <e p="Game" t="IncludeRecursive">
+        <e p="Assets" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="GameLogic" t="Include">
+              <e p="OrientedCell.cs" t="Include" />
+              <e p="PathFinder.cs" t="Include" />
+              <e p="TroopManager.cs" t="Include" />
+              <e p="TroopMap.cs" t="Include" />
+            </e>
+            <e p="HexSystem" t="Include">
+              <e p="Cube.cs" t="Include" />
+              <e p="GridBase.cs" t="Include" />
+              <e p="HexInspector.cs" t="Include" />
+              <e p="HexTile.cs" t="Include" />
+            </e>
+            <e p="LevelEditor" t="Include">
+              <e p="EditorManager.cs" t="Include" />
+              <e p="LevelConfig.cs" t="Include" />
+              <e p="MenuManager.cs" t="Include" />
+              <e p="Saver.cs" t="Include" />
+              <e p="Terrains" t="Include">
+                <e p="Terrain.cs" t="Include" />
+              </e>
+              <e p="Tilemaps" t="Include">
+                <e p="Cube.cs" t="Include" />
+                <e p="HexGrid.cs" t="Include" />
+                <e p="LineDrawer.cs" t="Include" />
+                <e p="ResizableGridBase.cs" t="Include" />
+              </e>
+              <e p="Tools" t="Include">
+                <e p="BoardTool.cs" t="Include" />
+                <e p="TerrainTool.cs" t="Include" />
+                <e p="TextCreator.cs" t="Include" />
+                <e p="TroopTool.cs" t="Include" />
+              </e>
+              <e p="Troops" t="Include">
+                <e p="TroopObject.cs" t="Include" />
+                <e p="TroopTemplate.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Managers" t="Include">
+              <e p="GameEventsHandler.cs" t="Include" />
+              <e p="GameInitializer.cs" t="Include" />
+              <e p="GameManager.cs" t="Include" />
+              <e p="MainMenuManager.cs" t="Include" />
+              <e p="MapController.cs" t="Include" />
+              <e p="MenuEventsHandler.cs" t="Include" />
+              <e p="TransitionController.cs" t="Include" />
+            </e>
+            <e p="Networking" t="Include">
+              <e p="Client.cs" t="Include" />
+              <e p="CsWebSocket.cs" t="Include" />
+              <e p="IPacketSender.cs" t="Include" />
+              <e p="JSWebSocket.cs" t="Include" />
+              <e p="ServerEvents.cs" t="Include" />
+            </e>
+            <e p="Scripts.asmdef" t="Include" />
+            <e p="UnityLayer" t="Include">
+              <e p="BackgroundManager.cs" t="Include" />
+              <e p="BoardCamera.cs" t="Include" />
+              <e p="ClockDisplay.cs" t="Include" />
+              <e p="GameEndedScreen.cs" t="Include" />
+              <e p="InputParser.cs" t="Include" />
+              <e p="Messenger.cs" t="Include" />
+              <e p="MoveAttemptEventArgs.cs" t="Include" />
+              <e p="PersistState.cs" t="Include" />
+              <e p="PlayerMeta.cs" t="Include" />
+              <e p="ScoreDisplay.cs" t="Include" />
+              <e p="TroopInstantiator.cs" t="Include" />
+              <e p="UnityFighter.cs" t="Include" />
+              <e p="UnityFlak.cs" t="Include" />
+              <e p="UnityLogger.cs" t="Include" />
+            </e>
+            <e p="Utils" t="Include">
+              <e p="ButtonScaler.cs" t="Include" />
+              <e p="CanvasHider.cs" t="Include" />
+              <e p="Effects.cs" t="Include" />
+              <e p="Push3DToFront.cs" t="Include" />
+              <e p="SpriteHolder.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Tests" t="Include">
+            <e p="Edit Mode" t="Include">
+              <e p="ConversionTests.cs" t="Include" />
+              <e p="Edit Mode.asmdef" t="Include" />
+              <e p="HexLogicTests.cs" t="Include" />
+              <e p="PathFinderTests.cs" t="Include" />
+              <e p="TroopManagerTests.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="EditMode.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Scripts.csproj" t="IncludeRecursive" />
+        <e p="Temp\bin" t="ExcludeRecursive" />
+      </e>
+      <e p="GameDataStructures" t="IncludeRecursive">
+        <e p="BattlesResult.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Board.cs" t="Include" />
+        <e p="ClockInfo.cs" t="Include" />
+        <e p="Dtos" t="Include">
+          <e p="BoardDto.cs" t="Include" />
+          <e p="CameraDto.cs" t="Include" />
+          <e p="LevelDto.cs" t="Include" />
+          <e p="TroopDto.cs" t="Include" />
+          <e p="V2Dto.cs" t="Include" />
+        </e>
+        <e p="GameDataStructures.csproj" t="IncludeRecursive" />
+        <e p="Manual_MSBuild_ReleaseVersion_LOG.log" t="Include" />
+        <e p="Messages" t="Include">
+          <e p="Client" t="Include">
+            <e p="ClientMessage.cs" t="Include" />
+            <e p="ClientPackets.cs" t="Include" />
+            <e p="EndRoundMessage.cs" t="Include" />
+            <e p="JoinGameMessage.cs" t="Include" />
+            <e p="MoveTroopMessage.cs" t="Include" />
+            <e p="SendChatMessage.cs" t="Include" />
+          </e>
+          <e p="Serializer.cs" t="Include" />
+          <e p="Server" t="Include">
+            <e p="ChatSentMessage.cs" t="Include" />
+            <e p="GameEndedMessage.cs" t="Include" />
+            <e p="GameJoinedMessage.cs" t="Include" />
+            <e p="LostOnTimeMessage.cs" t="Include" />
+            <e p="OpponentDisconnectedMessage.cs" t="Include" />
+            <e p="ServerMessage.cs" t="Include" />
+            <e p="ServerPackets.cs" t="Include" />
+            <e p="TroopMovedMessage.cs" t="Include" />
+            <e p="TroopsSpawnedMessage.cs" t="Include" />
+            <e p="WelcomeMessage.cs" t="Include" />
+          </e>
+        </e>
+        <e p="MyLogger.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net471" t="Include">
+              <e p="GameDataStructures.AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="netcoreapp3.1" t="Include">
+              <e p="GameDataStructures.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="PlayerSide.cs" t="Include" />
+        <e p="Positioning" t="Include">
+          <e p="Hex.cs" t="Include" />
+          <e p="HexOffset.cs" t="Include" />
+          <e p="VectorTwo.cs" t="Include" />
+        </e>
+        <e p="Randomizer.cs" t="Include" />
+        <e p="ScoreInfo.cs" t="Include" />
+        <e p="TimeInfo.cs" t="Include" />
+        <e p="TroopType.cs" t="Include" />
+      </e>
+      <e p="GameDSTests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="GameDSTests.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="TestMessage.cs" t="Include" />
+        <e p="Tests.cs" t="Include" />
+      </e>
+      <e p="GameJudge" t="IncludeRecursive">
+        <e p="Battles" t="Include">
+          <e p="AlwaysDamageBattles.cs" t="Include" />
+          <e p="IBattleResolver.cs" t="Include" />
+          <e p="StandardBattles.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Clock.cs" t="Include" />
+        <e p="GameController.cs" t="Include" />
+        <e p="GameEvents" t="Include">
+          <e p="GameEndedEventArgs.cs" t="Include" />
+          <e p="TroopMovedEventArgs.cs" t="Include" />
+        </e>
+        <e p="GameJudge.csproj" t="IncludeRecursive" />
+        <e p="IllegalMoveException.cs" t="Include" />
+        <e p="Manual_MSBuild_ReleaseVersion_LOG.log" t="Include" />
+        <e p="MoveValidator.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net471" t="Include">
+              <e p="GameJudge.AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="net472" t="Include">
+              <e p="GameJudge.AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="netcoreapp3.1" t="Include">
+              <e p="GameJudge.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Score.cs" t="Include" />
+        <e p="TroopAi.cs" t="Include" />
+        <e p="TroopMap.cs" t="Include" />
+        <e p="TroopMapBase.cs" t="Include" />
+        <e p="Troops" t="Include">
+          <e p="Bomber.cs" t="Include" />
+          <e p="Fighter.cs" t="Include" />
+          <e p="Flak.cs" t="Include" />
+          <e p="Troop.cs" t="Include" />
+          <e p="TroopFactory.cs" t="Include" />
+          <e p="TroopReader.cs" t="Include" />
+        </e>
+        <e p="Waves" t="Include">
+          <e p="WaveProvider.cs" t="Include" />
+        </e>
+      </e>
+      <e p="GameServer" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="GameServer.csproj" t="IncludeRecursive" />
+        <e p="Matchmaking" t="Include">
+          <e p="Game.cs" t="Include" />
+          <e p="GameConfig.cs" t="Include" />
+          <e p="GameHandler.cs" t="Include" />
+          <e p="User.cs" t="Include" />
+        </e>
+        <e p="Networking" t="Include">
+          <e p="Client.cs" t="Include" />
+          <e p="Server.cs" t="Include" />
+          <e p="ServerHandle.cs" t="Include" />
+          <e p="ServerSend.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="GameServer.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="Utils" t="Include">
+          <e p="Constants.cs" t="Include" />
+          <e p="Saver.cs" t="Include" />
+          <e p="ThreadManager.cs" t="Include" />
+        </e>
+      </e>
+      <e p="GameServerTests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="GameServerTests.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="GameServerTests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="JudgeTests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ClockTests.cs" t="Include" />
+        <e p="GameControllerTests.cs" t="Include" />
+        <e p="JudgeTests.csproj" t="IncludeRecursive" />
+        <e p="MoveValidatorTests.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="JudgeTests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="TroopAiTests.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Planes262.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>
