@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Text.Json;
 using System.Threading;
 using GameDataStructures.Dtos;
 using GameServer.Utils;
@@ -24,7 +23,7 @@ namespace GameServer
         private static void MainThread()
         {
             Console.WriteLine($"Main thread started. Running at {Constants.ticksPerSec} ticks per second.");
-            Console.WriteLine(JsonSerializer.Serialize(new LevelDto("bg", new BoardDto(), new CameraDto(), new TroopDto[]{})));
+            Console.WriteLine(Json.Serialize(new LevelDto("bg", new BoardDto(16, 10), new CameraDto(1, 2, 3), new TroopDto[]{})));
 
             DateTime nextLoop = DateTime.Now;
             while (true)

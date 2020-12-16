@@ -8,22 +8,43 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="18ab8e23-a417-4168-9c2d-fb1fe44983c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/contentModel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/.idea/.idea.Game/riderModule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Editor.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/GameLogic/Data.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/EditMode.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game/EditMode.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Game/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/GameDataStructures.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/GameDataStructures.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/GameJudge.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/GameJudge.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/LevelEditor/Saver.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Game/Scripts.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Scripts.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameDataStructures/Dtos/BoardDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Dtos/BoardDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameDataStructures/Dtos/CameraDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Dtos/CameraDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameDataStructures/Dtos/LevelDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Dtos/LevelDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameDataStructures/Dtos/TroopDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Dtos/TroopDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameDataStructures/Dtos/V2Dto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Dtos/V2Dto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameJudge/Manual_MSBuild_ReleaseVersion_LOG.log" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/Manual_MSBuild_ReleaseVersion_LOG.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameServer/Utils/Saver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameServer/Utils/Saver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JudgeTests/JudgeTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/JudgeTests/JudgeTests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copyDLLs.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copyDLLs.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +53,23 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/GameJudge/Troops/TroopFactory.cs" />
+        <option value="$PROJECT_DIR$/GameServer/Matchmaking/GameConfig.cs" />
+        <option value="$PROJECT_DIR$/GameServer/Utils/Saver.cs" />
+        <option value="$PROJECT_DIR$/GameServer/Program.cs" />
+        <option value="$PROJECT_DIR$/GameDataStructures/Dtos/BoardDto.cs" />
+        <option value="$PROJECT_DIR$/GameDataStructures/Dtos/V2Dto.cs" />
+        <option value="$PROJECT_DIR$/GameDataStructures/Dtos/LevelDto.cs" />
+        <option value="$PROJECT_DIR$/GameDataStructures/Dtos/CameraDto.cs" />
+        <option value="$PROJECT_DIR$/GameDataStructures/Dtos/TroopDto.cs" />
+        <option value="$PROJECT_DIR$/JudgeTests/JudgeTests.csproj" />
+        <option value="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" />
+      </list>
+    </option>
   </component>
   <component name="ProjectId" id="1lQgXsaDG8rnEA1OAhixqxGFutN" />
   <component name="ProjectViewState">
@@ -47,7 +85,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected=".NET Launch Settings Profile.GameServer">
@@ -146,8 +184,25 @@
       <updated>1607534771562</updated>
       <workItem from="1607534778806" duration="887000" />
       <workItem from="1607588773466" duration="919000" />
-      <workItem from="1607589746885" duration="766000" />
+      <workItem from="1607589746885" duration="1695000" />
+      <workItem from="1607684734661" duration="510000" />
+      <workItem from="1608107765956" duration="7380000" />
     </task>
+    <task id="LOCAL-00001" summary="First commit on new pc">
+      <created>1607590584467</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1607590584467</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added constructors to dtos">
+      <created>1608111609528</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608111609528</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,30 +210,53 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="First commit on new pc" />
+    <MESSAGE value="Added constructors to dtos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added constructors to dtos" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="746" height="210" key="GridCell.Tab.0.bottom" timestamp="1607589702611">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1608121633085">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="746" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607589702611" />
-    <state width="746" height="210" key="GridCell.Tab.0.center" timestamp="1607589702611">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1608121633085" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1608121633085">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="746" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607589702611" />
-    <state width="746" height="210" key="GridCell.Tab.0.left" timestamp="1607589702611">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1608121633085" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1608121633085">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="746" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607589702611" />
-    <state width="746" height="210" key="GridCell.Tab.0.right" timestamp="1607589702611">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1608121633085" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1608121633085">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="746" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607589702611" />
-    <state x="277" y="57" key="SettingsEditor" timestamp="1607589939623">
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1608121633085" />
+    <state x="479" y="102" key="RiderGenerateDialog" timestamp="1608117665930">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1607589939623" />
+    <state x="479" y="102" key="RiderGenerateDialog/0.0.1536.824@0.0.1536.824" timestamp="1608117665930" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1608122040502">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1608122040502" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1607590596403">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1607590596403" />
     <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1607590521427">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

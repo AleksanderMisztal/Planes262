@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using GameDataStructures.Dtos;
+﻿using GameDataStructures.Dtos;
+using Newtonsoft.Json;
 
 namespace GameServer.Utils
 {
@@ -7,7 +7,12 @@ namespace GameServer.Utils
     {
         public static LevelDto Read(string obj)
         {
-            return JsonSerializer.Deserialize<LevelDto>(obj);
+            return JsonConvert.DeserializeObject<LevelDto>(obj);
+        }
+
+        public static string Serialize(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }

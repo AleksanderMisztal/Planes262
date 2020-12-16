@@ -8,12 +8,12 @@ namespace GameJudge.Troops
     {
         public static TroopDto Red(int x, int y)
         {
-            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new V2Dto{x = x, y = y}, orientation = 3, health = 2};
+            return new TroopDto("Fighter", TroopType.Fighter,PlayerSide.Red, new V2Dto(x, y),3,5, 2);
         }
 
         public static TroopDto Blue(int x, int y)
         {
-            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new V2Dto{x = x, y = y}, orientation = 0, health = 2};
+            return new TroopDto("Fighter", TroopType.Fighter,PlayerSide.Blue, new V2Dto(x, y),0,5, 2);
         }
         
         public static Fighter Blue(int x, int y, int movePoints)
@@ -31,14 +31,14 @@ namespace GameJudge.Troops
             return new Fighter(PlayerSide.Blue, 5, position, 0, 2);
         }
 
-        public static Fighter Red(VectorTwo position, int orientation)
-        {
-            return new Fighter(PlayerSide.Red, 5, position, orientation, 2);
-        }
-
         public static TroopDto Blue(VectorTwo position, int orientation)
         {
-            return new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = position.Dto(), orientation = orientation, health = 2};
+            return new TroopDto("Fighter", TroopType.Fighter, PlayerSide.Blue, position.Dto(), orientation,5, 2);
+        }
+        
+        public static TroopDto Red(VectorTwo position, int orientation)
+        {
+            return new TroopDto("Fighter", TroopType.Fighter, PlayerSide.Red, position.Dto(), orientation,5, 2);
         }
     }
 }

@@ -25,8 +25,8 @@ namespace JudgeTests
         {
             WaveProvider waveProvider = new WaveProvider(new[]
             {
-                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Blue, movePoints = 5, position = new VectorTwo(2, 3).Dto(), orientation = 2, health = 2},
-                new TroopDto{type = TroopType.Fighter, side = PlayerSide.Red, movePoints = 5, position = new VectorTwo(2, 4).Dto(), orientation = 5, health = 2},
+                TroopFactory.Blue(new VectorTwo(2, 3), 2),
+                TroopFactory.Red(new VectorTwo(2, 4), 5),
             });
             CreateGameController(waveProvider, 5, 5);
             int moveCount = 0;
@@ -102,16 +102,7 @@ namespace JudgeTests
         {
             WaveProvider waveProvider = new WaveProvider(new[]
             {
-                new TroopDto
-                {
-                    type = TroopType.Flak, 
-                    health = 2, 
-                    position = new V2Dto{x = 2, y = 2},
-                    orientation = 0,
-                    movePoints = 1,
-                    side = PlayerSide.Blue,
-                    name = "flak",
-                }, 
+                new TroopDto("flak", TroopType.Flak, PlayerSide.Blue, new V2Dto(2, 2), 0, 1, 2),
                 TroopFactory.Red(4, 7),
                 TroopFactory.Red(4, 9),
             });
@@ -123,7 +114,7 @@ namespace JudgeTests
                 moveCount++;
                 Assert.AreEqual(3, args.direction);
                 Assert.AreEqual(new VectorTwo(2, 2), args.position);
-                Assert.AreEqual(0, args.battleResults.Length);
+                Assert.IsNull(args.battleResults);
             };
             
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 2), 3);
