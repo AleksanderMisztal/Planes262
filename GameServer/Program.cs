@@ -22,9 +22,6 @@ namespace GameServer
 
         private static void MainThread()
         {
-            Console.WriteLine($"Main thread started. Running at {Constants.ticksPerSec} ticks per second.");
-            Console.WriteLine(Json.Serialize(new LevelDto("bg", new BoardDto(16, 10), new CameraDto(1, 2, 3), new TroopDto[]{})));
-
             DateTime nextLoop = DateTime.Now;
             while (true)
             {

@@ -5,8 +5,11 @@ namespace GameDataStructures.Messages.Client
     [Serializable]
     public class SendChatMessage : ClientMessage
     {
-        public SendChatMessage() : base(ClientPackets.SendMessage) { }
-
         public string message;
+
+        public SendChatMessage(string message) : base(ClientPackets.SendMessage)
+        {
+            this.message = message;
+        }
     }
 }

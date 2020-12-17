@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameDataStructures.Dtos;
 using GameServer.Utils;
 
@@ -27,21 +26,12 @@ namespace GameServer.Matchmaking
             configs.Add("basic", Basic());
         }
 
-        public void Print()
-        {
-            Console.WriteLine("Printing level config");
-            Console.WriteLine(levelDto);
-            Console.WriteLine(levelDto.background);
-            Console.WriteLine(levelDto.board);
-            Console.WriteLine(levelDto.troopDtos);
-        }
-
-        private const string level0 = "{\"background\":\"board\",\"board\":{\"xSize\":18,\"ySize\":10},\"cameraDto\":{\"xOffset\":13.190206527709961,\"yOffset\":8.800106048583985,\"ortoSize\":12.0},\"troopDtos\":[{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":3},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":3},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":4},\"orientation\":1,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":12,\"y\":4},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":4},\"orientation\":3,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":14,\"y\":4},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":8,\"y\":5},\"orientation\":1,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":9,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":5},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":5},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":8,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":10,\"y\":6},\"orientation\":0,\"movePoints\":0,\"health\":0},{\"name\":\"B17\",\"type\":0,\"side\":0,\"position\":{\"x\":13,\"y\":6},\"orientation\":4,\"movePoints\":0,\"health\":0},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":6,\"y\":7},\"orientation\":0,\"movePoints\":0,\"health\":0}]}";
+        private const string level0 ="{\"background\":\"board\",\"board\":{\"xSize\":15,\"ySize\":10},\"cameraDto\":{\"xOffset\":13.890222549438477,\"yOffset\":8.060089111328125,\"ortoSize\":12.500011444091797},\"troopDtos\":[{\"name\":\"Liberator\",\"type\":0,\"side\":1,\"position\":{\"x\":7,\"y\":5},\"orientation\":3,\"movePoints\":5,\"health\":2},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":2,\"y\":6},\"orientation\":0,\"movePoints\":5,\"health\":2},{\"name\":\"Liberator\",\"type\":0,\"side\":1,\"position\":{\"x\":7,\"y\":6},\"orientation\":3,\"movePoints\":5,\"health\":2},{\"name\":\"Me262\",\"type\":0,\"side\":0,\"position\":{\"x\":2,\"y\":7},\"orientation\":0,\"movePoints\":5,\"health\":2}]}";
         
         private static GameConfig Test() =>
-            new GameConfig(Json.Read(level0), 30, 5);
+            new(Json.Read(level0), 30, 5);
         
         private static GameConfig Basic() =>
-            new GameConfig(Json.Read(level0), 60, 20);
+            new(Json.Read(level0), 60, 20);
     }
 }

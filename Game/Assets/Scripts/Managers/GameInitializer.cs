@@ -1,5 +1,6 @@
 ﻿using GameDataStructures;
 using GameDataStructures.Dtos;
+using GameDataStructures.Messages.Server;
 using GameJudge;
 using Planes262.HexSystem;
 using Planes262.LevelEditor;
@@ -23,12 +24,12 @@ namespace Planes262.Managers
         private GameEventsHandler geHandler;
 
         private static bool isLocal = true;
-        private static LevelDto level;
+        private static GameJoinedMessage level;
         private PlayerSide activePlayer = PlayerSide.Blue;
 
-        public static void LoadBoard(LevelDto levelDto, bool local)
+        public static void LoadGame(GameJoinedMessage gjm, bool local)
         {
-            level = levelDto;
+            level = gjm;
             isLocal = local;
             SceneManager.LoadScene("Board");
         }
@@ -53,33 +54,35 @@ namespace Planes262.Managers
             else InitializeOnlineGame(level);
         }
 
-        public void InitializeOnlineGame(LevelDto levelDto)
+        public void InitializeOnlineGame(GameJoinedMessage gjm)
         {
-            CameraDto cameraDto = levelDto.cameraDto;
+            CameraDto cameraDto = gjm.levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
-            backgroundManager.SetBackground(levelDto.background);
+            backgroundManager.SetBackground(gjm.levelDto.background);
             FindObjectOfType<BoardCamera>().Initialize(cameraDto);
             backgroundManager.DetachBackground();
-            gameManager.Initialize(levelDto.board.Get());
+            gameManager.Initialize(gjm.levelDto.board.Get());
             
             endRoundButton.onClick.AddListener(Client.instance.EndRound);
             
             gameManager.SetLocal(false);
             gameManager.MoveAttempted = args => Client.instance.MoveTroop(args.Position, args.Direction);
+            
+            geHandler.OnGameReady(gjm.opponentName, gjm.side, gjm.levelDto, gjm.clockInfo);
         }
 
-        private void InitializeLocalGame(LevelDto levelDto)
+        private void InitializeLocalGame(GameJoinedMessage gjm)
         {
-            CameraDto cameraDto = levelDto.cameraDto;
+            CameraDto cameraDto = gjm.levelDto.cameraDto;
             BackgroundManager backgroundManager = FindObjectOfType<BackgroundManager>();
-            backgroundManager.SetBackground(levelDto.background);
+            backgroundManager.SetBackground(gjm.levelDto.background);
             FindObjectOfType<BoardCamera>().Initialize(cameraDto);
             backgroundManager.DetachBackground();
-            Board board = levelDto.board.Get();
+            Board board = gjm.levelDto.board.Get();
             gameManager.Initialize(board);
             gameManager.SetLocal(true);
 
-            WaveProvider waveProvider = new WaveProvider(levelDto.troopDtos);
+            WaveProvider waveProvider = new WaveProvider(gjm.levelDto.troopDtos);
             GameController gc = new GameController(waveProvider, board);
             Clock clock = new Clock(1000, 5, geHandler.OnLostOnTime);
             
@@ -97,7 +100,7 @@ namespace Planes262.Managers
             gameManager.MoveAttempted = args => gc.ProcessMove(args.Side, args.Position, args.Direction);
             
             ClockInfo clockInfo = clock.Initialize();
-            geHandler.OnGameReady("p2", PlayerSide.Blue, levelDto, clockInfo);
+            geHandler.OnGameReady(gjm.opponentName, gjm.side, gjm.levelDto, clockInfo);
         }
 
         public void BackToMain()

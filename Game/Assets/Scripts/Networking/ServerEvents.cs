@@ -24,8 +24,7 @@ namespace Planes262.Networking
                     break;
                 case ServerPackets.GameJoined:
                     GameJoinedMessage gjm = (GameJoinedMessage) message;
-                    GameInitializer.LoadBoard(gjm.levelDto, false);
-                    geHandler.OnGameReady(gjm.opponentName, gjm.side, gjm.levelDto, gjm.clockInfo);
+                    GameInitializer.LoadGame(gjm, false);
                     break;
                 case ServerPackets.TroopsSpawned:
                     TroopsSpawnedMessage tsm = (TroopsSpawnedMessage) message;

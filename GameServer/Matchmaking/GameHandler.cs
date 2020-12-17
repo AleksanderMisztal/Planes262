@@ -29,7 +29,6 @@ namespace GameServer.Matchmaking
             {
                 waitingUsers.Remove(gameType);
                 GameConfig config = GameConfig.configs[gameType];
-                config.Print();
                 InitializeNewGame(newUser, waitingUser, config);
             }
             else waitingUsers[gameType] = newUser;

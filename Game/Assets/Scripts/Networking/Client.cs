@@ -50,11 +50,7 @@ namespace Planes262.Networking
 
         public void JoinGame(string gameType)
         {
-            JoinGameMessage message = new JoinGameMessage
-            {
-                gameType = gameType,
-                username = PlayerMeta.name,
-            };
+            JoinGameMessage message = new JoinGameMessage(PlayerMeta.name, gameType);
             messageSender.SendData(message);
         }
         
@@ -66,17 +62,13 @@ namespace Planes262.Networking
 
         public void MoveTroop(VectorTwo position, int direction)
         {
-            MoveTroopMessage message = new MoveTroopMessage
-            {
-                direction = direction,
-                position = position,
-            };
+            MoveTroopMessage message = new MoveTroopMessage(position, direction);
             messageSender.SendData(message);
         }
 
         public void SendAMessage(string m)
         {
-            SendChatMessage message = new SendChatMessage{message = m};
+            SendChatMessage message = new SendChatMessage(m);
             messageSender.SendData(message);
         }
     }

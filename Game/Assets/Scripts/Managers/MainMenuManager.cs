@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GameDataStructures;
 using GameDataStructures.Dtos;
+using GameDataStructures.Messages.Server;
 using Planes262.Networking;
 using Planes262.UnityLayer;
 using UnityEngine;
@@ -51,11 +53,6 @@ namespace Planes262.Managers
             }
         }
 
-        public void UpdateUsername()
-        {
-            PlayerMeta.name = username.text;
-        }
-        
         public void ShowSettings()
         {
             mainMenu.SetActive(false);
@@ -77,7 +74,7 @@ namespace Planes262.Managers
         private void PlayLocal(string level)
         {
             LevelDto dto = GameConfig.GetLevel(level);
-            GameInitializer.LoadBoard(dto, true);
+            GameInitializer.LoadGame(new GameJoinedMessage("p2", PlayerSide.Blue, dto, new ClockInfo()), true);
         }
 
         public void PlayOnline(string gameType)
