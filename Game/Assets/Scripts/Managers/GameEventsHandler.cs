@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Dtos;
 using GameDataStructures.Positioning;
 using Planes262.UnityLayer;
@@ -54,6 +55,11 @@ namespace Planes262.Managers
 
         public void OnTroopMoved(VectorTwo position, int direction, BattleResult[] battleResults, ScoreInfo scoreInfo)
         {
+            Debug.Log("On troop moved");
+            foreach (BattleResult result in battleResults)
+            {
+                Debug.Log("Fr: " + result.fightResult);
+            }
             gameManager.MoveTroop(position, direction, battleResults);
             score.Set(scoreInfo.Red, scoreInfo.Blue);
         }

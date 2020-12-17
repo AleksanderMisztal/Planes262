@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Positioning;
 using NUnit.Framework;
 using Planes262.GameLogic;
@@ -16,7 +17,7 @@ namespace Planes262.Tests.Edit_Mode
         {
             List<BattleResult> battleResults = new List<BattleResult>();
             for (int i = 0; i < battleCount; i++) 
-                battleResults.Add(new BattleResult(FightResult.collision, null));
+                battleResults.Add(new BattleResult(FightResult.collision, new FlakDamage[]{}));
             troopManager.MoveTroop(new VectorTwo(x, y), direction, battleResults.ToArray());
         }
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameDataStructures.Battles;
 using GameDataStructures.Positioning;
 
 namespace GameDataStructures.Messages.Server

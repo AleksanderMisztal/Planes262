@@ -119,7 +119,11 @@
         <e p="Temp\bin" t="ExcludeRecursive" />
       </e>
       <e p="GameDataStructures" t="IncludeRecursive">
-        <e p="BattleResult.cs" t="Include" />
+        <e p="Battles" t="Include">
+          <e p="BattleResult.cs" t="Include" />
+          <e p="FightResult.cs" t="Include" />
+          <e p="FlakDamage.cs" t="Include" />
+        </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Board.cs" t="Include" />
         <e p="ClockInfo.cs" t="Include" />

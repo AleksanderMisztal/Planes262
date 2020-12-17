@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 using Planes262.UnityLayer;
@@ -38,10 +39,10 @@ namespace Planes262.GameLogic
             BattleResult result;
             int battleId = 0;
 
-
             void DoFightDamages()
             {
                 Troop encounter = troopMap.Get(troop.Position);
+                Debug.Log($"Battle position: {troop.Position}, fightResult: {result.fightResult}");
                 if (result.fightResult.attackerDamaged) ApplyDamage(troop, startingPosition);
                 if (result.fightResult.defenderDamaged) ApplyDamage(encounter, encounter.Position);
             }
@@ -57,8 +58,6 @@ namespace Planes262.GameLogic
                 }
             }
             
-            Debug.Log("Battle results length = " + battleResults.Length);
-            
             troop.MoveInDirection(direction);
             DoFlakDamages();
             if (troop.Destroyed) return;
@@ -69,7 +68,6 @@ namespace Planes262.GameLogic
             }
             DoFightDamages();
 
-            
             while (!troop.Destroyed)
             {
                 troop.FlyOverOtherTroop();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Dtos;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
@@ -50,8 +51,8 @@ namespace Planes262.Managers
             
             Effects effects = FindObjectOfType<Effects>();
             UnityFighter.effects = effects;
-            UnityFlak.effects = effects;
             UnityFighter.gridBase = gridBase;
+            UnityFlak.effects = effects;
             UnityFlak.gridBase = gridBase;
         }
 

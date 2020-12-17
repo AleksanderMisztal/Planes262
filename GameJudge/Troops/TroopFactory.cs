@@ -40,5 +40,10 @@ namespace GameJudge.Troops
         {
             return new TroopDto("Fighter", TroopType.Fighter, PlayerSide.Red, position.Dto(), orientation,5, 2);
         }
+
+        public static TroopDto Flak(VectorTwo position, PlayerSide side)
+        {
+            return new TroopDto("flak", TroopType.Flak, side, position.Dto(), 0, 1, 2);
+        }
     }
 }

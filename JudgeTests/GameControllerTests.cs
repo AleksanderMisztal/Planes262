@@ -102,7 +102,7 @@ namespace JudgeTests
         {
             WaveProvider waveProvider = new WaveProvider(new[]
             {
-                new TroopDto("flak", TroopType.Flak, PlayerSide.Blue, new V2Dto(2, 2), 0, 1, 2),
+                TroopFactory.Flak(new VectorTwo(2, 2), PlayerSide.Blue),
                 TroopFactory.Red(4, 7),
                 TroopFactory.Red(4, 9),
             });
@@ -120,6 +120,25 @@ namespace JudgeTests
             gc.ProcessMove(PlayerSide.Blue, new VectorTwo(2, 2), 3);
             
             Assert.AreEqual(1, moveCount);
+        }
+
+        [Test]
+        public void TestNotDamagingAttackerFromBehind()
+        {
+            int t = 10;
+            while (t-- > 0)
+            {
+                WaveProvider waveProvider = new WaveProvider(new[]
+                {
+                    TroopFactory.Red(new VectorTwo(1, 0), 1),
+                    TroopFactory.Blue(new VectorTwo(0, 0), 1),
+                });
+
+                gc = new GameController(waveProvider, new Board(10, 10));
+                gc.TroopMoved += args => { Assert.IsFalse(args.battleResults[0].fightResult.attackerDamaged); };
+
+                gc.ProcessMove(PlayerSide.Blue, new VectorTwo(0, 0), 0);
+            }
         }
     }
 }

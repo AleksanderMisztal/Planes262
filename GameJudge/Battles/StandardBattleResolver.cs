@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Positioning;
 using GameJudge.Troops;
 
@@ -12,15 +13,17 @@ namespace GameJudge.Battles
 
         public FightResult GetFightResult(Troop defender, VectorTwo attackerPosition, PlayerSide attackerSide)
         {
+            MyLogger.Log("Resolving");
             if (defender.Player == attackerSide) return FightResult.collision;
             if (defender.Type == TroopType.Flak)
-                return new FightResult(
-                    random.Next(0, 6) < 5, false);
+                return new FightResult(random.Next(0, 6) < 5, false);
             
             bool defenderDamaged = random.Next(0, 6) < 3;
-            bool attackerDamaged = defender.ControlZone.Contains(attackerPosition) && random.Next(0, 6) < 3;
+            bool attackerInCz = defender.ControlZone.Contains(attackerPosition);
+            MyLogger.Log("in cz: " + attackerInCz);
+            bool attackerDamaged = attackerInCz && random.Next(0, 6) < 3;
 
-            return new FightResult(defenderDamaged, attackerDamaged);
+            return new FightResult(attackerDamaged, defenderDamaged);
         }
 
         public FlakDamage GetFlakDamage(VectorTwo flakPosition)

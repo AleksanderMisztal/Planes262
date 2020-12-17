@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameDataStructures;
+using GameDataStructures.Battles;
 using GameDataStructures.Dtos;
 using GameDataStructures.Messages.Server;
 using GameDataStructures.Positioning;
@@ -150,16 +151,23 @@ namespace GameJudge
             void EndMove()
             {
                 if (!fighter.Destroyed) troopMap.AdjustPosition(fighter, startingPosition);
+                MyLogger.Log("Gc fight results: ");
+                foreach (BattleResult result in battleResults)
+                {
+                    MyLogger.Log("Fr: " + result.fightResult);
+                }
                 TroopMoved?.Invoke(new TroopMovedMessage(startingPosition, direction, battleResults.ToArray(), score.Info));
             }
 
+            bool EnteredEmpty() => troopMap.Get(fighter.Position) == null;
+            
+            
             fighter.MoveInDirection(direction);
             movePointsLeft--;
 
             ApplyFlakDamages();
             if (fighter.Destroyed) return;
 
-            bool EnteredEmpty() => troopMap.Get(fighter.Position) == null;
             if (EnteredEmpty())
             {
                 battleResults.Add(new BattleResult(null, flakDamages));
