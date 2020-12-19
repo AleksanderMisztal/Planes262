@@ -28,26 +28,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18ab8e23-a417-4168-9c2d-fb1fe44983c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Game/EditMode.csproj.DotSettings" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameDataStructures/Battles/FightResult.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameDataStructures/Battles/FlakDamage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/shelf/Uncommitted_changes_before_Update_at_12_10_2020_9_55_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/shelf/Uncommitted_changes_before_Update_at_12_10_2020_9_55_AM__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Planes262/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/GameDataStructures.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/GameDataStructures.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/GameJudge.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/GameJudge.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/GameLogic/TroopManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/GameLogic/TroopManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/Managers/GameEventsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/Managers/GameEventsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/Managers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/Managers/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Game/Assets/Tests/Edit Mode/TroopManagerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Tests/Edit Mode/TroopManagerTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameDataStructures/BattleResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Battles/BattleResult.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameDataStructures/Messages/Server/TroopMovedMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameDataStructures/Messages/Server/TroopMovedMessage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameJudge/Battles/AlwaysDamageBattles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/Battles/AlwaysDamageBattles.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameJudge/Battles/IBattleResolver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/Battles/IBattleResolver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameJudge/Battles/StandardBattleResolver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/Battles/StandardBattleResolver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameJudge/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/GameController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameJudge/Troops/TroopFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameJudge/Troops/TroopFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Planes262.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Planes262.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/Scenes/Main Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scenes/Main Menu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/HexSystem/GridBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/HexSystem/GridBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/Networking/CsWebSocket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/Networking/CsWebSocket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Assets/Scripts/Networking/JSWebSocket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Assets/Scripts/Networking/JSWebSocket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/EditMode.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game/EditMode.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Scripts.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Scripts.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameServer/Networking/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameServer/Networking/Client.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +46,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/Aleksander/Projects/Planes262/GameDataStructures/Messages/Client/JoinGameMessage.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Aleksander/Projects/Planes262/GameDataStructures/Messages/Server/ChatSentMessage.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Aleksander/Projects/Planes262/GameDataStructures/Messages/Client/JoinGameMessage.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -80,6 +65,11 @@
       <option value="$PROJECT_DIR$/GameJudge/GameController.cs" />
       <option value="$PROJECT_DIR$/JudgeTests/GameControllerTests.cs" />
       <option value="$PROJECT_DIR$/GameJudge/Battles/StandardBattleResolver.cs" />
+      <option value="$PROJECT_DIR$/Game/Assets/Scripts/LevelEditor/Tilemaps/LineDrawer.cs" />
+      <option value="$PROJECT_DIR$/Game/Assets/Scripts/HexSystem/GridBase.cs" />
+      <option value="$PROJECT_DIR$/GameServer/Networking/Client.cs" />
+      <option value="$PROJECT_DIR$/Game/Assets/Scripts/Networking/CsWebSocket.cs" />
+      <option value="$PROJECT_DIR$/Game/Assets/Scripts/Networking/JSWebSocket.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1lQgXsaDG8rnEA1OAhixqxGFutN" />
@@ -208,7 +198,9 @@
       <workItem from="1607684734661" duration="510000" />
       <workItem from="1608107765956" duration="9694000" />
       <workItem from="1608192192974" duration="337000" />
-      <workItem from="1608192629172" duration="10763000" />
+      <workItem from="1608192629172" duration="11707000" />
+      <workItem from="1608298417618" duration="3145000" />
+      <workItem from="1608366723290" duration="3147000" />
     </task>
     <task id="LOCAL-00001" summary="First commit on new pc">
       <created>1607590584467</created>
@@ -238,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608222661977</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fixed wrong troop being damaged">
+      <created>1608233447883</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1608233447883</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,7 +263,8 @@
     <MESSAGE value="First commit on new pc" />
     <MESSAGE value="Added constructors to dtos" />
     <MESSAGE value="Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
+    <MESSAGE value="Fixed wrong troop being damaged" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed wrong troop being damaged" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

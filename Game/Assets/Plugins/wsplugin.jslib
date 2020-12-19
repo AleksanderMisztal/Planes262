@@ -1,12 +1,10 @@
 mergeInto(LibraryManager.library, {
 
-  SendDataJs: function (data) {
-    data = Pointer_stringify(data)
-    window.sendData(data);
+  SendDataJs: function (data, length) {
+    window.sendData(data, length);
   },
 
   InitializeConnectionJs: function () {
     window.initializeConnection();
   },
-
 });

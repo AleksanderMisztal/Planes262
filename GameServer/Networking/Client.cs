@@ -71,8 +71,8 @@ namespace GameServer.Networking
 
         private async Task<MemoryStream> Receive()
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4 * 1024]);
-            MemoryStream memoryStream = new MemoryStream();
+            ArraySegment<byte> buffer = new(new byte[4 * 1024]);
+            MemoryStream memoryStream = new();
             WebSocketReceiveResult result;
 
             do
@@ -81,8 +81,7 @@ namespace GameServer.Networking
                 memoryStream.Write(buffer.Array, buffer.Offset, result.Count);
             } while (!result.EndOfMessage);
 
-            if (result.MessageType == WebSocketMessageType.Close) return null;
-            return memoryStream;
+            return result.MessageType == WebSocketMessageType.Close ? null : memoryStream;
         }
 
         private void TerminateConnection(string message)

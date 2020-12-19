@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using GameDataStructures.Messages;
 using GameDataStructures.Messages.Client;
 using GameDataStructures.Messages.Server;
@@ -22,7 +23,6 @@ namespace Planes262.Networking
         {
             this.serverEvents = serverEvents;
         }
-
 
         public async void InitializeConnection()
         {
@@ -64,6 +64,7 @@ namespace Planes262.Networking
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             if (result.MessageType == WebSocketMessageType.Close) return null;
+            Debug.Log(string.Join(",", memoryStream.GetBuffer()));
             return (ServerMessage) Serializer.DeserializeFromStream(memoryStream);
         }
 
